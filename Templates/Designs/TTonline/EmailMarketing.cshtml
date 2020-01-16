@@ -1,0 +1,392 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@using Dynamicweb.Content.Items;
+
+@Title("Email Marketing Pagee")
+@Description("Email marketing page model")
+
+@Include("Includes/Getimage.cshtml") 
+@Include("EmailMarketing/emailMarketingGetImage.cshtml") 
+@{
+  bool showSalutation = GetBoolean("Item.ShowSalutation"),
+       showFooter = GetBoolean("Item.HideFooter");
+  string salutation = GetString("Item.Salutation") + " {{" + GetString("Item.SalutationField") + "||\"Customer\"}}, ",
+         fontFamily = "font-size : 24px; @fontFamily3",
+ 	     fontSize16 = "font-size: 16px;",
+         fontSize14 = "font-size: 14px;",
+         fontSize12 = "font-size: 12px;",
+         fontSize10 = "font-size: 10px;",
+         fontFamily2 = "font-family: 'Open Sans', Verdana, sans-serif;",
+         fontFamily3 = "font-family: 'Open Sans', Verdana, sans-serif;",
+         color1 = "#000000;",
+         color2 = "#606060;",
+         color3 = "#fcae16;",
+		 margin0 = "margin : 0;",
+         padding0 = "padding : 0;",
+		 padding = "padding: 0 0 10px 0px;",
+         lineHeight = "line-height: 1.3";
+  List<LoopItem> socialMedia = GetLoop("Item.Area.SocialNetworks");
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Your Message Subject or Title</title> 
+  <!--!Styles-->   
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <!--[if mso]>
+  <style type=”text/css”>
+  *, body, p, a, td, table, .outlook {
+  font-family: Arial, sans-serif;
+  }
+  </style>
+  <![endif]-->
+  
+  <style type="text/css">
+    #outlook {@fontFamily2;}
+    #outlook a {@fontFamily2; @margin0; @padding0; }
+
+    body { width : 100% !important; -webkit-text-size-adjust : 100%; -ms-text-size-adjust : 100%; background-color: @color3; @padding0; @margin0; @fontFamily2;}
+
+    .ExternalClass { width : 100%; @fontFamily2; }
+
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { mso-line-height-rule:exactly; line-height : 100%; @fontFamily2; }
+
+    #backgroundTable { width : 100% !important; mso-line-height-rule:exactly; line-height : 100% !important; @padding0; @margin0; @fontFamily2;}
+
+    img { outline : none; text-decoration : none; -ms-interpolation-mode : bicubic; display: block; border : 0 none; @fontFamily2;}
+
+    a img { border : 0 none; @fontFamily2;}
+
+    .image_fix { display : block; @fontFamily2;}
+
+    div {@padding0; @margin0; @fontFamily2;}
+
+    table td { border-collapse : collapse; @fontSize12; @fontFamily2; }
+
+    table { border-collapse : collapse; mso-table-lspace : 0pt; mso-table-rspace : 0pt; @fontFamily2; }
+
+    a { text-decoration: none; padding : 0; margin: 0; @fontFamily2;}
+
+    a:hover { text-decoration: underline; @fontFamily2; }
+
+    p { @margin0; @padding0; @fontSize14; @fontFamily2; @lineHeight; }
+	
+    #CookieWarning {display: none; visibility: hidden; @fontFamily2;}
+
+    .cell-padding {/*padding: 0 30px; */  padding: 0; }
+    
+    /* CLIENT-SPECIFIC STYLES */
+    #outlook a{padding:0; @fontFamily2;} /* Force Outlook to provide a "view in browser" message */
+    .ReadMsgBody{width:100%; @fontFamily2;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%; @fontFamily2;} /* Force Hotmail to display normal line spacing */
+    body, table, td, a{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; @fontFamily2;} /* Prevent WebKit and Windows mobile changing default text sizes */
+    table, td{mso-table-lspace:0pt; mso-table-rspace:0pt; @fontFamily2;} /* Remove spacing between tables in Outlook 2007 and up */
+    img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
+
+    /* RESET STYLES */
+    body, body p{margin:0; padding:0; @fontFamily2;}
+    img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none; @fontFamily2;}
+    table{border-collapse:collapse !important; @fontFamily2;}
+    body{height:100% !important; margin:0; padding:0; width:100% !important; @fontFamily2;}
+
+    /* iOS BLUE LINKS */
+    .appleBody a {color:@color1 text-decoration: none; @fontFamily2;}
+    .appleFooter a {color:@color1 text-decoration: none; @fontFamily2;}
+    .appleFooter a:hover {text-decoration: underline; @fontFamily2;}
+
+    /* MOBILE STYLES */
+    @@media screen and (max-width: 525px) {
+
+        /* ALLOWS FOR FLUID TABLES */
+        table[class="wrapper"]{
+          width:100% !important;
+        }
+        /* ADJUSTS LAYOUT OF LOGO IMAGE */
+        td[class="logo"]{
+          text-align: left;
+          padding: 20px 0 20px 0 !important;
+        }
+
+        td[class="logo"] img{
+          margin:0 auto!important;
+        }
+
+        /* USE THESE CLASSES TO HIDE CONTENT ON MOBILE */
+        td[class="mobile-hide"]{
+          display:none;}
+
+        img[class="mobile-hide"]{
+          display: none !important;
+        }
+
+        img[class="img-max"]{
+          max-width: 100% !important;
+          width: 100% !important;
+          height:auto !important;
+        }
+
+        /* FULL-WIDTH TABLES */
+        table[class="responsive-table"],
+        .responsive-table{
+          width:100%!important;
+          display: table;
+          background: #f1f2f2;
+        }
+
+        /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
+        td[class="padding"]{
+          padding: 10px 5% 15px 5% !important;
+        }
+
+        td[class="padding-copy"]{
+          padding: 10px 5% 10px 5% !important;
+          text-align: center;
+        }
+
+        td[class="padding-meta"]{
+          padding: 30px 5% 0px 5% !important;
+          text-align: center;
+        }
+
+        td[class="no-pad"]{
+          padding: 0 0 20px 0 !important;
+        }
+
+        td[class="no-padding"]{
+          padding: 0 !important;
+        }
+
+        td[class="section-padding"]{
+          padding: 50px 15px 50px 15px !important;
+        }
+
+        td[class="section-padding-bottom-image"]{
+          padding: 10px 15px 0 15px !important;
+        }
+
+        /* ADJUST BUTTONS ON MOBILE */
+        td[class="mobile-wrapper"]{
+            padding: 10px 5% 15px 5% !important;
+        }
+
+        table[class="mobile-button-container"]{
+            margin:0 auto;
+            width:100% !important;
+        }
+
+        a[class="mobile-button"]{
+            width:80% !important;
+            padding: 4px !important;
+            border: 0 !important;
+            font-size: 16px !important;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+        }
+        .clearLeft {
+          clear: left;
+        }
+
+    }
+  </style>
+      
+</head>
+
+<body style='background-color: #FFF; @fontFamily'>
+<!--[if mso]>
+<style type="text/css">
+body, table, td, p, a, .outlook {font-family: Arial, Helvetica, sans-serif !important;}
+</style>
+<![endif]-->
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td bgcolor="#ffffff" style="background:#ffffff;">
+     
+  <!-- Newsletter dwcontent -->
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr><td>
+      <table border="0" cellpadding="0" cellspacing="0" width="600" class="responsive-table outlook wrapper" style="margin: 0 auto;">
+        <tr>
+          <td align="center" bgcolor="#f1f2f2" style="background:#f1f2f2; padding: 8px 0px 3px 0px;">
+     		 <a href='/Default.aspx?ID=@Pageview.Page.ID' style="color: @color2; font-family: Arial; font-weight: 400; font-size: 12px; text-decoration: underline;" class="outlook">@Translate("canSee", "Click pentru a vizualiza in browser")</a>
+          </td>
+      	</tr>
+      </table>
+    </td></tr>  
+  </table>  
+  
+  <!-- HEADER -->
+
+  
+
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    @* if (!showSalutation)
+    {
+      <tr>
+        <td height="0"></td>
+      </tr>
+    }
+    else {
+      <tr>
+        <td align="center" style="padding: 0 15px 0 15px;" class="section-padding">
+          <table border="0" cellspacing="0" cellpadding="0" width="500" class="responsive-table">
+            <tr><td height="30"></td></tr>
+            <tr>
+              <td style="@fontFamily color:@color1 @fontSize16" valign="top">
+                @salutation
+              </td>
+              <td width="10" height="10" style="@fontFamily">&nbsp;</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    } *@
+    <tr>
+      <td align="center" class="section-padding">
+        <table>
+          <tr><td id="newsletterContent" class="dwcontent" title="Newsletter Content" settings="sort:1;default:true;id:newsletterContent" style="background:#f1f2f2;"></td></tr>
+        </table>         
+      </td>
+    </tr>
+  </table>
+
+  @if (socialMedia.Any())
+  {
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td bgcolor="@color3" align="center" style="padding: 20px 0px;">
+          <table width="500" border="0" cellspacing="0" cellpadding="0" align="center" class="responsive-table">
+            <tr>
+              <td align="center" style="@fontSize12 @lineHeight @fontFamily3 color:@color1" class="outlook">
+                @foreach (LoopItem socialItem in socialMedia)
+                {
+                  string className = socialItem.GetString("Item.Area.SocialNetworks.Icon"),
+                         socialName = socialItem.GetString("Item.Area.SocialNetworks.Name");
+
+                  <a title="@socialName" target="_blank" href="@socialItem.GetString("Item.Area.SocialNetworks.Link")" class="outlook"> @socialName </a>
+                }
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  }
+
+
+  @if (!showFooter)
+  {
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr><td align="center">
+        <table border="0" cellpadding="0" cellspacing="0" width="600" style="background: #203742;" class="wrapper"> 
+          <tr>
+            <td colspan="2" height="15"></td>
+          </tr>
+          <tr>
+            <td width="50%" style=" @lineHeight; color: @color3; padding-left: 15px; padding-right: 15px;" valign="top">
+         	  	<table border="0" cellpadding="0" cellspacing="5" class="outlook">
+	                <tr>
+	                  <td colspan="2" style="font-weight: 600;font-size: 16px; color: @color3; @lineHeight; padding-bottom: 10px;">DESPRE NOI:</td>
+	                </tr>
+	                <tr>
+	                  <td colspan="2" class="outlook" style="font-weight: 400; font-size: 13px; @lineHeight;">
+	                  	Revista specializata T&amp;T - Tehnica si Tehnologie este un instrument nelipsit profesionistilor din orice companie din industrie, util pentru a tine pasul cu noutatile tehnologice de ultima ora.
+	                  </td>
+	                </tr>      
+	            </table>
+            </td>
+            <td width="50%" style=" @lineHeight; color: @color3; padding-right: 15px; padding-left: 15px;" valign="top">
+              <table border="0" cellpadding="0" cellspacing="5" class="outlook">
+                <tr>
+                  <td colspan="2" style="font-weight: 600;font-size: 16px; color: @color3; @lineHeight; padding-bottom: 10px;">CONTACT:</td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="outlook" style="font-weight: 400; font-size: 13px; @lineHeight;">
+                  	Tehnic Media SRL<br />
+					Tel/Fax (+4)021.340.28.67/68<br />
+					E-mail: <a href="mailto:office@tehnicmedia.ro" style="color: @color3" class="outlook">office@tehnicmedia.ro</a><br />
+					Adresa corespondenta:<br />
+					OP 60 - CP 51 Bucuresti<br />
+					Str. Barajul Iezerului, nr. 6A, Cladirea Cedru, etaj 3, cam. 312
+                  </td>
+                </tr>            
+              </table>
+            </td>
+          </tr> 
+          <tr>
+            <td colspan="2" height="10"></td>
+          </tr>
+          <tr>
+            <td width="50%" style=" @lineHeight; color: @color3; padding-left: 10px; padding-right: 10px;" valign="middle">
+         	  	<table border="0" cellpadding="0" cellspacing="5" class="outlook"> 
+	                <tr>
+	                	<td style="vertical-align: middle;">
+	                		<a href="http://ttonline.ro/" style=" font-size: 13px; color: @color3" class="outlook">www.ttonline.ro</a>
+	                	</td>
+	                </tr>          
+	            </table>
+            </td>
+            <td width="50%" style=" @lineHeight; color: @color3; padding-right: 10px; padding-left: 10px;" valign="top">
+              <table border="0" cellpadding="0" cellspacing="5" class="outlook">
+                <tr>
+                  <td colspan="2" class="outlook" style="font-weight: 400; font-size: 13px; @lineHeight;">
+
+					<table border="0" cellpadding="5" cellspacing="5">
+		                <tr>
+		                    <td><a href="https://www.youtube.com/channel/UCTVK0Jq1mJrDdrMMgebn7gg" class="outlook"><img src="http://ttonline.dotfusion.ro/Files/Templates/Designs/TTonline/assets/img/y.png" alt="" style="border:none;"></a></td>
+		                    <td><a href="https://www.facebook.com/tehnicasitehnologie" class="outlook"><img src="http://ttonline.dotfusion.ro/Files/Templates/Designs/TTonline/assets/img/f.png" alt="" style="border:none;"></a></td>
+		                    <td><a href="https://twitter.com/ttehnologie" class="outlook"><img src="http://ttonline.dotfusion.ro/Files/Templates/Designs/TTonline/assets/img/t.png" alt="" style="border:none;"></a></td>
+		                    <td><a href="https://plus.google.com/102384652758552551626/posts" class="outlook"><img src="http://ttonline.dotfusion.ro/Files/Templates/Designs/TTonline/assets/img/g.png" alt="" style="border:none;"></a></td>
+		                </tr>
+		            </table>
+                  </td>
+                </tr>            
+              </table>
+            </td>
+          </tr> 
+          <tr>
+            <td colspan="2" height="15"></td>
+          </tr>
+       </table>
+       <table border="0" cellpadding="0" cellspacing="0" width="600"> 
+          <tr>
+            <td align="center" colspan="3" class="@padding" bgcolor="#f1f2f2" style="background:#f1f2f2; padding: 15px 0px 15px 0px;">
+              <table border="0" cellspacing="0" cellpadding="0" align="center" width="600" class="responsive-table">
+                <tr>
+                  <td align="left" style="padding: 0 15px 0 15px; @fontSize10 @lineHeight; @fontFamily3; color:@color2">
+                  	<span>
+                        Dragi cititori, <br /><br />
+
+						Acest newsletter T&amp;T va aduce de acum inainte cele mai interesante articole din numarul recent al revistei T&amp;T - Tehnica si Tehnologie.<br />
+						Veti putea fi astfel la curent cu noutatile din T&amp;T in domeniul tehnologiei, cu acces direct de pe telefonul mobil, tableta sau laptop.<br /><br />
+
+						Lectura utila!<br />
+						Echipa T&amp;T<br />
+						Acest mesaj va este transmis de TEHNIC MEDIA, editorul revistei T&amp;T-Tehnica si Tehnologie. El nu poate fi catalogat drept SPAM, deoarece contine datele de contact ale expeditorului si metoda de dezabonare, nu va implica financiar si are scop de informare.<br /><br />
+
+						Adresa dumneavoastra de e-mail figureaza in baza noastra de date dintr-unul din urmatoarele motive: sunteti cititorul nostru, ne-ati oferit datele de contact la unul din evenimentele de specialitate la care ati participat, a fost gasita pe un site public sau a fost publicata intr-unul din ghidurile de afaceri existente in Romania.<br /><br />
+
+						Daca doriti sa nu mai primiti acest newsletter in viitor, va rugam sa folositi linkul de <a href="{{EmailMarketing:Email.UnsubscribeLink.Clean}}" class="original-only" style="color: @color1">@Translate("dezabonare", "dezabonare")</a>.
+                    </span>
+                  </td>
+                </tr> 
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td></tr>    
+    </table>
+  }
+
+    </td>
+  </tr>
+</table>
+
+  <!-- <script>
+    document.getElementById("remove").style.display = "none";
+    document.getElementById("remove2").style.display = "none";
+  </script> -->
+</body>
+</html>

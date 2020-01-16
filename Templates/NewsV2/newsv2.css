@@ -1,0 +1,65 @@
+#newslist, #newslist li
+{
+    margin: 0px 0px 10px 0px;
+    padding: 0px;
+    list-style: none;
+    clear: both;
+    }
+    
+#newslist h2 
+{
+    margin: 0px;
+    padding: 0px;
+    }
+    
+#newslist h2 a
+{
+    font-size: 15px;
+    font-weight: bold;
+    }
+    
+#newslist a.readmore
+{
+    float: right;
+    }
+    
+#newslist li span.newstext img
+{
+    float: left;
+    margin: 0px 5px 5px 0px;
+}
+
+.newsextranetedit
+{
+	text-align: right;
+}
+
+.newsextranetdelete
+{
+	text-align: right;
+}
+
+.FrontendStd {
+    BACKGROUND-COLOR: #F4F4F4;
+    BORDER: #666666 solid 1px;
+    COLOR: #333333;
+    FONT-FAMILY: Verdana, Helvetica, Arial, Tahoma;
+    FONT-SIZE: 11px;
+	z-index:10;
+	width:250px;
+}
+
+.FrontendButton {
+	height: 23px;
+	font-size: 11px;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-family :Verdana, Helvetica, Arial, Tahoma;
+}
+
+.gbTitle {
+	Background-color: #FFFFFF;
+	font-size:10px;
+	font-weight:Bold;
+	color:#003366;
+}

@@ -1,0 +1,64 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@SnippetStart("StyleSheet")
+<style>
+    .loyaltypoints tbody tr {
+        cursor: pointer;
+    }
+</style>
+@SnippetEnd("StyleSheet")
+
+<div class="loyaltypoints list">
+    @{
+        var transactions = GetLoop("Ecom:LoyaltyPoints.TransactionList");
+    }
+
+    @if (transactions.Count == 0)
+    {
+        <div class="alert alert-info">@Translate("No loyalty points")</div>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="quantity">@Translate("Points")</th>
+                    <th class="date">@Translate("Date")</th>
+                    <th class="date">@Translate("Expiration date")</th>
+                    <th class="comment">@Translate("Comment")</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th class="quantity">@Dynamicweb.Modules.UserManagement.User.get_Current(Dynamicweb.Modules.UserManagement.PagePermissionLevels.Frontend).PointBalance.ToString("0.00")</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var transaction in transactions)
+                {
+                    <tr data-href='@transaction.GetValue("Ecom:LoyaltyPoints.Transaction.DetailsUrl")'>
+                        <td class="quantity">@transaction.GetDouble("Ecom:LoyaltyPoints.Transaction.Points").ToString("0.00")</td>
+                        <td class="date">@transaction.GetDate("Ecom:LoyaltyPoints.Transaction.Date")</td>
+                        <td class="date">@transaction.GetDate("Ecom:LoyaltyPoints.Transaction.ExpirationDate")</td>
+                        <td class="comment">@transaction.GetString("Ecom:LoyaltyPoints.Transaction.Comment")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <script>
+            (function () {
+                // @@see http://stackoverflow.com/questions/17147821/how-to-make-a-whole-row-in-a-table-clickable-as-a-link
+                var items = document.querySelectorAll('.loyaltypoints tbody tr');
+                for (var i = 0, item; item = items[i]; i++) {
+                    item.addEventListener('click', function () {
+                        document.location = this.getAttribute('data-href');
+                    });
+                }
+            }())</script>
+    }
+</div>
+@*TemplateTags("LoyaltyPoints")*@

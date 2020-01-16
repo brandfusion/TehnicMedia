@@ -1,0 +1,88 @@
+﻿@using System.Threading;
+@{
+  var culture1 =  System.Globalization.CultureInfo.GetCultureInfo("ro-RO");
+  var culture2 = System.Globalization.CultureInfo.InvariantCulture;
+
+  bool useCulture1 = string.Equals(Thread.CurrentThread.CurrentCulture.Name, "ro-RO", StringComparison.OrdinalIgnoreCase);
+	
+  //Thread.CurrentThread.CurrentCulture = culture2;
+
+	Func<string, bool> isInvariant = (v) =>
+    {
+      if (string.IsNullOrEmpty(v))
+      {
+      	return false;
+      }
+      
+      if (v.Contains(".") && v.Contains(","))
+      {
+      	return v.IndexOf(',') < v.IndexOf('.') ? true : false;
+      }
+      else if (v.Contains(","))
+      {
+      	return false;
+      }
+      else
+      {
+      	return true;
+      }
+    };
+}
+
+
+<tr>
+  <td>
+    
+     @* version 1.4 *@
+     @Include("../../LayoutFunctions.cshtml")
+    
+   	 <table cellpadding="0" cellspacing="0" class="@ColumnClass()"><tr><td>
+        @foreach(LoopItem product in GetLoop("Item.Product_List"))
+        {
+       		double cultureDBPrice = double.Parse(product.GetString("Ecom:Product.DBPrice"), isInvariant(product.GetString("Ecom:Product.DBPrice")) ? culture2 : culture1);       		       		       		
+            double culturePriceWithVAT = double.Parse(product.GetString("Ecom:Product.Price.PriceWithVAT"), isInvariant(product.GetString("Ecom:Product.Price.PriceWithVAT")) ? culture2 : culture1);
+            double cultureVATPercent = double.Parse(product.GetString("Ecom:Product.Price.VATPercent"), culture2);                                            
+            
+			double priceProductDB = Math.Round(cultureDBPrice * (1+cultureVATPercent/100.0) ,2);
+            double priceProductDiscount  = Math.Round(culturePriceWithVAT,2); 
+            
+            @* if(!string.IsNullOrEmpty(currentUsercustomerNo)) {
+                priceProductDiscount = Math.Round(product.GetDouble("Ecom:Product.Discount.Price.PriceWithoutVAT"),2);
+                priceProductDB = Math.Round(product.GetDouble("Ecom:Product.DBPrice.PriceWithoutVAT"),2);
+            } *@  
+       		
+      		
+        	string image = product.GetString("Ecom:Product.ImageLarge.Default.Clean");     
+       
+       
+        	<table cellpadding="0" cellspacing="0"><tr><td style="padding: 1em;"> 
+                <table cellpadding="0" cellspacing="0">
+                    <tr><td>
+                      <a href='@product.GetString("Ecom:Product.LinkGroup.Clean")'>
+                      	<img class="img-responsive" src="/Admin/Public/GetImage.ashx?height=100&amp;image=@image" style="width: auto; max-width 100px; display: block; margin: 0 auto;" title='@product.GetString("Ecom:Product.Name")' alt='@product.GetString("Ecom:Product.Name")'>
+                      </a>
+                    </td></tr>
+                    <tr><td style="text-align: center;">
+                      <h2 style=" font-family: arial,helvetica neue,helvetica,sans-serif; font-size: 18px; line-height: 1.1; font-weight: 400; display: block; min-height: 80px; overflow: hidden; color: #000;">
+                        <a href='@product.GetString("Ecom:Product.LinkGroup.Clean")' style="color: #000;text-decoration: none;">@product.GetString("Ecom:Product.Name")</a>
+                      </h2>
+                    </td></tr>
+                    <tr><td style="font-size:19px; font-weight: 600; color: #ff0000; text-align: center;">
+                        @product.GetString("Ecom:Product.ActualPrice")
+                    </td></tr>
+              		<tr><td style="font-size:12px; font-weight: 400; color: #000; padding-bottom: 5px;text-align: center; height:25px;">
+                        @if (priceProductDiscount < priceProductDB) {
+                          <p style="font-size:12px;">Pret vechi: @(priceProductDB.ToString(isInvariant(product.GetString("Ecom:Product.ActualPrice")) ? culture2 : culture1)) @product.GetValue("Ecom:Product.Currency.Name")</p>			   
+                        }  
+                    </td></tr> 
+                    <tr><td style="text-align: center;">
+                        <a href='@product.GetString("Ecom:Product.LinkGroup.Clean")' style="display: block; font-weight: bold; letter-spacing: normal; line-height: 100%; text-decoration: none; color: #FFFFFF; font-family: Arial; font-size: 16px; padding: 1em 0; border-collapse: separate ! important; border-radius: 3px; background-color: #2BAADF; margin-bottom: 30px;">Cumpara</a>
+                    </td></tr>
+                </table>
+            </td></tr></table>
+         }    
+	 </td></tr></table> 
+
+
+  </td>  
+</tr>

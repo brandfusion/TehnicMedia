@@ -1,0 +1,92 @@
+﻿<div id="account-creation" class="clearfix">
+  <div class="col-xs-12">
+    <h1 class="heading">Creeaza cont</h1>
+  </div>
+  
+  <div id="errors" class="col-xs-12"> 
+  	@foreach (LoopItem i in GetLoop("FormValidationErrors"))
+    {
+  		<p fieldId="@i.GetValue("UserManagement:User.FormValidationError.FieldName")" fieldError="@i.GetValue("UserManagement:User.FormValidationError.Message")">@i.GetValue("UserManagement:User.FormValidationError.Message")</p>
+  	}
+  </div> 
+    
+    <div class="col-xs-6">
+      <h2 class="account-heading">Date personale</h2>
+       @GetValue("UserManagement:User.FormStart")
+        <input name='@GetString("UserManagement:User.Name.InputName")' type="hidden" id='@GetString("UserManagement:User.Name.InputName")' autocomplete="off" />     
+        <input name="UserManagement_Form_UserName" type="hidden" id="UserManagement_Form_UserName" autocomplete="off" /> 
+        <div class="form-group">
+          <label class="control-label" for='@GetString("UserManagement:User.LastName.InputName")'>@Translate("Nume", "Nume de familie")*:</label>
+          <input type="text" data-required-message='@Translate("Campul este obligatoriu","Campul este obligatoriu")' class="form-control" name='@GetString("UserManagement:User.LastName.InputName")' id='@GetString("UserManagement:User.LastName.InputName")' autocomplete="off" required /> 
+        </div>
+        <div class="form-group">
+          <label class="control-label" for='@GetString("UserManagement:User.FirstName.InputName")'>@Translate("Prenume", "Prenume")*:</label>
+          <input type="text" data-required-message='@Translate("Campul este obligatoriu","Campul este obligatoriu")' class="form-control" name='@GetString("UserManagement:User.FirstName.InputName")' id='@GetString("UserManagement:User.FirstName.InputName")' autocomplete="off" required />
+        </div>
+        <div class="form-group">
+          <label class="control-label" for='@GetString("UserManagement:User.Email.InputName")'>@Translate("Email", "Email")*:</label>
+          <input type="text" data-required-message='@Translate("Campul este obligatoriu","Campul este obligatoriu")' class="form-control" name='@GetString("UserManagement:User.Email.InputName")' id='@GetString("UserManagement:User.Email.InputName")'data-invalid-format='@Translate("Informatia completata nu este o adresa de email.","Informatia completata nu este o adresa de email.")' data-invalid-placeholder='@Translate("Adresa nu este valida","Adresa nu este valida")' autocomplete="off" required />
+        </div>
+        <div class="form-group">
+          <label class="control-label" for='@GetString("UserManagement:User.NewPassword.InputName")'>@Translate("NewPassword", "Parola")*:</label>
+          <input type="password" class="form-control" name='@GetString("UserManagement:User.NewPassword.InputName")' id='@GetString("UserManagement:User.NewPassword.InputName")' autocomplete="off" required />
+        </div>
+        <div class="form-group">
+          <label class="control-label" for='@GetString("UserManagement:User.NewPasswordConfirm.InputName")'>@Translate("NewPasswordConfirm", "Confirma Parola")*:</label>
+          <input type="password" class="form-control" name='@GetString("UserManagement:User.NewPasswordConfirm.InputName")' id='@GetString("UserManagement:User.NewPasswordConfirm.InputName")' autocomplete="off" required />
+        </div> 
+        <div class="form-group modifier">
+         
+            <p style="color: #aaa;">Toate campurile marcate cu * sunt obligatorii.</p>
+            <div data-role="terms">
+                <input type="checkbox" id="terms" data-warning='@Translate("Agree terms", "Va rugam sa acceptati termenii si conditiile test.")' />
+                <label for="terms" class="control-label">@Translate("iAgreeWith", "I agree with") 
+                  <a href data-toggle="modal" data-target="#term">@Translate("termstext2", "Termeni si conditii")</a>
+                </label>
+            </div>
+                
+        </div>
+        <div class="form-group">
+         
+            <button type="submit" class="action btn-action">@Translate("createnewuser", "Creeaza cont")</button>  
+         
+        </div>
+      @GetValue("UserManagement:User.FormEnd") 
+    </div>
+    <div class="col-xs-6">
+        <h2 class="account-heading">@Translate("connectWithOtherAccounts", "Conecteaza-te cu conturile sociale")</h2>            
+        <div class="account-content login-social">        
+          <div class="social clearfix">
+            <a href='/Default.aspx?ID=47&returnUrl=@(GetGlobalValue("Global:Pageview.Url"))' target="_blank" class="facebook-login" rel="nofollow"><i class="fa fa-facebook-square"></i>Facebook</a>
+            <a href='/Default.aspx?ID=48&returnUrl=@(GetGlobalValue("Global:Pageview.Url"))' target="_blank" class="google-login" rel="nofollow"><i class="fa fa-google-plus-square"></i>Google+</a>
+          </div>        
+        </div>
+       
+      
+        <h2 class="account-heading">@Translate("iHaveAccount", "Am deja un cont")</h2>
+        <div class="account-content">
+          <p>@Translate("ifYouHaveAnAccount", "Daca ai deja un cont"), <a href="/Default.aspx?ID=11" class="login">@Translate("clickHere", "Click aici")</a>.</p>
+        </div>      
+    </div>  
+       
+       
+</div>
+
+
+@SnippetStart("bottomJS")
+<!-- Modal -->
+<div class="modal fade" id="term" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog center-popup">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">@Translate("terms", "Termeni si conditii")</h4>
+      </div>
+         
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@SnippetEnd("bottomJS")
+
+            

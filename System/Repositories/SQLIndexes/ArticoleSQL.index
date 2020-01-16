@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Index Type="Dynamicweb.Indexing.Index, Dynamicweb.Indexing" Name="ArticoleSQL.index">
+  <Meta />
+  <Settings />
+  <Instances Balancer="Dynamicweb.Indexing.Balancing.ActivePassive">
+    <Instance Name="A" Type="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene">
+      <Folder>A</Folder>
+    </Instance>
+  </Instances>
+  <Builds Type="Dynamicweb.Indexing.Builders.SqlIndexBuilder, Dynamicweb.Indexing">
+    <Build Name="ArticoleSQL" Action="Execute">
+      <Setting Name="BulkSize">500</Setting>
+      <Setting Name="OnlyIndexActiveProducts">False</Setting>
+      <Setting Name="MaxProductsToIndex">2147483647</Setting>
+      <Setting Name="SkipGrouping">False</Setting>
+      <Setting Name="SkipRelatedProducts">False</Setting>
+      <Setting Name="SkipExtenders">False</Setting>
+      <Setting Name="SkipAllExtendedFields">False</Setting>
+      <Setting Name="SkipCategoryFields">False</Setting>
+      <Setting Name="DoNotStoreDefaultFields">False</Setting>
+      <Setting Name="DoNotAnalyzeDefaultFields">False</Setting>
+      <Setting Name="EmptyStringReplacement"></Setting>
+      <Setting Name="HoursToUpdate">24</Setting>
+      <Setting Name="HandleInheritedCategoryValues">False</Setting>
+      <Setting Name="SkipImages">False</Setting>
+      <Setting Name="DoNotFailOnMismatchingProductCount">True</Setting>
+      <Setting Name="ShopsToIndex"></Setting>
+      <Setting Name="Query">select ID,Page.PageID,Page.PageMenuText,Page.PageAreaID,Page.PageParentPageId,Page.PageActive,Page.PageSort,Page.PageActiveTo,Page.PageUrlName,Page.PageHidden,Page.PagePropertyItemId,Sort,Editie,Data,Titlu,Tip,ImaginePrincipala,Sumar,Visits,Autori,SectiuneSecundara,De_Companie,Despre_Companie,Si_Despre_Companie,Taguri,SectiuneParinte,SectiuneParinteId,(select ', '+ItemType_Taxonomie_Autori.Name from ItemType_Taxonomie_Autori where ','+ItemType_DW_Page.Autori+',' like '%,'+cast(ItemType_Taxonomie_Autori.ID as varchar(10))+',%' for xml path(''), type).value('substring(text()[1], 3)', 'varchar(max)') as AutoriName,(select ', '+ItemType_Taxonomie_Taguri.Name from ItemType_Taxonomie_Taguri where ','+ItemType_DW_Page.Taguri+',' like '%,'+cast(ItemType_Taxonomie_Taguri.ID as varchar(10))+',%' for xml path(''), type).value('substring(text()[1], 3)', 'varchar(max)') as TaguriName from ItemType_DW_Page join Page on (Page.PageItemType='DW_Page' and Page.PageItemID = ItemType_DW_Page.ID) Order by Data Desc</Setting>
+      <Setting Name="CountQuery">Select Count(*) From ItemType_DW_Page;</Setting>
+      <Notification SendLog="false" NotificationType="Never" />
+    </Build>
+  </Builds>
+  <Schema>
+    <Fields>
+      <Field Source="PageID" Name="PagePageID" SystemName="PagePageID" Type="System.Int32" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="ID" Name="ItemID" SystemName="ItemID" Type="System.Int32" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="PageMenuText" Name="PageMenuText" SystemName="PageMenuText" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="PageAreaID" Name="PageAreaID" SystemName="PageAreaID" Type="System.Int32" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="PageParentPageId" Name="PageParentPageId" SystemName="PageParentPageId" Type="System.Int32" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="PageActive" Name="PageActive" SystemName="PageActive" Type="System.Boolean" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="PageSort" Name="PageSort" SystemName="PageSort" Type="System.Int32" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="PageActiveTo" Name="PageActiveTo" SystemName="PageActiveTo" Type="System.DateTime" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="PageUrlName" Name="PageUrlName" SystemName="PageUrlName" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="PageHidden" Name="PageHidden" SystemName="PageHidden" Type="System.Boolean" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="PagePropertyItemId" Name="PagePropertyItemId" SystemName="PagePropertyItemId" Type="System.Int32" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Sort" Name="ItemSort" SystemName="ItemSort" Type="System.Int32" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Editie" Name="ItemEditie" SystemName="ItemEditie" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Data" Name="ItemData" SystemName="ItemData" Type="System.DateTime" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Titlu" Name="ItemTitlu" SystemName="ItemTitlu" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Tip" Name="ItemTip" SystemName="ItemTip" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="ImaginePrincipala" Name="ItemImaginePrincipala" SystemName="ItemImaginePrincipala" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Sumar" Name="ItemSumar" SystemName="ItemSumar" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Visits" Name="ItemVisits" SystemName="ItemVisits" Type="System.Int32" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Autori" Name="ItemAutori" SystemName="ItemAutori" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="SectiuneSecundara" Name="ItemSectiuneSecundara" SystemName="ItemSectiuneSecundara" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="De_Companie" Name="ItemDeCompanie" SystemName="ItemDeCompanie" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Despre_Companie" Name="ItemDespreCompanie" SystemName="ItemDespreCompanie" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Si_Despre_Companie" Name="ItemSiDespreCompanie" SystemName="ItemSiDespreCompanie" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Taguri" Name="ItemTaguri" SystemName="ItemTaguri" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="SectiuneParinte" Name="ItemSectiuneParinte" SystemName="ItemSectiuneParinte" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="SectiuneParinteId" Name="ItemSectiuneParinteId" SystemName="ItemSectiuneParinteId" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="AutoriName" Name="ItemAutoriName" SystemName="ItemAutoriName" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="TaguriName" Name="ItemTaguriName" SystemName="ItemTaguriName" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+    </Fields>
+    <FieldTypes />
+  </Schema>
+</Index>

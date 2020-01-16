@@ -1,0 +1,52 @@
+﻿<div id="account-page">      
+  <div class="container">
+    <div class="row wrap">
+    
+      <!--@Include(../../Custom/ProfileMenu.cshtml)-->
+      
+      <div class="col-xs-9">
+        <div class="row">
+          <div class="col-xs-12 profile">
+            <div class="profile-img">
+              <img src="/Files/Templates/Designs/Fusion/assets/img/eurobike/profile-ico.png" class="pull-left" width="" height="" alt=""/>
+            </div>                
+            <h1 class="pull-left">@Translate("myacount", "My account")</h1>
+            <p class="pull-left">@Translate("welcome", "Welcome") @GetValue("UserManagement:User.AccessUser_Prenume") @GetValue("UserManagement:User.Name")!</p>
+            <a href="add-profile-image"><i class="fa fa-plus-circle"></i>@Translate("addprofilefoto", "add profile foto")</a>
+          </div>
+          <div class="col-xs-12 content">
+            <div class="account-header">
+              <h2>@Translate("accountinformation", "Acount Information")</h2>
+              <a class="edit" href="@GetValue("UserManagement:User.EditUrl")">@Translate("edit", "edit")</a>
+            </div>
+            <div class="account-content">
+              
+            </div>
+            <div class="account-header">
+              <h2>Postari</h2>
+              <a class="edit" href="#">@Translate("viewall", "view all")</a>
+            </div>
+            <div class="account-content"> 
+              <div class="bonus-block pull-left">
+                <div class="profile-img pull-left">
+                  <img src="/Files/Templates/Designs/Fusion/assets/img/eurobike/profile-ico.png" width="" height="" alt=""/>
+                </div> 
+                <p class="pull-left">1200 puncte bonus</p>
+              </div>  
+              <div class="list-block pull-right">
+                <ul>
+                  <li><p>0 <br /> pareri</p></li>
+                  <li><p>0 <br /> intrebari</p></li>
+                  <li><p>0 <br /> raspunsuri</p></li>
+                </ul>
+              </div>  
+              <div class="clearfix"></div>                          
+            </div>
+
+          </div>
+        </div>
+      </div>
+      
+    </div>                        
+  </div>
+</div>

@@ -1,0 +1,828 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@MasterPageFile("Master.cshtml")
+@using Dynamicweb.Content;
+@using Dynamicweb.Rendering
+@Include("Includes/GetImage_new.cshtml")
+@Include("Includes/VerifyImage.cshtml")
+
+@{
+  string mainArticleID = "";
+  string secondaryArticleID = "";
+  string thirdArticleID = "";
+  string itemDescription = GetString("Item.Description");
+  var mainArticle = GetLoop("Item.MainArticle");
+  var secondaryArticle1 = GetLoop("Item.Secundar1");
+  var secondaryArticle2 = GetLoop("Item.Secundar2");
+  string pageName = GetString("DwPageName");
+  string parentPage = GetString("DwPageName_2");
+  string parentPageID = GetString("DwPageID_2");
+  string filterValue1 = "Item.Tip='Stiri' and Item.SectiuneParinteId ='"+ GetString("DwPageID") +"'";
+          filterValue1 = filterValue1 + "\"\"";
+string numarPagina = System.Web.HttpContext.Current.Request.Params["page"];
+string imagine = GetString("Item.ImagineSectiune");
+string activeURL = GetString("DWExtranetAction"); 
+string filterValue2= "Item.Tip='Articole'";
+string filterValue8= "Item.Tip='Articole'";
+int counterAutor = 1;
+int counterAutor1 = 1;
+int counterAutor2 = 1;
+
+
+
+
+}
+
+@Include("Includes/ArticleHelper.cshtml")
+
+
+<div class="row main-body" data-stickyparent style="margin-top: 0px;">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <ul class="breadcrumb breadcrumb-sectiune" id="breadCrumbsMenu">
+          <ul id="breadCrumbsMenu2" class="dwnavigation" settings="startlevel:1;endlevel:1;template:Breadcrumb.xslt;expandmode:Pathonly;includemode:all;id:breadCrumbsMenu2;"></ul>
+          @if (!string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ID"]))
+          {
+              <li>
+                @pageName
+                
+              </li>
+          }
+      </ul>
+  </div>
+@if(String.IsNullOrEmpty(numarPagina) || numarPagina == "1"){ 
+  
+  string containerArticoleMic = "col-xs-12 col-sm-8 col-md-8 col-lg-8";  
+
+  <div class="@containerArticoleMic">
+   
+    <!--divul pentru articole-->  
+
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="block-title"><span>@pageName</span></h1>
+        <div class="row">
+          @if(!string.IsNullOrEmpty(imagine)){
+          <div class="col-xs-4">
+             <img src="@imagine"/>
+          </div>
+          <div class="col-xs-8">
+              @if(!string.IsNullOrEmpty(itemDescription)){
+              @itemDescription
+            }
+          </div>
+          } else {
+          <div class="col-xs-12">
+              @if(!string.IsNullOrEmpty(itemDescription)){
+              @itemDescription
+            }
+          </div>
+
+          }
+        
+        </div>
+      <div class="dwcontent" id="mainContent1" title="Main Content" data-settings="unwrap:true"></div>
+      @if(mainArticle.Any()){
+          <h3 class="block-title"><span>Articole</span></h3>
+          foreach(LoopItem i in mainArticle)
+          {
+              string mainAutori = i.GetString("Item.MainArticle.Autori");
+              string mainSections = "";
+
+              List<Autor> articleAutori = GetAutori(mainAutori);
+              List<Sectiune> articleSections = GetSectiuni(mainSections);
+              mainArticleID = i.GetString("Item.MainArticle.Id.Value");
+              string mainImage = i.GetString("Item.MainArticle.ImaginePrincipala.Value");
+              string mainTitle = i.GetString("Item.MainArticle.Titlu.Value");
+              var mainDate = i.GetDate("Item.MainArticle.Data");
+              string mainSummary = i.GetString("Item.MainArticle.Sumar");
+              string mainURL = i.GetString("Item.MainArticle.Url");
+              string articleSectiuneID = GetString("DwPageID_2");
+			
+  				
+      <article class="news-block big-block" style="margin-bottom:0px;">
+    
+        <a href="@mainURL" class="overlay-link">
+            <figure class="image-overlay proportie-1">
+              @if(!string.IsNullOrEmpty(mainImage)){
+              <img src="/Admin/Public/GetImage.ashx?Image=@mainImage&Format=jpg&Width=870&Height=572&Crop=5" alt="@mainTitle" />
+              }else{
+              <img src="@areaLayoutPath/assets/img/demo/710x480.png" alt="@mainTitle" />
+              }
+            </figure>
+      </a>
+          <header class="news-details">
+          <h3 class="news-title"> <a href='@mainURL' alt='@mainTitle'>@mainTitle</a></h3>
+          <div class="main-summary">@mainSummary</div>
+          <p class="simple-share">@Translate("articolde","de")
+             @foreach (var articleAutor in articleAutori)
+            {        
+                if(counterAutor == 1){
+                <span style="margin:0px!important;"><a href="@articleAutor.Link">@articleAutor.Name</a></span>
+           
+            } else {
+            <span style="margin:0px!important;">, <a href="@articleAutor.Link">@articleAutor.Name</a></span>
+            
+            } counterAutor++;
+            }
+
+          - <span class="article-date"><i class="fa fa-clock-o"></i> @mainDate.ToString("dd/MM/yyyy")</span></p>
+        </header>
+       
+      </article><!-- News block -->
+}
+}
+</div>
+</div>     
+
+<div class="row"><!-- row-ul pentru Articole secundar 1 si secundar 2-->
+  @if(secondaryArticle1.Any()){
+      foreach(LoopItem i in secondaryArticle1)
+      {
+          string mainAutori = i.GetString("Item.Secundar1.Autori");
+          string mainSections = "";
+          List<Autor> articleAutori = GetAutori(mainAutori);
+          List<Sectiune> articleSections = GetSectiuni(mainSections);
+          secondaryArticleID = i.GetString("Item.Secundar1.Id.Value");
+          string secondaryImageRaw = i.GetString("Item.Secundar1.ImaginePrincipala.Value");
+          string secondaryImage = GetImage(secondaryImageRaw, 350, 230);
+          string secondaryTitle = i.GetString("Item.Secundar1.Titlu.Value");
+          var secondaryDate = i.GetDate("Item.Secundar1.Data");
+          string secondarySummary = i.GetString("Item.Secundar1.Sumar");
+          string secondaryURL = i.GetString("Item.Secundar1.Url");
+          string secondaryarticleSectiuneID = GetString("DwPageID_2");
+  <div class="col-md-6">
+    <article class="news-block small-block">
+      <a href="@secondaryURL" class="overlay-link">
+        <figure class="image-overlay proportie-1">
+         <img src="@secondaryImage" alt="@secondaryTitle" />
+      </figure>
+    </a>
+      <!--<a href="/Default.aspx?ID=@parentPageID" class='category bg@(secondaryarticleSectiuneID)'>@parentPage</a>-->
+    <header class="news-details">
+        <h3 class="news-title"><a href='@secondaryURL' alt='@secondaryTitle'>@secondaryTitle</a></h3>
+            <p class="simple-share">
+              @Translate("articolde","de")
+              @foreach (var articleAutor in articleAutori)
+            {        
+                if(counterAutor1 == 1){
+                <span style="margin:0px!important;"><a href="@articleAutor.Link">@articleAutor.Name</a></span>
+           
+            } else {
+            <span style="margin:0px!important;">, <a href="@articleAutor.Link">@articleAutor.Name</a></span>
+            
+            } counterAutor1++;
+            }
+ -
+            <span class="article-date"><i class="fa fa-clock-o"></i> @secondaryDate.ToString("dd/MM/yyyy")</span>
+          </p>
+    </header>
+  </article><!-- News block -->
+</div>
+
+
+}
+}
+@if(secondaryArticle2.Any()){     
+foreach(LoopItem i in secondaryArticle2){  
+string mainAutori = i.GetString("Item.Secundar2.Autori");
+string mainSections = "";
+
+List<Autor> articleAutori = GetAutori(mainAutori);
+List<Sectiune> articleSections = GetSectiuni(mainSections);
+thirdArticleID = i.GetString("Item.Secundar2.Id.Value");
+string secondaryImageRaw = i.GetString("Item.Secundar2.ImaginePrincipala.Value") != "" ? i.GetString("Item.Secundar2.ImaginePrincipala.Value") : "http://via.placeholder.com/350x250"  ; 
+string secondaryImage = GetImage(secondaryImageRaw, 350, 230);
+string secondaryTitle = i.GetString("Item.Secundar2.Titlu.Value");
+var secondaryDate = i.GetDate("Item.Secundar2.Data");
+string secondarySummary = i.GetString("Item.Secundar2.Sumar");
+string secondaryURL = i.GetString("Item.Secundar2.Url");
+string secondary1articleSectiuneID = GetString("DwPageID_2");
+<div class="col-md-6">
+  <article class="news-block small-block">
+    <a href="@secondaryURL" class="overlay-link">
+      <figure class="image-overlay proportie-1">
+       <img src="@secondaryImage" alt="@secondaryTitle" />
+ </figure>
+</a>
+ <!--<a href="/Default.aspx?ID=@parentPageID" class='category bg@(secondary1articleSectiuneID)'>@parentPage</a>-->
+<header class="news-details">
+  <h3 class="news-title"><a href='@secondaryURL' alt='@secondaryTitle'>@secondaryTitle</a></h3>
+  <p class="simple-share">
+    @Translate("articolde","de")
+     @foreach (var articleAutor in articleAutori)
+            {        
+                if(counterAutor2 == 1){
+                <span style="margin:0px!important;"><a href="@articleAutor.Link">@articleAutor.Name</a></span>
+           
+            } else {
+            <span style="margin:0px!important;">, <a href="@articleAutor.Link">@articleAutor.Name</a></span>
+            
+            } counterAutor2++;
+            }
+ -
+  <span class="article-date"><i class="fa fa-clock-o"></i> @secondaryDate.ToString("dd/MM/yyyy")</span>
+</p>
+</header>
+</article><!-- News block -->
+</div>
+
+
+}
+}
+
+</div><!--se inchide row-ul pentru Articole-->
+
+@{
+
+filterValue2 =  filterValue2 + " and " + "Item.Id !='" + mainArticleID +"'" + " and " + "Item.Id !='" + secondaryArticleID +"'" + " and " + "Item.Id !='" + thirdArticleID +"'"  + " and " ;
+filterValue2 = filterValue2 + "Item.SectiuneParinteId ='" + GetString("DwPageID")+ "'";
+
+
+//string  filterValue6 =  "Item.SectiuneParinteId ='" + GetString("DwPageID")+ "'";
+//string  filterValue7 =  "Item.SectiuneSecundara ='" + GetString("DwPageID")+ "'";
+//filterValue2 =   filterValue2 + filterValue6;
+
+} 
+	
+<div class="col-xs-12" style="margin-top:-20px!important;">
+  
+<p style="display: none;">@filterValue2</p>
+
+    
+    @RenderItemList(new { 
+      ItemType = "Dw_Page",
+      ListSourceType = "Area",
+      ListSourceArea ="1",
+      ItemFieldsList = "*",
+      ListTemplate = "ItemPublisher/List/Loop-ArticoleSiStiri-LP-Sectiune.cshtml",
+      ListPageSize = 8,
+      ListOrderBy = "Data",
+      ListOrderByDirection = "Descending",
+      Filter = filterValue2
+    })
+
+
+  
+</div>
+
+<div class="row">
+  
+  <div class="col-xs-12">
+@{
+	 string filterValue4 = "Item.Tip='Stiri' and Item.SectiuneParinteId ='"+ GetString("DwPageID") +"'";
+            filterValue4 = filterValue4 + "\"\"";
+    
+}
+    
+    @RenderItemList(new { 
+      ItemType = "Dw_Page",
+      ListSourceType = "Area",
+      ListSourceArea ="1",
+      ItemFieldsList = "*",
+      ListTemplate = "/ItemPublisher/List/Loop-Stiri-LP-Sectiune-3col-image-nosummary.cshtml",
+      ListViewMode = "Partial",
+    	ListShowFrom = 1,
+    	ListShowTo= 6,
+   	  ListPageSize = 7,    
+      ListOrderBy = "Data",
+      ListOrderByDirection = "Descending",
+      Filter = filterValue4
+    })
+    
+ 
+@*
+    <div class="row load-more">
+      <a href='/stiri?Sectiune=@(GetString("DwPageID"))'><button type="button" class="btn btn-lg btn-block">Mai multe stiri</button></a>
+     
+    </div>
+*@
+  </div>
+    
+</div>
+
+</div>
+} else {
+<div class="col-xs-8">
+<div class="row">
+  
+  <div class="col-xs-12">
+    
+
+@{
+
+filterValue8 =  filterValue8 + " and " + "Item.Id !='" + mainArticleID +"'" + " and " + "Item.Id !='" + secondaryArticleID +"'" + " and " + "Item.Id !='" + thirdArticleID +"'"  + " and " ;
+filterValue8 = filterValue8 + "Item.SectiuneParinteId ='" + GetString("DwPageID")+ "'";
+
+}
+    
+    @* <p>@filterValue8</p>*@
+    
+    @RenderItemList(new { 
+      ItemType = "Dw_Page",
+      ListSourceType = "Area",
+      ListSourceArea ="1",
+      ItemFieldsList = "*",
+      ListTemplate = "ItemPublisher/List/Loop-ArticoleSiStiri-LP-Sectiune.cshtml",
+      ListPageSize = 8,
+      ListOrderBy = "Data",
+      ListOrderByDirection = "Descending",
+      Filter = filterValue8
+    })
+  </div>
+    
+</div>
+
+
+<div class="row">
+  
+  <div class="col-xs-12">
+@{
+	 string filterValue3 = "Item.Tip='Stiri' and Item.SectiuneParinteId ='"+ GetString("DwPageID") +"'";
+           filterValue3 = filterValue3 + "\"\"";
+    
+}
+    
+    @RenderItemList(new { 
+      ItemType = "Dw_Page",
+      ListSourceType = "Area",
+      ListSourceArea ="1",
+      ItemFieldsList = "*",
+      ListTemplate = "/ItemPublisher/List/Loop-Stiri-LP-Sectiune-3col-image-nosummary.cshtml",
+      ListViewMode = "Partial",
+    	ListShowFrom = 1,
+    	ListShowTo= 6,
+      ListPageSize = 7,
+      ListOrderBy = "Data",
+      ListOrderByDirection = "Descending",
+      Filter = filterValue3
+    })
+  @*
+    <div class="row load-more">
+      <a href='/stiri?Sectiune=@(GetString("DwPageID"))'><button type="button" class="btn btn-lg btn-block">Mai multe stiri</button></a>
+     
+    </div>
+*@
+  </div>
+    
+</div>
+
+</div>
+
+}
+
+
+
+<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 sticky" >
+
+    @Include("Custom/Sidebar.cshtml")
+ 
+</div>
+
+</div>
+
+<div>
+  <style>
+  .owl-carousel .owl-item img {width:auto!important;}
+</style>
+      @{ 
+          var Produse = GetLoop("Item.ShowroomProducs.Value");
+          if(Produse.Any()){
+            <h3 class="block-title"><span>Produse din categoria: @pageName</span></h3>
+          }
+       }
+		<div class="carousel-produse">
+        
+        <div class="owl-carousel owl-theme">
+       @{ 
+          @* var Produse = GetLoop("Item.ShowroomProducs.Value");*@
+         if(Produse.Any()){  
+             foreach(LoopItem i in Produse){
+    		
+          string mainImageRaw = i.GetString("Ecom:Product.ImageLarge.Clean"); 
+    		string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 160, 120) : ""; 
+ 	  				mainImage = mainImage + "&bgcolor=white";	
+    
+          string mainTitle = i.GetString("Ecom:Product.Name");
+          string mainURL = i.GetString("Ecom:Product.LinkGroup.Clean");
+ 			string manufacturer = i.GetString("Ecom:Manufacturer.Name");
+    
+    		          string productBoxClass = "col-sm-6";  
+
+double priceProductDB = Math.Round(i.GetDouble("Ecom:Product.DBPrice"),2);
+double priceProductDiscount = Math.Round(i.GetDouble("Ecom:Product.Discount.Price.Price"),2);
+
+double percent = (priceProductDB-priceProductDiscount)*100/priceProductDB;  
+percent = Math.Round(percent);
+
+string imagePath = "/Files/Images/";
+string imageCustom = imagePath + i.GetString("Ecom:Product.ImageLargeLarge.Clean");  
+string pathImagine = i.GetString("Ecom:Product.ImageLargeLarge.Clean");
+string imagineProdusRaw = i.GetString("Ecom:Product.ImageLarge.Clean");
+
+string imagineProdus = !string.IsNullOrEmpty(imagineProdusRaw) ? GetImage(imagineProdusRaw, 350, 230) : ""; 
+    imagineProdus = imagineProdus + "&bgcolor=white";
+
+int stockTotal = i.GetInteger("Ecom:Product.VariantCount") > 0 ? 0 : i.GetInteger("Ecom:Product.Stock");
+
+string productName = i.GetString("Ecom:Product.Name");
+string productLink = i.GetString("Ecom:Product.LinkGroup.Clean");
+
+string AfisarePromotie = i.GetString("Ecom:Product:Field.TagPromotie.Value");
+string manufacturerName = i.GetString("Ecom:Manufacturer.Name");
+string manufacturerLink = i.GetString("Ecom:Manufacturer.Web");
+string manufacturerLogo =i.GetString("Ecom:Manufacturer.Logo");
+string productID = i.GetString("Ecom:Product.ID");
+string productLanguage = i.GetString("Ecom:Product.LanguageID");
+string productVariantID = i.GetString("Ecom:Product.VariantID");
+string dealeriProdusRaw = i.GetString("Ecom:Product:Field.Dealeri");
+string[] dealeriProdus = (dealeriProdusRaw ?? "").Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+string compareLink = productID + "$" + productLanguage + "$" + productVariantID;
+
+string Grup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System.Web.HttpContext.Current.Request["GroupID"].ToString(): "";
+string Producator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
+string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
+bool first = true;
+    
+    
+  		    <div class="item"> 
+    
+    
+
+
+
+
+@if(Dealer == "" && Producator == ""){
+<div class="col-xs-12" style="margin-bottom:15px; margin-top:15px; ">
+  <div class="produs-col-background">
+  
+        <div class="row" >
+          <div class="col-xs-12">
+             <div class="product-image">
+                  <a href="@productLink" class="overlay-link">
+                      <figure class=""> 
+                          @{  
+                             
+                              <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
+                          }
+                      </figure>
+                  </a>
+             </div>
+           </div>
+        </div>
+        <div class="row row-promotii-produs">
+            <div class="col-xs-12">
+                @if(AfisarePromotie == "True"){
+                      <div class="promotie">
+                        <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                      </div>
+                }
+            
+                @if(priceProductDB > 0 ){
+                    <div class="pret-produs pull-right">
+                        <a href="@productLink">
+                        <span class="detalii-produs" ><text>@priceProductDB LEI</text></span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+     <div class="row">
+        <div class="col-xs-12">
+
+          <h5 class="titlu-produs-lista news-title" ><a href="@productLink">@productName</a></h5>
+
+        </div>
+      </div>
+
+    <div class="row" style="min-height:40px;">
+     <div class="col-xs-12">
+            @if(!String.IsNullOrEmpty(manufacturerName)){
+              <div class="col-xs-6" >      
+                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                     <text class="trim-text trim-lines-2">@Translate("manufacturer", "Producator"):</text>         
+                   </p>
+              </div>
+          
+
+            <div class="col-xs-6">
+              <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
+               @if(!String.IsNullOrEmpty(manufacturerLink)){
+                <a href="@manufacturerLink"><span style="color:black;">@manufacturerName</span></a>
+                        } else {
+                          <span style="color:black;">@manufacturerName</span>
+                        }
+              </p>
+            </div>
+           }
+       </div>
+    </div>
+     
+
+    <div class="row" style="min-height:30px;">
+      <div class="col-xs-12">
+             @if(dealeriProdus.Any()){
+          <div class="col-xs-6" style="text-align: center;">      
+               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                <text>@Translate("Furnizor", "Furnizor"):</text>         
+               </p>
+            </div>
+          
+
+            <div class="col-xs-6" style="text-align: center;">
+              <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+             <text class="trim-text trim-lines-2" style="color:black;">@(dealeriProdus.Length == 1 ? dealeriProdus.First() :  dealeriProdus.Length + " furnizori")</text>
+              </p>
+            </div>
+           }
+       </div>
+    </div>
+
+      <div class="row">
+          <div class="col-xs-12 col-butoane-lista">
+            
+                  
+              <div class="col-xs-6">
+
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                    <span class="detalii-produs">
+                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                    </span>
+                  </a>
+                     
+               </div>   
+              
+
+               <div class="col-xs-6">
+
+                  <a href="@productLink" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
+
+                </div>
+            
+                  
+                
+                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                          <div class="modal-content" >
+                            @RenderParagraphContent(120)
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                                                   <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
+                      </div>
+                  </div>
+            
+
+            
+
+          </div>
+      </div>
+  </div>
+
+
+</div>
+} else{
+
+if(Dealer != "" || Producator != ""){
+
+<div class="col-xs-12 col-sm-3 col-md-3 " style="margin-bottom:15px; margin-top:15px; ">
+  <div class="produs-col-background">
+  
+        <div class="row" >
+          <div class="col-xs-12">
+             <div class="product-image">
+                  <a href="@productLink" class="overlay-link">
+                      <figure class=""> 
+                          @{  
+                             
+                              <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
+                          }
+                      </figure>
+                  </a>
+             </div>
+           </div>
+        </div>
+        <div class="row row-promotii-produs">
+            <div class="col-xs-12">
+                if(AfisarePromotie == "True"){
+                      <div class="promotie">
+                        <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                      </div>
+                }
+            
+                if(priceProductDB > 0 ){
+                    <div class="pret-produs pull-right">
+                        <a href="@productLink">
+                        <span class="detalii-produs" ><text>@priceProductDB LEI</text></span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+     <div class="row">
+        <div class="col-xs-12">
+
+          <h5 class="titlu-produs-lista news-title"><a href="@productLink">@productName</a></h5>
+
+        </div>
+      </div>
+
+    <div class="row" style="min-height:40px;">
+     <div class="col-xs-12">
+            if(!String.IsNullOrEmpty(manufacturerName)){
+              <div class="col-xs-4" >      
+                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                     <text>@Translate("manufacturer", "Producator"):</text>         
+                   </p>
+              </div>
+          
+
+            <div class="col-xs-8">
+              <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
+               if(!String.IsNullOrEmpty(manufacturerLink)){
+                <a href="@manufacturerLink"><span style="color:black;">@manufacturerName</span></a>
+                        } else {
+                          <span style="color:black;">@manufacturerName</span>
+                        }
+              </p>
+            </div>
+           }
+       </div>
+    </div>
+     
+
+    <div class="row" style="min-height:30px;">
+      <div class="col-xs-12">
+             if(dealeriProdus.Any()){
+          <div class="col-xs-3" style="text-align: center;">      
+               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                <text>@Translate("Furnizor", "Furnizor"):</text>         
+               </p>
+            </div>
+          
+
+            <div class="col-xs-9" style="text-align: center;">
+              <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+             <text style="color:black;">@(dealeriProdus.Length == 1 ? dealeriProdus.First() :  dealeriProdus.Length + " furnizori")</text>
+              </p>
+            </div>
+           }
+       </div>
+    </div>
+
+      <div class="row">
+          <div class="col-xs-12 col-butoane-lista">
+            
+                  
+              <div class="col-xs-6">
+
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                    <span class="detalii-produs">
+                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                    </span>
+                  </a>
+                     
+               </div>   
+              
+
+               <div class="col-xs-6">
+
+                  <a href="@productLink" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
+
+                </div>
+            
+                  
+                
+                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                          <div class="modal-content" >
+                            @RenderParagraphContent(120)
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                                                   <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
+                      </div>
+                  </div>
+            
+
+            
+
+          </div>
+      </div>
+  </div>
+
+
+</div>
+}
+}
+
+
+
+
+
+    
+    
+          </div>   
+   
+        }
+        }
+        } 
+        </div>
+  		</div>
+         </div>
+
+<div class="row" style="margin-bottom:20px; margin-top:20px;">
+        <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:20px; margin-top:20px;"><a href='@Pageview.Area.Item["Link_Catalog"]' alt='@Pageview.Area.Item["Link_Catalog.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"]'alt='@Pageview.Area.Item["Banner_Catalog.Name"]' /></a></div>
+         <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:20px; margin-top:20px;"><a href='@Pageview.Area.Item["Link_Companii"]' alt='@Pageview.Area.Item["Link_Companii.Name"]' target="blank"><img src='@Pageview.Area.Item["Banner_Companii"]'alt='@Pageview.Area.Item["Banner_Companii.Name"]' /></a></div>
+       </div>
+<script>
+
+  $(function(){
+
+
+
+    function getURL(url) {
+        name = url.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]').replace("&amp;" , "&").replace("&amp;" , "&");
+
+        return name;
+    }
+
+    // get URL value
+    var query = getURL("@activeURL");
+    var listOfLi =  $("ul.pagination.pagination-sm li a");
+
+
+    // if the URL does not contains 'page' , make the first li active
+    // if(query.indexOf("page") != 0) {
+    //   $("ul.pagination.pagination-sm li").eq(0).addClass("active");
+    // } else {
+    //   $("ul.pagination.pagination-sm li").eq(0).removeClass("active");
+    // }
+
+
+    // fix link for go to first page
+   if($(".pagination").length){
+    $("ul.pagination.pagination-sm li a").first().attr("href" , $("ul.pagination.pagination-sm li a").first().attr("href").replace("PID=0&" , ""));
+    // $("ul.pagination.pagination-sm li a").last().attr("href" , $("ul.pagination.pagination-sm li a").last().attr("href").replace("PID=0&" , ""));
+	}
+
+    // remove PID=0 from each li url
+    $.each(listOfLi , function(index , element){
+      var replacement = $(element).attr("href").replace("&PID=0" , "");
+      $(element).attr("href" , replacement);
+    });
+
+
+    var firstTimeOnPage = _.includes(query , "page");
+
+    if(!firstTimeOnPage) {
+    	$("ul.pagination.pagination-sm li:first").addClass("active");
+    }
+
+
+    // check if URL value is equal to any of li's URL value
+    _.map(listOfLi , function(obj){
+      var liURL = $(obj).attr("href").replace("/" , "");
+
+      if(liURL == query) {
+        $(obj).parent().addClass("active");
+      }
+
+      // var isIncluded = _.includes(liURL , query);
+
+      // if(isIncluded) {
+      //   $(obj).parent().addClass("active");
+      // }
+
+      // console.log(isIncluded);
+
+    }); 
+
+  });
+
+
+</script> 
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>               
+<!-- Google Analytics -->
+
+<script>
+
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+ga('create', 'UA-26068739-1', 'auto');
+
+ 
+
+// DIMENSIONS DECLARATION WHERE NEEDED
+
+ 
+
+ga('send', 'pageview');
+
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+
+<!-- End Google Analytics -->

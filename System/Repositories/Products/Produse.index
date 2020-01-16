@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Index Type="Dynamicweb.Indexing.Index, Dynamicweb.Indexing" Name="Produse.index">
+  <Settings />
+  <Instances Balancer="Dynamicweb.Indexing.Balancing.ActivePassive">
+    <Instance Name="A" Type="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene">
+      <Folder>A</Folder>
+    </Instance>
+    <Instance Name="B" Type="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene">
+      <Folder>B</Folder>
+    </Instance>
+  </Instances>
+  <Builds Type="Dynamicweb.Ecommerce.Indexing.ProductIndexBuilder, Dynamicweb.Ecommerce">
+    <Build Name="full" Action="Full">
+      <Setting Name="BulkSize">500</Setting>
+      <Setting Name="OnlyIndexActiveProducts">False</Setting>
+      <Setting Name="MaxProductsToIndex">2147483647</Setting>
+      <Setting Name="SkipGrouping">False</Setting>
+      <Setting Name="SkipExtenders">False</Setting>
+      <Setting Name="SkipAllExtendedFields">False</Setting>
+      <Setting Name="SkipCategoryFields">False</Setting>
+      <Setting Name="DoNotStoreDefaultFields">False</Setting>
+      <Setting Name="EmptyStringReplacement"></Setting>
+      <Notification SendLog="false" NotificationType="Never" />
+    </Build>
+  </Builds>
+  <Schema>
+    <Fields>
+      <Extension Type="Dynamicweb.Ecommerce.Indexing.ProductIndexSchemaExtender, Dynamicweb.Ecommerce" Stored="false" Analyzed="false" Indexed="false">
+        <Exclude Field="ShortDescription" />
+        <Exclude Field="CustomField_Dealeri" />
+      </Extension>
+      <Extension Type="BrandFusion.Dw.TTOnline.TTOnlineProductIndexSchemaExtender, BrandFusion.Dw.TTOnline" Stored="false" Analyzed="false" Indexed="false" />
+      <Field Source="ProductName" Name="NumeNormalizat" SystemName="NumeNormalizat" Type="NormalizareDiacritice" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="CustomField_Dealeri" Name="Dealeri" SystemName="Dealeri" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="ProductName" Name="Nume" SystemName="Nume" Type="NormalizareDiacritice" Stored="true" Analyzed="false" Indexed="true" />
+    </Fields>
+    <FieldTypes>
+      <FieldType Name="NormalizareDiacritice" Type="System.String" Boost="">
+        <Analyzer Provider="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene">BrandFusion.Dw.Lucene.BfRomanianAnalyzer, BrandFusion.Dw.Lucene</Analyzer>
+      </FieldType>
+    </FieldTypes>
+  </Schema>
+  <Meta />
+</Index>

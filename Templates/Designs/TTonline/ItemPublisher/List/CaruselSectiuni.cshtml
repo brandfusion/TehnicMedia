@@ -1,0 +1,40 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+
+<div class="row">
+  <div class="col-md-12">  
+     <div class="flexslider">
+      <div class="featured-slider">
+        <div class="slider-item">
+          <div class="row">
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+  	foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+
+
+            <div class="featured-small" >
+                   @if(!string.IsNullOrEmpty(item.GetString("ItemPublisher:Item.ImagineSectiune.Value"))){
+                  <a href='@item.GetString("ItemPublisher:Item.Url")'><img src='@item.GetString("ItemPublisher:Item.ImagineSectiune.Value")' width="160" height="120" alt="" /></a>
+                  }else{
+                  <a href='@item.GetString("ItemPublisher:Item.Url")'><img src="@areaLayoutPath/assets/img/demo/160x120.png" alt="" /></a>
+                                }
+
+                    <div class="featured-header">
+                    <p><a href='@item.GetString("ItemPublisher:Item.Url")'>@item.GetString("ItemPublisher:Item.Title.Value") </a></p>
+                        
+                      
+                    </div>
+                  
+                </div>
+       
+       
+                 }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+  
+  
+ 

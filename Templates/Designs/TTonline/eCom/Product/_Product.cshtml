@@ -1,0 +1,435 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using BrandFusion.Dw.TTOnline
+@using System
+@using Dynamicweb.Rendering;
+@using System;
+@using System.IO;
+@using System.Web;
+@using System.Text;
+@using System.Collections.Generic;
+@using System.Linq
+@using System.Text.RegularExpressions;
+@Include("../../Includes/GetImage_new.cshtml")
+@{   
+
+
+
+    
+
+    string articleImageRaw = @GetString("Ecom:Product.ImageLarge.Clean");
+    string image1 = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 760, 600) + "&bgcolor=white" : "/Files/Images/NoImage/no-image.png";
+    string productMainImageOptimized = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 45, 45) + "&bgcolor=white" : "/Files/Images/NoImage/no-image.png";
+
+
+
+   string name  = !string.IsNullOrEmpty(GetString("Ecom:Product.Name")) ? GetString("Ecom:Product.Name"):"";
+   string shortDescription  = !string.IsNullOrEmpty(GetString("Ecom:Product.ShortDescription")) ? GetString("Ecom:Product.ShortDescription"):"";
+   string manufacturer  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Name"))? GetString("Ecom:Manufacturer.Name"):"";
+   string longDescription  = !string.IsNullOrEmpty(GetString("Ecom:Product.LongDescription"))? GetString("Ecom:Product.LongDescription"):"";
+   string manufacturerLogo  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Logo"))? GetString("Ecom:Manufacturer.Logo"):"";
+   string manufacturerURL  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Web"))? GetString("Ecom:Manufacturer.Web"):"";
+   string manufacturerDescription  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Description"))? GetString("Ecom:Manufacturer.Description"):"";
+   string manufacturerAddress  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Address"))? GetString("Ecom:Manufacturer.Address"):"";
+   string manufacturerCity  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.City"))? GetString("Ecom:Manufacturer.City"):"";
+   string manufacturerCountry  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Country"))? GetString("Ecom:Manufacturer.Country"):"";
+   string manufacturerEmail = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Email"))? GetString("Ecom:Manufacturer.Email"):"";
+   string manufacturerPhone  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Phone"))? GetString("Ecom:Manufacturer.Phone"):"";
+	string produsPromovatRaw = GetString("Ecom:Product:Field.ProdusPromovat");
+	string produsPromovat = produsPromovatRaw =="False" ? "NU" : "DA";
+	string grupName = @GetString("Ecom:Group.Name");
+    var companii = TaxonomieCompaniiFacade.GetByProduct(GetString("Ecom:Product.ID"), GetString("Ecom:Product.LanguageID"));
+    string GrupProdus = !string.IsNullOrEmpty(GetString("Ecom:Group.Category.Name"))? GetString("Ecom:Group.Category.Name"):"";
+  
+    bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
+    string logo = GetString("Item.Area.Logo");
+}
+
+@SnippetStart("OGMeta")
+    @{
+    var ogtitle =  name;
+    var httpdomain = "http://" + GetGlobalValue("Global:Request.Host");
+    var og_item_image = logo;
+        var og_page_image = articleImageRaw;		
+        var ogimage = !string.IsNullOrWhiteSpace(og_page_image) ? string.Format("{0}{1}", httpdomain, og_page_image) : string.Format("{0}{1}", httpdomain, og_item_image); //httpdomain is declared in Master.cshtml
+    }
+    @if (!string.IsNullOrWhiteSpace(og_item_image) || !string.IsNullOrWhiteSpace(og_page_image))
+    {
+    <meta property="og:title" content="@ogtitle" />
+    <meta property="og:image" content="@ogimage" />
+    }
+@SnippetEnd("OGMeta")
+ 
+@SnippetStart("SearchProduse")
+    <div class="product-search">
+        <input type="text" name="search-products" placeholder="Cautare produse" />
+        <button><i class="fa fa-search" aria-hidden="true"></i></button> 
+    </div>
+@SnippetEnd("SearchProduse")
+
+
+<div class="col-xs-12" data-page="Product Detail" data-product-image='@productMainImageOptimized' data-product-id='@GetValue("Ecom:Product.ID")' data-product-name='@GetValue("Ecom:Product.Name")'>  
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: -63px;">
+    <div class="breadcrumb-container row">
+      <ul class="breadcrumb" id="breadCrumbsMenu">
+          <ul id="breadCrumbsMenu38" class="dwnavigation" settings="startlevel:1;endlevel:6;template:Breadcrumb.xslt;expandmode:Pathonly;includemode:all;id:breadCrumbsMenu38;"></ul>
+       
+           <li>
+              <a href="/ibuysmart">I Buy Smart</a> / <a href='/ibuysmart?GroupID=@(GetString("Ecom:Group.ID"))'>@GetString("Ecom:Group.Name")</a> / @GetString("Ecom:Product.Name")
+           </li>
+                          
+      </ul>
+    </div>
+  </div>
+
+
+    <div id="productdetails">  
+         <div class="row">
+             <div class="col-xs-12 col-md-5">
+               <a class="img-responsive" data-fancybox-type="iframe" rel="group2">
+               <img src="@image1" alt="@name" />
+               </a> 
+             </div>
+             <div class="col-xs-12 col-md-7">
+                <div >
+                <h3 class="block-title-shop"><span class="product-name-js">@name </span></h3>
+                <div class="row">
+                    <div class="col-xs-12">
+                         <span class="shortdescription">@shortDescription</span>
+                    </div>
+                </div>
+                
+                   <div class="row">
+                        <div class="col-xs-12">
+                        
+                     
+                        </div>
+                    </div>
+              
+
+                    
+
+                    <div class="row opinia-clientilor">
+                      <div class="col-xs-12">
+                        <form method="post" action="/Admin/Public/404.aspx" id="review-form-custom" onsubmit="return comment_validate()">
+                            <input type="hidden" name="Comment.Rating" id="Comment.Rating" value="">
+                            <div class="form-group">
+        
+
+                                <p>Opinia clientilor: &nbsp </p>
+                                <ul class="list-inline d-sm-inline pl-3">
+                                    <li class="list-inline-item js-star-rating" data-rating="1"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li class="list-inline-item js-star-rating" data-rating="2"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li class="list-inline-item js-star-rating" data-rating="3"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li class="list-inline-item js-star-rating" data-rating="4"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    <li class="list-inline-item js-star-rating" data-rating="5"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                </ul>
+                              </div>
+
+                        </form>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                       <div class="col-xs-12">
+                          <div style="display:-webkit-box;"> <b>Share:</b>  <div class="addthis_inline_share_toolbox_islb"></div></div> 
+                       </div>
+                    </div>  
+                      
+                 <div class="product-detail--compare">
+                       <div class="row">
+                          <label class="control-label col-xs-12">@Translate("compareWith", "Compare with")</label>
+                          <div class="col-xs-12">
+                            <input type="text" id="product-compare" data-group='@GetValue("Ecom:Group.ID")' produs='@GetValue("Ecom:Product.ID")' numar='@GetValue("Ecom:Product.Number")' nume='@GetValue("Ecom:Product.Name")' imagine='@GetValue("Ecom:Product.ImageLarge.Clean")' class="form-control " placeholder='@Translate("insertModelName", "Insert model name or a keyword")' />
+                            
+                            <div id="compare_results"></div>
+                          </div>                    
+                       </div>
+                    </div>  
+
+
+
+                   <div class="col-xs-12">
+                  <div class="col-md-6 text-center"> 
+                         <button class="btn btn-primary" id="buton-modal-cere-detalii" data-toggle="modal" data-target="#modalformularoferta1" style="">CERE DETALII SAU OFERTA</button>                   
+                         <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true" style="background-color:rgba(255,255,255, 0.7);">
+                         <div class="modal-dialog modal-sm">
+                         <div class="modal-content" >
+                                 @RenderParagraphContent(120)
+                         </div>
+                         </div>
+                         <div class="modal-footer">
+                                         <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
+                         </div>
+                         </div>
+                    </div>  
+               <div class="col-md-6"> 
+          
+                      @if(!String.IsNullOrEmpty(GetString("Ecom:Product:Field.FisaTehnicaProdus.FullPath"))){
+
+                              if(@userIsLoggedIn == true ){
+
+                              <a class="btn btn-primary" target="_blank" href='@GetString("Ecom:Product:Field.FisaTehnicaProdus.FullPath")'>DESCARCA FISA TEHNICA</a>  
+
+                              }else{
+
+                                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNelogat">
+                                           DESCARCA FISA TEHNICA
+                                  </button>
+                <div class="modal fade bd-example-modal-sm" id="modalNelogat" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true" style="background-color:rgba(255,255,255, 0.7);">
+                                                       <div class="modal-dialog modal-sm">
+                                                       <div class="modal-content" >
+                                                         <div class="modal-nelogat">
+                                                              <p>Pentru download va rugam sa va inregistrati/logati</p>
+                                                           <a class="btn btn-primary" href="/Default.aspx?ID=4256">Log in</a>
+                                                           <a class="btn btn-primary" href="/Default.aspx?ID=4255">Inregistrare</a>
+                                                         </div>
+                                                       </div>
+                                                       </div>
+                                                       <div class="modal-footer">
+                                                                       <button type="button" class="btn btn-primary" data-dismiss="modal" >Inchide Formularul</button>
+                                                       </div>
+                                </div>
+
+
+                              }
+
+                       }
+                   </div>
+                 </div>
+                    
+
+                 </div>
+          
+                  
+            </div>
+         </div>
+
+           <div class="row product-tabs-row">
+           <div class="col-xs-12">
+              <ul class="tabs" style="width:100%!important;">
+                <li class="active" rel="tab1">@Translate("product description", "Descriere Produs")</li>
+                <li  rel="tab2">@Translate("manufacturer", "Producator")</li>   
+                <li  rel="tab3">@Translate("Furnizor", "Furnizor")</li>   
+                <li  rel="tab4">@Translate("Reviewuri", "Reviewuri")</li>   
+               @* <li  rel="tab5">@Translate("Intrebari/Raspunsuri", "Intrebari/Raspunsuri")</li>   *@
+                  
+
+                  
+              </ul>
+
+               <div class="tab_container">
+                   @*    <h3 class="d_active tab_drawer_heading" rel="tab1"></h3>*@
+                     <div id="tab1" class="tab_content">
+                                <h3>Descriere</h3>
+                              <p>@longDescription</p>
+
+                              <h3>Specificatii</h3>
+
+                              
+
+
+                               
+                    </div>
+               </div>
+               <div class="tab_container">
+                     
+                              <div id="tab2" class="tab_content">      
+
+                                <div class="row productpage-manufacturer">
+                                 
+                                  <div class="col-xs-6">
+                                    <p>Producator: &nbsp @manufacturer</p>
+                                     
+                                  </div>
+                                  <div class="col-xs-6">
+                                      <img src="@manufacturerLogo" alt="">
+                                  </div>
+                                @*  <div class="col-xs-12">
+                                      <p>Adresa: &nbsp @manufacturerAddress</p>
+                                      <p>Oras: &nbsp @manufacturerCity</p>
+                                      <p>Tara: &nbsp @manufacturerCountry</p>
+                                      <p>Telefon: &nbsp @manufacturerPhone</p>
+                                      <p>Email: &nbsp @manufacturerEmail</p>
+                                      <p>@manufacturerDescription</p>
+                                  </div>*@
+
+
+
+                                </div>
+                                
+                               
+                              </div>
+                </div>
+                <div class="tab_container">
+                       @*<h3 class="tab_drawer_heading" rel="tab3"></h3>*@
+                              <div id="tab3" class="tab_content">             
+                                 
+                                  <div class="row">
+                                    <div class="col-xs-12 vandut-de">
+                                    @*  @if(GetString("Ecom:Product:Field.Dealeri") !=""){
+                                                    <p>Produs vandut de: &nbsp</p>
+                                                    <p><span>@GetString("Ecom:Product:Field.Dealeri")</span></p>
+                                                }*@
+                                    @if(companii != null && companii.Count() > 0){   
+                                                 <p>Produs vandut de: &nbsp</p>
+                                                    foreach (var companie in companii) {  
+                                                        if(!String.IsNullOrEmpty(companie.Id)){
+                                                   			string PageLinkRaw = companie.PageLink;
+  															string PageLink= !String.IsNullOrEmpty(PageLinkRaw) ? PageLinkRaw : "/companie?companyID=@(companie.Id)" ;
+
+                                                            if(!String.IsNullOrEmpty(companie.PageLink)){
+                                                                 <p style="margin-bottom:15px;"> <a href="@companie.PageLink" target="_blank"><span>@companie.Name &nbsp</span></a></p> 
+                                                            }else{ 
+                                                                <p style="margin-bottom:15px;"> <a href="/companie?companyID=@(companie.Id)" target="_blank"><span> @companie.Name  &nbsp</span></a></p>
+                                                            }  
+                                                         }
+                                                     }                   
+                                        }else{
+                                                if(GetString("Ecom:Product:Field.Dealeri") !=""){
+                                                    <p>Produs vandut de: &nbsp</p>
+                                                    <p><span>@GetString("Ecom:Product:Field.Dealeri")</span></p>
+                                                }
+                                        }              
+                                      </div>
+                                  </div>
+
+                               
+                              </div>
+                </div>
+
+                <div class="tab_container">
+                       @*<h3 class="tab_drawer_heading" rel="tab3"></h3>*@
+                              <div id="tab4" class="tab_content">             
+                                  
+                                <h3>Review-uri</h3>
+                                <div class="review-tab">
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <h4>Fii primul care scrie un review</h4>
+                                            <p>Acorda o nota</p>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <form method="post" action="/Admin/Public/404.aspx" id="review-form-custom" onsubmit="return comment_validate()">
+                                                <input type="hidden" name="Comment.Rating" id="Comment.Rating" value="">
+                                                <div class="form-group">
+                            
+                                                    <ul class="list-inline d-sm-inline pl-3">
+                                                        <li class="list-inline-item js-star-rating" data-rating="1"><i class="fa fa-star fa-2x" aria-hidden="true"></i></li>
+                                                        <li class="list-inline-item js-star-rating" data-rating="2"><i class="fa fa-star fa-2x" aria-hidden="true"></i></li>
+                                                        <li class="list-inline-item js-star-rating" data-rating="3"><i class="fa fa-star fa-2x" aria-hidden="true"></i></li>
+                                                        <li class="list-inline-item js-star-rating" data-rating="4"><i class="fa fa-star fa-2x" aria-hidden="true"></i></li>
+                                                        <li class="list-inline-item js-star-rating" data-rating="5"><i class="fa fa-star fa-2x" aria-hidden="true"></i></li>
+                                                    </ul>
+                                                  </div>
+
+                                            </form>
+
+                                            <button class="btn-primary btn">Adauga un review</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                              </div>
+                </div>
+                
+               @*<div class="tab_container">
+                       <h3 class="tab_drawer_heading" rel="tab3"></h3>
+                              <div id="tab5" class="tab_content">             
+                                  
+                                  <h3>Intrebari/Raspunsuri</h3>
+                                  <div class="intrebari-tab">
+                                      <div class="row">
+                                          <div class="col-md-6">
+
+                                              <h4>Ai nelamuriri?</h4>
+                                              <p>Pune o intrebare si poti primi raspuns de la comunitate</p>
+                                          </div>
+                                          <div class="col-md-6">
+                                          <button class="btn-primary btn">Pune o intrebare</button>
+                                          </div>
+                                      </div>
+                                  </div>   
+
+
+                               
+                              </div>
+                </div>*@
+
+
+                
+
+           </div>
+           </div>
+
+    @{int count = 0;}
+    <div class="row alte-produse-row">
+        @if(GetLoop("eCom:Related.MoreFromSameManufacturer").Any()){
+            <div class="col-xs-12">
+                <h4>Produse de acelasi brand/producator</h4>
+            </div>
+            foreach(LoopItem i in GetLoop("eCom:Related.MoreFromSameManufacturer")){
+                if(count < 4){  
+                    
+                    string img = i.GetString("Ecom:Product.ImageLarge.Default.Clean");
+
+                    string mainImage = !string.IsNullOrEmpty(img) ? GetImage(img, 255, 168) + "&bgcolor=white"  : "/Files/Images/NoImage/255x168.png";  
+                    string link = i.GetString("Ecom:Product.Link.Clean");
+                    string noImage = "/Files/Images/no-image.png";
+
+                    <div class="col-xs-3">
+                        <img src="@mainImage" alt='' class="img-responsive"/> 
+                        <div class="alte-produse-link text-center">
+                            <a href="@link" >Vezi detalii</a>
+                        </div>
+                    </div>
+
+
+                }
+                count++;
+            }
+        }
+    </div>
+
+
+                 
+    </div>
+</div>
+
+
+@Include("../../Custom/CompareBox.cshtml")
+                  <!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-26068739-1', 'auto');
+
+
+// START DIMENSIUNI
+
+// DIMENSIUNI PENTRU I Buy Smart
+var dw_ibs_categorie = '@grupName';
+var dw_ibs_producator = '@manufacturer';
+var dw_ibs_dealer = '@GetString("Ecom:Product:Field.Dealeri")';
+var dw_ibs_promovat = '@produsPromovat';
+
+ga('set', 'dimension4', dw_ibs_categorie);
+ga('set', 'dimension5', dw_ibs_producator);
+ga('set', 'dimension6', dw_ibs_dealer);
+ga('set', 'dimension10', dw_ibs_promovat);
+
+// END DIMENSIUNI
+
+
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5941501b1be8de2c"></script> 
+
+<script src="Files/Templates/Designs/TTonline/assets/js/compare.js"></script>
+                       
+             

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Index Type="Dynamicweb.Indexing.Index, Dynamicweb.Indexing" Name="Articole.index">
+  <Settings />
+  <Instances Balancer="Dynamicweb.Indexing.Balancing.LastUpdated">
+    <Instance Name="A" Type="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene">
+      <Folder>A</Folder>
+    </Instance>
+    <Instance Name="B" Type="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene">
+      <Folder>B</Folder>
+    </Instance>
+  </Instances>
+  <Builds Type="Dynamicweb.Content.ContentIndexBuilder, Dynamicweb">
+    <Build Name="Articole" Action="Full">
+      <Notification SendLog="false" NotificationType="Never" />
+    </Build>
+  </Builds>
+  <Schema>
+    <Fields>
+      <Extension Type="Dynamicweb.Content.ContentIndexSchemaExtender, Dynamicweb" Stored="false" Analyzed="false" Indexed="false">
+        <Exclude Field="Dw_Page_Taguri" />
+      </Extension>
+      <Field Source="Dw_Page_Taguri" Name="Dw_Page_Taguri" SystemName="Dw_Page_Taguri" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Dw_Page_Autori" Name="ListaAutori" SystemName="ListaAutori" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Dw_Page_Relevanta_geografica" Name="RelevantaGeografica" SystemName="RelevantaGeografica" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Dw_Page_De_Companie" Name="Companie" SystemName="Companie" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+    </Fields>
+    <FieldTypes>
+      <FieldType Name="CommaSeparated" Type="System.String[]" Boost="">
+        <Analyzer Provider="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene">Lucene.Net.Analysis.Ext.SingleCharTokenAnalyzer, Lucene.Net.Contrib.Core</Analyzer>
+      </FieldType>
+    </FieldTypes>
+  </Schema>
+  <Meta />
+</Index>

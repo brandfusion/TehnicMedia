@@ -1,0 +1,39 @@
+﻿@using System.Web
+
+@{ 
+
+
+string ParametruGrupB = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["GroupID"]) ? System.Web.HttpContext.Current.Request.Params["GroupID"].ToString() : "";
+string ParametruProducatorB = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Producator"]) ? System.Web.HttpContext.Current.Request.Params["Producator"].ToString()  : "";
+string ParametruDealerB = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Dealer"]) ?  System.Web.HttpContext.Current.Request.Params["Dealer"].ToString()  : "";
+string ParametruDealerBDecodat = HttpUtility.UrlDecode(ParametruDealerB);
+string ParametruSubgrupB = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Subcategorie"]) ? System.Web.HttpContext.Current.Request.Params["Subcategorie"].ToString()  : "";
+string ParametruProdusB = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["productid"]) ? System.Web.HttpContext.Current.Request.Params["productid"].ToString()  : ""; 
+string GroupName = !string.IsNullOrEmpty(GetString("Ecom:Group.Name")) ? GetString("Ecom:Group.Name") : "";
+string GroupId = !string.IsNullOrEmpty(GetString("Ecom:Group.Category.ID")) ? GetString("Ecom:Group.Category.ID"): "";
+string SubgrupNameRaw = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Subcategorie"]) ? System.Web.HttpContext.Current.Request.Params["Subcategorie"] : "";
+string SubgrupName = SubgrupNameRaw == "Metale" ?  "Metale: (table, sarma, bare, tevi, pulberi etc.)": SubgrupNameRaw =="Fluide" ? "Fluide si gaze industriale": SubgrupNameRaw =="Emulsii" ? "Emulsii si lichide de racire": SubgrupNameRaw =="Protectie" ? "Echipamente de protectie": SubgrupNameRaw =="Subcontractare" ? "Productie (Subcontractare)" : SubgrupNameRaw =="Cercetare" ?  "Cercetare, dezvoltare": SubgrupNameRaw =="Mentenanta" ? "Mentenanta, reparatii, retrofit": SubgrupNameRaw =="Proprietate" ? "Proprietate intelectuala": SubgrupNameRaw =="Parcuri" ? "Parcuri Industriale" : SubgrupNameRaw =="Medicina" ? "Medicina muncii" : SubgrupNameRaw =="UtilajeConstructii" ? "Echipamente si utilaje pentru constructii": SubgrupNameRaw =="ChimicPetrolier" ? "Utilaj chimic, petrolier": SubgrupNameRaw =="ChimicPetrolier" ? "Utilaj chimic, petrolier" : SubgrupNameRaw =="Reciclare" ? "Tehnologii si utilaje pentru protectia mediului si reciclare" :  SubgrupNameRaw =="Birouri" ? "Dotari spatii industriale si birouri, spatii de lucru, curatenie industriala" : SubgrupNameRaw; 
+ 
+
+ }
+
+
+@if(string.IsNullOrEmpty(ParametruProducatorB) &&  string.IsNullOrEmpty(ParametruDealerB)){
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+    <div class="breadcrumb-container">
+      <ul class="breadcrumb" id="breadCrumbsMenu" style=" margin-top: 0px; margin-bottom: 3px;">
+          <ul id="breadCrumbsMenu2" class="dwnavigation" settings="startlevel:1;endlevel:6;template:Breadcrumb.xslt;expandmode:Pathonly;includemode:all;id:breadCrumbsMenu2;"></ul>
+        <li><a href="/ibuysmart">I Buy Smart</a></li>
+       		 <li>
+               @(GroupName != "" ? (GroupName) : "")  @(SubgrupName != "" ? " / " : "") @(SubgrupName != "" ? (SubgrupName)  : "") @(ParametruProducatorB != "" ? " / "  : "")  @(ParametruProducatorB != "" ? "Nume Producator / " : "")  @(ParametruDealerB != "" ? "<span>Furnizor</span>:" : "")  @(ParametruDealerB != "" ?  ParametruDealerBDecodat  : "")  
+        	 </li>
+          									
+      </ul>
+    </div>
+  </div>
+
+}
+
+
+
+

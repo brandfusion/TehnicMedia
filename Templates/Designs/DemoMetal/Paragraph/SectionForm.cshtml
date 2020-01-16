@@ -1,0 +1,26 @@
+﻿@{
+	string title = GetString("ParagraphHeader");
+	string text = GetString("ParagraphText");
+}
+
+<div class="container pb94">
+	<div id="form-expozanti" class="eight columns">
+		<div class="jx-section-title-1 mb40">
+			<div class="jx-pre-title jx-short-border">
+				<div class="jx-title-border left" style="background: #000;"></div>
+				<div class="jx-title-icon"><i class="fa fa-envelope-o" style="color: #000 !important"></i></div>
+				<div class="jx-title-border right" style="background: #000;"></div> 
+			</div>
+			<div class="jx-title" style="color: #000;">@title</div>
+		</div>
+
+		@GetString("ParagraphModule")
+
+	</div>
+	<div class="argumente eight columns">
+      	<div class="argumente-container">
+          <div class="argumente-title">Argumente</div>
+          <div class="argumente-text">@text</div>
+      	</div>
+	</div>
+</div>

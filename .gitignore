@@ -1,0 +1,27 @@
+
+*.cfs
+*.eml
+*.cfx
+System/Indexes/Articole/Articole/A/segments_bs4
+*.gen
+System/Indexes/Articole/Articole/B/segments_86k
+System/Indexes/Evenimente/Evenimente/Evenimente/segments_b
+System/Indexes/Evenimente/EvenimenteNationale/Evenimente/segments_yd
+System/Indexes/Evenimente/Evenimente1/EvenimenteNou/segments_o
+System/Indexes/Evenimente/EvenimenteNou/EvenimenteNou/segments_7
+System/Indexes/Evenimente/EvenimenteNou/EvenimentNou/segments_4
+System/Indexes/Products/Produse/A/segments_hy
+System/Indexes/Products/Produse/B/segments_g7
+System/Indexes/SQL Indexes/ArticoleSQL/A/segments_7
+System/Indexes/Companii/Companii/A/segments_1gl6
+System/Indexes/SQLIndexes/ArticoleSQL/A/segments_6
+System/Indexes/Taguri/Taguri/A/segments_26
+*.png
+*.gif
+*.jpg
+*.xml
+*.ttf
+*.svg
+*.woff
+*.eot
+*.woff2

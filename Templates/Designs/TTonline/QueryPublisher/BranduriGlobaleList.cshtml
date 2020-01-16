@@ -1,0 +1,269 @@
+﻿@using System.Linq;
+@using System.Web;
+@using System.Text.RegularExpressions
+@using Dynamicweb.Ecommerce
+@Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/VerifyImage.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@{
+
+            
+            string activeURL = "/Default.aspx?ID=4218&PID=139&PageNum="+ GetString("DwPaging.CurrentPage"); 
+
+            List <LoopItem> sectiuniCompanii = new List<LoopItem>();
+            List <LoopItem> indexCompanii = new List<LoopItem>();
+            List <LoopItem> tipCompanii = new List<LoopItem>();
+            List <LoopItem> locatiiCompanii = new List<LoopItem>();
+            List <LoopItem> nationalitateCompanii = new List<LoopItem>();
+            List <string> letters = new List<string>{"0","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+                
+            foreach (LoopItem parameter in GetLoop("FacetGroups"))
+            {   
+                foreach (LoopItem facet in parameter.GetLoop("Facets")) {
+                    if (facet.GetString("Facet.Name") == "Sectiune") {
+                        sectiuniCompanii = facet.GetLoop("FacetOptions");
+                    }
+        
+                    if (facet.GetString("Facet.Name") == "Index") {
+                        indexCompanii = facet.GetLoop("FacetOptions");
+                    }
+                    
+                    if (facet.GetString("Facet.Name") == "Tip") {
+                        tipCompanii = facet.GetLoop("FacetOptions"); 
+                    }
+
+                    if (facet.GetString("Facet.Name") == "Locatie") {
+                        locatiiCompanii = facet.GetLoop("FacetOptions");
+                    }
+
+                    if (facet.GetString("Facet.Name") == "Nationalitate") {
+                        nationalitateCompanii = facet.GetLoop("FacetOptions");
+                    }
+                }        
+            }
+
+
+            string querySectiune = HttpContext.Current.Request.QueryString["GroupID"];
+            string queryRelevantaGeografica = HttpContext.Current.Request.QueryString["Geo"];
+            string pageID = HttpContext.Current.Request.QueryString["ID"];
+            string pagelink = GetString("DwPaging.FirstPageLink");
+            string queryNationalitate = HttpContext.Current.Request.QueryString["Nationalitate"];
+            string queryTip = HttpContext.Current.Request.QueryString["Tip"];
+            
+}
+
+<style>
+  .totulAlbastru{background-color:#99ccff!important; color:white;}
+  .totulAlbastru:hover {color: #fff!important;
+    background-color: #204d74!important;
+    border-color: #122b40!important;}
+</style>
+<div class="col-xs-12 activate-tooltip-for-global-brands">
+    
+
+    
+<!--
+    <div class="filtrare companii-background" data-page-id="@pageID" data-page-link="@pagelink"><div class="row">
+        <div class="sortare-companii col-xs-12">  
+          <div class="row panel-group" id="parent-filtrare" aria-multiselectable="true"  role="tablist">
+            <div class="col-xs-12">
+
+                      <div class="col-xs-6 col-lg-3 col-sortare" >
+                            <select name="CategoryID" class="totulAlbastru">
+                              <option value="DefaultValue" selected data-groupid="DefaultValue">Filtreaza dupa categorile de produse</option>
+                                @foreach(LoopItem sectiune in sectiuniCompanii) {
+                                    string facetName ="";
+                                    string facetValue = sectiune.GetString("FacetOption.Value");
+                                    var facetGroup = Dynamicweb.Ecommerce.Products.Group.GetGroupById(facetValue);
+                                    string facetGroupName = facetGroup != null ? facetGroup.Name : "Toate Categoriile";
+                                    string facetCount = sectiune.GetString("FacetOption.Count");
+                                    bool isSelected = facetValue == querySectiune ? true : false;
+
+                                    if (facetValue == "") {
+                                        facetValue = "Toate Categoriile";
+                                    }
+
+                                    if (isSelected == true) {
+                                        <option value="@facetValue" selected data-groupid="@facetValue">@facetGroupName (@facetCount)</option>
+                                    }
+                                    else {
+                                        <option value="@facetValue" data-groupid="@facetValue">@facetGroupName (@facetCount)</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                    <div class="col-xs-12 col-sm-6 col-lg-3 col-sortare" >
+                        <button class="btn btn-primary buton-afisare-filtru totulAlbastru"   data-target="nationalitate">Nationalitate<span class="caret" style="margin-left: 10px;"></span></button>
+                    </div>    
+
+                    <div class="col-xs-12 col-sm-6 col-lg-3 col-sortare" >
+                        <a class="btn btn-primary buton-afisare-filtru totulAlbastru" href="/Default.aspx?ID=8376" >Branduri globale</a>
+                    </div>  
+
+                    <div class="company-search col-xs-12 col-sm-6 col-lg-3">
+                    
+                        <input type="text" name="" placeholder="Cauta o companie"></input><button style="background-color:#99ccff!important;"><i class="fa fa-search"  aria-hidden="true"></i></button>
+                  
+                     </div>
+             </div>
+
+
+             <div class="col-xs-12">
+
+                <div class="col-lg-offset-9 col-xs-12 col-sm-6 col-lg-3 col-sortare col-resetare-companii">
+              
+                <a class=""  href="/Default.aspx?ID=@pageID" id="btn-resetare-filtre">Resetare Filtre</a>
+               
+                </div>
+
+
+             </div>
+
+             <div class="col-xs-12">
+
+                    <div class="col-xs-6 col-lg-3 col-sortare" >
+                        <select name="SortareNrProduse" style="background-color:#99ccff!important;  color:white;">
+                            <option>Ordonare</option>
+                            <option value="ASC">Ordoneaza dupa Nume A-Z</option>
+                            <option value="DESC">Ordoneaza dupa Nume Z-A</option>
+                        </select>
+                    </div>
+
+
+                    <div class="sortare-litere col-xs-12 col-sm-9" data-page-id="@pageID">
+
+                        @foreach(string letter in letters) { 
+                            if(letter == "0"){ 
+                            <a href="" data-letter="@letter" style="color:white;">( 0 - 9 )</a>
+                            }else{
+                                            <a href="" data-letter="@letter" style="color:white;">@letter</a>
+                            }
+                        }
+                    </div>
+
+             </div>
+
+            
+
+
+            @*
+            <div class="col-xs-12 col-sm-6 col-lg-3 col-sortare"  >
+                <button class="btn btn-primary buton-afisare-filtru totulAlbastru"  data-target="relevanta-geografica">Relevanta Geografica<span class="caret" style="margin-left: 10px;"></span></button>
+            </div>
+            
+            *@    
+
+             @* 
+             <div class="col-xs-12 col-sm-6 col-lg-3 col-lg-offset-6 col-sortare" >
+              <button class="btn btn-primary buton-afisare-filtru totulAlbastru"  data-target="TipCompanie">Tip Parteneri<span class="caret" style="margin-left: 10px;"></span></button>
+            </div>
+            *@
+  
+            
+    </div>
+            <div id="relevanta-geografica" class="hide sibling" style="margin: 1em;">
+                <form name="Geo" style="color:white;">
+                    @foreach(LoopItem locatie in locatiiCompanii) {
+                        string facetName = "";
+                        string facetValue = locatie.GetString("FacetOption.Value");
+                        string facetCount = locatie.GetString("FacetOption.Count");
+                 
+
+                        if (facetValue != "") {
+                            <input type="checkbox" name="@facetValue">
+                            <label style="margin-right: 10px;">@facetValue (@facetCount)</label>    
+                        }
+                    }
+                </form>
+
+                <button id="btn-filtrare-geo" class="btn btn-primary totulAlbastru">Filtrare</button>
+                <button id="btn-toate-categoriile-geo"class="btn btn-primary totulAlbastru">Toate Categoriile</button>
+
+            </div>
+
+                <div id="nationalitate" class="hide sibling" style="margin: 1em;">
+                <form name="Nationalitate" style="color:white;">
+                    @foreach(LoopItem nationalitate in nationalitateCompanii) {
+                        string facetName = "";
+                        string facetValue = nationalitate.GetString("FacetOption.Value");
+                        string facetCount = nationalitate.GetString("FacetOption.Count");
+
+                        if (facetValue != "") {
+                            <input type="checkbox" name="@facetValue">
+                            <label style="margin-right: 10px;">@facetValue (@facetCount)</label>    
+                        }
+                    }
+                </form>
+
+                <button id="btn-filtrare-nationalitate" class="btn btn-primary totulAlbastru">Filtrare</button>
+                <button id="btn-toate-categoriile-nationalitate"class="btn btn-primary totulAlbastru">Toate Categoriile</button>
+
+            </div>
+                
+        </div>
+
+
+        
+
+
+    </div></div>
+-->
+
+@Include("ToateBrandurile.cshtml")
+
+
+
+
+<script>
+
+  $(function(){
+
+    function getURL(url) {
+        name = url.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]').replace("&amp;" , "&").replace("&amp;" , "&");
+
+        return name;
+    }
+
+    // get URL value
+    var query = getURL("@activeURL").substring(1);
+    var listOfLi =  $("ul.pagination.pagination-sm li a");
+
+    console.log(query);
+
+
+    // if the URL does not contains 'page' , make the first li active
+    // if(query.indexOf("PageNum") != 0) {
+    //   $("ul.pagination.pagination-sm li:first").addClass("active");
+    // }
+
+
+    var firstTimeOnPage = _.includes(query , "PageNum");
+
+    console.log(firstTimeOnPage);
+
+    // if(!firstTimeOnPage) {
+    //  $("ul.pagination.pagination-sm li").eq(0).addClass("active");
+    // }
+
+
+    if(query == "Default.aspx?ID=4218&PID=139&PageNum=1") {
+        $("ul.pagination.pagination-sm li").eq(0).addClass("active");
+    }   
+
+    // check if URL value is equal to any of li's URL value
+    _.map(listOfLi , function(obj){
+      var liURL = $(obj).attr("href").replace("/" , "");    
+
+      if(liURL == query) {
+        $(obj).parent().addClass("active");
+      }
+
+    }); 
+
+  });
+
+
+</script> 
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>  

@@ -1,0 +1,41 @@
+﻿<div class="col-xs-6">
+  <article class="news-block small-block" style="margin-bottom: 110px;">
+    <a href="@articleLink" class="overlay-link">
+    <figure class=" ">
+      <img src="@articleImage" alt="@articleTitle" class="img-responsive" />
+    </figure>
+    </a>
+
+   <a href='/Default.aspx?ID=@articleSectiuneID' class="bg@(articleSectiuneID) category">@articleSectiune</a>
+    <header class="news-details">
+     
+      <h3 class="news-title"><a href="@articleLink">@articleTitle</a></h3> 
+      <p class="simple-share">
+        @foreach (var articleSection in articleSections)
+        {
+            <a href="#">@articleSectiune</a>
+        }
+
+        @Translate("articolde","de")
+
+        @{
+        	int counterAutori = 0;
+            foreach (var articleAutor in articleAutori)
+            {
+                <a href="@articleAutor.Link">  @articleAutor.Name @(counterAutori < articleAutori.Count() - 1  ? "," : "")</a>
+                ++counterAutori;
+            }
+        }
+<br/>
+        <span><i class="fa fa-clock-o"></i> @articleDate.ToString("D")</span>
+        @if (itemConditionVisits) {    
+          <span><i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+        } 
+      </p>
+      
+    </header>
+
+   
+
+  </article>
+</div>

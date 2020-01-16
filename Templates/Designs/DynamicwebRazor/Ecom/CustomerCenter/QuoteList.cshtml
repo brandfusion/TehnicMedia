@@ -1,0 +1,57 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@SnippetStart("StyleSheet")
+<style>
+    .quote.list tbody tr {
+        cursor: pointer;
+    }
+</style>
+@SnippetEnd("StyleSheet")
+
+<div class="customer-center quote list">
+    @{
+        var quotes = GetLoop("Quotes");
+
+        if (quotes.Count == 0)
+        {
+            <div class="alert alert-info">@Translate("No quotes found")</div>
+        }
+        else
+        {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>@Translate("Quote Id")</th>
+                        <th class="date">@Translate("Date")</th>
+                        <th class="price">@Translate("Price")</th>
+                        <th>@Translate("Payment method")</th>
+                        <th>@Translate("Shipping method")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var quote in quotes)
+                    {
+                        <tr data-href='@quote.GetValue("Ecom:CustomerCenter.Quotes.QuoteDetailsURL")'>
+                            <td>@quote.GetValue("Ecom:Order.ID")</td>
+                            <td class="date">@quote.GetDate("Ecom:Order.Date")</td>
+                            <td class="price">@quote.GetValue("Ecom:Order.OrderLines.Total.Price")</td>
+                            <td>@quote.GetValue("Ecom:Order.PaymentMethod")</td>
+                            <td>@quote.GetValue("Ecom:Order.ShippingMethod")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <script>
+                (function () {
+                    // @@see http://stackoverflow.com/questions/17147821/how-to-make-a-whole-row-in-a-table-clickable-as-a-link
+                    var items = document.querySelectorAll('.quote.list tbody tr');
+                    for (var i = 0, item; item = items[i]; i++) {
+                        item.addEventListener('click', function (evt) {
+                            document.location = this.getAttribute('data-href');
+                        });
+                    }
+                }())</script>
+        }
+    }
+</div>

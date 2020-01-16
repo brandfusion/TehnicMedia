@@ -1,0 +1,41 @@
+﻿<article class="simple-post simple-big clearfix col-md-12 separator-articole">
+    <div class="simple-thumb" style="width:255px" >
+        <a href="@articleLink">
+          <figure class="">
+                  @if(!String.IsNullOrEmpty(articleImageRaw)){
+     				 <img src="@articleImage" />
+     			 }else{
+    				 <img src="/Files/Images/NoImage/255x168.png" /> 
+     			 }
+            <!--<img src="/Admin/Public/GetImage.ashx?Image=@articleImage&altFmImage_path=/Files/Images/NoImage/350x230.png&Format=jpg&Width=350&Height=230&Crop=5" alt="@articleTitle" class="img-responsive" />-->
+          </figure>
+        </a>
+    </div>
+    <header>
+        <p class="simple-share">
+            @foreach (var articleSection in articleSections)
+            {
+                <a href="@articleSection.Link">@articleSection.Name</a>
+            }
+
+            @Translate("articolde","de") 
+
+            @foreach (var articleAutor in articleAutori)
+            {
+                <a href="@articleAutor.Link">@articleAutor.Name</a>
+            } 
+            
+            <span><i class="fa fa-clock-o"></i> @articleDate.ToString("D")</span>
+
+            @if (itemConditionVisits) {    
+              <span><i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+            } 
+
+        </p>
+        <h3 style="font-size: 18px; min-height:50px; max-height: 50px; overflow: hidden;">
+            <a href="@articleLink">@articleTitle</a>
+        </h3>
+        <div class="excerpt" style="min-height:80px; max-height:80px; overflow:hidden;" >@articleExcerpt</div>
+<br/>
+    </header>
+</article>

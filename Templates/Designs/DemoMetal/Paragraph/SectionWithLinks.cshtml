@@ -1,0 +1,34 @@
+﻿@{
+	string image = GetString("Item.Image");
+	string title = GetString("Item.Title");
+	string text = GetString("Item.Text");
+	string icon = GetString("Item.Icon");
+	string align = GetString("Item.Alignment");
+}
+
+<div class="container mt30 pb94">
+
+			<div class="eight columns @align">
+				<img src="@image">
+			</div>
+
+			<div class="seven columns">
+
+    	<div class="jx-section-title-1 mb40">
+            <div class="jx-pre-title jx-short-border">
+                <div class="jx-title-border left"></div>
+                <div class="jx-title-icon"><i class="fa fa-@icon" style="color: #000 !important;"></i></div>
+                <div class="jx-title-border right"></div> 
+            </div>
+            <div class="jx-title">@title</div>
+     
+
+      <div class="service-description mb20">
+				<div class="jx-subtitle">@text</div>
+			</div>
+		 </div>
+			
+
+		</div>
+
+  </div>

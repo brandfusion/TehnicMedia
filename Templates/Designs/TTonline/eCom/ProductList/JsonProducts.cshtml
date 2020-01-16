@@ -1,0 +1,46 @@
+﻿
+
+[	
+	@{
+		int loopCount =  GetLoop("Products").Count();
+
+	}
+
+	@foreach (var product in GetLoop("Products")) {
+		
+		string id = product.GetString("Ecom:Product.ID");
+		string name = product.GetString("Ecom:Product.Name");
+		string price = product.GetString("Ecom:Product.Price");
+		string link = product.GetString("Ecom:Product.Link.Clean");
+		string image = product.GetString("Ecom:Product.ImageLarge.Default.Clean");
+		string number = product.GetString("Ecom:Product.Number");
+		int counter = product.GetInteger("Products.LoopCounter");
+		
+		if (counter == loopCount) {
+			<text>
+			{
+				"id": "@id",
+              	"name": "@name",
+              	"price": "@price",
+              	"link": "@link",
+              	"image": "@image",
+              	"number": "@number"
+              
+			}
+			</text>
+		}
+		else {
+			<text>
+			{
+				"id": "@id",
+              	"name": "@name",
+              	"price": "@price",
+              	"link": "@link",
+              	"image": "@image",
+              	"number": "@number"
+            
+			},
+			</text>
+		}
+	}
+]

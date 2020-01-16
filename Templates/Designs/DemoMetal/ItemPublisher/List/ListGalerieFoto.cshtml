@@ -1,0 +1,33 @@
+@if (GetBoolean("ItemPublisher:Items.Any")) {
+
+	foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")) {
+
+		string title = item.GetString("ItemPublisher:Item.Title");
+		string url = item.GetString("ItemPublisher:Item.Url");
+
+		<div class="container galerie-foto">
+
+			<div class="title">@title</div>
+			<div class="imagini-galerie">
+
+				@foreach(LoopItem i in item.GetLoop("ItemPublisher:Item.ImageList")) {
+
+					string img = i.GetString("ItemPublisher:Item.ImageList.Image");
+
+
+					<div class="imagine-galerie">
+						<img src="@img" />
+					</div>
+
+				}
+
+			</div>
+
+			<div class="service-btn">
+				<a href="@url" class="jx-btn-default"><i class=""></i>Vezi mai mult</a>
+			</div>
+
+		</div>
+	}
+
+}

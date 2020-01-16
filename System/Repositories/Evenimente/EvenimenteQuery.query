@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="3c269f81-4a2a-4135-a0f2-cd5a22b0849f" Name="EvenimenteQuery.query">
+  <Settings />
+  <Source Repository="Evenimente" Item="EvenimenteNationale.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="GreaterThan">
+        <Left>
+          <FieldExpression Field="Eveniment_Data_Inceput" />
+        </Left>
+        <Right>
+          <MacroExpression Lookup="Dynamicweb.Frontend.PageView.Context:DateTime.Now" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Eveniment_Eveniment_National_International" />
+        </Left>
+        <Right>
+          <ConstantExpression Value="True" Type="System.Boolean" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Eveniment_Tara" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Tara" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Eveniment_Oras" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Oras" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Eveniment_Locatie" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Locatie" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Eveniment_Perioada" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Perioada" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Eveniment_An" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="An" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Eveniment_Autor" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Organizator" />
+        </Right>
+      </BinaryExpression>
+    </GroupExpression>
+  </Expressions>
+  <SortOrder>
+    <Sort Field="Eveniment_Data_Inceput" Direction="Ascending" />
+  </SortOrder>
+  <Parameters>
+    <Parameter Name="Tara" Type="System.String" DefaultValue="" />
+    <Parameter Name="Oras" Type="System.String" DefaultValue="" />
+    <Parameter Name="Locatie" Type="System.String" DefaultValue="" />
+    <Parameter Name="Organizator" Type="System.String" DefaultValue="" />
+    <Parameter Name="Perioada" Type="System.String" DefaultValue="" />
+    <Parameter Name="An" Type="System.String" DefaultValue="" />
+  </Parameters>
+  <ViewFields />
+  <ViewLanguages />
+  <Meta />
+  <CompletionRules />
+  <CompletionLanguages />
+</Query>

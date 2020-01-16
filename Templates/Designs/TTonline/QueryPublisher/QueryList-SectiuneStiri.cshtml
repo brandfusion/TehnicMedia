@@ -1,0 +1,113 @@
+﻿@using Dynamicweb.Frontend
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage.cshtml")
+@Include("../Includes/VerifyImage.cshtml")
+@{
+  string verificare = System.Web.HttpContext.Current.Request.Params["Tip"];
+  string verificare2 = System.Web.HttpContext.Current.Request.Params["Companie"];
+  string verificare3 = System.Web.HttpContext.Current.Request.Params["Autor"];
+  int globalPageID = 0;
+}
+
+@if((@verificare == "Stiri") || (@verificare2 != "" && @verificare2 != null) || (@verificare3 != "" && @verificare3 != null)){
+
+	
+      <div>
+          <div class="row">
+             @if (GetLoop("QueryResultItem").Any()) { 
+              foreach (var item in GetLoop("QueryResultItem"))
+              {
+
+                string tip = item.GetString("Dw_Page_Tip");
+                  string description = item.GetString("Dw_Page_Sumar");
+                  string url = "/Default.aspx?ID=" + item.GetInteger("PageId");
+            int idArticole = item.GetInteger("PageId");
+                  DateTime date = item.GetDate("Dw_Page_Data");
+            globalPageID = item.GetInteger("PageParentPageId");
+                  string articleTitle = item.GetString("Dw_Page_Titlu");
+                  string itemAuthor = "";
+                  var articleDate = date;
+                  string articleLink = url;
+                  string articleImageRaw = item.GetString("Dw_Page_ImaginePrincipala");
+                string articleImage= GetImage(articleImageRaw, 350, 230);
+                  string articleExcerpt = item.GetString("Dw_Page_Sumar");
+                  string articleVisits = item.GetString("Dw_Page_Visits");
+                  bool itemConditionVisits = false; // item.GetBoolean("Dw_Page_Vizite");
+                  string itemAutori = item.GetString("Dw_Page_Autori");
+                  string articleSectiune = item.GetString("Dw_Page_SectiuneParinte");
+                  int articleSectiuneID = item.GetInteger("Dw_Page_SectiuneParinteId");
+                  string itemSections = "";
+                  List<Autor> articleAutori = GetAutori(itemAutori);
+                  List<Sectiune> articleSections = GetSectiuni(itemSections);
+
+
+
+                @Include("../Lists/Articole-LP-Sectiune-1col-image-summary-small.cshtml")
+
+
+
+                 }
+             } else
+             {
+                 <h4>Nu exista Stiri</h4>
+             }
+          </div>
+
+      </div>
+
+    
+
+	
+}else{
+      
+if(@verificare != "Articole"){        
+ <div class="row">     
+<h3 class="block-title"><span>Stiri</span></h3>
+ </div>
+ <div>
+    <div class="row">
+       @if (GetLoop("QueryResultItem").Any()) { 
+        foreach (var item in GetLoop("QueryResultItem"))
+        {
+      
+          string tip = item.GetString("Dw_Page_Tip");
+            string description = item.GetString("Dw_Page_Sumar");
+            string url = "/Default.aspx?ID=" + item.GetInteger("PageId");
+      int idArticole = item.GetInteger("PageId");
+            DateTime date = item.GetDate("Dw_Page_Data");
+      globalPageID = item.GetInteger("PageParentPageId");
+            string articleTitle = item.GetString("Dw_Page_Titlu");
+            string itemAuthor = "";
+            var articleDate = date;
+            string articleLink = url;
+            string articleImageRaw = item.GetString("Dw_Page_ImaginePrincipala");
+          string articleImage= GetImage(articleImageRaw, 350, 230);
+            string articleExcerpt = item.GetString("Dw_Page_Sumar");
+            string articleVisits = item.GetString("Dw_Page_Visits");
+            bool itemConditionVisits = false; // item.GetBoolean("Dw_Page_Vizite");
+            string itemAutori = item.GetString("Dw_Page_Autori");
+            string articleSectiune = item.GetString("Dw_Page_SectiuneParinte");
+            int articleSectiuneID = item.GetInteger("Dw_Page_SectiuneParinteId");
+            string itemSections = "";
+            List<Autor> articleAutori = GetAutori(itemAutori);
+            List<Sectiune> articleSections = GetSectiuni(itemSections);
+      
+      
+         
+           @Include("../Lists/Articole-LP-Sectiune-1col-image-summary-small.cshtml")
+         
+      
+      
+           }
+       } else
+       {
+           <h4>Nu exista Stiri</h4>
+       }
+    </div>
+
+</div>
+
+}
+
+}

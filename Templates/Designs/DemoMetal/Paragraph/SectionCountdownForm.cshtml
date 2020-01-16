@@ -1,0 +1,86 @@
+﻿@{
+	DateTime date = GetDate("Item.Date");
+
+	string pName = GetString("Item.ParagraphName"), 
+	 	   	 icon = GetString("Item.Icon"),
+	       title = GetString("Item.Title"),
+	       description = GetString("Item.Description"),
+	       image = GetString("Item.Background_Image"),
+		   	 dateItem = date.ToString("yyyy/MM/dd").Replace(".","/");
+}
+
+<!-- BOF Countdown + Form -->
+	<div  class="jx-container jx-padding container-no-margin   jx-countdown-form">
+			<div class='parallax-no-height'><img src="@image"></div>
+			<!-- Background Image -->
+			
+			<!-- Background Icon -->
+			<div class="container ">
+
+				<div class="jx-section-title-1 mb40" id="formular">
+					<div class="jx-pre-title jx-short-border">
+						<div class="jx-title-border left" style="background: #fff;"></div>
+						<div class="jx-title-icon"><i class="fa fa-@icon" style="color: #fff !important"></i></div>
+						<div class="jx-title-border right" style="background: #fff;"></div> 
+					</div>
+					<div class="jx-title"   style="color: #fff;">@pName</div>
+				</div>
+
+				<div class="jx-half-width left">
+					<div class="jx-section-title-1 mb40">
+						<div class="jx-pre-title jx-short-border">
+							<div class="jx-title-border left" style="background: #fff;"></div>
+							<div class="jx-title-icon"><i class="line-icon icon-pencil" style="color: #fff !important"></i></div>
+							<div class="jx-title-border right" style="background: #fff;"></div> 
+						</div>
+						<div class="jx-title" style="color: #fff;">Cere Detalii</div>
+					</div>
+
+					@GetString("ParagraphModule")
+
+				</div>
+					<!-- EOF Ticket Form -->			
+      
+				<div id="getting-started" class="jx-countdown-box jx-default-bg jx-half-width right" data-time="@dateItem">
+					<h1 style="color: #fff;">@title</h1>
+					<div>@description</div>
+					
+					<div class="jx-countdown">
+						<div class="dsb-theme-wrapper countdown">
+							<div class="dsb-theme">
+								<div class="counter-wrapper">
+									<ul>
+										<li>
+											<div class="days count">00</div>
+											<div class="textDays count-text">Days</div>
+										</li>
+										<li>
+											<div class="hours count">00</div>
+											<div class="textHours count-text">Hours</div>
+										</li>
+										<li>
+											<div class="minutes count">00</div>
+											<div class="textmins count-text">Mins</div>
+										</li>
+										<li>
+											<div class="seconds count">00</div>
+											<div class="textSecs count-text">Secs</div>
+										</li>
+									</ul>
+									<div class="jC-clear"></div>
+								</div>
+							</div>
+						</div>                    
+					</div>
+
+				@* 	<div id="getting-started"></div> *@
+
+				
+				</div>
+
+
+				<!-- EOF Countdown Form -->
+		
+			</div>
+		</div>
+	<!-- EOF Countdown + Form -->

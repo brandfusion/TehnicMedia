@@ -1,0 +1,131 @@
+<script type="text/javascript">
+    var __isFormValid = false;
+    
+	function ValidateForm()
+	{	
+	    if (!__isFormValid)
+	    {
+	        __isFormValid = true;
+		    <!--@News:ValidateFunctions-->
+		}
+		return __isFormValid;
+	}
+	
+	function Preview(fpath)
+	{
+		window.open(fpath,'preview', 'displayWindow,width=200,height=200,scrollbars=yes');
+	}
+	
+</script>
+
+<form method="post" enctype="multipart/form-data" action="<!--@News:Edit.Href-->" onsubmit="return ValidateForm();">
+    <table style="width: 550px;">
+        <tr>
+            <td>
+                <fieldset style="width: 100%; padding: 3px">
+                    <legend>
+                        <!--@News:CategoryName-->
+                    </legend>
+                    <table border="0" cellspacing="0" cellpadding="2" width="100%" id="Table1">
+                        <tr>
+                            <td style="width: 170px;">
+                                Date</td>
+                            <td>
+                                <!--@NewsDate_ctrl-->
+                            </td>
+                            <td style="white-space:nowrap;">
+                                <!--@NewsDate_validator-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Heading</td>
+                            <td>
+                                <!--@NewsHeading_ctrl-->
+                            </td>
+                            <td>
+                                <!--@NewsHeading_validator-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                Teaser text</td>
+                            <td>
+                                <!--@NewsManchet_ctrl-->
+                            </td>
+                            <td>
+                                <!--@NewsManchet_validator-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                News text</td>
+                            <td>
+                                <!--@NewsText_ctrl-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Valid from</td>
+                            <td>
+                                <!--@NewsActiveFrom_ctrl-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Valid to</td>
+                            <td>
+                                <!--@NewsActiveTo_ctrl-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Archive</td>
+                            <td>
+                                <!--@NewsArchive_ctrl-->
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <fieldset style="width: 100%; padding: 3px;">
+                    <legend>Custom fields</legend>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                        <!--@LoopStart(CustomFieldsLoop)-->
+                        <tr valign="top">
+                            <td style="width: 130px;">
+                                <!--@FieldName-->
+                            </td>
+                            <td>
+                                <!--@Control-->
+                            </td>
+                            <td>
+                                <!--@Validator-->
+                            </td>
+                        </tr>
+                        <!--@LoopEnd(CustomFieldsLoop)-->
+                    </table>
+                </fieldset>
+            </td>
+        </tr>
+        <tr align="right">
+            <td>
+                <input class="FrontendButton" id="Submit" name="Submit" type="submit" value="OK" />
+                <input class="FrontendButton" id="Cancel" name="Cancel" type="submit" value="Cancel"
+                    onclick="__isFormValid=true;" />
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="IsPostBack" value="<!--@News:IsPostBack-->" />
+</form>
+
+<!--@LoopStart(Validation)-->
+    <span id="<!--@Validation:Validator.ID-->" <!--@Validation:Validator.Display-->><!--@Validation:Validator.Message--></span>
+<!--@LoopEnd(Validation)-->

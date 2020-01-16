@@ -1,0 +1,51 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@using Dynamicweb;
+@using Dynamicweb.Frontend;
+
+@MasterPageFile("Master.cshtml")
+@GetValue("Title(Catalog Industrial)")
+@GetValue("Description(Catalog Industrial)")
+@{
+
+  string  verificareProdusParametru = System.Web.HttpContext.Current.Request.Params["productid"];
+	 var fullWidth = !string.IsNullOrEmpty(verificareProdusParametru) ? verificareProdusParametru : "col-xs-12 col-md-12";
+  string  verificareProdusParametru1 = System.Web.HttpContext.Current.Request.Params["productid"];
+ 	 var hideSidebar = !string.IsNullOrEmpty(verificareProdusParametru1) ? verificareProdusParametru1 : "Hide";
+	 var fullWidth1 = string.IsNullOrEmpty(verificareProdusParametru) ? verificareProdusParametru : "col-xs-12 col-md-12";
+	string ParametruGrup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System.Web.HttpContext.Current.Request["GroupID"].ToString(): "";
+string ParametruProducator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
+string ParametruDealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
+string ParametruProdus = System.Web.HttpContext.Current.Request["productid"] != null ? System.Web.HttpContext.Current.Request["productid"].ToString(): ""; 
+
+  }
+
+ 
+<div class="row main-body">
+  <!-- <div class="container"> -->
+  
+ @Include("/Files/Templates/Designs/TTonline/eCom/ProductList/BreadcrumbsDealerFurnizor.cshtml")
+ 
+  <div class="@fullWidth @fullWidth1 "> 
+
+    <section class="admag-block">
+      <div class="row">
+        <!--Main Content Begin-->
+        <div class="dwcontent" id="maincontent" title="Main Content" data-settings="unwrap=true"></div>
+        <!--Main Content End-->
+         
+      
+        
+     
+      </div>
+      <div class="row" style="margin-bottom:20px; margin-top:20px;">
+        <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href='@Pageview.Area.Item["Link_Revista"]' alt='@Pageview.Area.Item["Link_Revista.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Revista"]'alt='@Pageview.Area.Item["Banner_Revista.Name"]' /></a></div>
+         <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href='@Pageview.Area.Item["Link_Companii"]' alt='@Pageview.Area.Item["Link_Companii.Name"]' target="blank"><img src='@Pageview.Area.Item["Banner_Companii"]'alt='@Pageview.Area.Item["Banner_Companii.Name"]' /></a></div>
+       </div>
+    </section>
+  </div>
+ 
+
+</div>
+
+<!-- </div> -->

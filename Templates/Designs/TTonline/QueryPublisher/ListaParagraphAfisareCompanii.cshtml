@@ -1,0 +1,42 @@
+﻿@Include("../Custom/GlobalVariables.cshtml")
+
+<div class="row">
+
+
+ test
+
+
+  
+@if(GetBoolean("ItemPublisher:Items.Any")){
+
+
+  	
+  	foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+	
+	string itemImage = item.GetString("ItemPublisher:Item.ImgProfil.Value");
+  	string itemURL = item.GetString("ItemPublisher:Item.DetailsUrl");
+  	string itemName = item.GetString("ItemPublisher:Item.Name.Value"); 
+
+  	
+
+	<div>
+		<article>
+			<div class="col-md-4" style="min-height:250px;text-align:center;dispay:block">
+              
+		                            @if(!string.IsNullOrEmpty(item.GetString("ItemPublisher:Item.ImgProfil.Value"))){
+              
+									<a href='@itemURL'><img src='/Admin/Public/GetImage.ashx?Image=@itemImage&Format=jpg&Width=300&Height=250&Crop=0' alt="@itemName" /></a>
+									}else{
+									<a href='@itemURL'><img src="@areaLayoutPath/assets/img/demo/300x250.png" alt="@itemName" /></a>
+		                            }
+	        	<header>
+	            	<p><a href='@itemURL'>@itemName</a></p>  
+	            </header>
+								
+			</div>
+         </article>
+ 	</div>
+	}
+}
+</div>
+

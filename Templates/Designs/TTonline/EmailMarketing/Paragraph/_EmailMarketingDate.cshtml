@@ -1,0 +1,144 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@Include("../emailMarketingButtonRed.cshtml")
+@Include("../emailMarketingGetImage.cshtml")
+
+@{
+  bool showButton = GetBoolean("Item.ShowReadMoreButton");
+  string title = GetBoolean("Item.ShowTitle") ? GetString("Item.Title") : "";
+  string titleHeading = GetString("Item.HeadingType") != "" ? GetString("Item.HeadingType") : "h2";
+  string titleOrder = GetString("Item.TitleOrder");
+  string image = GetString("Item.Image");
+  string imageTitle = GetString("Item.ImageTitle");
+  string text = GetString("Item.Text");
+  string imageAlignment = GetString("Item.Order");
+  string backgroundColor = GetString("Item.Background");
+  string link = GetString("Item.Link");
+  string linkText = GetString("Item.LinkText");
+  string imageAnchorStart = link != "" ? "<a target=\"_blank\" href=\"" + link + "\">" : "";
+  string imageAnchorEnd = link != "" ? "</a>" : "";
+  string titleAlignment = imageAlignment != "image-top" || image == "" ? "left" : "center" ;
+  string fontFamily = "font-family: Helvetica, Arial, sans-serif; color:#777777; font-weight:normal;";
+  int width = GetInteger("Item.Width");
+  string col = width == 50 ? "324" : "700";
+  bool breakBol = Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) == 100;
+
+  if (GetBoolean("ParagraphContainerIsFirst"))
+	{
+		System.Web.HttpContext.Current.Items["currentColumns"] = 0;
+	}
+	System.Web.HttpContext.Current.Items["currentColumns"] = Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) + width;
+  if(Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) > 100) {
+    System.Web.HttpContext.Current.Items["currentColumns"] = width;
+  }
+  Dictionary<string, string> dict_buttonBlue = new Dictionary<string, string>
+  {
+    {"background", "#ff3c14"},
+    {"color", "#ffffff"},
+    {"font-size", "12px"},
+    {"font-style", "normal"},
+	{"text-align", "left"},
+    {"padding", "5px 20px"}
+  };
+//string tableStart = (breakBol || Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) == 0 || GetBoolean("ParagraphContainerIsFirst") ) ? "<tr align='center' border='0' cellspacing='0' cellpadding='0' width='100%' bgcolor='"+backgroundColor+"' style='"+fontFamily+"'><td align='center'><table class='responsive-table clearLeft' border='0' cellspacing='0' cellpadding='0' width='648'><tr>" : "";
+//string tableEnd = (Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) == 50) ? "</tr><tr><td height='30'></td></tr></table></td></tr>" : "";
+  System.Web.HttpContext.Current.Items["oldColumns"] = System.Web.HttpContext.Current.Items["currentColumns"];
+  string endHeading = "</"+titleHeading+">";
+}
+
+
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+      <td border="0" cellspacing="0" cellpadding="0" style=" @fontFamily" class="responsive-table">
+        <table border="0" cellspacing="0" cellpadding="0" style="@fontFamily" class="responsive-table">
+    	@* <tr>
+            <td height="20" style="font-size: 0; line-height: 1;">&nbsp;</td>
+        </tr> *@
+        @if(title != "" && (titleOrder == "title-first" || titleOrder == "" )){
+          <tr>
+            <td class="cell-padding" align="@titleAlignment" valign="top">
+              <@titleHeading style="font-size:12px; margin:0 0 15px 0; padding:0; font-style:italic; @fontFamily color:#ABACAF; font-weight: 600; line-height: 1.3;">@title @endHeading
+            </td>           
+          </tr>
+        }
+        @if(image != "" && imageAlignment == "image-top"){
+          imageTitle = imageTitle != "" ? imageTitle : title;
+          <tr>
+            <td class="cell-padding" align="center" valign="top">
+              @imageAnchorStart
+              	@if(!String.IsNullOrEmpty(GetString("Item.Image"))) {
+              <img class="img-max" src='@("http://www.brandfusion.ro"+GetImage(image, 700, 0))' alt="@imageTitle" title="@imageTitle" style="display: block; margin: 0 auto; width: 100%;" />
+                }
+               @imageAnchorEnd
+            </td>
+          </tr>
+          
+        }
+
+        @if(text != "" || imageAlignment != "image-top"){          
+          <tr>
+            <td class="cell-padding" align="left" valign="top" style="text-align: center;">
+              <table class="imageAside" colspan="2" border="0" cellspacing="0" cellpadding="0" width="100%" style="@fontFamily ">
+                <tr>
+                  @if(image != "" && imageAlignment == "image-left-column"){
+                    imageTitle = imageTitle != "" ? imageTitle : title;
+                    <td align="left" valign="top">                      
+                      
+                      @imageAnchorStart
+                        @if(!String.IsNullOrEmpty(GetString("Item.Image"))) {
+                          <img class="img-max" src='@("http://www.brandfusion.ro"+GetImage(image, 600, 0))' alt="@imageTitle" title="@imageTitle"/>
+                        }
+                      @imageAnchorEnd
+                    </td>
+                    <td width="10" height="30">&nbsp;</td>
+                  }
+                  @if(text != ""){
+                    <td align="@titleAlignment" valign="top" style="text-align: left; font-size: 14px; line-height: 20px; @fontFamily padding: 0 30px 20px;">
+                      @if( title != "" && titleOrder == "title-with-text" ){
+                  		<div><@titleHeading align="@titleAlignment" style="font-size:12px; margin:0 0 15px 0; padding:0; font-style:italic; @fontFamily color:#ABACAF; font-weight: 600; line-height: 1.3;">@title @endHeading </div>
+                        <br/>
+                      }
+                      @text
+                      @if(link != "" && linkText != "" && showButton){                        
+                 		<table border="0" cellspacing="0" cellpadding="0" width="100%">
+  						  <tr>
+                            <td>
+								<table border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
+                                  <tr>
+                                    <td>
+										@CreateButton(link, linkText, null, dict_buttonBlue)
+									</td>
+                                  </tr>
+                                </table>
+							</td>
+                          </tr>
+                        </table>
+                      }
+                    </td>
+                  }
+                  @if(image != "" && imageAlignment == "image-right-column"){
+                    imageTitle = imageTitle != "" ? imageTitle : title;
+                    <td width="10" height="10">&nbsp;</td>
+                    <td align="right" valign="top">                
+                      @imageAnchorStart
+                      	@if(!String.IsNullOrEmpty(GetString("Item.Image"))) {
+                        	<img class="img-max" src='@("http://www.brandfusion.ro"+GetImage(image, 300, 0))' alt="@imageTitle" title="@imageTitle" />
+                        }
+            		  @imageAnchorEnd
+                    </td>
+                  }
+                </tr>
+              </table>
+            </td>
+          </tr>          
+        }
+ 		<tr>
+          <td>
+             @GetValue("ParagraphModule")  
+          </td> 
+        </tr>  
+      </table>
+    </td>
+  </tr>  
+</table>
+

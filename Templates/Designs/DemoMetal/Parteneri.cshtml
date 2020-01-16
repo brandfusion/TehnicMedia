@@ -1,0 +1,34 @@
+﻿@using Dynamicweb.Frontend
+
+ 
+
+
+<div class="jx-section-title-1 jx-dark">
+					
+					<div class="jx-pre-title jx-short-border">
+						<div class="jx-title-border left"></div>
+						<div class="jx-title-icon"><i class="line-icon icon-diamond" style="color: #000 !important;"></i></div>
+						<div class="jx-title-border right"></div> 
+					</div>
+					<div class="jx-title jx-uppercase">Parteneri</div>
+					<!-- Section Title -->
+					
+				</div>
+				
+				<div class="jx-sponsors">
+					<ul>
+                       @foreach(var item in GetLoop("Item.Area.ParteneriPrincipali")) {
+  string imagine = item.GetString("Item.Area.ParteneriPrincipali.LogoPartener.Value");
+  string linkPartener = item.GetString("Item.Area.ParteneriPrincipali.LinkPartener.Value");
+ 
+						<li>
+                          @if(!string.IsNullOrEmpty(item.GetString("Item.Area.ParteneriPrincipali.LinkPartener.Value"))) {
+                          <a href="@linkPartener"><div class="slide-contents"><img src="@imagine" alt=""></div></a>} else{
+                      
+                      <div class="slide-contents"><img src="@imagine" alt=""></div>
+                      }
+                  
+                  </li>
+                  }
+					</ul>
+				</div>

@@ -1,0 +1,29 @@
+﻿@using Dynamicweb.Frontend
+@* @Include("GlobalVariables.cshtml") *@
+@*Include("../Includes/ArticleHelper.cshtml")*@
+@*<p>Total articole: @GetInteger("Items.TotalCount")</p>*@
+
+@if(AfiseazaJobs){
+      
+       
+				
+				if(jobs.Any()){
+
+			    foreach(LoopItem item in jobs){
+			        
+			        string Titlu = item.GetString("Item.Jobs.Titlu.Value");
+			        string Descriere = item.GetString("Item.Jobs.Descriere");
+			        string Data = item.GetString("Item.Jobs.Data.Value");
+			        string Locaton = item.GetString("Item.Jobs.Locaton.Value");
+			        	       
+                      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                      <div class="col-xs-12">@Titlu</div>
+                      <div class="col-md-12">@Descriere</div>
+                      <div class="col-xs-12">@Locaton</div>
+                      </div>
+			   
+			  	}
+			}
+			
+
+			} 	

@@ -1,0 +1,405 @@
+﻿@Include("Custom/GlobalVariables.cshtml")
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>TT Online</title>
+  <meta name="keywords" content="HTML5 Template">
+  <meta name="description" content="Tehnic Media Online">
+  <meta name="author" content="Dynamic Applications">
+  <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  @{
+     string designFolder = GetString("Template:DesignBaseUrl");
+  }
+  <!-- Favicon -->
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="@(designFolder)images/apple-touch-icon-57x57.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@(designFolder)images/apple-touch-icon-114x114.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@(designFolder)images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@(designFolder)images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="60x60" href="@(designFolder)images/apple-touch-icon-60x60.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="@(designFolder)images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="@(designFolder)images/apple-touch-icon-76x76.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="@(designFolder)images/apple-touch-icon-152x152.png" />
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-196x196.png" sizes="196x196" />
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-128.png" sizes="128x128" />
+  <meta name="application-name" content="&nbsp;"/>
+  <meta name="msapplication-TileColor" content="#FFFFFF" />
+  <meta name="msapplication-TileImage" content="@(designFolder)images/mstile-144x144.png" />
+  <meta name="msapplication-square70x70logo" content="@(designFolder)images/mstile-70x70.png" />
+  <meta name="msapplication-square150x150logo" content="@(designFolder)images/mstile-150x150.png" />
+  <meta name="msapplication-wide310x150logo" content="@(designFolder)images/mstile-310x150.png" />
+  <meta name="msapplication-square310x310logo" content="@(designFolder)images/mstile-310x310.png" />
+  
+  <!-- Google Fonts -->
+  <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,400italic,500,700,700italic,900" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700,700italic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Raleway:900" rel="stylesheet" type="text/css">
+
+  <!-- Icon Font -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ @* <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"> *@
+
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="@areaLayoutPath/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" type="text/css" media="screen" />
+  <link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
+
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/fix.css">
+  <link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/robert.css">
+  <link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/mihai.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick-theme.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> 
+ <!-- Stil customizat pentru paginile de companie de tip Premium -->
+    @if(!String.IsNullOrEmpty(GetString("Item.Custom_Style"))){
+    <link rel="stylesheet" type="text/css" href='@GetString("Item.Custom_Style")'>
+    
+
+    }
+    @{
+    	bool Fix = GetBoolean("Item.Banner_Fix");
+    }
+    
+    
+    @if(@Fix == false){
+    <style>
+      .premium {
+	  background: @GetString("Item.MainColor.Value") url(@GetString("Item.Background_Image")) no-repeat!important;
+	  background-size:contain!important;
+      color: @GetString("Item.TextColor")!important;
+            }
+    </style>
+    }else{
+    <style>
+    .premium {
+	  background: @GetString("Item.MainColor.Value") url(@GetString("Item.Background_Image")) fixed no-repeat!important ;
+	  background-size:cover!important;
+      color: @GetString("Item.TextColor")!important;
+            }
+    </style>
+    
+    }
+    
+    <style>
+      .secondarycolor {
+      color: @GetString("Item.SecondaryColor.Value")!important;
+      }
+      .buton-formular{
+      background-color:@GetString("Item.MainColor.Value")!important;
+      }
+      .buton-formular:hover{
+      background-color:@GetString("Item.SecondaryColor.Value")!important;
+      }
+      .primary-color-border-bottom{
+      border-bottom-color:	@GetString("Item.MainColor.Value")!important;
+      }
+      .social{ font-size:22px;}
+      .declaratiemanager {margin-top: 55px; margin-left: -38px;}
+      .news-details1 {
+    position: absolute;
+    bottom: 32px;
+    left: -3px;
+}
+      .news-title1 {max-height: 42px;}
+      
+
+    </style>
+    
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<!--<link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/main.css">-->	
+    <!-- Generated by Revive Adserver v4.0.1 -->
+    <script type='text/javascript' src='http://adserver.dotfusion.ro/revive/www/delivery/spcjs.php?id=1&amp;target=_blank'></script>
+	<script async src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+	</head>
+
+    @{
+    string imagineBannerRaw = GetString("Item.Imagine_Banner");
+   
+    string linkBanner = GetString("LinkBanner");
+    string imagineBanner = !string.IsNullOrEmpty(imagineBannerRaw) ? GetImage(imagineBannerRaw, 975, 100) + "&bgcolor=white"  : ""; 
+
+    string firstPageId = GetString("DwAreaFirstPageID");
+    }
+    
+
+<body class="@bodyStyle premium">
+ 
+    <div id="main" class="header-style1">
+
+        @Include("Custom/Header.cshtml")
+        @*skyscrapers*@
+       
+        <!-- Begin Main Wrapper -->
+        <div class="container main-wrapper pagina-companie ">
+			
+            <!-- Begin Main Banner -->
+            <div class="mag-content clearfix banner-companie ">
+                <div class="row">
+                    <div class="col-md-12">
+                      <a href="@linkBanner"><img src="@imagineBanner"/></a>
+                    </div>
+                </div>
+            </div>
+          
+              
+            <!-- End Main Banner -->
+
+
+            <div class="main-content mag-content clearfix industry-background">
+
+                <!--@ContentPlaceholder-->
+
+            </div><!-- .main-content -->
+            <!-- End Main Banner -->
+            <div class="mag-content clearfix">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- End Main Banner -->
+        </div><!-- .main-wrapper -->
+
+        @Include("Custom/Footer.cshtml")
+
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav id="mobile-nav">
+      <div>
+        @RenderNavigation(new {
+          template = "MainNavigationMobile.xslt",
+          expandmode = "all",
+          id = "mobile-nav",
+          startlevel = 1,
+          listStyle = "mobile-navigation",
+          endlevel = 2
+         })
+      </div>
+    </nav>
+    <!-- / Mobile Menu -->
+    <div id="go-top-button" class="fa fa-angle-up" title="Scroll To Top"></div>
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+
+
+<script src="@areaLayoutPath/assets/js/map.js"></script>
+
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.0/lodash.min.js"></script> -->
+@* <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> *@
+<script type="text/javascript" src="@areaLayoutPath/assets/js/main.min.js"></script>
+    
+ <!-- Go to www.addthis.com/dashboard to customize your tools -->
+@*<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5716953ddb10f4d0"></script>*@
+    
+
+<!-- JS pentru newsletter-->    
+<script type="text/javascript" src="@areaLayoutPath/assets/js/custom.js"></script>    
+    
+    
+<!-- Jquery js -->
+<!--<script src="@areaLayoutPath/assets/js/jquery-1.11.2.min.js"></script>-->
+
+<!-- Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+<!-- Bootstrap js -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- Google map api -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyC3qzD9htQdRmf9Utip_B4jozI61S1Kub0"></script>
+
+<!-- Plugins js -->
+<script src="@areaLayoutPath/assets/js/plugins.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.0/jquery.easing.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.6/js/jquery.fancybox.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>  
+<!-- Theme js -->
+<script src="@areaLayoutPath/assets/js/script.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.0/owl.carousel.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.0/assets/owl.carousel.min.css">
+
+<script type="text/javascript" src="@areaLayoutPath/assets/js/alertify.js"></script>
+<script type="text/javascript" src="@areaLayoutPath/assets/js/account-creation.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+<script type="text/javascript" src="@areaLayoutPath/assets/js/product-page-nav-tab-script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stickyfill/1.1.4/stickyfill.min.js" type="text/javascript" charset="utf-8" ></script>
+@RenderSnippet("Modals")
+
+<script>
+  $(document).ready(function(){
+  
+  
+  
+
+    $('.owl-carousel').not('.owl-testimonial').owlCarousel({
+        loop: false,
+        margin: 10,
+        dots: false,
+        nav: true,      
+        autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 2,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 4
+          }
+        }
+    })
+ 
+
+  //$('#myModal').modal('show')
+
+
+  $(document).ready(function() {
+
+  /* This is basic - uses default settings */
+  
+  //$("a.single_image").fancybox();
+  
+  /* Using custom settings */
+  
+  // $("a#inline").fancybox({
+  //   'hideOnContentClick': true
+  // });
+
+  /* Apply fancybox to multiple items */
+  
+  $("a.single_image").fancybox({
+    'transitionIn'  : 'elastic',
+    'transitionOut' : 'elastic',
+    'speedIn'   : 600, 
+    'speedOut'    : 200, 
+    'overlayShow' : false
+  });
+  
+});
+
+		$('.owl-testimonial').owlCarousel({
+        loop: true,
+        margin: 10,
+        dots: false,
+  		center:true,
+        nav: true,      
+        autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 2,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 1
+          },
+          1000: {
+            items: 1
+          }
+        }
+    })
+
+  
+
+
+
+ });
+  </script>
+      
+@Pageview.Area.Item["Analytics_Code"]
+<!-- Add to Calendar -->
+<script type="text/javascript">(function () {
+  if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+  if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+    s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+    s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+    var h = d[g]('body')[0];h.appendChild(s); }
+  })();
+</script>
+
+<!-- Go to www.addthis.com/dashboard to customize your tools --> 
+
+
+<!-- Twitter Widget-->
+<script type="text/javascript">
+  window.twttr = (function (d,s,id) {
+  var t, js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+  js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+  return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+  }(document, "script", "twitter-wjs"));
+</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5941501b1be8de2c"></script> 
+<!-- Twitter Widget Loader -->
+@* <script type="text/javascript">
+  $(document).ready(function() { 
+      twttr.widgets.load();  
+ });
+</script> *@
+<!-- Start Scroll tracking -->
+<script src="@areaLayoutPath/assets/js/gascrolldepth.min.js"></script>
+<script>
+    gascrolldepth.init({
+        elements: ['#mm-0', 'footer'],
+        userTiming: true,
+        gtmOverride: true,
+        eventHandler: function(data) {
+            if (data.event == "ScrollDistance") {
+                ga('send', 'event', data.eventCategory, data.eventAction, data.eventLabel, data.eventValue);
+            }
+        }
+    });
+</script>
+<!-- End Scroll tracking -->
+    <script type="text/javascript">
+
+/* <![CDATA[ */
+
+var google_conversion_id = 1010029401;
+
+var google_custom_params = window.google_tag_params;
+
+var google_remarketing_only = true;
+
+/* ]]> */
+
+</script>
+
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+
+</script>
+
+<noscript>
+
+<div style="display:inline;">
+
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1010029401/?guid=ON&amp;script=0"/>
+
+</div>
+
+</noscript>
+</body>
+</html>

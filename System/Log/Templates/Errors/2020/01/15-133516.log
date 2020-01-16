@@ -1,0 +1,18 @@
+2020-01-15 13:35:16.3426|ERROR|Templates|Error executing razor template (/Designs/TTonline/Paragraph/ArticleSlider.cshtml) https://ttonline.dotfusion.ro/
+System.ArgumentException: An item with the same key has already been added.
+   at System.ThrowHelper.ThrowArgumentException(ExceptionResource resource)
+   at System.Collections.Generic.Dictionary`2.Insert(TKey key, TValue value, Boolean add)
+   at Dynamicweb.Rendering.Translation.Source.LoadKeys()
+   at Dynamicweb.Rendering.Translation.Source.GetTranslationSource(String designName, String moduleName, String cultureName)
+   at Dynamicweb.Rendering.TemplateBase`1.Translate(String text, String defaultValue, String cultureName)
+   at Dynamicweb.Rendering.TemplateBase`1.Translate(String text, String defaultValue)
+   at CompiledRazorTemplates.Dynamic.RazorEngine_94dc95696c804c4abc15b0c608649b21.Execute() in Z:\Sites\_dotFusion\www.ttonline.ro backup 20190722\Files\Templates\Designs\TTonline\Paragraph\ArticleSlider.cshtml:line 373
+   at RazorEngine.Templating.TemplateBase.RazorEngine.Templating.ITemplate.Run(ExecuteContext context, TextWriter reader)
+   at RazorEngine.Templating.RazorEngineCore.RunTemplate(ICompiledTemplate template, TextWriter writer, Object model, DynamicViewBag viewBag)
+   at RazorEngine.Templating.RazorEngineService.RunCompile(ITemplateKey key, TextWriter writer, Type modelType, Object model, DynamicViewBag viewBag)
+   at RazorEngine.Templating.DynamicWrapperService.RunCompile(ITemplateKey key, TextWriter writer, Type modelType, Object model, DynamicViewBag viewBag)
+   at RazorEngine.Templating.RazorEngineServiceExtensions.<>c__DisplayClass16_0.<RunCompile>b__0(TextWriter writer)
+   at RazorEngine.Templating.RazorEngineServiceExtensions.WithWriter(Action`1 withWriter)
+   at RazorEngine.Templating.RazorEngineServiceExtensions.RunCompile(IRazorEngineService service, String name, Type modelType, Object model, DynamicViewBag viewBag)
+   at RazorEngine.Templating.RazorEngineServiceExtensions.RunCompile(IRazorEngineService service, ITemplateSource templateSource, String name, Type modelType, Object model, DynamicViewBag viewBag)
+   at Dynamicweb.Rendering.Template.RenderRazorTemplate()

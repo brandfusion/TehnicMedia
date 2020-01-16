@@ -1,0 +1,17 @@
+2020-01-15 16:20:48.577: Running.
+2020-01-15 16:20:55.108: Fetching build definition.
+2020-01-15 16:20:56.077: Fetched build definition. 'Dynamicweb.Indexing.Builders.SqlIndexBuilder'.
+2020-01-15 16:20:56.905: Preparing schema.
+2020-01-15 16:20:57.827: Prepared schema.
+2020-01-15 16:20:58.546: Creating index writer.
+2020-01-15 16:20:59.077: Created index writer: 'Dynamicweb.Indexing.Lucene.LuceneIndexWriter'.
+2020-01-15 16:20:59.405: Instance availability (A): False.
+2020-01-15 16:20:59.983: Starting build process.
+2020-01-15 16:21:08.671: Running (270 / 8304).
+2020-01-15 16:21:28.733: Running (1292 / 8304).
+2020-01-15 16:21:48.858: Running (2292 / 8304).
+2020-01-15 16:22:08.890: Running (3320 / 8304).
+2020-01-15 16:22:21.858: Closing index writer, just trying...
+2020-01-15 16:22:22.530: Closed index writer successfully.
+2020-01-15 16:22:22.577: Ended build process.
+2020-01-15 16:22:22.624: Completed (4077 / 4077).

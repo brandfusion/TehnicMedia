@@ -1,0 +1,383 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@using Dynamicweb;
+@using Dynamicweb.Frontend;
+
+@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/GetImage.cshtml")
+@Include("../../Includes/VerifyImage.cshtml")
+@Include("../../Includes/GetCurrentUrl.cshtml")
+@{
+  Dynamicweb.Content.Items.Item item = Pageview.Area.Item;
+  bool isLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
+  bool isFrontEnd = Dynamicweb.Environment.ExecutingContext.IsFrontEnd();
+  var request = System.Web.HttpContext.Current.Request.Params;
+  List<LoopItem> prodLoop = GetLoop("Products");
+  int totalPagesNum = GetInteger("Ecom:ProductList.TotalPages");
+  int curPage = !string.IsNullOrEmpty(request["PageNum"]) ? Convert.ToInt32(request["PageNum"].ToString()) : 1;
+  bool noResults = false;
+  //bool showQuantity = item["ShowQuantityField"].ToString() == "True" ? true : false;
+  bool showQuantity = false;
+  string currentPageId = Pageview.Page.ID.ToString();
+  string imagesFolder = "/Files/Files/" + designName + "/Products/";
+  string totalPages = GetString("Ecom:ProductList.TotalPages");
+  string nextPage = GetString("Ecom:ProductList.NextPage");
+  string pagingHref = "";
+  string sortBy = !string.IsNullOrEmpty(request["sortby"]) ? request["sortby"] : "";
+  string sortOrder = !string.IsNullOrEmpty(request["SortOrder"]) ? request["SortOrder"] : "";
+  string minPrice = prodLoop.OrderBy(s => s.GetDouble("Ecom:Product.Price.Price")).First().GetString("Ecom:Product.Price.Price");
+  string maxPrice = prodLoop.OrderByDescending(s => s.GetDouble("Ecom:Product.Price.Price")).First().GetString("Ecom:Product.Price.Price");
+  string qString = !string.IsNullOrEmpty(request["q"]) ? request["q"] : "";
+  string dataView = System.Web.HttpContext.Current.Request.Cookies["dataList"] != null ? System.Web.HttpContext.Current.Request.Cookies["dataList"].Value : "";
+  string groupsIds = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["groupid"]) ? System.Web.HttpContext.Current.Request.Params["groupid"] : "";
+}
+
+
+@SnippetStart("bottomJS")
+
+@SnippetEnd("bottomJS")
+
+@* FILTERS *@
+<div id="filtersContainer" class="col-xs-12 col-sm-3 noPaddingLeft">
+  @Include("includes/Filters.cshtml")
+</div>
+<div id="listContainer" class="col-xs-12 col-sm-9 noPaddingRight" data-amountrequired='@Translate("amountIsRequired","Amount is required.")'>
+@* SORT AND ORDER *@
+<div class="headerBox col-xs-12 noPadding hidden">
+  <div class="col-sm-2 col-xs-12 noPadding">
+    <ul class="listMode hidden-xs">
+      <li data-list="list" class="active"><i class="fa fa-list-ul"></i></li>
+      <li data-list="tile"><i class="fa fa-th"></i></li>
+    </ul>
+  </div>
+
+  <span class="col-sm-6 col-xs-12 noPaddingLeft text-center">@prodLoop.Count() @Translate("of", "of") @GetString("Ecom:ProductList.PageProdCnt") @Translate(GetInteger("Ecom:ProductList.PageProdCnt") > 1 ? "items" : "item")</span>
+  <form id="orderProdList" class="col-sm-4 col-xs-12 noPadding pull-right" action="/" name="ExtUserForm_Main" method="GET">
+    <input type="hidden" name="ID" value="@Pageview.Page.ID">
+    <input type="hidden" name="GroupID" value="@(GetGlobalValue("Ecom:ProductList:Page.GroupID"))">
+
+    <fieldset class="col-lg-5 col-md-6 col-sm-6 col-xs-6 hidden">
+      <label class="pull-left">@Translate("sortBy", "Sort by"):</label>
+      <select id="sortSelect" name="sortby">
+        <option selected="@(sortBy == "Created")" value="Created">@Translate("created", "Created")</option>
+        <option selected="@(sortBy == "Price")" value="Price">@Translate("price", "Price")</option>
+        <option selected="@(sortBy == "Name_sortable")" value="Name_sortable">@Translate("name", "Name")</option>
+      </select>
+    </fieldset>
+    <fieldset class=" col-lg-7 col-md-6 col-sm-6 col-xs-6 hidden">
+      <label class="pull-left">@Translate("order", "Order"):</label>
+      <select id="orderSelect" name="SortOrder">
+        <option selected="@(sortOrder == "ASC")" value="ASC">@Translate("asc", "ASC")</option>
+        <option selected="@(sortOrder == "DESC")" value="DESC">@Translate("desc", "DESC")</option>
+      </select>
+    </fieldset>
+    <fieldset class="col-xs-12 noPadding hidden-xs">
+      <label>@Translate("sort", "Sort"):</label>
+      <select id="sortOrderJoin" name="sortOrderJoin">
+        <option data-sort="Price" data-order="ASC" selected="@(sortOrder == "ASC" && sortBy == "Price" )" value="">@Translate("priceLh", "Price (Low to High)")</option>
+        <option data-sort="Price" data-order="DESC" selected="@(sortOrder == "DESC" && sortBy == "Price" )" value="">@Translate("priceHl", "Price (High to Low)")</option>
+        <option data-sort="Name_sortable" data-order="ASC" selected="@(sortOrder == "ASC"  && sortBy == "Name_sortable" )" value="">@Translate("titleAz", "Title (A - Z)")</option>
+        <option data-sort="Name_sortable" data-order="DESC" selected="@(sortOrder == "DESC"  && sortBy == "Name_sortable" )" value="">@Translate("titleZa", "Title (Z - A)")</option>
+      </select>
+      
+    </fieldset>
+    <fieldset class="col-lg-5 col-md-5 col-sm-12 col-xs-6 pageSize hide">
+      <label for="pageSize">@Translate("pageSize", "Page size"):</label>
+      <select id="pageSize" name="PageSize">
+        @{
+          int multipleOf = 12;
+          int maxOf = 36;
+          string pageSize = GetString("Ecom:ProductList.PageSize");
+          string selected = !string.IsNullOrEmpty(request["PageNum"]) ? request["PageNum"].ToString() : pageSize;
+
+          while (multipleOf <= maxOf)
+          {
+            string selectedOption = selected == multipleOf.ToString() ? "selected" : "";
+
+            <option @selectedOption value="@multipleOf">@multipleOf</option>
+            multipleOf = multipleOf + 12;
+            if(multipleOf > GetInteger("Ecom:ProductList.PageProdCnt")){
+              break;
+            }
+          }
+          <option selected="@(selected == "9999")" value="9999">@Translate("all", "All")</option>
+        }
+      </select>
+    </fieldset>
+  </form>
+
+</div>
+
+@if (qString != "")
+{
+  <form action="/Default.aspx" id="searchFormList">
+    <input type="hidden" name="ID" value="@(item["SearchResults"])">
+    <fieldset class="TextInput mandatory">
+      <label for="searchSubmitList" class="hide">@Translate("search", "Search")</label>
+      <input id="searchSubmitList" data-error='@Translate("searchText", "Search for something")' type="text" name="q" value="@qString">
+    </fieldset>
+    <button type="submit">
+      <i class="fa fa-search"></i>
+    </button>
+  </form>
+}
+
+<ul data-maxcompare='@Translate("maxCompare", "Maximum to compare: 3")' data-list="@dataView" id="productsList" class="row productsList">
+  @foreach (LoopItem product in prodLoop)
+  {
+    bool isGiftCard = product.GetInteger("Ecom:Product.Type") == 3;
+    string productNumber = product.GetString("Ecom:Product.Number");
+    string imagePattern = imagesFolder + productNumber + ".jpg";
+    string image = GetImagePathUrl(product.GetString("Ecom:Product.ImageSmall.Clean"), product.GetString("Ecom:Product.ImageMedium.Clean"), product.GetString("Ecom:Product.ImageLarge.Clean"), imagePattern);
+    string productName = product.GetString("Ecom:Product.Name");
+    string productID = product.GetString("Ecom:Product.ID");
+    string productVariantID = product.GetString("Ecom:Product.VariantID");
+    string productShortDescription = product.GetString("Ecom:Product.ShortDescription");
+    string link = product.GetString("Ecom:Product.LinkGroup.Clean");
+    string productLanguage = product.GetString("Ecom:Product.LanguageID");
+    string variantDefaultId = product.GetString("Ecom:Product.DefaultVariantComboID");
+    string variantCurrentId = product.GetString("Ecom:Product.VariantID");
+    string variantId = (!string.IsNullOrEmpty(variantCurrentId)) ? variantCurrentId : variantDefaultId;
+    string compareLink = productID + "$" + productLanguage + "$" + productVariantID;
+    bool productIsFavoriteBool = product.GetBoolean("Ecom:Product.IsProductInFavoriteList");
+    string productRemoveFromList = "/Default.aspx?Id=" + currentPageId + "&amp;ProductID=" + productID + "&amp;CCRemoveFromMyLists=" + productID + "&amp;CCRemoveFromListVariantID=" + variantDefaultId + "&amp;CCRemoveFromListLanguageID=" + productLanguage;
+    string productAddToList = "/Default.aspx?Id=" + currentPageId + "&amp;ProductID=" + productID + "&amp;CCAddToMyLists=" + productID + "&amp;CCAddToListVariantID="+ variantDefaultId + "&amp;CCAddToListLanguageID=" + productLanguage;
+    string favoriteUrl = productIsFavoriteBool ? productRemoveFromList : productAddToList;
+    string miniCartPage = (item["MiniCart"] ?? "").ToString();
+    List<LoopItem> variantCombinations = product.GetLoop("VariantCombinations");
+      
+    @* Logic: If there is any variant check if there is any selected/default variant to load the price if not load price from first (by order xpto) variant.  *@  
+    int productStock = !variantCombinations.Any() ? product.GetInteger("Ecom:Product.AvailableAmount") : variantCombinations.FirstOrDefault(x => x.GetString("Ecom:Product.DefaultVariantComboID").Equals(x.GetString("Ecom:VariantCombination.VariantID"))) == null ? variantCombinations.OrderBy(x => x.GetString("Ecom:VariantCombination.VariantID")).FirstOrDefault().GetInteger("Ecom:Product.AvailableAmount") : variantCombinations.FirstOrDefault(x => x.GetString("Ecom:Product.DefaultVariantComboID").Equals(x.GetString("Ecom:VariantCombination.VariantID"))).GetInteger("Ecom:Product.AvailableAmount");
+    string productPrice = !variantCombinations.Any() ? product.GetString("Ecom:Product.Price") : variantCombinations.FirstOrDefault(x => x.GetString("Ecom:Product.DefaultVariantComboID").Equals(x.GetString("Ecom:VariantCombination.VariantID"))) == null ? variantCombinations.OrderBy(x => x.GetString("Ecom:VariantCombination.VariantID")).FirstOrDefault().GetString("Ecom:Product.Price") : variantCombinations.FirstOrDefault(x => x.GetString("Ecom:Product.DefaultVariantComboID").Equals(x.GetString("Ecom:VariantCombination.VariantID"))).GetString("Ecom:Product.Price");
+    string stockStatus = productStock > 0 ? "fa-check" : "fa-close";
+      
+    <li class="col-xs-6 col-sm-6 noPadding">
+      <div class="col-xs-12">
+        <figure class="col-xs-12 noPadding">
+          <a href="@link">
+            <img src="@GetImage(image, 400, 0)" alt="@productName" title="@productName" class="img-responsive"/>
+          </a>
+        </figure>
+          
+        <div class="col-xs-12 noPadding">
+          <div class="col-xs-12">
+            <h2><a itemprop="name" href="@link">@productName</a>
+            </h2>
+            @if (!string.IsNullOrEmpty(productShortDescription))
+            {
+              <div class="tileHide shortDescription">
+                @productShortDescription
+              </div>
+            }
+            @* @if (!string.IsNullOrEmpty(productNumber))
+            {
+              <div class="tileHide prodNumber">
+                @Translate("item", "Item #"): @productNumber
+              </div>
+            } *@
+          </div>
+            
+          <div class="col-xs-4 noPadding pull-right priceContainer">
+            <form name="addToCart" action="@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(miniCartPage)" method="post" data-outofstock='@Translate("outOfStock", "Out of stock")'>
+              <input type="hidden" name="redirect" value="false">
+              <input type="hidden" name="productid" value="@productID"/>
+              <input type="hidden" name="cartcmd" value="add"/>
+              @*
+              @if (!showQuantity || isGiftCard)
+              {
+                <input data-outofstock='@Translate("outOfStock", "Out of stock")' data-stocktranslate='@Translate("currentStock", "The current stock is")' data-available='@productStock' type="hidden" class="quantityInput" name="quantity" value="1"/>
+              }
+              *@
+
+              
+              
+              @* @if (!isGiftCard)
+              {
+                <span class="listPrice pull-right" itemprop="price">@productPrice</span>
+              }
+
+              @if (!string.IsNullOrEmpty(productNumber))
+              {
+                <div class="listHide prodNumber pull-left">
+                  @Translate("item", "Item #"): @productNumber
+                </div>
+              }  *@
+
+              @*
+              @if (isLoggedIn && isFrontEnd && !variantCombinations.Any())
+              {
+                string icon = productIsFavoriteBool ? "fa-heart" : "fa-heart-o";
+
+                <a title='@Translate("favorites", "Favorites")' class="favorite" data-favorite="@productIsFavoriteBool" data-user="@Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn()" href="@favoriteUrl"><i class="fa @icon"></i></a>
+              }
+
+              @if (variantCombinations.Any())
+              {
+                string sizeSelect = "<fieldset class='Select mandatory'><select data-width='100%' name='variantID'>";
+
+                foreach (LoopItem a in variantCombinations.OrderBy(x => x.GetString("Ecom:VariantCombination.VariantID")))
+                {
+                  bool isFavoriteBool = a.GetBoolean("Ecom:Product.IsProductInFavoriteList");
+                  string variantPrice = a.GetString("Ecom:Product.Price");
+                  string selectedVariant = a.GetString("Ecom:Product.DefaultVariantComboID") == a.GetString("Ecom:VariantCombination.VariantID") ? "selected" : "";
+                  string variantCombinationId = a.GetString("Ecom:VariantCombination.VariantID");
+                  string showSelectedFavorite = selectedVariant == "selected" ? "" : "hidden";
+                  string icon = isFavoriteBool ? "fa-heart" : "fa-heart-o";
+                  string addToList = a.GetString("Ecom:Product.AddToFavorites");
+                  string removeFromList = a.GetString("Ecom:Product.RemoveFromFavorites");
+                  favoriteUrl = isFavoriteBool ? removeFromList : addToList;
+
+                  sizeSelect += "<option data-favorite='" + isFavoriteBool + "' " + selectedVariant + " data-stock='" + a.GetInteger("Ecom:Product.AvailableAmount") + "' data-price='" + variantPrice + "' id='" + variantCombinationId + "' value='" + variantCombinationId + "'>" + a.GetString("Ecom:VariantCombination.VariantText") + "</option>";
+
+                  if (isLoggedIn && isFrontEnd)
+                  {
+                    <a data-add='@addToList' data-remove='@removeFromList' data-variant='@variantCombinationId.Replace(".", "_")' title='@Translate("favorites", "Favorites")' class="favorite @showSelectedFavorite" data-favorite="@isFavoriteBool" data-user="@Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn()" href="@favoriteUrl"><i class="fa @icon"></i></a>
+                  }
+
+                }
+                sizeSelect += "</select></fieldset>";
+                @sizeSelect
+              }
+              *@
+              @* @if (showQuantity)
+              {
+                <fieldset class="quantity-container pull-left">
+                  <label for="quantity">@Translate("qty", "Qty")</label>
+                  <input data-outofstock='@Translate("outOfStock", "Out of stock")' data-stocktranslate='@Translate("currentStock", "The current stock is")' class="hidden quantityInput" maxlength="5" data-available='@productStock' type="number" name="quantity" value="1"/>
+                  <select data-width="100%" name="quantitySelect" @(productStock <= 0 ? "disabled" : "")>
+
+                    @if (variantCombinations.Any() && productStock > 0)
+                    {
+                      for (int num = 1; (num < 10); num++)
+                      {
+                        <option value="@num">@num</option>
+                      }
+                    }
+                    else if (productStock > 0)
+                    {
+                      for (int num = 1; (num < 10) && num <= productStock; num++)
+                      {
+                        <option value="@num">@num</option>
+                      }
+                    }
+                    else
+                    {
+                      <option value="1">1</option>
+                    }
+
+                    @if (productStock >= 10 || variantCombinations.Any())
+                    {
+                      <option value="10+">10+</option>
+                    }
+
+                  </select>
+                </fieldset>
+              } *@
+
+              @* @if (isGiftCard)
+              {
+                <fieldset class="pull-left giftCardAmount">
+                  <label class="hidden" for="Amount">@Translate("amount", "Amount")</label>
+                  <span>@product.GetString("Ecom:Product.Price.Currency.Symbol")</span>
+                  <input placeholder="@Translate("amount")" type="number" name="Amount" step="0.01" min="0.01" value="@product.GetString("Ecom:Product.Price.Price")"/>
+                </fieldset>
+              } *@
+
+              @* <a class="addToCart btn btn-bg" href="/Default.aspx?ID=@currentPageId&amp;productid=@productID&amp;variantID=@variantId&amp;cartcmd=add"><i class="fa fa-shopping-cart"></i> <span data-add='@Translate("addToCart", "Add to cart")' data-added='@Transla te("added", "Added")'>@Translate("addToCart", "Add to cart")</span></a>
+              <input class="hide" type="submit" value="@Translate("addToCart", "Add to cart")">
+              
+              <div class="stockStatus col-xs-12 noPadding hide"><i class="fa @stockStatus"></i> @Translate("stock", "Stock")</div> *@
+              
+            </form>
+
+          </div>
+          @* @if (!isGiftCard)
+          { *@
+            <div class="addToCompare pull-left col-xs-12 col-sm-12 noPadding">
+              <label class="weightNormal" for="addToCompare_@productID">
+                <input data-link="@compareLink" type="checkbox" id="addToCompare_@productID" name="addToCompare_@productID" value=""/>
+                @Translate("addToCompare", "Add to compare")
+              </label>
+              <button type="button" class="btn btn-primary buton-produse pull-right" title='@Translate("Product details", "Detalii produs")' data-toggle="modal" onclick='window.location.href="@link"' ><i class="fa fa-eye"></i><span class="detalii-produs">@Translate("Product details", "Detalii produs")</span></button>  
+            </div>
+          @* } *@
+        </div>
+      </div>
+    </li>
+  }
+</ul>
+
+<div class="footerBox col-xs-12 noPadding">
+  <span class="col-xs-6 items noPadding">@prodLoop.Count() @Translate("of", "of") @GetString("Ecom:ProductList.PageProdCnt") @Translate(GetInteger("Ecom:ProductList.PageProdCnt") > 1 ? "items" : "item")</span>
+  @if (GetInteger("Ecom:ProductList.TotalPages") > 1)
+  {
+    string active = "";
+    string prevPage = GetString("Ecom:ProductList.PrevPage.Clean");
+    string nextListPage = GetString("Ecom:ProductList.NextPage.Clean");
+    string pageText = "&laquo; " + Translate("previous", "Previous") + " ";
+    string requestUrl = Pageview.GlobalTags.GetTagByName("Global:Request.Url").Value.ToString();
+
+    <ul class="pagination pull-right">
+      @if (prevPage != "")
+      {
+        @PageItem("class=\"previous\"", prevPage, pageText)
+      }
+      @if (curPage > 2 && totalPagesNum > 3)
+      {
+        for (int i = 1; i <= 1; i++)
+        {
+          active = curPage == i ? "class=\"active\"" : "";
+          pagingHref = requestUrl.Contains("PageNum") ? requestUrl.Replace("PageNum=" + curPage, "PageNum=" + i) : requestUrl + "&PageNum=" + i;
+          @PageItem(active, pagingHref, i.ToString())
+        }
+        @Ellipsis()
+      }
+      @foreach (LoopItem page in GetLoop("Ecom:ProductList.Pages3"))
+      {
+        string hrefEncoded = page.GetString("Ecom:ProductList.Pages3.Page.UrlHtmlEncoded");
+        string page3Number = page.GetString("Ecom:ProductList.Pages3.Page.Number");
+
+        if (page.GetBoolean("Ecom:ProductList.Pages3.Page.IsCurrent"))
+        {
+          @PageItem("class=\"active\"", hrefEncoded, page3Number)
+        }
+        else
+        {
+          @PageItem("", hrefEncoded, page3Number)
+        }
+      }
+      @if (curPage < totalPagesNum - 1 && totalPagesNum > 3)
+      {
+        @Ellipsis()
+        for (int i = totalPagesNum; i <= totalPagesNum; i++)
+        {
+          active = curPage == i ? "class=\"active\"" : "";
+          pagingHref = requestUrl.Contains("PageNum") ? requestUrl.Replace("PageNum=" + curPage, "PageNum=" + i) : requestUrl + "&PageNum=" + i;
+          @PageItem(active, pagingHref, i.ToString())
+        }
+      }
+      @if (nextListPage != "")
+      {
+        string nextText = Translate("next", "Next") + "&raquo;";
+
+        @PageItem("class=\"next\"", nextListPage, nextText, "data-numPages=\""+totalPagesNum+"\"")
+      }
+    </ul>
+  }
+</div>
+</div>
+
+@SnippetStart("jsOnLoad")
+onLoadProductList("@minPrice.Replace(",", "")", "@maxPrice.Replace(",", "")", "@price", "@groupsIds");
+@SnippetEnd("jsOnLoad")
+
+@helper PageItem(string cssClass, string href, string text, string dataAttr = "")
+{
+  <li @cssClass @dataAttr>
+    <a href="@href">@text</a>
+  </li>
+}
+@helper Ellipsis()
+{
+  <li><span>...</span></li>
+}

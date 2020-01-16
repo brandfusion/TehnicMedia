@@ -1,0 +1,89 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using Dynamicweb.Content.Items;
+@MasterPageFile("Master.cshtml")
+@GetValue("Title(Article page)")
+@GetValue("Description(Pagina de articol)")
+@Include("Includes/ArticleHelper.cshtml")
+@{
+	string IdCompanie = System.Web.HttpContext.Current.Request["Companie"] != null ? System.Web.HttpContext.Current.Request["Companie"].ToString(): "";
+	string IdAutor = System.Web.HttpContext.Current.Request["Autor"] != null ? System.Web.HttpContext.Current.Request["Autor"].ToString(): "";
+
+	string name = "";
+	string link = "";
+
+
+	if(!string.IsNullOrEmpty(IdAutor)){
+		var item = ItemManager.Storage.Open("Taxonomie_Autori").SelectById(IdAutor);
+   		name = "- " + (string) item["Name"];
+		link = (string) item["Companiae_Asociata"];
+	}
+
+	if(!string.IsNullOrEmpty(IdCompanie)){
+		var item2 = ItemManager.Storage.Open("Taxonomie_Companii").SelectById(IdCompanie);
+   		name = "- " + (string) item2["Name"];
+		link = IdCompanie;
+	}
+}
+	
+
+      <div class="row blog-content">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+          <article class="post-wrapper clearfix">
+            @if(GetString("DwPageName") != "Cautare" ){
+            <header class="post-header clearfix">
+              <div class="row">
+                <div class="col-xs-9">
+                  <h1 class="block-title">
+                    <span> @GetString("DwPageName")  @name</span>
+                  </h1><!-- .post-title -->
+                </div>
+                @if(!string.IsNullOrEmpty(IdAutor) || !string.IsNullOrEmpty(IdCompanie)){
+                  if(!string.IsNullOrEmpty(link)){
+                    <div class="col-xs-3">
+                      <a class="btn btn-primary" href="/companie?companyID=@(link)">Vezi Compania</a>    
+                    </div>
+                  }
+                }
+              </div>
+            
+            </header><!-- .post-header -->}
+
+            <div class="post-content clearfix">
+                <div class="dwcontent" id="maincontent" title="Main Content" settings="unwrap:true"></div>
+            </div><!-- .post-content -->
+          </article><!-- .post-wrapper -->
+
+                    
+          
+</div><!-- End Left big column -->
+
+<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+  @Include("Custom/Sidebar.cshtml")
+</div><!-- End last column -->        
+</div><!-- .blog-content -->
+
+ <!-- Google Analytics -->
+
+<script>
+
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+ga('create', 'UA-26068739-1', 'auto');
+
+ 
+
+// DIMENSIONS DECLARATION WHERE NEEDED
+
+ 
+
+ga('send', 'pageview');
+
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+
+<!-- End Google Analytics -->
+
+   

@@ -1,0 +1,23 @@
+﻿@foreach (LoopItem i in GetLoop("FormValidationErrors")){
+	@i.GetValue("HeaderStart")
+    <div id="errormessages">
+      <ul>
+    	@i.GetValue("HeaderEnd")
+    	<li>Error in the input field "@i.GetValue("UserManagement:User.FormValidationError.FieldNiceName")": <a href="javascript:document.getElementById('@i.GetValue("UserManagement:User.FormValidationError.FieldName")').focus();">@i.GetValue("UserManagement:User.FormValidationError.Message")</a></li>
+    	@i.GetValue("FooterStart")
+      </ul>
+    </div>
+	@i.GetValue("FooterEnd")
+}
+
+@GetValue("UserManagement:User.FormStart")	
+  <div class="unsubscribe">	
+    @GetValue("UserManagement:User.Email.Input")	
+    <input type="submit" id="submitter" value='@Translate("Unsubscribe from newsletter", "Dezabonează-te de la newsletter")'>	
+    
+    <div style="display:none">
+      <input name='@GetValue("UserManagement:User.EmailAllowed.InputName")' type="checkbox" id='@GetValue("UserManagement:User.EmailAllowed.InputName")' value="False" checked="checked" />
+      @GetValue("UserManagement:User.EmailAllowed.Hidden.Input")
+    </div>
+  </div>
+@GetValue("UserManagement:User.FormEnd")

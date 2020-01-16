@@ -1,0 +1,122 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@Title("Main page template")
+@MasterPageFile("Master/Main.cshtml")
+
+@helper DisplayMiniCartBrief()
+{
+    <div class="cart-info">
+        <a href="#showcart" class="btn btn-default">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            @Translate("Products in cart"): @GetInteger("Ecom:Order.OrderLines.TotalProductQuantity")
+        </a>
+    </div>
+}
+
+@helper DisplayMiniCart()
+{
+    var lines = GetLoop("OrderLines");
+    <div class="cart-info">
+        @if (lines.Count == 0)
+        {
+            <span class="btn btn-default">
+                <span class="glyphicon glyphicon-shopping-cart"></span>
+                @Translate("Empty cart")
+            </span>
+        }
+        else
+        {
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="minicart" data-toggle="dropdown" aria-expanded="true">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    @Translate("Products in cart"): @GetInteger("Ecom:Order.OrderLines.TotalProductQuantity")
+                    <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu" role="menu" aria-labelledby="minicart">
+                    <table class="table table-condensed">
+                        <tfoot>
+                            <tr>
+                                <th colspan="3">@Translate("Total")</th>
+                                <th class="amount">
+                                    @GetValue("Ecom:Order.Price")
+                                </th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var line in lines)
+                            {
+                                <tr>
+                                    <td>
+                                        @line.GetValue("Ecom:Order:OrderLine.ProductName")
+                                    </td>
+                                    <td class="quantity">
+                                        @line.GetValue("Ecom:Order:OrderLine.Quantity")
+                                    </td>
+                                    <td class="price">
+                                        @line.GetValue("Ecom:Order:OrderLine.UnitPrice")
+                                    </td>
+                                    <td class="amount">
+                                        @line.GetValue("Ecom:Order:OrderLine.TotalPrice")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <a href="#showcart" class="btn btn-default">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        @Translate("Show cart")
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@helper DisplayMiniCartAPI()
+{
+    var cart = Dynamicweb.eCommerce.Common.Context.Cart;
+    <div class="cart-info">
+        @if (cart == null || cart.OrderLines.Count == 0)
+        {
+            <span class="btn btn-default">
+                <span class="glyphicon glyphicon-shopping-cart"></span>
+                @Translate("Empty cart")
+            </span>
+        }
+        else
+        {
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="minicart" data-toggle="dropdown" aria-expanded="true">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    @Translate("Products in cart"): @cart.OrderLines.Sum(line => line.HasType(Dynamicweb.eCommerce.Orders.OrderLine.OrderLineType.Product) ? line.Quantity : 0)
+                    <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu" role="menu" aria-labelledby="minicart">
+                    <table class="table table-condensed">
+                        <tfoot>
+                            <tr>
+                                <th colspan="3">@Translate("Total")</th>
+                                <th class="amount">@GetValue("Ecom:Order.Price")</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var line in cart.OrderLines)
+                            {
+                                <tr>
+                                    <td>@line.ProductName</td>
+                                    <td class="quantity">@line.Quantity</td>
+                                    <td class="price">@line.UnitPrice</td>
+                                    <td class="amount">@line.Price</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <a href="#showcart" class="btn btn-default">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        @Translate("Show cart")
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,57 @@
+﻿@{
+	string title = GetString("Item.ParagraphName");
+	string icon = GetString("Item.Icon");
+}
+
+<!-- BOF PROTFOLIO -->
+<div id='' class="jx-container container-no-margin jx-padding jx-white-bg ">
+		
+	<!-- Background Image -->
+	
+	<!-- Background Icon -->
+	<div class="container ">
+		<div class="jx-section-title-1 jx-dark mb40">
+		
+			<div class="jx-pre-title jx-short-border">
+			<div class="jx-title-border left"></div>
+			<div class="jx-title-icon"><i class="fa fa-@icon" style="color: #000 !important;"></i></div>
+			<div class="jx-title-border right"></div> 
+			</div>
+			<div class="jx-title jx-uppercase">@title</div>
+			<!-- Section Title -->
+		
+		</div>
+
+		@foreach(LoopItem item in GetLoop("Item.GalleryList")) {
+			string text = item.GetString("Item.GalleryList.Text");
+			string image = item.GetString("Item.GalleryList.Image");
+			string display = item.GetString("Item.GalleryList.Display");
+			string dayCounter = item.GetString("Item.GalleryList.LoopCounter");
+			string dayText = "Ziua" + " " + dayCounter;
+
+			if (!string.IsNullOrEmpty(@text)) {
+				<div class="jx-grid-item"> 
+					<div class="jx-date-box">
+@* 						<div class="jx-date"></div>
+						<div class="jx-day"></div> *@
+						<div style="font-size: 40px;">@text</div>
+					</div>		
+				</div>
+			}
+			else {
+				<div class="jx-grid-item @display">                    	
+					<div class="jx-image jx-image-wrapper"><img width="400" height="400" src="@image" class="attachment-port-1 wp-post-image" alt="portfolio_23" />
+						<div class="jx-image-overlayer"></div>
+						<div class="jx-image-hover">
+							<a herf="http://ievent.janxcode.com/wp-content/uploads/2015/09/portfolio_23-1024x681.jpg" data-rel="prettyPhoto"><i class="fa fa-expand"></i></a>
+						</div>
+						<!--Image Hover -->
+					</div>                        
+				</div>				
+			}
+
+		}
+		
+	</div>
+</div>
+<!-- EOF PROTFOLO -->

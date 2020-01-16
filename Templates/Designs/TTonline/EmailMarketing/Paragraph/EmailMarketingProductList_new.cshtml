@@ -1,0 +1,267 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@using System.Threading;
+@Include("../emailMarketingButton.cshtml")
+@Include("../emailMarketingGetImage.cshtml")
+
+@{
+  var culture1 =  System.Globalization.CultureInfo.GetCultureInfo("ro-RO");
+  var culture2 = System.Globalization.CultureInfo.InvariantCulture;
+
+  bool useCulture1 = string.Equals(Thread.CurrentThread.CurrentCulture.Name, "ro-RO", StringComparison.OrdinalIgnoreCase);
+	
+  //Thread.CurrentThread.CurrentCulture = culture2;
+
+	Func<string, bool> isInvariant = (v) =>
+    {
+      if (string.IsNullOrEmpty(v))
+      {
+      	return false;
+      }
+      
+      if (v.Contains(".") && v.Contains(","))
+      {
+      	return v.IndexOf(',') < v.IndexOf('.') ? true : false;
+      }
+      else if (v.Contains(","))
+      {
+      	return false;
+      }
+      else
+      {
+      	return true;
+      }
+    };
+}
+
+
+@{
+
+  bool showButton = GetBoolean("Item.ShowReadMoreButton");
+  string title = GetBoolean("Item.ShowTitle") ? GetString("Item.Title") : "";
+  string titleHeading = GetString("Item.HeadingType") != "" ? GetString("Item.HeadingType") : "h2";
+  string titleOrder = GetString("Item.TitleOrder");
+  string image = GetString("Item.Image");
+  string imageTitle = GetString("Item.ImageTitle");
+  string text = GetString("Item.Text");
+  string imageAlignment = GetString("Item.Order");
+  string backgroundColor = GetString("Item.Background");
+  string titleAlignment = imageAlignment != "image-top" || image == "" ? "left" : "center" ;
+  string fontFamily = "font-family: 'Open Sans', Verdana, sans-serif; color:#717375; font-weight: 400;";
+  string fontSize12 = "font-size: 12px";
+  string fontSize16 = "font-size: 16px";
+  string padding0 = "padding: 0";
+  int listColumns = Dynamicweb.Input.FormatInteger(GetString("Item.NumberOfColumns"));
+  string columnWidth = listColumns == 1 ? "100%" : 96 / listColumns + "%" ;
+  int width = GetInteger("Item.Width");
+  string col = width == 50 ? "324" : "300";
+  bool breakBol = Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) == 100;
+
+
+  List<LoopItem> items = GetLoop("Item.Items");
+
+  if (GetInteger("ParagraphContainerSort") == 1)
+	{
+		System.Web.HttpContext.Current.Items["currentColumns"] = 0;
+	}
+	System.Web.HttpContext.Current.Items["currentColumns"] = Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) + width;
+  if(Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) > 100) {
+    System.Web.HttpContext.Current.Items["currentColumns"] = width;
+  }
+  Dictionary<string, string> dict_buttonBlue = new Dictionary<string, string>
+  {    
+    {"background", "none"},
+    {"color", "#fcae16"},
+    {"font-size", "12px"},
+    {"font-style", "normal"},
+	  {"text-align", "left"},
+    {"padding", "0"}
+  };
+//string tableStart = (breakBol || Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) == 0 || GetInteger("ParagraphContainerSort") == 1 ) ? "<tr align='center' border='0' cellspacing='0' cellpadding='0' width='100%' bgcolor='"+backgroundColor+"' style='"+fontFamily+"'><td align='center'><table class='responsive-table clearLeft' border='0' cellspacing='0' cellpadding='0' width='500'><tr>" : "";
+//string tableEnd = (Dynamicweb.Input.FormatInteger(System.Web.HttpContext.Current.Items["currentColumns"]) == 50) ? "</tr><tr><td height='30'></td></tr></table></td></tr>" : "";
+  System.Web.HttpContext.Current.Items["oldColumns"] = System.Web.HttpContext.Current.Items["currentColumns"];
+  string endHeading = "</"+titleHeading+">";
+}
+
+<table class='responsive-table clearLeft' border='0' cellspacing='0' cellpadding='0' width='300' style="float: left;"> 
+<tr>
+  <td width="10" height="10" style="font-size: 0; line-height: 1;">&nbsp;</td>
+</tr>
+<tr>
+    <td border="0" cellspacing="0" cellpadding="0" width="@col" style="@fontFamily;" class="responsive-table">
+    	<table border="0" cellspacing="0" cellpadding="0" width="@col" style="@fontFamily;" class="responsive-table">
+      		  @* <tr>
+                <td height="30" style="font-size: 0; line-height: 1;">&nbsp;</td>
+            </tr> *@
+            @if(title != "" && (titleOrder == "title-first" || titleOrder == "" )){
+              <tr>
+                <td class="cell-padding" align="@titleAlignment" valign="top" style="@fontFamily; background: #203742; padding: 5px 10px;">
+                  <@titleHeading style="font-size: 16px; padding: 0; margin: 0;  @fontFamily; color: #ffffff" class="outlook">@title @endHeading
+                </td>
+              </tr>
+              <tr>
+                <td width="10" height="10" style="font-size: 0; line-height: 1;">&nbsp;</td>
+              </tr>
+            }
+
+            @if(text != "") {
+              <tr>
+                <td class="cell-padding" align="left" valign="top" style=" line-height: 18px; font-size: 14px; @fontFamily" class="outlook">
+                   @text
+                </td>
+              </tr>
+              <tr>
+                <td width="10" height="20" style="font-size: 0; line-height: 1;">&nbsp;</td>
+              </tr>
+            }
+    		@if(items.Any()){
+    		@* <tr>
+            <td width="10" height="15" style="font-size: 0; line-height: 1;">&nbsp;</td>
+        </tr> *@
+    		<tr>
+                <td class="cell-padding" align="left" valign="top" style="padding: 0 15px;">
+                  <table class='responsive-table clearLeft' border='0' cellspacing='0' cellpadding='0' width='100%'>                
+                      <tr>
+                        @{int count = 1;
+                        int totalItems = items.Count();     
+                        foreach (LoopItem item in items){
+                        string productTitle = "";
+                        string productImage = "";
+                        string productPrice = "";
+                        string productLink = "";
+                        double priceProductDB = 0;
+                        double priceProductDiscount = 0;
+                        
+                        var product = item.GetLoop("Item.Items.Product").FirstOrDefault();
+                        if (product != null) {
+                          productTitle = product.GetString("Ecom:Product.Name");
+                          productImage = product.GetString("Ecom:Product.ImageLarge.Clean");
+                          //productPrice = product.GetString("Ecom:Product.Price");
+                          productLink = product.GetString("Ecom:Product.LinkGroup.Clean");
+          
+                          double cultureDBPrice = double.Parse(product.GetString("Ecom:Product.DBPrice"), isInvariant(product.GetString("Ecom:Product.DBPrice")) ? culture2 : culture1);       		       		       		
+                          double culturePriceWithVAT = double.Parse(product.GetString("Ecom:Product.Price.PriceWithVAT"), isInvariant(product.GetString("Ecom:Product.Price.PriceWithVAT")) ? culture2 : culture1);
+                          double cultureVATPercent = double.Parse(product.GetString("Ecom:Product.Price.VATPercent"), culture2);                                            
+                          
+                          priceProductDB = Math.Round(cultureDBPrice * (1+cultureVATPercent/100.0) ,2);
+                          priceProductDiscount = Math.Round(culturePriceWithVAT,2); 
+                        }
+                        string itemImage = item.GetString("Item.Items.Image");
+                        string itemTitle = item.GetString("Item.Items.Title");
+                        bool showPrice= item.GetBoolean("Item.Items.Show_Price");
+                        string itemLink = item.GetString("Item.Items.Link");
+                        string itemLinkText = item.GetString("Item.Items.LinkText");
+                        
+                        string RenderTitle = !string.IsNullOrEmpty(itemTitle) ? itemTitle : productTitle;
+                        string RenderImage = !string.IsNullOrEmpty(itemImage) ? itemImage : productImage;
+                        string RenderLink = !string.IsNullOrEmpty(productLink) ? productLink : itemLink;
+                        //RenderLink = "http://www.brandfusion.ro/" + RenderLink;
+                        //RenderImage = "http://www.brandfusion.ro" + RenderImage;
+                        
+                        string imageAnchorStart = RenderLink != "" ? "<a target=\"_blank\" href=\"" + RenderLink + "\">" : "";
+                        string imageAnchorEnd = RenderLink != "" ? "</a>" : "";
+                        if(count != 1 && listColumns != 1) { <td width='2%'>&nbsp;</td> } 
+                        <td width='@columnWidth' valign="top">
+                          <table class='responsive-table clearLeft' border='0' cellspacing='0' cellpadding='0' width='100%'>                
+                            
+                            @if(!string.IsNullOrEmpty(itemImage)) {
+                            <tr>
+                              <td align="left" valign="top" style="padding-bottom: 5px;">
+
+                                @if(!string.IsNullOrEmpty(RenderImage)) {
+                                  @:@imageAnchorStart
+                                      <img class="img-max" src="@GetImage(RenderImage, 330, 0)" style="width: 130px; border: 1px solid #ddd;" /> 
+                                  @:@imageAnchorEnd 
+                                } 
+
+                                @* else {
+                                  @:@imageAnchorStart
+                                      <img class="img-max" src="@RenderLink" alt="@RenderTitle" />
+                                  @:@imageAnchorEnd 
+                                } *@
+                              </td>
+                            </tr>
+                            }
+                            
+                            @if(showPrice){
+                            <tr>
+                              <td style="@fontFamily  padding: 0 0 10px" align="center" valign="top" width='@columnWidth'>
+                                <span style="color: #d50000; @fontSize16; font-weight:600;" class="outlook"> @product.GetString("Ecom:Product.ActualPrice") </span>
+                              </td>
+                            </tr>                        
+                            <tr>
+                              <td style="@fontFamily padding: 0 0 10px" align="center" valign="top" width='@columnWidth'>
+                                <span style="color: #666; @fontSize12; font-weight:600;">                               
+                                  if (priceProductDiscount < priceProductDB) {
+                                    <p style="@fontSize12;" class="outlook">Pret vechi: <span style="text-decoration: line-through; @fontSize12;">@(priceProductDB.ToString(isInvariant(product.GetString("Ecom:Product.ActualPrice")) ? culture2 : culture1)) @product.GetValue("Ecom:Product.Currency.Name")</span></p>			   
+                                  }                                
+                                </span>
+                              </td>
+                            </tr> 
+                            }
+                            
+
+                            @if(!string.IsNullOrEmpty(itemTitle)) {
+                            <tr>
+                              <td style="@fontFamily  padding: 0 0 5px" align="left" valign="top" width='@columnWidth'>
+                                <h2 style=" @fontFamily @fontSize12; font-weight: 400; display: block; overflow: hidden; margin: 0; line-height: 1.4; text-align: left; @padding0; " class="outlook">
+                                  @RenderTitle @* @(count % @listColumns) @totalItems *@
+                                </h2>
+                              </td>
+                            </tr>
+                            } 
+                					  @if(!string.IsNullOrEmpty(itemLinkText)) {
+                						<tr>
+                              <td valign="top" width='@columnWidth' style=" padding: 0 0 5px 0;">                                                                      
+                          		  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                  <tr>
+                                    <td>
+                                        <table border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td>
+                                              <a class="mobile-button" target="_blank" href="" style="background:none; display:block; border:none; color:#fcae16; font-family:Helvetica, Arial, sans-serif; padding:0; font-size:16px; font-style:normal; text-align:left; text-decoration:none; line-height: 1.2;">@itemLinkText</a>
+
+                         						          @* @CreateButton(RenderLink, itemLinkText, null, dict_buttonBlue) *@
+                                            </td>
+                                          </tr>
+                                        </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                						} 
+                            <tr>
+                                <td style="padding: 0 0 5px 0;"><hr style="background: none; border: none; border-top: 1px solid #dddddd; height: 0; " /></td>        
+                            </tr>
+
+                          </table>
+                        </td>     
+                        if ((count % listColumns) == 0) {
+                                  @:</tr><tr>
+                                  count=0;
+                        }  
+                        @* if(count == totalItems){
+                            int j = listColumns - (count % listColumns);
+                        
+                            for(var i = 0; i < j; i++)
+                            {
+                                <td width='@columnWidth'>&nbsp;</td>
+                            }  
+                        } *@
+                        count++;
+                        }
+                  	}
+            		</tr>
+                  </table>
+               </td>
+            </tr>
+    		    @* <tr>
+                <td width="10" height="30" style="font-size: 0; line-height: 1;">&nbsp;</td>
+            </tr> *@
+    	    }
+    		
+          </table>
+    </td>
+</tr>	
+</table>

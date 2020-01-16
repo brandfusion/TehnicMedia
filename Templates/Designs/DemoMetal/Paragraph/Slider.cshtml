@@ -1,0 +1,29 @@
+﻿<div id="home" class="jx-main-slider">      
+	<div class="flexslider">
+		<ul class="slides">
+
+		@foreach(LoopItem item in GetLoop("Item.ImageList")) {
+			string imageFile = item.GetString("Item.ImageList.Image");
+         	string video = item.GetString("Item.ImageList.Video");
+          	string slideDelay = item.GetString("Item.ImageList.Slide_Delay");
+          	string slideUrl = item.GetString("Item.ImageList.SlideUrl");
+
+         if(!string.IsNullOrEmpty(@item.GetString("Item.ImageList.Video"))) {
+          <li class="jx-parallax-fullwidth" data-delay="@slideDelay">
+          <iframe style="visibility: inherit; opacity: 1; position: absolute; left: 0px; top: -11.6611%; width: 100%; height: 123.322%; display: block;" type="text/html" src="https://www.youtube.com/embed/@(video)?version=3&amp;autoplay=1&amp;enablejsapi=1&amp;html5=1&amp;volume=0&amp;hd=1&amp;wmode=opaque&amp;showinfo=0&amp;rel=0;;origin=http://demometal.ro;&amp;controls=0" width="100%" height="100%" class="resizelistener" id="iframe52380"></iframe></li>
+  																			} else
+  																			{         
+    	<li class="jx-parallax-fullwidth slider-size" data-delay="@slideDelay" style="background-image:url('@imageFile');">
+  			@if(!string.IsNullOrEmpty(item.GetString("Item.ImageList.SlideUrl"))) {
+  			<a href="@slideUrl">
+  					<div class="container" style="height:100%;">	
+     				</div>
+			</a>
+																				}		
+ 		</li> 
+ 																			 }
+   															 }  
+
+   </ul>
+	</div>      
+</div> 

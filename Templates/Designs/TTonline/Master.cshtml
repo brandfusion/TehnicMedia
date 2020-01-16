@@ -1,0 +1,280 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Text.RegularExpressions
+@using System.Web.UI.HtmlControls
+@Include("Custom/GlobalVariables.cshtml")
+@Include("Includes/PageTemplates/MasterHelpers.cshtml")
+@{
+  string designName1 = "TTonline";
+  string device = Pageview.Device.ToString();
+  string firstPageId = GetString("DwAreaFirstPageID");
+  string homeOrSubpage = GetString("DwAreaFirstPageID") == GetString("Global:Page.ID") ? "home" : "subpage";
+  string print = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["print"]) ? "printOrPdf" : "";
+  //string resultsPage = GetString("Item.Area.SearchResults");
+  //string contactPage = GetString("Item.Area.ContactUs");
+  string countryCode = "RO";//Dna.IP.Frontend.GetCountryCode();
+  string longLang = Pageview.GlobalTags.GetTagByName("Global:Area.LongLang").Value.ToString();
+  //string email = GetString("Item.Area.Email");
+  //string phone = GetString("Item.Area.Phone");
+  
+  //bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
+  bool isPrint = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["print"]);
+  bool bol_backofficeLogged = Dynamicweb.Security.UserManagement.User.GetCurrentBackendUser() != null ? true : false;
+  List<LoopItem> socialMedia = GetLoop("Item.Area.SocialNetworks");
+  List<LoopItem> websiteLanguages = GetLoop("WebsiteLanguages");
+  string designFolder = GetString("Template:DesignBaseUrl");
+      var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
+      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+
+}
+<!DOCTYPE HTML>
+<!--[if lt IE 8 ]><html class="ie7" lang="@(longLang)"><![endif]--><!--[if IE 8 ]><html class="ie8" lang="@(longLang)"><![endif]--><!--[if IE 9 ]><html class="ie9" lang="@(longLang)"><![endif]--><!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="@(longLang)"><!--<![endif]-->
+
+@HtmlHead(designName1)
+ 
+<body class="@bodyStyle tileStyle">
+
+ 
+    <div id="main" class="header-style1">
+
+        @Include("Custom/Header.cshtml")
+    
+        <!-- Begin Main Wrapper -->
+        <div class="container main-wrapper">
+
+          @if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["productid"]))
+          {
+              @Include("Custom/Banners/Skyscraper-left.cshtml")
+              @Include("Custom/Banners/Skyscraper-right.cshtml")
+          } 
+       
+          @if(@GetInteger("DwPageID") == 4228)
+            {
+              <style>
+                .ad728-wrapper {
+                    margin: 40px auto 0px;
+                }
+              </style>
+              
+                string logoSubheader = GetString("Item.Area.Logo_IBuySmart");
+                string culoareFundal = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFundal")) ? "background:" + GetString("Item.Area.CuloareFundal") + ";" : "";
+                string culoareFont = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFont")) ? "color:" + GetString("Item.Area.CuloareFont") + ";" : "";
+                string textSubheader = GetString("Item.Area.Text");
+                string dimensiuneFont = !string.IsNullOrEmpty(GetString("Item.Area.DimensiuneFont")) ? "font-size:" + GetString("Item.Area.DimensiuneFont") + ";" : "";
+              
+                <div class="subheader row" style="@culoareFundal">
+                    <div class="col-xs-4">
+                      <img src="@logoSubheader" />
+                    </div>
+                    <div class="col-xs-5">
+                      <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
+                    </div>
+                    <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
+                </div>
+          }
+  
+          @if(@GetInteger("DwAreaID") == 3){
+                <style>
+                  .ad728-wrapper {
+                      margin: 40px auto 0px;
+                  }
+                </style>
+
+                string logoSubheader = GetString("Item.Area.LogoIndustryZoom");
+                string culoareFundal = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFundal_Industryzoom")) ? "background:" + GetString("Item.Area.CuloareFundal_Industryzoom") + ";" : "";
+                string culoareFont = !string.IsNullOrEmpty(GetString("Item.Area.Culoare_Font_IndustryZoom")) ? "color:" + GetString("Item.Area.Culoare_Font_IndustryZoom") + ";" : "";
+                string textSubheader = GetString("Item.Area.Text_Subheader_Industry_Zoom");
+                string dimensiuneFont = !string.IsNullOrEmpty(GetString("Item.Area.Dimensiune_Font_IndustryZoom")) ? "font-size:" + GetString("Item.Area.Dimensiune_Font_IndustryZoom") + ";" : "";
+
+                <div class="subheader row" style="@culoareFundal">
+                    @if (!string.IsNullOrEmpty(textSubheader)) {
+                      <div class="col-xs-4">
+                        <img src="@logoSubheader" />
+                      </div>
+                      <div class="col-xs-5">
+                        <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
+                      </div>
+                      <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
+                    } else {
+                      <div class="col-xs-12 noPadding">
+                        <img src="@logoSubheader" style="margin: 10px 0 -30px 0;" />
+                      </div>
+                    }
+                </div>
+
+          }
+    
+    
+    	    @if(@GetInteger("DwPageID") == 4218 || @GetInteger("DwPageID") == 4271 || @GetInteger("DwPageID") == 8376 ){
+              <style>
+                .ad728-wrapper {
+                  margin: 40px auto 0px;
+                }
+              </style>
+      
+              string logoSubheader = GetString("Item.Area.Logo_Companii");
+              string culoareFundal = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFundalCompanii")) ? "background:" + GetString("Item.Area.CuloareFundalCompanii") + ";" : "";
+              string culoareFont = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFontCompanii")) ? "color:" + GetString("Item.Area.CuloareFontCompanii") + ";" : "";
+              string textSubheader = GetString("Item.Area.TextSubheaderCompanii");
+              string dimensiuneFont = !string.IsNullOrEmpty(GetString("Item.Area.DimensiuneFontCompanii")) ? "font-size:" + GetString("Item.Area.DimensiuneFontCompanii") + ";" : "";
+            
+              <div class="subheader row" style="@culoareFundal">
+                  <div class="col-xs-4">
+                    <img src="@logoSubheader" />
+                  </div>
+                  <div class="col-xs-8">
+                    <h4 style="@culoareFont; @dimensiuneFont">@textSubheader</h4>
+                  </div>
+              </div>
+          }
+    
+          @if(GetString("DwPageID") == "4228" || GetString("DwPageID") == "4218" || GetString("DwPageID") == "8376"){
+          
+        
+          } else {
+            <!-- Begin Main Banner -->
+            <div class="mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
+                <div class="row">
+                    <div class="col-md-12">
+                     
+                        <div class="ad728-wrapper">
+                          @Include("Custom/Banners/Leaderboard-top.cshtml")
+                        </div>
+                     
+                    </div>
+                </div>
+            </div>
+            <!-- End Main Banner -->
+          }
+
+          @{
+            string backgroundClassShop = (GetString("DwPageID") == "4228") ? "shop-background" : " ";
+            string backgroundClassCompanii = (GetString("DwPageID") == "4218" || GetString("DwPageID") == "8376" ) ? "companii-background" : " ";
+            string backgroundClassIndustry = (GetString("DwPageID") == "4271") ? "industry-background" : " ";
+            
+          }
+          
+          <div class="main-content mag-content clearfix @backgroundClassShop @backgroundClassCompanii @backgroundClassIndustry">
+
+                <!--@ContentPlaceholder-->
+
+          </div><!-- .main-content -->
+    
+          @if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["productid"]))
+          {
+              <!-- End Main Banner -->
+              <div class="mag-content clearfix sidebar-stop" style="max-width:1170px; padding-left: 0px; padding-right: 0px;">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="ad728-wrapper">
+                            @Include("Custom/Banners/Leaderboard-bottom.cshtml")
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- End Main Banner -->
+          }
+        
+        </div><!-- .main-wrapper -->
+
+
+        @Include("Custom/Footer.cshtml")
+
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav id="mobile-nav">
+      <div>
+        @RenderNavigation(new {
+          template = "MainNavigationMobile.xslt",
+          expandmode = "all",
+          id = "mobile-nav",
+          startlevel = 1,
+          listStyle = "mobile-navigation",
+          endlevel = 2
+         })
+      </div>
+    </nav>
+    <!-- / Mobile Menu -->
+    <div id="go-top-button" class="fa fa-angle-up" title="Scroll To Top"></div>
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+
+ <script type="text/javascript" src="@scriptBundleFooter"></script>
+
+
+
+@*Include("Custom/MasterFooter.cshtml")*@
+@RenderSnippet("Modals")
+<!--<script type="text/javascript" src="assets/js/footer_scripts.js"></script>-->
+      
+@Pageview.Area.Item["Analytics_Code"]
+<!-- Add to Calendar -->
+<script type="text/javascript">(function () {
+  if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+  if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+    s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+    s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+    var h = d[g]('body')[0];h.appendChild(s); }
+  })();
+</script>
+
+<!-- Go to www.addthis.com/dashboard to customize your tools --> 
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58b014abcccaba2d"></script> 
+
+<!-- Twitter Widget-->
+<!--<script type="text/javascript">
+  window.twttr = (function (d,s,id) {
+  var t, js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+  js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+  return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+  }(document, "script", "twitter-wjs"));
+</script>-->
+
+<!-- Twitter Widget Loader -->
+
+@RenderSnippet("bottomJS")
+
+<!-- Start Scroll tracking -->
+<script src="@areaLayoutPath/assets/js/gascrolldepth.min.js"></script>
+<script>
+    gascrolldepth.init({
+        elements: ['#mm-0', 'footer'],
+        userTiming: true,
+        gtmOverride: true,
+        eventHandler: function(data) {
+            if (data.event == "ScrollDistance") {
+                ga('send', 'event', data.eventCategory, data.eventAction, data.eventLabel, data.eventValue);
+            }
+        }
+    });
+</script>
+<!-- End Scroll tracking -->
+<script type="text/javascript">
+
+/* <![CDATA[ */
+
+var google_conversion_id = 1010029401;
+
+var google_custom_params = window.google_tag_params;
+
+var google_remarketing_only = true;
+
+/* ]]> */
+
+</script>
+
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+
+<noscript>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1010029401/?guid=ON&amp;script=0"/>
+    </div>
+</noscript>
+<div id="loading"></div>
+</body>
+</html>

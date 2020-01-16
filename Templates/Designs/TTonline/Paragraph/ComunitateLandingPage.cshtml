@@ -1,0 +1,40 @@
+﻿@Include("Layout.cshtml")
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage.cshtml")
+@NewRow()
+
+
+
+@foreach(LoopItem slide in GetLoop("Item.Slides")){
+
+string imagine1 = @slide.GetString("Item.Slides.Imagine");
+string imagine = GetImage(@imagine1, 300, 350);
+string link = @slide.GetString("Item.Slides.Link");
+string linkText = @slide.GetString("Item.Slides.LinkText");
+string titlu = @slide.GetString("Item.Slides.Titlu");
+string descriere = @slide.GetString("Item.Slides.Descriere");
+
+
+
+						<div class="col-md-4 omega">
+                           <div class="featured-small">
+                                <a href="@link" class="featured-href" alt="@titlu">
+									
+                                  
+                                  @if(!string.IsNullOrEmpty(slide.GetString("Item.Slides.Imagine.Value"))){
+                                 		<img src='@imagine' alt="" />
+									}else{
+                                    	<img src="@areaLayoutPath/assets/img/demo/300x250.png" alt="" />
+									}
+                                    <div class="featured-header">
+                                     	<h4>@titlu</h4>                                     
+                                    </div>
+                                </a>
+							</div>
+                        </div>
+                      
+
+                        
+    					}
+

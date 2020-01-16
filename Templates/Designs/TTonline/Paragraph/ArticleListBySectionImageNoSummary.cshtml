@@ -1,0 +1,160 @@
+﻿@Include("Layout.cshtml")
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@{
+  int counter = 1;
+  
+}
+@* @NewRow() *@
+
+<div class="@ColumnClass()">
+    <h3 class="block-title"><span>@GetString("Item.ParagraphName")</span></h3>
+
+    <div class="row">
+      @RenderFeaturedArticle()
+      @RenderArticleList()
+      @RenderModule()
+    </div>
+</div>
+
+@helper RenderFeaturedArticle(){
+int counter = 1;
+
+int featuredArticle = GetInteger("Item.Featured_Article");
+
+  if(GetLoop("Item.Featured_Article").Any()){ 
+      foreach(LoopItem i in GetLoop("Item.Featured_Article")){
+         string mainImage = i.GetString("Item.Featured_Article.ImaginePrincipala.Value"); 
+         string mainTitle = i.GetString("Item.Featured_Article.Titlu.Value");
+               var mainDate = i.GetDate("Item.Featured_Article.Data");
+               string mainSummary = i.GetString("Item.Featured_Article.Sumar");
+               string mainURL = i.GetString("Item.Featured_Article.Url");
+               string mainAutori = i.GetString("Item.Featured_Article.Autori");
+			string articleSectiune = i.GetString("Item.Featured_Article.SectiuneParinte");
+ 			int articleSectiuneID = i.GetInteger("Item.Featured_Article.SectiuneParinteId");
+            string mainSections = "";
+					bool itemConditionVisits = i.GetBoolean("Item.Featured_Article.Vizite");
+					string articleVisits = i.GetString("Item.Featured_Article.Visits.Value");
+
+            List<Autor> articleAutori = GetAutori(mainAutori);
+            List<Sectiune> articleSections = GetSectiuni(mainSections);
+            
+        
+if (counter == 1){
+<div class="col-md-8">
+            <article class="featured-small box-news box-big">
+
+              <a href="@mainURL" class="overlay-link image-overlay">
+                @if(!string.IsNullOrEmpty(i.GetString("Item.Featured_Article.ImaginePrincipala.Value"))){
+                  <img src="/Admin/Public/GetImage.ashx?Image=@mainImage&Format=jpg&Width=730&Height=320&Crop=5" alt="@mainTitle" />
+              }else{
+              <img src="/Files/Images/NoImage/540x355.png" alt="@mainTitle" />
+                            }
+              </a>
+
+
+
+              <header class="featured-header">
+                <a href='/Default.aspx?ID=@articleSectiuneID' class="bg@(articleSectiuneID) category">@articleSectiune</a>
+                <h2 style="min-height: 59px;">@mainTitle</h2>
+                    <p class="simple-share">
+                      @Translate("articolde","de")
+                      @foreach (var articleAutor in articleAutori)
+                {
+                    @articleAutor.Name
+                          }  -  
+                      <span class="article-date"> @mainDate.ToString("dd/MM/yyyy")</span>
+                      
+                      @if (itemConditionVisits) {    
+                              <span>  -  <i class="fa fa-eye"></i> @articleVisits vizualizari</span>}
+                    </p>
+              </header>
+            </article>
+          </div>
+       } else {
+
+       <div class="col-md-4">
+            <article class="featured-small box-news">
+              <a href="@mainURL" class="overlay-link image-overlay">
+                @if(!string.IsNullOrEmpty(i.GetString("Item.Featured_Article.ImaginePrincipala.Value"))){
+              <img src="/Admin/Public/GetImage.ashx?Image=@mainImage&Format=jpg&Height=320&Crop=5" alt="@mainTitle" />
+              }else{
+              <img src="/Files/Images/NoImage/540x355.png" alt="@mainTitle" />
+                            }
+              </a>
+
+
+
+              <header class="featured-header">
+               <a href='/Default.aspx?ID=@articleSectiuneID' class="bg@(articleSectiuneID) category">@articleSectiune</a>
+                <h2 style="min-height: 59px;">@mainTitle</h2>
+                    <p class="simple-share">
+                      @Translate("articolde","de")
+                      @foreach (var articleAutor in articleAutori)
+                {
+                    @articleAutor.Name
+                          }  -  
+                      <span class="article-date">@mainDate</span>
+                    </p>
+              </header>
+            </article>
+          </div>
+       }
+
+counter++;
+        }
+  }
+} 
+
+@*@GetString("Item.Display")*@
+@helper RenderArticleList()
+{
+
+string filterValue = "";
+int count = 1;
+if(GetLoop("Item.Featured_Article").Any()){ 
+  filterValue = filterValue + "\"@\"";
+  foreach(LoopItem exclusion in GetLoop("Item.Featured_Article")){
+    if (count == 1) {
+      filterValue = filterValue + "Item.Id!=" + exclusion.GetString("Item.Featured_Article.Id");
+    } else {
+      filterValue = filterValue + " and Item.Id!=" + exclusion.GetString("Item.Featured_Article.Id");
+    }
+    
+    count++;
+  }
+  filterValue = filterValue + "\"\"";
+}
+
+string listTemplate = "ItemPublisher/List/Loop-" + GetString("Item.Display") + ".cshtml";
+int listSize = GetInteger("Item.ListSize") > 0 ? GetInteger("Item.ListSize") : 10;
+
+  @RenderItemList(new { 
+    ItemType = "Dw_Page",
+    ListSourceType = "Page",
+    ListSourcePage = GetString("Item.Section"),
+    ItemFieldsList = "*",
+    ListTemplate = listTemplate,
+    ListPageSize = listSize,
+    ListOrderBy = "Data",
+    ListOrderByDirection = "Descending",
+    Filter = filterValue
+    
+  })
+
+}
+
+
+@helper RenderModule()
+{
+  @GetString("ParagraphModule")
+}
+
+
+
+
+
+
+
+
+

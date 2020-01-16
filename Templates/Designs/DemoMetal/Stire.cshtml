@@ -1,0 +1,175 @@
+﻿@MasterPageFile("Master.cshtml")
+
+@{
+	string title = GetString("Item.Title");
+	string image = GetString("Item.Image");
+	DateTime date = GetDate("Item.Date");
+	string description = GetString("Item.Description");
+}
+
+<!-- BOF Main Content -->
+<div role="main" class="main">
+
+	<div class="container with-sidebar pt94">
+    <div class="sixteen columns left jx-padding">            	
+      <div class="jx-blog">
+
+      	<div class="jx-blog-item">
+          	<div class="image jx-image-wrapper mb20">
+	            	<img src="@image" alt="">                        
+	            	<div class="jx-image-overlay"></div>
+	              <div class="jx-image-hover">
+	              	<a href="#" class="jx-blog-more"><i class="line-icon icon-doc"></i></a>                            
+	              </div>
+	              <!-- Image Hover -->
+             </div>
+              <!-- Image -->
+          	<div class="jx-blog-head">
+              	<div class="jx-post-format"><i class="fa fa-file-text-o"></i></div>
+            	<div class="jx-blog-meta">
+                        <div class="jx-event-date"><span>@date.ToString("D")</span></div>
+                  </div>
+              
+              <div class="title"><a href="#">@title</a></div>
+              
+          	</div>  
+          
+              <div class="jx-blog-content">
+              	
+                  <div class="jx-blog-metabox">
+                  
+                    <span class="meta_categories">
+                      
+                      <i class="fa fa-tag"></i>in 
+                     Articole editia 2016
+                      , Stiri
+                      
+                    </span>
+                    
+                    
+                  </div>
+                  <div class="description">@description</div>                          
+              </div>
+              <!-- Content -->
+          </div>
+          <!-- item 01 -->
+          
+      </div>
+    </div>
+    <!-- EOF Body Content -->
+    
+    <div id="sidebar" class="four columns right jx-padding">
+        
+            <div class="jx-sidebar-block mb40">
+            
+                <h6 class="jx-uppercase jx-weight-600 mb20">Search</h6>
+                <!-- Heading -->
+                
+                <div class="jx-sidebar-search">
+                    <form action="#" id="contactForm-1" method="post" class="jx-form-wrapper cf">
+                        
+                        <div class="search-input search-inline-block">
+                            <input type="text" id="first_name-1" name="first_name" placeholder="Search..." class="jx-form-name" />
+                        </div>
+                        
+                        <button type="submit"><i class="fa fa-search"></i></button>
+
+                    </form>                        
+                </div>
+                <!-- Search -->
+            </div>
+            <!-- Widget 01 -->
+            
+            <div class="jx-sidebar-block mb40">
+            
+                <h6 class="jx-uppercase jx-weight-600 mb20">Recent Posts</h6>
+                <!-- Heading -->
+                
+                <div class="jx-sidebar-recentposts">
+                    
+                    <ul>
+                            <li>
+                                <div class="image left">
+                                    <img src="images/b-t-1.jpg" alt="">
+                                    <div class="jx-img-hover jx-move-top">
+                                         <div class="jx-hover-top">
+                                            <a class="jx-portfolio-link"><i class="fa fa-plus"></i></a>                                                
+                                          </div>           
+                                    </div>
+                                    <!-- Image Hover Effect --> 
+                                </div>
+                                <div class="jx-post-content">
+                                    <div class="title"><a href="#">A Professional look Gives Creative Feeling</a></div>
+                                    <div class="date">25 March 2015</div>
+                                </div>
+                            </li>                             
+                            <li>
+                                <div class="image left">
+                                    <img src="images/b-t-2.jpg" alt="">
+                                    <div class="jx-img-hover jx-move-top">
+                                         <div class="jx-hover-top">
+                                            <a class="jx-portfolio-link"><i class="fa fa-plus"></i></a>                                                
+                                          </div>           
+                                    </div>
+                                    <!-- Image Hover Effect --> 
+                                </div>
+                                <div class="jx-post-content">
+                                    <div class="title"><a href="#">A Professional look Gives Creative Feeling</a></div>
+                                    <div class="date">25 March 2015</div>
+                                </div>
+                            </li>                                                
+                            <li>
+                                <div class="image left">
+                                    <img src="images/b-t-3.jpg" alt="">
+                                    <div class="jx-img-hover jx-move-top">
+                                          <div class="jx-hover-top">
+                                            <a class="jx-portfolio-link"><i class="fa fa-plus"></i></a>                                                
+                                          </div>           
+                                    </div>
+                                    <!-- Image Hover Effect --> 
+                                </div>
+                                <div class="jx-post-content">
+                                    <div class="title"><a href="#">A Professional look Gives Creative Feeling</a></div>
+                                    <div class="date">25 March 2015</div>
+                                </div>
+                            </li>
+                        </ul>
+                                         
+                </div>
+                <!-- Categories -->
+            </div>
+            <!-- Widget 02 -->
+            
+            <div class="jx-sidebar-block mb40">
+            
+                <h6 class="jx-uppercase jx-weight-600 mb20">Testimonials</h6>
+                <!-- Heading -->
+                
+                <div class="jx-sidebar-testimonials">
+                    
+                    <ul>
+                        <li>
+                            <div class="jx-tetimonials-1">                    	
+                                <div class="description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam...</div>
+                                
+                                <div class="jx-testimonial-details">
+                                    <div class="jx-testimonial-image"><img src="images/team-8.jpg" alt="testimonials images"></div>
+                                    <div class="name">Alex Simon</div>
+                                    <div class="position">Maxon Corp</div>
+                                </div>                        
+                            </div>                        
+                        </li>                        
+                    </ul>
+                                         
+                </div>
+                <!-- Testimonials -->
+            </div>
+            <!-- Widget 03 -->                    
+        
+        </div>
+    <!-- EOF Sidebar -->
+	</div>
+
+   
+</div>
+<!-- EOF Main Content -->

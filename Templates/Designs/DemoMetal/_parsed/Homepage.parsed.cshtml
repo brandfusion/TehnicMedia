@@ -1,0 +1,573 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+	<!-- Basic Page Needs
+	================================================== -->
+	<meta charset="utf-8">
+	<title>@GetValue("Title")</title>
+@GetValue("MetaTags")
+@GetValue("CopyRightNotice")
+
+      
+      
+      <meta name="author" content="brandfusion.ro">
+      <meta name="title" content="@Pageview.Area.Name">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	
+
+      
+    
+  <!-- Mobile Specific Metas
+  ================================================== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- CSS
+	================================================== -->
+	
+	<!-- Web Fonts  -->
+	<link href='http://fonts.googleapis.com/css?family=Raleway:400,700,600,500,300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,500,300' rel='stylesheet' type='text/css'>
+	
+	<!-- Theme Style -->
+	<link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/css/theme-2.css">   
+	<link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/css/theme-animate-2.css">   
+	<link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/css/theme-elements-2.css">   
+    <link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/css/theme-elements.css">    
+	<link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/css/plugins.css"> 
+      
+      @{if(GetString("Item.Area.Versiune_SiteEveniment") == "DemoPlast"){
+	<link rel="stylesheet" type="text/css" href="/Files/Templates/Designs/DemoMetal/css/demoplaststyle.css">
+    <link rel="stylesheet" type="text/css" href="/Files/Templates/Designs/DemoMetal/css/demoplaststyle-custom.css">
+	
+	<!-- Skin CSS -->
+	<link rel="stylesheet" type="text/css" href="/Files/Templates/Designs/DemoMetal/css/skins/orange.css">
+      
+      }else{
+      	<link rel="stylesheet" type="text/css" href="/Files/Templates/Designs/DemoMetal/css/style.css">
+  		<link rel="stylesheet" type="text/css" href="/Files/Templates/Designs/DemoMetal/css/style-custom.css">
+		
+		<!-- Skin CSS -->
+		<link rel="stylesheet" type="text/css" href="/Files/Templates/Designs/DemoMetal/css/skins/red.css">
+      	
+      }
+      }
+      
+	
+	<!-- Icon Fonts -->
+	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen'>    
+	
+	<!-- Library Css -->
+	<link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/css/skeleton.css"> 
+	<link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/vendor/flexslider/flexslider.css">
+	<link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/vendor/prettyPhoto/prettyPhoto.css">
+	<link rel="stylesheet" type="text/css" href="/Files/Templates/Designs/DemoMetal/css/bootstrap.min.css">
+	
+	<!-- Responsive Theme -->
+	<link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/css/theme-responsive.css">
+	
+	<!-- Library Js -->
+	<script src="/Files/Templates/Designs/DemoMetal/vendor/modernizr.js"></script>
+	
+	<!-- Google Map -->
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	
+	<!-- Pricing Table -->
+	
+    <!--[if IE]>
+        <link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/css/ie.css">
+        <![endif]-->
+        
+    <!--[if lte IE 8]>
+        <script src="vendor/respond.js"></script>
+        <![endif]-->
+        
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href='@GetValue("Item.Area.LogoFooter")'>
+	<link rel="apple-touch-icon" href='@GetValue("Item.Area.LogoFooter")'>
+	<link rel="apple-touch-icon" sizes="72x72" href='@GetValue("Item.Area.LogoFooter")'>
+	<link rel="apple-touch-icon" sizes="114x114" href='@GetValue("Item.Area.LogoFooter")'>
+
+	<!-- Flex Slider -->
+	<link rel="stylesheet" href="/Files/Templates/Designs/DemoMetal/flexslider.css" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="/Files/Templates/Designs/DemoMetal/jquery.flexslider.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		jQuery(window).load(function() {
+      
+      jQuery('.flexslider-testimonial').flexslider({
+					animation: "slide",
+					controlNav: true,
+					directionNav:false,
+					slideshowSpeed:"8000",
+					prevText:'',
+					nextText:''
+				});	
+      
+
+    var delays = $('.jx-parallax-fullwidth').map(function() { return $(this).attr('data-delay'); }).get(),
+        _curr_index = 0,
+        _delay = false, 
+        _aa_timeout = null,
+        _auto_advancing = false;
+
+    jQuery('.flexslider').flexslider({
+        slideshowSpeed: 0,
+        directionNav: true,
+        slideshow: false,
+        animationLoop: true,
+      	before: function(slider){
+     		 jQuery(".flexslider iframe").each(function(){
+      				var linkv = $(this).attr("src")	
+                    var linkn = linkv.replace( "&autoplay=1"  ,"&autoplay=0" ) ;
+      				$(this).attr("src", linkn );
+      
+      			});
+      	},
+        after: function( slider ){
+            // If we weren't advancing to the next slide from the auto_advance_slide() function(from user controls for instance), we need to fix some things
+            if ( ! _auto_advancing ) {
+                clearTimeout( _aa_timeout ); // Clear the auto advance timeout
+                _curr_index = slider.currentSlide; // Fix the current index
+            };
+            // Set-up the next timer for auto advancing
+            auto_advance_slide();
+      		
+        }
+    });
+
+    function auto_advance_slide() {
+        if ( typeof( delays[ _curr_index ] ) != 'undefined' ) {
+            _delay = delays[ _curr_index ];
+        } else {
+            _delay = delays[ 0 ];
+            _curr_index = 0;
+        };
+
+        // Set time out to switch to next slide
+        _aa_timeout = setTimeout( function(){
+            _auto_advancing = true;
+            // Switch to next slide.
+            jQuery('.flexslider').flexslider('next');
+
+            _auto_advancing = false;
+        }, _delay );
+
+        // Increase the current index. 
+        _curr_index ++;
+    }
+
+    auto_advance_slide();
+});
+	</script>
+
+@GetValue("Stylesheets")
+@GetValue("Javascripts")
+</head>  
+<body>
+	<!-- BOF Loader -->
+	<div class="loader">
+		<div class="spinner spinner-double-bounce">
+			<div class="double-bounce1"></div>
+			<div class="double-bounce2"></div>
+		</div>
+	</div>
+	<!-- EOF Loader -->
+	
+	<!-- BOF Banner -->
+	<div class="header-bar">
+		<div class="container">
+			<div class="eight columns">
+  @using Dynamicweb.Frontend
+
+
+<ul class="header-bar-left">
+  
+  @foreach(var item in GetLoop("Item.Area.SitePartenere")) {
+  string imagine = item.GetString("Item.Area.SitePartenere.Logo_Eveniment.Value");
+  string linkSite = item.GetString("Item.Area.SitePartenere.Url_Eveniment.Value");
+  string logoHover = item.GetString("Item.Area.SitePartenere.LogoHover.Value");
+  
+
+  
+  <li><a href="@linkSite"><img src="@imagine" data-hover-image="@logoHover"></a></li>
+  }
+ 
+  
+  
+  
+  
+					@*<li><a href="http://www.demometal.ro/vest"><img src="/Files/Templates/Designs/DemoMetal/images/dm_header_logo1.png" data-hover-image="/Files/Templates/Designs/DemoMetal/images/dm_header_logo1_hover.png"></a></li>
+					<li><a href="http://www.demoplast.ro/vest"><img src="/Files/Templates/Designs/DemoMetal/images/dm_header_logo2.png" data-hover-image="/Files/Templates/Designs/DemoMetal/images/dm_header_logo2_hover.png"></a></li>
+					<li><a href="http://www.demometal.ro"><img src="/Files/Templates/Designs/DemoMetal/images/dm_header_logo3.png" data-hover-image="/Files/Templates/Designs/DemoMetal/images/dm_header_logo3_hover.png"></a></li>
+					<li><a href="http://www.ttonline.ro"><span>Powered by</span><img src="/Files/Templates/Designs/DemoMetal/images/dm_header_logo4.png"></a></li>*@
+				</ul>
+  &nbsp;</div>
+<div class="eight columns">
+  <ul class="header-bar-right">
+					<li><a href='@Pageview.Area.Item["FacebookLink"]'><i class="fa fa-facebook"></i></a></li>
+					<li><a href='@Pageview.Area.Item["TwitterLink"]'><i class="fa fa-twitter"></i></a></li>
+					<li><a href='@Pageview.Area.Item["YoutubeLink"]'><i class="fa fa-youtube"></i></a></li>
+					<li><a href="">Contact</a></li>
+					<li><a href="http://www.tehnicmedia.ro"><span>Organizator</span><img src="/Files/Templates/Designs/DemoMetal/images/dm_header_logo5.png"></a></li>
+				</ul>
+</div>
+		</div>
+	</div>
+	<!-- EOF Banner -->
+	
+	
+	<!-- BOF Slider -->
+	<div class="jx-slider">
+		<div class="jx-top-black"></div>
+		
+		<!-- BOF Header -->    
+		<header>
+			<div class="jx-header jx-sticky">            	
+				<div class="container">
+					<div class="sixteen columns">
+						<div class="jx-logo left"><a href="/"><img src='@GetValue("Item.Area.Logo")' alt=""></a></div>
+						<nav class="jx-menu right">
+							<div id="jx-main-menu" class="main-menu">
+								<ul>
+									<li><a href="#en"><img src="/Files/Templates/Designs/DemoMetal/images/dm_en.png"></a></li>
+									<li><a href="#ro"><img src="/Files/Templates/Designs/DemoMetal/images/dm_ro.png"></a></li>
+                                </ul> 
+                                @RenderNavigation(new {
+                                  template = "liClean.xslt",
+                                  expandmode = "all",
+                                  id = "header-nav",
+                                  startlevel = 1,
+                                  listStyle = "top-navigation",
+                                  endlevel = 2
+                                })         
+                                @* <ul>     
+									<li class="current"><a href="/">Home</a></li>
+									<li><a href="/stiri">Stiri</a></li>
+									<li><a href="/despre-eveniment">Despre Eveniment</a></li>
+									<li class="dropdown">
+										<a href="#pentru-expozanti-si-vizitatori" class="dropbtn">Pentru Expozanti si Vizitatori</a>
+										<div class="dropdown-content">
+											<a href="/expozanti">Pentru Expozanti</a>
+											<a href="/vizitatori">Pentru Vizitatori</a>
+											<a href="/editia-precedenta">Editia Precedenta</a>
+											<a href="/informatii-utile">Informatii Utile</a>
+										</div>
+									</li>
+									<li><a href="/forum">Forum</a></li>
+									<li class="dropdown">
+										<a href="#presa" class="dropbtn">Presa</a>
+										<div class="dropdown-content">
+											<a href="/comunicate-de-presa">Comunicate de presa eveniment</a>
+											<a href="/galerii-foto">Galerii foto</a>
+											<a href="/galerii-video">Galerii video</a>
+										</div>
+									</li>
+								</ul> *@
+							</div>  
+						</nav>
+					</div>
+				</div>
+			</div>        
+		</header>     
+		<!-- EOF Header -->
+		
+		<!--Slider Begin-->
+		@GetValue("DwContent(slider)")
+		<!--Slider End-->
+
+	</div>  
+	<!-- EOF Slider -->  
+
+	<!-- BOF Main Content -->
+	<div role="main" class="main">
+     
+		
+					
+	<!-- BOF Services Box -->
+	<div id="" class="jx-container"> 
+
+		<!--Section Begin-->
+		@GetValue("DwContent(section1)")
+		<!--Section End-->
+
+		<!--Section List Begin-->
+		@GetValue("DwContent(sectionList)")
+		<!--Section List End-->
+			
+	</div>
+	<!-- EOF Services Box --> 
+
+	<!--Section Begin-->
+	@GetValue("DwContent(section2)")
+	<!--Section End-->
+
+	
+	</div>
+	<!-- EOF Main Content -->
+	
+	<!-- BOF Footer --> 
+	<footer class="jx-footer-section jx-container">   
+
+		<!-- Sponsor Logo -->
+		<div id='sponsors' class="jx-container container-no-margin jx-padding jx-white-bg ">
+			
+			<!-- Background Image -->
+			
+			<!-- Background Icon -->
+			<div class="container ">
+				@using Dynamicweb.Frontend
+
+ 
+
+
+<div class="jx-section-title-1 jx-dark">
+					
+					<div class="jx-pre-title jx-short-border">
+						<div class="jx-title-border left"></div>
+						<div class="jx-title-icon"><i class="line-icon icon-diamond" style="color: #000 !important;"></i></div>
+						<div class="jx-title-border right"></div> 
+					</div>
+					<div class="jx-title jx-uppercase">Parteneri</div>
+					<!-- Section Title -->
+					
+				</div>
+				
+				<div class="jx-sponsors">
+					<ul>
+                       @foreach(var item in GetLoop("Item.Area.ParteneriPrincipali")) {
+  string imagine = item.GetString("Item.Area.ParteneriPrincipali.LogoPartener.Value");
+  string linkPartener = item.GetString("Item.Area.ParteneriPrincipali.LinkPartener.Value");
+ 
+						<li>
+                          @if(!string.IsNullOrEmpty(item.GetString("Item.Area.ParteneriPrincipali.LinkPartener.Value"))) {
+                          <a href="@linkPartener"><div class="slide-contents"><img src="@imagine" alt=""></div></a>} else{
+                      
+                      <div class="slide-contents"><img src="@imagine" alt=""></div>
+                      }
+                  
+                  </li>
+                  }
+					</ul>
+				</div>
+
+				
+			</div>
+
+			<!-- Background Icon -->
+			<div class="container ">
+				@using Dynamicweb.Frontend
+<div class="jx-section-title-1 jx-dark">
+					
+					<div class="jx-pre-title jx-short-border">
+						<div class="jx-title-border left"></div>
+						<div class="jx-title-icon"><i class="line-icon icon-diamond" style="color: #000 !important;"></i></div>
+						<div class="jx-title-border right"></div> 
+					</div>
+					<div class="jx-title jx-uppercase">Cu Sprijinul</div>
+					<!-- Section Title -->
+					
+				</div>
+				
+				<div class="jx-sponsors">
+					<ul>
+                          @foreach(var item in GetLoop("Item.Area.CuSprijinul")) {
+  string imagine = item.GetString("Item.Area.CuSprijinul.LogoPartener.Value");
+  string linkPartener = item.GetString("Item.Area.CuSprijinul.LinkPartener.Value");
+                      
+						<li>
+                          
+                      @if(!string.IsNullOrEmpty(item.GetString("Item.Area.ParteneriPrincipali.LinkPartener.Value"))) {
+                      <a href="@linkPartener"><div class="slide-contents"><img src="@imagine" alt=""></div></a>} else{
+                      
+                      <div class="slide-contents"><img src="@imagine" alt=""></div>
+                      
+                      }
+                  </li>
+                      
+                      
+                      }
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+		<!-- EOF Sponsor Logo -->
+
+		<div class="jx-container">
+			<div class="container">
+				<div class="jx-venue-box">
+					
+					<div class="jx-hotel-name jx-uppercase">@GetValue("Item.Area.Locatie")</div>
+					
+					<div class="jx-venue-address">
+						<div class="jx-venue-heading"><i class="fa fa-map-marker"></i>Adresa</div>
+						<div class="jx-address-1">@GetValue("Item.Area.Adresa")</div>
+					</div>
+				</div>
+			</div>
+			<div class="jx-google-map">
+				<div id="map" class="jx-map" style="height:450px;">
+              
+              </div>
+			</div>
+		</div>
+		<!-- EOF Google Map -->
+		
+		
+		<div class="jx-summary-info">
+			<div class="container"> 
+				<ul class="jx-summary-box">
+					<li class="one-third columns">
+						<div class="jx-location-event">
+							<i class="line-icon icon-location"></i>
+							<div class="jx-info">
+								<div class="jx-bar-head">@GetValue("Item.Area.Nume_Eveniment")</div>
+								<div class="jx-bar-title">@GetValue("Item.Area.Adresa_Secundara")</div>
+							</div>
+						</div>
+					</li>
+					<li class="one-third columns">
+						<div class="jx-hotline-event">
+							<i class="line-icon icon-globe"></i>
+							<div class="jx-info">
+								<div class="jx-bar-head">@GetValue("Item.Area.TelefonContact")</div>
+								<div class="jx-bar-title">@GetValue("Item.Area.EmailContact")</div>
+							</div>
+						</div>
+					</li>                
+				</ul>                
+			</div>        
+		</div>   	
+		
+		<div class="jx-footer-widget">        
+			<div class="container">        	
+				<div class="four columns">
+                <div class="jx-ievent-footer-logo">
+                  <img src='@GetValue("Item.Area.LogoFooter")' alt="Demo Metal Brașov" class="logo">
+                </div>
+
+                  <div class="jx-footersection-widget">
+                    <div id="recent-posts-5" class="widget widget_recent_entries">
+                      <div class="sub">
+                        <header>
+                          <h4>Linkuri Utile</h4>
+                          <div class="jx-right-pattern"></div>
+                        </header>
+                      </div>		
+                      	<ul>
+                          
+                            @foreach(var item in GetLoop("Item.Area.FooterMenu")) {
+  string Link = item.GetString("Item.Area.FooterMenu.FooterLinkUrl.Value");
+  string LinkText = item.GetString("Item.Area.FooterMenu.FooterLinkText.Value");
+  
+							<li>
+								<a href="@Link">@LinkText</a>
+							</li>
+							}
+						</ul>
+		</div></div></div>
+		<!-- Widget#1 -->
+	</div>
+</div>
+<!-- EOF Widgets -->		
+
+<div class="jx-post-footer">        
+	<div class="container">              
+		<div class="jx-footer-social">
+			<ul>
+				<li><a href="http://www.facebook.com/DemoMetalRomania"><i class="fa fa-facebook"></i></a></li>
+				<li><a href="http://www.twitter.com/Demo_Metal"><i class="fa fa-twitter"></i></a></li>
+				<li><a href="http://www.youtube.com/channel/UCTVK0Jq1mJrDdrMMgebn7gg"><i class="fa fa-youtube"></i></a></li>
+			</ul>
+		</div>
+		<div class="jx-footer-copyright">
+			Copyright &copy; Tehnic Media. Toate drepturile rezervate. <span style="color:#EE163A;">@Pageview.Area.Name</span>. Powered by <a href="http://brandfusion.ro" alt="BrandFusion este un pionier al branding-ului în România">BrandFusion</a>
+		</div>
+	</div>
+</div>  
+<!-- EOF Social -->
+</footer>
+<!-- EOF Footer -->
+
+
+<!-- JS -->
+<script type="text/javascript" src="/Files/Templates/Designs/DemoMetal/vendor/jquery.js"></script>
+<script type="text/javascript" src="/Files/Templates/Designs/DemoMetal/js/plugins.js"></script>
+<script type="text/javascript" src="/Files/Templates/Designs/DemoMetal/vendor/respond.js"></script>
+<script type="text/javascript" src="/Files/Templates/Designs/DemoMetal/vendor/jquery.appear.js"></script>    
+<script type="text/javascript" src="/Files/Templates/Designs/DemoMetal/vendor/prettyPhoto/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" src="/Files/Templates/Designs/DemoMetal/vendor/flexslider/jquery.flexslider.js"></script> 
+<script type='text/javascript' src="/Files/Templates/Designs/DemoMetal/vendor/form-validator/jquery.form-validator.min.js"></script>	
+<script type="text/javascript" src="/Files/Templates/Designs/DemoMetal/js/custom/script.js"></script>
+<script type="text/javascript" src="/Files/Templates/Designs/DemoMetal/js/countdown.min.js"></script>
+<script type="text/javascript" src="/Files/Templates/Designs/DemoMetal/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://e.issuu.com/embed.js" async="true"></script>  
+
+<!-- Theme Initializer -->
+<script src="/Files/Templates/Designs/DemoMetal/js/theme.js"></script>
+
+<!-- Google Map -->
+<script type="text/javascript">
+	
+	google.maps.event.addDomListener(window, "load", init);
+	
+	function init() {
+                // Basic options for a simple Google Map
+                // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+                
+                var mapOptions = {
+                	scrollwheel: false,
+					// How zoomed in you want the map to start at (always required)
+					zoom: 17,
+                    // The latitude and longitude to center the map (always required)
+                    center: new google.maps.LatLng(@GetValue("Item.Area.Latitudine"), @GetValue("Item.Area.Longitudine")), // New York
+                    // How you would like to style the map. 
+                    // This is where you would paste any style found on Snazzy Maps.
+                    styles: [{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#d3d3d3"}]},{"featureType":"transit","stylers":[{"color":"#808080"},{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#b3b3b3"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#ffffff"},{"weight":1.8}]},{"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"color":"#d7d7d7"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#ebebeb"}]},{"featureType":"administrative","elementType":"geometry","stylers":[{"color":"#a7a7a7"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#efefef"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#696969"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"visibility":"on"},{"color":"#737373"}]},{"featureType":"poi","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#d6d6d6"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"color":"#dadada"}]}]
+                  };
+                // Get the HTML DOM element that will contain your map 
+                // We are using a div with id="map" seen below in the <body>
+                
+                var mapElement = document.getElementById("map");
+                // Create the Google Map using our element and options defined above
+                var map = new google.maps.Map(mapElement, mapOptions);
+                // Lets also add a marker while we are at it
+                var marker = new google.maps.Marker({
+                	position: new google.maps.LatLng(@GetValue("Item.Area.Latitudine"), @GetValue("Item.Area.Longitudine")),
+                	icon: '@GetValue("Item.Area.Pin_Harta")',
+                	map: map,
+                	title: "DEMO METAL BRASOV 2017"
+                });
+              }
+            </script>
+
+            <!-- Countdown -->
+            <script type="text/javascript">
+
+            	var date = $('#getting-started').data('time');
+
+            	$("#getting-started").countdown(date, function(event) {
+            		var days = event.strftime('%D');
+            		var hours = event.strftime('%H');
+            		var min = event.strftime('%M');
+            		var sec = event.strftime('%S');
+            		
+            		$('.days').text(days);
+            		$('.hours').text(hours);
+            		$('.minutes').text(min);
+            		$('.seconds').text(sec);
+            		
+            	});
+            </script>
+            
+          </body>
+          </html>

@@ -1,0 +1,58 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+
+<div class="col-md-12" id="lista_evenimente_custom">
+  
+@*Include("/Files/Templates/Designs/TTonline/Custom/GlobalVariables.cshtml")
+@Include("/Files/Templates/Designs/TTonline/Includes/Getimage_new.cshtml")*@
+  
+
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+    
+  foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+
+    int evenimentID = item.GetInteger("ItemPublisher:Global.PageId");
+    string evenimentURL = item.GetString("ItemPublisher:Item.Url");
+    string titlu = item.GetString("ItemPublisher:Item.Titlu.Value");
+  
+    string afisRaw = item.GetString("ItemPublisher:Item.Afis.Value");
+  
+  	string afis = !string.IsNullOrEmpty(afisRaw) ? GetImage(afisRaw, 350, 230) + "&bgcolor=white"  : "/Files/Images/NoImage/350x230.png";  
+  
+    string locatie = item.GetString("ItemPublisher:Item.Locatie.Value");
+    string oras = item.GetString("ItemPublisher:Item.Oras.Value");
+    DateTime dataInceput = item.GetDate("ItemPublisher:Item.Data_Inceput.Value");
+    DateTime dataFinal = item.GetDate("ItemPublisher:Item.Data_Final.Value");
+    string descriere = item.GetString("ItemPublisher:Item.Descriere.Value");
+  	string perioada = item.GetString("ItemPublisher:Item.Perioada.Value");
+    string linkTitle = item.GetString("ItemPublisher:Item.Link_Title.Value");
+  
+
+
+  
+    <div class="col-md-6 col-sm-6 col-xs-12" id="test">
+      <article class="news-block small-block articole-calendar">
+
+        <a href="@evenimentURL" target="_blank" class="overlay-link image-overlay">
+          <img src="@afis" alt="@linkTitle"/>
+        </a>
+           
+        <header class="news-details">
+          <h3 class="news-title"><a href="@evenimentURL" target="_blank">@titlu</a></h3> 
+          <p class="simple-share">
+            <span><i class="fa fa-clock-o"></i> @perioada </span>
+            
+          </p>
+        </header>
+
+      </article>
+    </div>
+
+  }
+}
+
+
+</div>
+
+

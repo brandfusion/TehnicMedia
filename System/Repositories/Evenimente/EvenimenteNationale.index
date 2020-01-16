@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Index Type="Dynamicweb.Indexing.Index, Dynamicweb.Indexing" Name="EvenimenteNationale.index">
+  <Settings />
+  <Instances Balancer="Dynamicweb.Indexing.Balancing.ActivePassive">
+    <Instance Name="Evenimente" Type="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene" />
+  </Instances>
+  <Builds Type="Dynamicweb.Content.ContentIndexBuilder, Dynamicweb">
+    <Build Name="Evenimente Build" Action="Full">
+      <Setting Name="ExcludeItemsFromIndex">False</Setting>
+      <Setting Name="AppsToHandle"></Setting>
+      <Notification SendLog="false" NotificationType="Never" />
+    </Build>
+  </Builds>
+  <Schema>
+    <Fields>
+      <Extension Type="Dynamicweb.Content.ContentIndexSchemaExtender, Dynamicweb" Stored="false" Analyzed="false" Indexed="false" />
+    </Fields>
+    <FieldTypes />
+  </Schema>
+  <Meta />
+</Index>

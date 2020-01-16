@@ -1,0 +1,22 @@
+﻿@MasterPageFile("Master.cshtml")
+@using Dynamicweb.Content;
+@{
+	string mainArticleID = "";
+	string secondaryArticleID = "";
+	string thirdArticleID = "";
+}
+@Include("Includes/ArticleHelper.cshtml")
+
+<h1 class="block-title"><span>@GetString("DwPageName")</span></h1>
+
+<div class="row">
+		<div class="col-md-8">
+			<div class="dwcontent" id="mainContent" title="Main Content" data-settings="unwrap:true"></div>
+		</div>
+
+		<div class="col-md-4"><!--aici incepe sidebar-->
+		  <aside class="sidebar clearfix">
+					@Include("Custom/Sidebar.cshtml")
+		  </aside>
+		</div>
+</div> 

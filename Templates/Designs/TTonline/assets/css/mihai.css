@@ -1,0 +1,110 @@
+﻿.img-align{
+  height: 300px;
+}
+.button-color{
+ background-color: orange; 
+ color: black;
+ border: none;
+}
+@media screen and (max-width: 640px) and (min-width: 360px) {
+   .header-right {
+      margin-top: 6px;
+      right: 0px !important;
+    }
+    .social-icon {
+      float: right;
+      position: absolute;
+      right: 70px;
+    }
+    .social-icon a i { 
+      margin-left: 15px;
+    }
+  /*
+    .big-block .image-overlay, .news-block img {
+      height: auto !important;
+    }
+  */
+}
+@media screen and (max-width: 640px) and (min-width: 360px) {
+   .padding{
+     padding:1px;
+     margin-top: 23px!important;
+     margin-left: 22px;
+  }
+}
+@media screen and (max-width: 732px) and (min-width: 412px) {
+   .nexus-5x {
+        right: 0px !important;
+    }
+}
+@media screen and (max-width: 732px) and (min-width: 412px) {
+  .padding{
+     margin-left: 12px;
+  }
+}
+@media screen and (max-width: 568px) and (min-width: 320px) {
+  .fa-2x{
+    font-size: 14px;
+      margin-top: 25px;
+  }
+}
+@media screen and (max-width: 568px) and (min-width: 320px) {
+  .header-right{
+   right: 0px;
+  }
+  .social-icon {
+    right: 75px;
+  }
+}
+@media screen and (max-width: 667px) and (min-width: 375px) {
+  .iphone-6{
+   right: 108px;
+  }
+}
+
+@media screen and (max-width: 1366px) and (min-width: 1024px) {
+  .header-right{
+    right: -8px;
+  }
+}
+@media screen and (max-width: 1366px) and (min-width: 1024px) {
+    .sb-search{
+   right: 0px!important;
+  }
+}
+@media screen and (max-width: 1366px) and (min-width: 191px) {
+    .sb-search{
+   right: 150px;
+  }
+}
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 1.5) {
+    .header-right{ 
+      right:204px;
+    } 
+    .sb-icon-search{
+      right: 5px;
+    }
+    .sb-search-input{
+      right: 12px;
+    }
+}
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+
+.header-right{ 
+      right:-5px;
+    } 
+}
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 1.5) {
+}

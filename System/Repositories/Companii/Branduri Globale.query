@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="969c50cc-40ce-40c1-b2a2-f193cfab6a6f" Name="Branduri Globale">
+  <Settings />
+  <Source Repository="Companii" Item="Companii.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters>
+    <Parameter Name="GroupID" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Index" Type="System.String" DefaultValue="" />
+    <Parameter Name="Nume" Type="System.String" DefaultValue="" />
+    <Parameter Name="q" Type="System.String" DefaultValue="" />
+    <Parameter Name="Nationalitate" Type="System.String" DefaultValue="" />
+    <Parameter Name="NameSortable" Type="System.String" DefaultValue="" />
+  </Parameters>
+  <SortOrder>
+    <Sort Field="Name" Direction="Ascending" />
+  </SortOrder>
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Marca" />
+        </Left>
+        <Right>
+          <ConstantExpression Value="True" Type="System.Boolean" />
+        </Right>
+      </BinaryExpression>
+    </GroupExpression>
+  </Expressions>
+</Query>

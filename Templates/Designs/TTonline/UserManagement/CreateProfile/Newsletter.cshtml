@@ -1,0 +1,29 @@
+﻿@foreach (LoopItem i in GetLoop("FormValidationErrors")){
+	@i.GetValue("HeaderStart")
+		<div id="errormessages">
+			<ul>
+	@i.GetValue("HeaderEnd")
+				<li>Error in the input field "@i.GetValue("UserManagement:User.FormValidationError.FieldNiceName")": <a href="javascript:document.getElementById('@i.GetValue("UserManagement:User.FormValidationError.FieldName")').focus();">@i.GetValue("UserManagement:User.FormValidationError.Message")</a></li>
+	@i.GetValue("FooterStart")
+			</ul>
+		</div>
+	@i.GetValue("FooterEnd")
+}
+
+
+@GetValue("UserManagement:User.FormStart")
+<div class="input-group">
+  	
+  	@* @GetValue("UserManagement:User.Email.Input") *@
+  	<input name="UserManagement_Form_Email" type="text" id="UserManagement_Form_Email" class="form-control" placeholder="Enter your email" value='' />
+
+  	<input name="UserManagement_Form_UserName" type="hidden" id="UserManagement_Form_UserName" value="UserName" />
+  	<input name="UserManagement_Form_NewPassword" type="hidden" id="UserManagement_Form_NewPassword" value="Password"  />
+  	<input name="UserManagement_Form_NewPasswordConfirm" type="hidden" id="UserManagement_Form_NewPasswordConfirm" value="Password" />
+        	             
+		<span class="input-group-btn">
+      @* <button class="btn btn-default" type="button" id="submitter">@Translate("aboneaza-te","Aboneaza-te")</button> *@
+      <input type="submit" value='@Translate("aboneaza-te","Aboneaza-te")' class="btn btn-default" />
+   	</span>    
+</div>
+@GetValue("UserManagement:User.FormEnd")

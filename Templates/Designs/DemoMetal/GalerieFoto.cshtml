@@ -1,0 +1,22 @@
+@MasterPageFile("Master.cshtml")
+
+<div class="container galerie-foto" style="margin-top: 160px;">
+	
+	<div class="title">@GetString("Item.PageName")</div>
+
+	<div class="imagini-galerie-full">
+
+		@foreach(LoopItem item in GetLoop("Item.ImageList")) {
+
+			string img = item.GetString("Item.ImageList.Image");
+			
+			<div class="imagine-galerie">
+				<img src="@img" />
+			</div>
+		}
+
+	</div>
+
+	</div>
+
+</div>

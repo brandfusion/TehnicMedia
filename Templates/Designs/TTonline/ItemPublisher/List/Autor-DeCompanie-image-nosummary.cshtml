@@ -1,0 +1,77 @@
+﻿@using Dynamicweb.Frontend
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using BrandFusion.Dw.eCommerce
+@using Dynamicweb.Ecommerce.Products
+@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/ArticleHelper.cshtml")
+@using System.Web
+
+@*<p>Total articole: @GetInteger("ItemPublisher:Items.TotalCount")</p>*@
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+<div class="row">
+  
+
+  	@foreach(var item in GetLoop("ItemPublisher:Items.List")){
+      string articleTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+      string itemAuthor = "";
+      var articleDate = item.GetDate("ItemPublisher:Item.Data");
+      string articleLink = item.GetString("ItemPublisher:Item.Url");
+      string articleImage = item.GetString("ItemPublisher:Item.ImaginePrincipala.Value");
+      string articleExcerpt = item.GetString("ItemPublisher:Item.Sumar");
+      string articleVisits = item.GetString("ItemPublisher:Item.Visits.Value");
+      bool itemConditionVisits = item.GetBoolean("ItemPublisher:Item.Vizite");
+      string itemAutori = item.GetString("ItemPublisher:Item.Autori.Value");
+      string articleSectiune = item.GetString("ItemPublisher:Item.SectiuneParinte");
+      int articleSectiuneID = item.GetInteger("ItemPublisher:Item.SectiuneParinteId");
+      string ID_De_Companie = item.GetString("ItemPublisher:Item.De_Companie.Value");
+      string itemSections = "";
+      
+      List<Autor> articleAutori = GetAutori(itemAutori);
+      List<Sectiune> articleSections = GetSectiuni(itemSections);
+      List<Companie> articleCompanies = GetCompany(ID_De_Companie);
+
+
+
+          
+      @Include("../../Lists/1colAutor-1colDeCompanie-image-nosummary.cshtml")
+
+      
+
+
+  
+
+
+	}
+</div>
+}
+@*
+@if(GetInteger("ItemPublisher:Items.Paging.TotalPages") >1)
+{
+<nav>
+    <ul class="pagination pagination-sm">
+        @if(GetInteger("ItemPublisher:Items.Paging.CurrentPage") >1)
+      	{
+			<li>
+			    <a href='@GetValue("ItemPublisher:Items.Paging.PrevPage")' aria-label='@Translate("paginaAnterioara", "Pagina anterioara")'><span aria-hidden="true">«</span></a>
+			</li>
+		}
+
+        @foreach (LoopItem i in GetLoop("ItemPublisher:Items.Paging.Pages5")){
+               if(GetBoolean("ItemPublisher:Items.Paging.Pages5.Page.IsCurrent")){
+                <li class="active">@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.Number")</li>
+                }else{
+  				<li><a href='@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.UrlHtmlEncoded")'>@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.Number")</a></li>
+                }
+        }
+        
+        @if(GetInteger("ItemPublisher:Items.Paging.TotalPages") > GetInteger("ItemPublisher:Items.Paging.CurrentPage"))
+		{
+            <li>
+                <a href='@GetValue("ItemPublisher:Items.Paging.NextPage")' aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true">»</span></a>
+            </li>
+        }
+    </ul>
+</nav>
+}*@

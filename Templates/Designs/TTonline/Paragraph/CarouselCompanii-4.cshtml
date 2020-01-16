@@ -1,0 +1,69 @@
+﻿@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+<style>
+  .owl-carousel .owl-item img {width:auto!important;}
+</style>
+
+<div class="col-md-12 companii-background">
+  <h3 class="block-title"><span style="color: #ffa700;">Industry Directory</span></h3>
+  <h4><span class="tipcompanie-homepage-tag" style="background-color: #cc0033;">@GetString("Item.Titlu")</span></h4>
+  <div class="carousel-companii caruselMarginBottom">
+  <div class="owl-carousel owl-companii-1 owl-theme"> 
+
+
+@foreach(LoopItem companie in GetLoop("Item.Lista_Companii")){
+
+
+
+
+      	
+    
+    	string mainImageRaw = companie.GetString("Item.Lista_Companii.Logo");
+    		string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 255, 168) : ""; 
+ 	  				mainImage = mainImage + "&bgcolor=white";
+    
+       	string mainTitle = companie.GetString("Item.Lista_Companii.Titlu");
+       @*string mainURL = i.GetString("Ecom:Product.LinkGroup.Clean"); *@
+		string  nrProduse = companie.GetString("Item.Lista_Companii.NrDeProduse");
+    	string link = companie.GetString("Item.Lista_Companii.Link");
+  		    <div class="item col-companie"> 
+    
+
+    
+    		<article class="news-block small-block">		
+
+					  
+						    <figure class="image-overlay-addon companii-logo-figure" >
+                                    
+                              	<img src="@mainImage"/>
+                              
+						     </figure> 
+              
+					   
+
+					   	<header class="news-details">
+                            
+                          <h3 class="news-title">  
+                            <a href="@link"><span>@mainTitle</span></a></h3> 
+
+                           <p class="companie-numar-produse">@nrProduse</p> 
+                      
+                      
+                 
+					    </header>						   
+				 </article>
+    
+    
+    
+    
+    
+    
+    
+    		
+          </div>   
+   
+  
+  }
+ </div>
+</div>
+  </div>

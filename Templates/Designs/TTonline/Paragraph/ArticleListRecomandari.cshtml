@@ -1,0 +1,107 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Linq;
+@using System.Web;
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+
+
+<div class="col-md-9 col-xs-12 recomandari">
+    <h3 class="block-title">
+        <span>@Translate("recomandari","Recomandari") T&T</span>
+    </h3>
+
+    @foreach (LoopItem item in GetLoop("Item.Lista_Articole")) {
+
+		var loopCounter = item.GetInteger("Item.Lista_Articole.LoopCounter");
+		
+			
+      	string mainImageRaw = item.GetString("Item.Lista_Articole.ImaginePrincipala");
+      
+        string mainImage1 = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 540, 355) + "&bgcolor=white" : "/Files/Images/NoImage/540x355.png";  
+      	string mainImage2 = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 160, 120) + "&bgcolor=white" : "/Files/Images/NoImage/160x120.png"; 
+		
+      
+      
+        string titlu = item.GetString("Item.Lista_Articole.Titlu");
+        string sumar = item.GetString("Item.Lista_Articole.Sumar");
+        string autorValue = item.GetString("Item.Lista_Articole.Autori.Value");
+        var mainDate = item.GetDate("Item.Lista_Articole.Data");
+        bool itemConditionVisits = item.GetBoolean("Item.Lista_Articole.Vizite");
+        string articleVisits = item.GetString("Item.Lista_Articole.Visits.Value");
+        string mainURL = item.GetString("Item.Lista_Articole.Url");
+        List<Autor> articleAutori = GetAutori(autorValue);
+        string articleSectiune = item.GetString("Item.Lista_Articole.SectiuneParinte");
+        int articleSectiuneID = item.GetInteger("Item.Lista_Articole.SectiuneParinteId");
+  
+
+        foreach(LoopItem autorName in item.GetLoop("Item.Lista_Articole.Autori.Options")) {
+
+        	string autorOptionLabel = autorName.GetString("Item.Lista_Articole.Autori.Option.Label");
+        	string autorOptionValue = autorName.GetString("Item.Lista_Articole.Autori.Option.Value");
+			
+			if (autorValue == autorOptionValue) {
+
+				if (loopCounter == 1) {
+			        <article class="news-block">
+			            <a href="@mainURL" class="overlay-link">
+			                <figure class="image-overlay proportie-1">
+			                    <img src="@mainImage1" class="img-responsive">
+			                </figure>
+			            </a>
+			    		<a href="/Default.aspx?ID=@articleSectiuneID" class="bg@(articleSectiuneID) category">@articleSectiune</a>
+			                      
+			            <header class="news-details">
+			                <h3 class="news-title"><a href="@mainURL">@titlu</a></h3>
+                             
+			                <p>@sumar</p>
+      						<p class="simple-share"> 
+								@if(articleAutori.Any()){
+									@Translate("articolde","de")  
+									foreach (var articleAutor in articleAutori) {
+										<a href="@articleAutor.Link"><b>@articleAutor.Name</b></a>
+									}
+									<span style="margin: 0!important;">-</span>
+								}
+								<span class="article-date"><i class="fa fa-clock-o"></i> @mainDate.ToString("dd/MM/yyyy")</span>
+                              	
+                              	@if (itemConditionVisits) {    
+                    	            <span>  -  <i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+              				  	}
+							</p> 
+			            </header>  
+			        </article>
+				}
+				else {
+					<article class="simple-post clearfix">
+					  	<div class="simple-thumb">
+					    	<a href="@mainURL">
+		                    	<img src="@mainImage2" class="img-responsive">
+					    	</a>
+					  	</div>
+					  	<header>
+					    	<h3><a href="@mainURL">@titlu</a></h3>
+					  	</header>
+						<p class="simple-share">
+							<a href="/Default.aspx?ID=@(articleSectiuneID)">@articleSectiune</a> / 
+							@if(articleAutori.Any()){
+								@Translate("articolde","de")  
+								foreach (var articleAutor in articleAutori) {
+									<a href="@articleAutor.Link"><b>@articleAutor.Name</b></a>
+								}
+								<span style="margin: 0!important;">-</span> 
+							}
+							<span class="article-date"><i class="fa fa-clock-o"></i> @mainDate.ToString("dd/MM/yyyy")</span>
+								
+							@if (itemConditionVisits) {    
+								<span>  -  <i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+							}
+						</p>
+					</article>
+				}
+			}
+		}
+    }
+</div>

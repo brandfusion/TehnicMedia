@@ -1,0 +1,264 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+
+@functions{
+    
+
+    public class ArticlesContainer
+    {
+        public string template { get; set; }
+        public string id { get; set; }
+        public List<Article> Article { get; set; }
+    }
+
+    public class Article
+    {
+        public string[] itemAutori {get; set;}
+        public string[] itemAutoriName {get; set;}
+        public DateTime itemData {get; set;}
+        public string itemDeCompanie {get; set;}
+        public string itemDespreCompanie {get; set;}
+        public string itemEditie {get; set;}
+        public int itemID {get; set;}
+        public string itemImaginePrincipala {get; set;}
+        public string itemSectiuneParinte {get; set;}
+        public string itemSectiuneParinteId {get; set;}
+        public string itemSectiuneSecundara {get; set;}
+        public string itemSiDespreCompanie {get; set;}
+        public int itemSort {get; set;}
+        public string itemSumar {get; set;}
+        public string[] itemTaguri {get; set;}
+        public string[] itemTaguriName {get; set;}
+        public string itemTip {get; set;}
+        public string itemTitlu {get; set;}
+        public int itemVisits {get; set;}
+        public bool pageActive {get; set;}
+        public DateTime pageActiveTo {get; set;}
+        public string pageAreaID {get; set;}
+        public bool pageHidden {get; set;}
+        public string pageMenuText {get; set;}
+        public int pagePageID {get; set;}
+        public int pageParentPageId {get; set;}
+        public int pageSort {get; set;}
+        public int parentLoopIndex {get; set;}
+
+        public List<Author> articleAutori {get; set;}
+        public List<Section> articleSections {get; set;}
+        public List<Tag> articleTags {get; set;}
+    }
+
+	public class Section
+	{
+		public string Name { get; set; }
+		public string Link { get; set; }
+		public string Id { get; set; }
+	}
+
+	public class Author
+	{
+		public string Name { get; set; }
+		public string Link { get; set; }
+		public string Id { get; set; }
+	}
+
+
+    public class Page
+    {
+        public bool isCurrent {get; set;}
+        public string pageNumber {get; set;}
+        public string pageLink {get; set;}
+    }
+
+    public class Tag
+    {
+        public string Name { get; set; }
+		public string Link { get; set; }
+		public string Id { get; set; }
+    }
+
+    public class FacetSelection
+    {
+        public string template { get; set; }
+        public string group { get; set; }
+        public string name { get; set; }
+        public string label { get; set; }
+        public string value { get; set; }
+        public string queryParameter { get; set; }
+    }
+
+    public class FacetOption
+    {
+        public string template { get; set; }
+        public string name { get; set; }
+        public string value { get; set; }
+        public string queryParameter { get; set; }
+        public string label { get; set; }
+        public string count { get; set; }
+        public string disabled { get; set; }
+        public string selected { get; set; }
+    }
+
+    public class FacetGroup
+    {
+        public string counter { get; set; }
+        public string name { get; set; }
+        public string defaultState { get; set; }
+        public string showFilter { get; set; }
+        public List<FacetOption> FacetOptions { get; set; }
+    }
+    public class Root
+    {
+        public string currentPage {get; set;}
+        public string currentSection {get; set;}
+        public string currentArticleType {get; set;}
+        public int totalPages {get; set;}
+        public string pagingFirstPageLink {get; set;}
+        public string pagingLastPageLink {get; set;}
+        public string pagingNextButtonText {get; set;}
+        public string pagingNextPageLink {get; set;}
+        public string pagingNextPageNumber {get; set;}
+        public string pagingPageable {get; set;}
+        public string pagingPageCount {get; set;}
+        public string pagingPageSize {get; set;}
+        public string pagingTypeOfNextButton {get; set;}
+        public string pagingTypeOfPreviousButton {get; set;}
+        public string queryResultCount {get; set;}
+        public string queryResultTotalCount {get; set;}
+        public string templateBaseUrl {get; set;}
+        public string templateDesignBaseUrl {get; set;}
+        public List<ArticlesContainer> ArticlesContainer {get; set;}
+        public List<Page> Pages {get; set;}
+        public List<FacetGroup> FacetGroups { get; set; }
+        public List<FacetSelection> FacetSelections { get; set; }
+    }
+    
+
+}
+@{
+    var results = GetLoop("QueryResultItem");
+    int paginaAutori = GetPageIdByNavigationTag("PaginaAutori");
+    int paginaTag = GetPageIdByNavigationTag("PaginaTag");
+
+    List<Root> feedObject = new List<Root>();
+    List<ArticlesContainer> articleFeedObject = new List<ArticlesContainer>();
+
+    Root feedRoot = new Root();
+    feedRoot.ArticlesContainer = new List<ArticlesContainer>();
+    feedRoot.currentPage= GetString("DwPaging.CurrentPage");
+    feedRoot.currentSection="";
+    feedRoot.currentArticleType="";
+    feedRoot.totalPages=GetInteger("DwPaging.TotalItems");
+    feedRoot.pagingFirstPageLink=GetString("DwPaging.FirstPageLink");
+    feedRoot.pagingLastPageLink=GetString("DwPaging.LastPageLink");
+    feedRoot.pagingNextButtonText=GetString("DwPaging.NextButtonText");
+    feedRoot.pagingNextPageLink=GetString("DwPaging.NextPageLink");
+    feedRoot.pagingNextPageNumber=GetString("DwPaging.NextPageNumber");
+    feedRoot.pagingPageable=GetString("DwPaging.Pageable");
+    feedRoot.pagingPageCount=GetString("DwPaging.PageCount");
+    feedRoot.pagingPageSize=GetString("DwPaging.PageSize");
+    feedRoot.pagingTypeOfNextButton=GetString("DwPaging.TypeOfNextButton");
+    feedRoot.pagingTypeOfPreviousButton=GetString("DwPaging.TypeOfPreviousButton");
+    feedRoot.queryResultCount=GetString("QueryResult.Count");
+    feedRoot.queryResultTotalCount=GetString("QueryResult.TotalCount");
+    feedRoot.templateBaseUrl=GetString("Template:BaseUrl");
+    feedRoot.templateDesignBaseUrl=GetString("Template:DesignBaseUrl");
+
+    foreach (LoopItem article in results){
+
+        ArticlesContainer articleContainerObject = new ArticlesContainer();
+        articleContainerObject.Article = new List<Article>();
+
+        Article articleObject = new Article();
+        articleObject.itemAutori=(string[])article.GetValue("ItemAutori");
+        articleObject.itemAutoriName=(string[])article.GetValue("ItemAutoriName");
+        articleObject.itemData=article.GetDate("ItemData");
+        articleObject.itemDeCompanie=article.GetString("ItemDeCompanie");
+        articleObject.itemDespreCompanie=article.GetString("ItemDespreCompanie");
+        articleObject.itemEditie=article.GetString("ItemEditie");
+        articleObject.itemID=article.GetInteger("ItemID");
+        articleObject.itemImaginePrincipala=article.GetString("ItemImaginePrincipala");
+        articleObject.itemSectiuneParinte=article.GetString("ItemSectiuneParinte");
+        articleObject.itemSectiuneParinteId=article.GetString("ItemSectiuneParinteId");
+        articleObject.itemSectiuneSecundara=article.GetString("ItemSectiuneSecundara");
+        articleObject.itemSiDespreCompanie=article.GetString("ItemSiDespreCompanie");
+        articleObject.itemSort=article.GetInteger("ItemSort");
+        articleObject.itemSumar=article.GetString("ItemSumar");
+        string articleExcerpt = article.GetString("ItemSumar") != null ? article.GetString("ItemSumar") : "";
+	    articleExcerpt = articleExcerpt != "" ? Regex.Replace(articleExcerpt, @"<[^>]*>", String.Empty) : articleExcerpt;
+        articleObject.itemSumar= System.Web.HttpUtility.JavaScriptStringEncode(articleExcerpt);
+        articleObject.itemTaguri=(string[])article.GetValue("ItemTaguri");
+        articleObject.itemTaguriName=(string[])article.GetValue("ItemTaguriName");
+        articleObject.itemTip=article.GetString("ItemTip");
+        articleObject.itemTitlu=article.GetString("ItemTitlu");
+        articleObject.itemVisits=article.GetInteger("ItemVisits");
+        articleObject.pageActive=article.GetBoolean("PageActive");
+        articleObject.pageActiveTo=article.GetDate("PageActiveTo");
+        articleObject.pageAreaID=article.GetString("PageAreaID");
+        articleObject.pageHidden=article.GetBoolean("PageHidden");
+        articleObject.pageMenuText=article.GetString("PageMenuText");
+        articleObject.pagePageID=article.GetInteger("PagePageID");
+        articleObject.pageParentPageId=article.GetInteger("PageParentPageId");
+        articleObject.pageSort=article.GetInteger("PageSort");
+        articleObject.parentLoopIndex=article.GetInteger("parentLoopIndex");
+        
+        articleObject.articleAutori = new List<Author>();
+        var authorList = articleObject.itemAutori.Zip(articleObject.itemAutoriName, (s, i) => new { sv = s, iv = i }).ToList();
+        if (authorList.Any()){
+			foreach (var x in authorList)
+			{
+				articleObject.articleAutori.Add(new Author{
+					Name = x.iv.ToString(),
+					Link = "/Default.aspx?ID="+paginaAutori+"&autor="+x.sv,
+					Id = x.sv,
+				});
+				
+			}
+        }
+
+        articleObject.articleTags = new List<Tag>();
+        var tagList = articleObject.itemTaguri.Zip(articleObject.itemTaguriName, (s, i) => new { sv = s, iv = i }).ToList();
+        if (tagList.Any()){
+			foreach (var x in tagList)
+			{
+				articleObject.articleTags.Add(new Tag{
+					Name = x.iv.ToString(),
+					Link = "/Default.aspx?ID="+paginaTag+"&tag="+x.sv,
+					Id = x.sv,
+				});
+				
+			}
+        }
+
+
+
+        articleContainerObject.Article.Add(articleObject);
+        feedRoot.ArticlesContainer.Add(articleContainerObject);
+
+    }
+
+//Parameters
+//FacetGroups
+//Query.Parameters
+//QueryResultItem
+//DwPaging.LoopAllPages
+//DwPaging.LoopPageGroup
+
+
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = "";
+
+    if (results.Count == 0)
+    {
+        jsonFeed = "[]";
+    }
+    else
+    {
+        jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed
+

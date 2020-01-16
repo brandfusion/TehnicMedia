@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query>
+  <Settings />
+  <Source Repository="Articole" Item="Articole.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="PageItemType" />
+        </Left>
+        <Right>
+          <ConstantExpression Value="Eveniment" Type="System.String" />
+        </Right>
+      </BinaryExpression>
+    </GroupExpression>
+  </Expressions>
+</Query>

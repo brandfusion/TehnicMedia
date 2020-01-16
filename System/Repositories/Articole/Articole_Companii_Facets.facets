@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Facets>
+  <Settings />
+  <Source Repository="Articole" Item="Articole.query" />
+  <Facet Name="Autori" Type="List" Field="ListaAutori" QueryParameter="Autor">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+  <Facet Name="Companii" Type="Field" Field="Dw_Page_De_Companie" QueryParameter="Companie">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+</Facets>

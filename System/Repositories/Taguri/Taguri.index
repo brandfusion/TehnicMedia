@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Index>
+  <Settings />
+  <Instances Balancer="Dynamicweb.Indexing.Balancing.ActivePassive">
+    <Instance Name="A" Type="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene">
+      <Folder>A</Folder>
+    </Instance>
+  </Instances>
+  <Builds Type="Dynamicweb.Indexing.Builders.SqlIndexBuilder, Dynamicweb.Indexing">
+    <Build Name="Taguri" Action="Execute">
+      <Setting Name="BulkSize">500</Setting>
+      <Setting Name="OnlyIndexActiveProducts">False</Setting>
+      <Setting Name="MaxProductsToIndex">2147483647</Setting>
+      <Setting Name="SkipGrouping">False</Setting>
+      <Setting Name="SkipExtenders">False</Setting>
+      <Setting Name="SkipAllExtendedFields">False</Setting>
+      <Setting Name="SkipCategoryFields">False</Setting>
+      <Setting Name="DoNotStoreDefaultFields">False</Setting>
+      <Setting Name="EmptyStringReplacement"></Setting>
+      <Setting Name="Query">Select Top 10 Id,Name from ItemType_Taxonomie_Taguri where Id in(
+select [ss].[value]
+from ItemType_Dw_Page
+CROSS APPLY STRING_SPLIT([ItemType_Dw_Page].[Taguri], ',') AS [ss]
+where Data &gt; DATEADD(month, -4, GetDate()) and Taguri Is not null)
+Order by Visits desc</Setting>
+      <Setting Name="CountQuery">Select 10</Setting>
+      <Notification SendLog="false" NotificationType="Never" />
+    </Build>
+  </Builds>
+  <Schema>
+    <Fields>
+      <Field Source="Id" Name="Id" SystemName="Id" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Name" Name="Name" SystemName="Name" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Extension Type="Dynamicweb.Content.ContentIndexSchemaExtender, Dynamicweb" Stored="false" Analyzed="false" Indexed="false" />
+    </Fields>
+    <FieldTypes />
+  </Schema>
+</Index>

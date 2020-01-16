@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Facets>
+  <Settings />
+  <Source Repository="Companii" Item="Companii.query" />
+  <Facet Name="Index" Type="Field" Field="AlphaIndex" QueryParameter="Index">
+    <RenderType Name="Checkboxes" SystemName="Checkboxes" />
+  </Facet>
+  <Facet Name="Tip" Type="Field" Field="TipClient" QueryParameter="Tip">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+  <Facet Name="Locatie" Type="Field" Field="RelevantaGeografica" QueryParameter="Geo">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+  <Facet Name="Cautare" Type="Field" Field="Name" QueryParameter="Nume">
+    <RenderType Name="Range" SystemName="Range" />
+  </Facet>
+  <Facet Name="Sectiune" Type="List" Field="Sectiune" QueryParameter="GroupID">
+    <RenderType Name="Links" SystemName="Links" />
+    <Option Name="GROUP1" Value="Automatizari" />
+    <Option Name="Cad/Cam/Cae/Pdm/Plm/Erp" Value="GROUP3" />
+    <Option Name="Calitate &amp; Control" Value="GROUP4" />
+    <Option Name="Editorial" Value="GROUP5" />
+    <Option Name="Eficienta Energetica" Value="GROUP6" />
+    <Option Name="Energie" Value="GROUP7" />
+    <Option Name="English Section" Value="GROUP8" />
+    <Option Name="Info Financiar" Value="GROUP9" />
+    <Option Name="Logistica" Value="GROUP10" />
+    <Option Name="Lubrifianti" Value="GROUP11" />
+    <Option Name="Management &amp; Calitate" Value="GROUP12" />
+    <Option Name="Masini-Unelte" Value="GROUP13" />
+    <Option Name="Materiale Plastice" Value="GROUP14" />
+    <Option Name="Resurse Umane" Value="GROUP15" />
+    <Option Name="Roboti" Value="GROUP16" />
+    <Option Name="Scule" Value="GROUP17" />
+    <Option Name="Securitatea Muncii" Value="GROUP18" />
+    <Option Name="Strategii" Value="GROUP19" />
+    <Option Name="Sudura" Value="GROUP20" />
+    <Option Name="T&amp;T Plus" Value="GROUP21" />
+    <Option Name="Tehnologii" Value="GROUP22" />
+    <Option Name="Transmisii Mecanice" Value="GROUP23" />
+    <Option Name="Webexclusiv" Value="GROUP24" />
+  </Facet>
+  <Facet Name="Nationalitate" Type="Field" Field="RomanaSau_Straina" QueryParameter="Nationalitate">
+    <RenderType Name="Checkboxes" SystemName="Checkboxes" />
+  </Facet>
+</Facets>

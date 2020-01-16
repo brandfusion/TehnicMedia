@@ -1,0 +1,18 @@
+﻿<article class="widget-post clearfix">
+  <div class="simple-thumb">  
+      <img src='@articleImage' alt="@articleTitle" class="img-responsive" />
+  </div>
+
+  <header>
+  <h3>
+      <a href='@articleLink'>@articleTitle</a>
+  </h3>
+  <p class="simple-share">
+          
+  @*<span><i class="fa fa-eye"></i> @articleVisits @Translate("vizualizari","vizualizari")</span>*@
+  @if (itemConditionVisits) {    
+    <span><i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+  } 
+  </p>
+  </header>
+</article>

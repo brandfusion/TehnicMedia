@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Index Type="Dynamicweb.Indexing.Index, Dynamicweb.Indexing" Name="Companii.index">
+  <Settings />
+  <Instances Balancer="Dynamicweb.Indexing.Balancing.ActivePassive">
+    <Instance Name="A" Type="Dynamicweb.Indexing.Lucene.LuceneIndexProvider, Dynamicweb.Indexing.Lucene">
+      <Folder>A</Folder>
+    </Instance>
+  </Instances>
+  <Builds Type="Dynamicweb.Indexing.Builders.SqlIndexBuilder, Dynamicweb.Indexing">
+    <Build Name="Companii" Action="Execute">
+      <Setting Name="Query">Select t1.Id, t1.Name, Logo,Summary, LinkCatreSite, Groups as Sectiune,TipClient,Page_Link,Geolocation,Afiseaza_Companie,Tara,Oras,RepresentativeProducts,RomanaSau_Straina,Promovata,Marca,CASE WHEN t1.Name LIKE '[a-Z]%' THEN UPPER(Substring(t1.Name, 1, 1)) ELSE '0' END AlphaIndex,Cast(isnull(LEN(RepresentativeProducts) - LEN(REPLACE(RepresentativeProducts, ',', ''))+1,0) As Int) AS ProductCount, t2.Name as RelevantaGeografica
+from ItemType_Taxonomie_Companii t1
+left join ItemType_RelevantaGeografica t2 on  t1.Relevanta_Geografica = t2.Id
+Order by t1.Name ASC</Setting>
+      <Setting Name="CountQuery">Select Count(*) from ItemType_Taxonomie_Companii</Setting>
+      <Notification SendLog="false" NotificationType="Never" />
+    </Build>
+  </Builds>
+  <Schema>
+    <Fields>
+      <Field Source="AlphaIndex" Name="AlphaIndex" SystemName="AlphaIndex" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="ProductCount" Name="ProductCount" SystemName="ProductCountSortable" Type="System.Int32" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Summary" Name="Summary" SystemName="Summary" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="LinkCatreSite" Name="URL" SystemName="URL" Type="System.String" Stored="true" Analyzed="true" Indexed="true" />
+      <Field Source="Id" Name="Id" SystemName="Id" Type="System.Int32" Stored="true" Analyzed="true" Indexed="true" />
+      <Field Source="Sectiune" Name="Sectiune" SystemName="Sectiune" Type="System.String[]" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Name" Name="Name" SystemName="Name" Type="System.String" Stored="true" Analyzed="true" Indexed="true" />
+      <Field Source="Logo" Name="Logo" SystemName="Logo" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="TipClient" Name="TipClient" SystemName="TipClient" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="RelevantaGeografica" Name="RelevantaGeografica" SystemName="RelevantaGeografica" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Page_Link" Name="Page_Link" SystemName="Page_Link" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Geolocation" Name="Geolocation" SystemName="Geolocation" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="OpenInNewPage" Name="OpenInNewPage" SystemName="OpenInNewPage" Type="System.Boolean" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Afiseaza_Companie" Name="Afiseaza_Companie" SystemName="Afiseaza_Companie" Type="System.Boolean" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Tara" Name="Tara" SystemName="Tara" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Oras" Name="Oras" SystemName="Oras" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="RepresentativeProducts" Name="RepresentativeProducts" SystemName="RepresentativeProducts" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="RomanaSau_Straina" Name="RomanaSau_Straina" SystemName="RomanaSau_Straina" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Name" Name="NameSortable" SystemName="NameSortable" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Promovata" Name="Promovata" SystemName="Promovata" Type="System.String" Stored="true" Analyzed="false" Indexed="true" />
+      <Field Source="Marca" Name="Marca" SystemName="Marca" Type="System.Boolean" Stored="true" Analyzed="false" Indexed="true" />
+    </Fields>
+    <FieldTypes />
+  </Schema>
+  <Meta />
+</Index>

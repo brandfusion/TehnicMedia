@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Facets>
+  <Settings />
+  <Source Repository="Evenimente" Item="EvenimenteQuery.query" />
+  <Facet Name="Tara" Type="Field" Field="Eveniment_Tara" QueryParameter="Tara">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+  <Facet Name="Oras" Type="Field" Field="Eveniment_Oras" QueryParameter="Oras">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+  <Facet Name="Locatie" Type="Field" Field="Eveniment_Locatie" QueryParameter="Locatie">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+  <Facet Name="Perioada" Type="Field" Field="Eveniment_Perioada" QueryParameter="Perioada">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+  <Facet Name="An" Type="Field" Field="Eveniment_An" QueryParameter="An">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+  <Facet Name="Organizator" Type="Field" Field="Eveniment_Autor" QueryParameter="Organizator">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+</Facets>

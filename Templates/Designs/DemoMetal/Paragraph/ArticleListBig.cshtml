@@ -1,0 +1,48 @@
+<div class="jx-container jx-padding jx-grey-bg">
+
+	<div class="container">
+
+		<div class="row"></div>
+		<div class="row"></div>
+			
+		<div class="jx-media-center">	
+
+		@foreach(LoopItem item in GetLoop("Item.ArticleList")) {
+			string articleTitle = item.GetString("Item.ArticleList.Title");
+			string image = item.GetString("Item.ArticleList.Image");
+			string description = item.GetString("Item.ArticleList.Description");
+			DateTime articleDate = item.GetDate("Item.ArticleList.Date");
+
+			<div class="one-third columns">
+				<div class="image jx-image-wrapper">
+					<img src="@image" alt="">
+					<div class="jx-image-overlay"></div>
+					<div class="jx-image-hover">
+						<a href="#" class="jx-blog-more"><i class="line-icon icon-doc"></i></a>                            
+					</div>
+				</div>
+				<div class="title"><a href="#2">@articleTitle</a></div>
+				<div class="date"><i class="line-icon icon-calendar"></i> <span>@articleDate.ToString("D")</span> <i class="line-icon icon-location"></i> <span>Stiri</span></div>
+				<div class="description">@description</div>
+			</div>
+		}	
+			
+		</div>
+		
+		<div class="row"></div>
+		<div class="row"></div>
+		
+		<div class="jx-btn-center"> 
+			
+			@foreach(LoopItem item in GetLoop("Item.LinkList")) {
+				string link = item.GetString("Item.LinkList.Link");
+				string text = item.GetString("Item.LinkList.Text");
+
+				<a href="@link" class="jx-btn-default"><i class="line-icon icon-note"></i>@text</a>
+			}
+
+		</div>
+		
+	</div>        
+</div>
+<!-- EOF MEDIA CENTER -->

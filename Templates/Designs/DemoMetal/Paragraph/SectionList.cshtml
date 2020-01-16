@@ -1,0 +1,46 @@
+﻿@{
+	string title = GetString("Item.ParagraphName");
+	string icon = GetString("Item.Icon");
+}
+
+<div class="container">
+	<div class="jx-section-title-1">
+		<div class="jx-pre-title jx-short-border">
+			<div class="jx-title-border left"></div>
+			<div class="jx-title-icon"><i class="fa fa-@icon" style="color: #000 !important;"></i></div>
+			<div class="jx-title-border right"></div> 
+		</div>
+		<div class="jx-title">@title</div>
+	</div>
+	
+	<div class="row"></div>
+	 
+	<div class="jx-servicebox-2">
+
+	@foreach(LoopItem item in GetLoop("Item.EventParagraphList")) {
+		string pTitle = item.GetString("Item.EventParagraphList.Title");
+		string pText = item.GetString("Item.EventParagraphList.Text");
+		string pIcon = item.GetString("Item.EventParagraphList.Icon");
+
+		<div class="one-third columns jx-service-item">
+			<div class="service-icon"><i class="fa fa-@pIcon"></i></div>
+			<div class="service-title jx-uppercase"><a href="#">@pTitle</a></div>
+			<div class="service-title-border"></div>
+			<div class="service-description mb20">
+				<div>@pText</div>
+			</div>
+			<div class="service-btn">
+
+			@foreach(LoopItem item2 in item.GetLoop("Item.EventParagraphList.LinkList")) {
+				string link = item2.GetString("Item.EventParagraphList.LinkList.Link");
+				string linkTitle = item2.GetString("Item.EventParagraphList.LinkList.Text");
+
+				<a href="@link" class="jx-btn-default">@linkTitle</a>
+			}
+
+			</div>
+		</div>
+	}
+
+	</div>
+</div>

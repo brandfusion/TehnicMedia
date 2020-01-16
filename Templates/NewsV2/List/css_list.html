@@ -1,0 +1,42 @@
+<!--@News:Search-->
+<ul id="newsfeeds">
+    <li><!--@News:RSS--></li>
+    <li><!--@News:FusionGoogle--></li>
+    <li><!--@News:WindowsLive--></li>
+</ul>
+
+<!--@If Defined(News:NoNewsMessage)-->
+    <div id="nonews">
+        <!--@News:NoNewsMessage-->
+    </div>
+<!--@EndIf(News:NoNewsMessage)-->
+
+<!--@If Not Defined(News:NoNewsMessage)-->
+    <ul id="newslist">
+        <!--@LoopStart(NewsList)-->
+        <li>
+            <h2>
+                <!--@News:Personalize.Image-->
+                <span style="color: #FF0000">
+                    <!--@News:Personalize.Text-->
+                </span>
+                <a href="<!--@News:Href-->"><!--@News:Date.ShortDate-->&nbsp;(<!--@News:CategoryName-->)&nbsp;<!--@News:Heading--></a>
+            </h2>
+            <!--@If Defined(News:FrontendEdit)-->
+                <div id="newsadmineditdiv" style="color: red;">
+                    <!--@News:FrontendEdit-->
+                </div>
+            <!--@EndIf(News:FrontendEdit)-->
+            <span class="newstext">
+                <!--@News:SmallImage-->
+                <!--@News:Manchet-->
+                <!--@News:FirstXChar-->
+            </span>
+            <!--@News:TotalNewsLink-->
+        </li>
+        <!--@LoopEnd(NewsList)-->
+    </ul>
+    <div id="newpaging">
+        <!--@News:Paging.Back-->&nbsp;&nbsp;<!--@News:Paging.List-->&nbsp;&nbsp;<!--@News:Paging.Forward-->
+    </div>
+<!--@EndIf(News:NoNewsMessage)-->

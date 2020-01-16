@@ -1,0 +1,32 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+<style>
+  .issuuWrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+  }
+  .issuuWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<div class="row">
+    @if(GetBoolean("ItemPublisher:Items.Any")){
+        foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+            string issuuCode = item.GetString("ItemPublisher:Item.Cod_ISSUU");
+
+            @* <!-- <div class="issuuembed col-md-12" data-configid="@issuuCode" style="width:525px; height:378px;"></div>
+            <script type="text/javascript" src="//e.issuu.com/embed.js" async="true"></script>
+            <div class="issuuWraper"><iframe width="740" height="500" src="//e.issuu.com/embed.html#@issuuCode" frameborder="0" allowfullscreen></iframe></div> *@
+
+            <div class="issuuWraper">
+              <iframe width="740" height="500" src="@issuuCode&hideIssuuLogo=true&showOtherPublicationsAsSuggestions=false&u=tehnica_si_tehnologie" frameborder="0" allowfullscreen></iframe>
+            </div>
+        }
+    }
+</div>

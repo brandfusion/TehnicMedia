@@ -1,0 +1,11 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+<ul class="tags-widget">
+  	@foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+   	string itemTitle = item.GetString("ItemPublisher:Item.Name.Value");
+  	string itemId = item.GetString("ItemPublisher:Item.Id");
+      <li><a href="#">@itemTitle</a></li>
+    }
+</ul>
+}

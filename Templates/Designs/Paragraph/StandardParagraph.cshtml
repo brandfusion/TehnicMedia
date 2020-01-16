@@ -1,0 +1,291 @@
+﻿@* version 1.4 *@
+@using System.Text.RegularExpressions
+
+@Include("../LayoutFunctions.cshtml")
+
+@NewRow()
+
+<article class="@ColumnClass()">
+
+	@* @RenderParagraphAnchor() *@
+    @RenderHeading()
+   
+    @if (!string.IsNullOrEmpty(GetString("Item.Video"))) {
+      @RenderVideoWrapper()
+    } else {
+      @RenderImage()
+    }
+	  
+    @RenderText()
+    @RenderModule()
+    @RenderButton()
+	@EndParagraphWrapper()
+
+</article>
+
+@helper RenderParagraphAnchor()
+{
+  if(Convert.ToBoolean(Dynamicweb.Base.GetGs("/Globalsettings/Settings/Performance/DeactivateParagraphAnchor")))
+  {
+    <a id='@GetString("ParagraphID")' class="pidlink"></a>
+  }
+}
+
+@helper RenderHeading()
+{
+  if(GetBoolean("Item.ShowTitle") && GetString("Item.TitleOrder") == "title-first")
+  {
+	  @RenderHeadingHtml()
+  }
+}
+
+@helper RenderHeadingHtml()
+{
+  if (!string.IsNullOrEmpty(GetString("Item.Title")))
+  {
+    string str_headingType = string.IsNullOrEmpty(GetString("Item.HeadingType")) ? "h1" : GetString("Item.HeadingType");
+    <header class="paragraphHeader">
+      @if (!string.IsNullOrEmpty(GetString("Item.Link"))){
+      	@String.Format("<{0}><a href='{2}'>{1}</a></{0}>", str_headingType, GetString("Item.Title"),GetString("Item.Link") )
+      }else{
+      	@String.Format("<{0}>{1}</{0}>", str_headingType, GetString("Item.Title"))
+      }
+      
+	</header>
+  }
+}
+
+@helper RenderText()
+{
+  if(str_itemOrder == "image-left" || str_itemOrder == "image-right")
+  {
+	  @CheckForParagraphWrapper()
+    if (!string.IsNullOrEmpty(GetString("Item.Video"))) {
+       @RenderVideoWrapper()
+      } else {
+        @RenderImageTag()
+      }   
+   
+  }
+  if (GetBoolean("Item.ShowTitle") && GetString("Item.TitleOrder") == "title-with-text")
+  {
+	  @CheckForParagraphWrapper()
+    @RenderHeadingHtml()
+  }
+  if (!string.IsNullOrWhiteSpace(GetString("Item.Text")))
+  {
+	  @CheckForParagraphWrapper()
+    <div class="paragraphText">
+      @GetString("Item.Text")
+    </div>
+  }
+}
+
+@helper RenderModule()
+{
+  if(!string.IsNullOrEmpty(GetString("ParagraphModule"))){
+    @CheckForParagraphWrapper()
+    @GetString("ParagraphModule")
+  }
+}
+
+@helper RenderButton()
+{
+  string str_url = GetString("Item.Link");
+
+  if (!string.IsNullOrEmpty(str_url) && GetBoolean("Item.ShowReadMoreButton"))
+  {
+    string str_target = GetBoolean("Item.OpenInANewWindow") ? "target='_blank'" : "";
+
+	@CheckForParagraphWrapper()
+    <p class="pull-right paragraphButton">
+      <a href="@str_url" @str_target class="btn pull-right">@GetString("Item.LinkText")</a>
+    </p>
+  }
+}
+
+@helper RenderImage()
+{
+  if(str_itemOrder == "image-left-column" || str_itemOrder == "image-right-column" || str_itemOrder == "image-top")
+  {
+    @RenderImageTag()
+  }
+}
+
+@helper RenderImageTag()
+{
+  if (!string.IsNullOrEmpty(GetString("Item.Image")))
+  {
+    if (string.IsNullOrEmpty(GetString("Item.Link")))
+    {
+      @RenderImageWrapper()
+    }
+    else
+    {
+      string str_target = GetBoolean("Item.OpenInANewWindow") ? "target='_blank'" : "";
+      <a href="@GetString("Item.Link")" @str_target>
+        @RenderImageWrapper()
+      </a>
+    }
+  }
+}
+
+
+@helper RenderImageWrapper()
+{
+  string str_image = System.Web.HttpContext.Current.Server.UrlEncode(GetString("Item.Image"));
+  string str_imageAlt = (!string.IsNullOrEmpty(GetString("Item.ImageTitle"))) ? GetString("Item.ImageTitle") : GetString("Item.Title");
+  string str_figureWidth = (bol_isMobile) ? "col-xs-12" : "col-xs-" + GetString("Item.ImageWidth");
+  string str_optimizedWidth = "1280";
+  @* string str_figureClass = GetString("Item.ImageStyle"); *@
+
+  switch (str_itemOrder){
+    case "image-left":
+	case "image-left-column":
+      str_figureWidth += " pull-left noPaddingLeft";
+      break;
+    case "image-right":
+    case "image-right-column":
+      str_figureWidth += " pull-right noPaddingRight";
+      break;
+    case "image-top":
+	  default:
+      str_figureWidth += " image-top noPadding";
+      if(GetInteger("Item.ImageWidth") < 12 && !bol_isMobile){
+        str_figureWidth += " col-xs-offset-" + ((12 - GetInteger("Item.ImageWidth")) / 2);
+      }
+      break;
+  }
+ @*  str_figureClass = (str_figureClass == "none") ? str_figureWidth : str_figureClass + " " + str_figureWidth; *@
+
+  if (bol_isMobile)
+  {
+    switch (GetString("Item.WidthMobile")){
+      case "12":
+        str_optimizedWidth = "480";
+        break;
+      case "6":
+        str_optimizedWidth = "240";
+        break;
+    }
+  }
+  else {
+    switch (GetString("Item.Width")){
+      case "3":
+	  case "4":
+	  case "6":
+        str_optimizedWidth = "722";
+        break;
+      case "8":
+	  case "9":
+        str_optimizedWidth = "960";
+        break;
+      default:
+        str_optimizedWidth = "1280";
+        break;
+    }
+  }
+
+  <figure class="@str_figureWidth">
+    <img class="img-responsive" src="/Admin/Public/GetImage.ashx?width=@str_optimizedWidth&image=@str_image" title="@str_imageAlt" alt="@str_imageAlt" />
+  </figure>
+}
+
+
+@helper RenderVideoWrapper()
+{
+  string str_video = System.Web.HttpContext.Current.Server.UrlEncode(GetString("Item.Video")); 
+  string str_videoWidth = (bol_isMobile) ? "col-xs-12" : "col-xs-" + GetString("Item.ImageWidth");
+  string str_optimizedWidth = "1280";
+  switch (str_itemOrder){
+    case "image-left":
+  case "image-left-column":
+      str_videoWidth += " pull-left noPaddingLeft";
+      break;
+    case "image-right":
+    case "image-right-column":
+      str_videoWidth += " pull-right noPaddingRight";
+      break;
+    case "image-top":
+    default:
+      str_videoWidth += " image-top noPadding";
+      if(GetInteger("Item.ImageWidth") < 12 && !bol_isMobile){
+        str_videoWidth += " col-xs-offset-" + ((12 - GetInteger("Item.ImageWidth")) /2);
+      }
+      break;
+  }
+  
+
+  if (bol_isMobile)
+  {
+    switch (GetString("Item.WidthMobile")){
+      case "12":
+        str_optimizedWidth = "480";
+        break;
+      case "6":
+        str_optimizedWidth = "240";
+        break;
+    }
+  }
+  else {
+    switch (GetString("Item.Width")){
+      case "3":
+    case "4":
+    case "6":
+        str_optimizedWidth = "722";
+        break;
+      case "8":
+    case "9":
+        str_optimizedWidth = "960";
+        break;
+      default:
+        str_optimizedWidth = "1280";
+        break;
+    }
+  }
+  string videoID = GetString("Item.Video").Substring(17,11);
+  if (GetBoolean("Item.OpenInModal")) {
+    
+    <div class="modal-video-trigger @str_videoWidth" >
+      <div class="video-trigger" data-toggle="modal" data-target="#@videoID">
+        <img src="http://img.youtube.com/vi/@videoID/mqdefault.jpg" alt=""  />
+      </div>
+    </div>
+
+   
+
+  @SnippetStart("Bottom")
+    <div class="modal fade" id="@videoID"tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="videoWrapper">       
+          <iframe class="youtube-content" width="560" height="315" src='https://www.youtube.com/embed/@videoID' rel="0" frameborder="0" allowfullscreen></iframe> 
+        </div>
+      </div>
+    </div>
+  </div>
+    <script type="text/javascript">
+      $(function(){
+       
+        $('#@videoID').on("hidden.bs.modal", function(){
+           console.log("enter");
+          $('iframe.youtube-content').each(function(){
+            var video = $(this).attr("src");
+            $(this).attr("src","");
+            $(this).attr("src",video);
+          });
+        });
+
+      });
+        
+    </script>
+    
+  @SnippetEnd("Buttom")
+
+  } else {
+    <div class="videoWrapper @str_videoWidth">
+      <iframe class="youtube-content" width="560" height="315" src='https://www.youtube.com/embed/@videoID' rel="0" frameborder="0" allowfullscreen></iframe> 
+    </div>
+  }
+  
+}

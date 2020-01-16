@@ -1,0 +1,728 @@
+﻿<!--Starter start -->
+      
+      <div class="row">
+
+<!-- Contact Info Start-->
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+          <div class="contactinfo">
+             <div class="row space-10">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 HartaAdresaHartaAdresa-center">
+                  @if(!String.IsNullOrEmpty(@Logo)){
+                      <img  class="img-responsive text-center" src="@Logo" alt="">
+                  }
+              </div>  <br/><br/><br/>
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                              <p><i class="fa fa-envelope" aria-hidden="true"></i>  <b>Adresa:</b> <span>@Strada</span>, <span>@Oras</span>, <span>@Tara</span>, <span> Cod Postal: @CodPostal </span></p>
+                  <p><i class="fa fa-phone " aria-hidden="true"></i>   <b>Telefon:</b> @PhoneContact</p>
+                                   @if(!String.IsNullOrEmpty(@LinkCatreSite)){
+                    <p><i class="fa fa-globe r" aria-hidden="true"></i>  <b>Website:</b> <a href="@LinkCatreSite" alt="Website @Name" target="_blank">Vezi website</a></p>
+                  }
+                  <div class="socialmedia">
+                  @if(!String.IsNullOrEmpty(@FacebookLink) ||!String.IsNullOrEmpty(@TwitterLink) || !String.IsNullOrEmpty(@LinkedinLink) ){
+                  <p><b>@Name pe retele sociale</b></p>
+
+
+                  }
+                  @if(!String.IsNullOrEmpty(@FacebookLink)){ <a href="@FacebookLink" ><span class="social"> <i class="fa fa-facebook" aria-hidden="true"> </i></span></a>}
+                  @if(!String.IsNullOrEmpty(@TwitterLink)){  <a href="@TwitterLink" ><span class="social"> <i class="fa fa-twitter" aria-hidden="true"> </i></span></a>}
+                  @if(!String.IsNullOrEmpty(@LinkedinLink)){ <a href="@LinkedinLink" ><span class="social"> <i class="fa fa-linkedin" aria-hidden="true"> </i></span></a>}
+                    </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+              <hr/>
+                <div style="display:-webkit-box;"><i class="fa fa-share-alt" aria-hidden="true"></i>  <b>Share:</b>  <div class="addthis_inline_share_toolbox_islb"></div></div>
+            </div>
+            </div> 
+          </div> 
+        </div>
+<!-- Contact Info End-->
+<!-- Harta Start-->
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+            <div class="maps">                      
+                      <div id="map-canvas" class="premium-map-canvas" data-lat="" data-lng=""  data-geolocation='@Geolocatie' data-zoom="14"></div>                
+                      <div class="addresses-block">
+                      <a class="premium-map-marker" data-lat="" data-lng="" data-string='@Strada @Oras @Tara'></a>
+                      </div>                        
+            </div> 
+            </div>
+<!-- Harta End-->
+      </div>
+<hr/>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+          <h5> Despre @Name</h5>
+          <p>@Summary</p>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <img src="@Banner" style="height:auto; width:100%">
+        </div>
+        
+      </div>
+<hr/>
+<!--Starter end -->
+
+
+<!--Standard start -->
+<div class="row">
+<div class="col-xs-12"><h5>Produse @Name</h5></div>
+<div class="product reset-padding-right item-scope animated">
+
+@foreach (var produsReprezentativ in ProduseReprezentative) {
+<div class="product-item col-sm-6 col-xs-12 col-md-4">
+    <div class="product-image">
+
+<a href="/catalog-industrial?ProductID=@(produsReprezentativ.Id)" class="overlay-link">
+<figure class="image-overlay proportie-1 text-center">
+@if(!String.IsNullOrEmpty(@produsReprezentativ.ImageLarge)){
+                <img src="/Files/@(produsReprezentativ.ImageLarge)" alt="@produsReprezentativ.Name" class="">}else{
+                <img src="http://placehold.it/350x150" alt="@produsReprezentativ.Name" class="img-responsive">}
+</figure>
+
+</a>
+    </div>
+
+ <div class="product-title">
+      <h2>
+       @produsReprezentativ.Name 
+      </h2>      
+    </div>
+
+<div class="product-buttons">
+              
+          <a class="buton-produse"  href="/catalog-industrial?ProductID=@(produsReprezentativ.Id)"><i class="fa fa-eye"></i><span class="detalii-produs">Detalii produs</span></a>                             
+         
+    </div>
+  </div>
+}
+
+
+@foreach (var produsReprezentativ1 in ProduseReprezentative) {
+var groups = produsReprezentativ1.Groups;
+
+  if (groups != null) {
+    foreach (var group in groups) {
+   
+       <div class="product-manufacturer col-xs-6 col-md-6">@group.Name @group.Id</div>
+
+    }
+  }
+
+}
+
+</div>
+</div>
+<hr/>
+<!--Standard end -->
+
+
+<!--Profesional Start -->
+<!--Stiri Start -->
+        if(AfiseazaStiri){
+                  <div class="row space-10">
+                     
+		<div class="col-xs-12"><h5>Ultimele Stiri despre @Name</h5> </div>
+
+                    
+
+
+                            @RenderItemList(new { 
+                                                              ItemType = "Dw_Page",
+                                                              ListSourceType = "SelfArea",
+                                                              ItemFieldsList = "*",
+                                                              ListTemplate = "ItemPublisher/List/Loop-stiri-articole-companie.cshtml",
+                                                              ListShowFrom = 2,
+                                                              ListPageSize = 4,
+                                                              ListOrderBy = "Data",
+                                                              ListOrderByDirection = "",
+                                                             @* Filter = "De_Companie contains " + companie["Id"] + " and Tip = 'Stiri'"  *@
+                                })
+
+                      
+
+                        
+                    </div>
+                  }
+<!--Stiri End -->
+<!--Articole Start -->
+
+        if(AfiseazaArticole){
+                <div class="row space-10">
+                    
+					<div class="col-xs-12"> <h5>Articole despre @Name</h5></div> 
+                                    
+
+                                                @RenderItemList(new { 
+                                                ItemType = "Dw_Page",
+                                                ListSourceType = "SelfArea",
+                                                ItemFieldsList = "*",
+                                                ListTemplate = "ItemPublisher/List/Loop-stiri-articole-companie.cshtml",
+                                                ListShowFrom = 1,
+                                                ListPageSize = 12,
+                                                ListOrderBy = "Data",
+                                                ListOrderByDirection = "",
+                                              @*  Filter =   "De_Companie contains " + companie["Id"]+" or Despre_Companie = '"+ companie["Id"] + "'" + " and Tip != 'Stiri'"  *@
+
+                                               })
+                  
+                    
+                </div>
+              }
+<!--Articole End -->
+<hr/>
+<!-- Cataloage de Produse Start-->
+<div class="row cataloage-produse">
+@{
+int CatalogID = companie["Cataloage_Produse"] != null ? (int)companie["Cataloage_Produse"] : 0;
+}
+      
+@if(CatalogID != 0){
+
+
+
+	<div class="col-xs-12"><h5> Cataloage de Produse</h5></div>
+    
+     var ListaCatalog = Dynamicweb.Content.Items.ItemList.GetItemListById(CatalogID);
+
+       if(ListaCatalog != null) {
+         
+            foreach( var ElementID in ListaCatalog.Relations){
+              var Element = new Dynamicweb.Content.Items.Item(ElementID);
+          string Thumbnail = Element["Thumbnail"]!=null ? Element["Thumbnail"].ToString(): "";
+
+            <div class="col-md-4 col-xs-12 col-sm-12" >
+              <article class="news-block small-block" style="">
+
+                
+                  
+                  
+                                 @if(!string.IsNullOrEmpty(@Thumbnail)){
+                                                      <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
+                                                                                              }
+                                                                                                  else
+                                                                                              {
+
+                                                     <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
+                                                                                              }
+                  
+                  
+                
+  
+      <header class="news-details">
+     
+        <h3 class="news-title"><a href='@Element["Fisier"]' target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
+     
+      
+      </header>
+
+   
+
+  </article>
+</div>
+
+          } 
+  
+      } 
+
+} 
+</div>
+
+<!-- Cataloage de Produse End-->
+<hr/>
+<!-- Fise Tehnice start-->
+
+<div class="row fise-tehnice">  
+@{
+int FiseTehniceID = companie["Fise_Tehnice"] != null ? (int)companie["Fise_Tehnice"] : 0;
+}
+    
+@if(FiseTehniceID != 0){
+
+		<div class="col-xs-12"><h5>Fise Tehnice</h5></div>
+    
+     var ListaFiseTehnice = Dynamicweb.Content.Items.ItemList.GetItemListById(FiseTehniceID);
+
+       if(ListaFiseTehnice != null) {
+           
+            foreach( var ElementID in ListaFiseTehnice.Relations){
+              var Element = new Dynamicweb.Content.Items.Item(ElementID);
+          string Thumbnail = Element["Thumbnail"]!=null ? Element["Thumbnail"].ToString(): "";
+
+            <div class="col-md-3 col-xs-12 col-sm-6" >
+              <article class="news-block small-block" style="">
+                   
+                
+
+                            @if (!string.IsNullOrEmpty(@Thumbnail)){
+                                                      <a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay proportie-1 text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
+                                                                                              }
+                                                                                                  else
+                                                                                              {
+
+                                                      <a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay proportie-1 text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
+                                                                                              }
+                  
+                  
+
+  
+    <header class="news-details">
+     
+      <h3 class="news-title"><a href='@Element["Fisier"]'> @Name - @Element["Titlu"]</a></h3> 
+     
+      
+    </header>
+
+   
+
+  </article>
+</div>
+<div class="clear"></div>
+          } 
+      } 
+} 
+
+
+</div>
+
+
+<!-- Fise Tehnice End-->
+
+
+<!--Profesional End -->
+
+<!--Premium Start-->
+<!--Despre Companie Start-->
+
+    <div class="row despre-companie">
+    @if(!String.IsNullOrEmpty(@ImagineProfil) && !String.IsNullOrEmpty(@DeclaratieManager) && Contactform){
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <h5> Declaratie Manager</h5>
+    <p><img src="@ImagineProfil" alt="@Name Manager" align="left"/></p>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <p class="declaratiemanager">@DeclaratieManager</p>
+    </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+
+    <h5>Contacteaza @Name</h5>
+    @RenderParagraphContent(137)
+    </div> 
+    } else {
+
+    if(!String.IsNullOrEmpty(@ImagineProfil) && !String.IsNullOrEmpty(@DeclaratieManager) && !Contactform){
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+    <h5> Declaratie Manager</h5>
+    <p><img src="@ImagineProfil" alt="@Name Manager" align="left"/></p>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <p class="declaratiemanager">@DeclaratieManager</p>
+    </div>
+    </div>
+    } else { if(String.IsNullOrEmpty(@ImagineProfil) && String.IsNullOrEmpty(@DeclaratieManager) && Contactform){
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h5>Trimite un mesaj pentru @Name</h5>
+    @RenderParagraphContent(137)
+        </div>
+    }}
+
+    } 
+    </div>
+
+
+
+<!--Despre Companie End-->
+
+<!--Echipa Start-->
+
+<div class="row row-echipa">
+@{
+int EchipaID = companie["Echipa_Companie_Premium"] != null ? (int)companie["Echipa_Companie_Premium"] : 0;
+}
+    
+@if(EchipaID != 0){
+
+	<div class="col-xs-12"><h5>Echipa @Name</h5></div>
+    
+     var ListaMembriEchipa = Dynamicweb.Content.Items.ItemList.GetItemListById(EchipaID);
+
+       if(ListaMembriEchipa != null) {
+           
+            foreach( var ElementID in ListaMembriEchipa.Relations){
+              var Element = new Dynamicweb.Content.Items.Item(ElementID);
+          string Poza = Element["Poza"]!=null ? Element["Poza"].ToString(): "";
+          string Functia = Element["Functia"]!=null ? Element["Functia"].ToString(): "";  
+          string Nume = Element["Nume"]!=null ? Element["Nume"].ToString(): "";
+          
+
+            <div class="col-md-3 col-xs-12" >
+              <article class="news-block small-block" style="margin-top:15px;">
+                   <div class="overlay-link">
+                <figure class="image-overlay proportie-1" >
+
+                           
+                                                     <img src='@Poza' alt='@Nume'/>
+                                                                                       
+                                                                                                 
+                  </figure>
+                  </div>
+
+  
+    <header class="news-details">
+     
+<h3 class="news-title"><a>@Nume - @Functia</a></h3> 
+     
+      
+    </header>
+
+   
+
+  </article>
+</div>
+<div class="clear"></div>
+          } 
+      } 
+} 
+</div>
+<!--Echipa End-->
+<!-- Trainings Start -->
+
+<div class="row row-training">
+@{
+int TrainingListId = companie["Traninguri"] != null ? (int)companie["Traninguri"] : 0;
+}
+ 
+              
+@if(TrainingListId != 0){
+
+<div class="col-xs-12"><h5>@Name Training</h5></div>
+    
+    var TrainingLista = Dynamicweb.Content.Items.ItemList.GetItemListById(TrainingListId);
+
+ 
+if(TrainingLista != null) { 
+
+          
+
+           
+          foreach( var TrainingID in TrainingLista.Relations){
+
+
+               var Training = new Dynamicweb.Content.Items.Item(TrainingID);
+                          
+            string TipTraining = Training["Tip_Training"]!= null ? Training["Tip_Training"].ToString() :"";
+            string Pdf = Training["Fisier_PDF"] !=null ? Training["Fisier_PDF"].ToString(): "";
+            string YoutubeVideo = Training["Cod_Embed_Video_Youtube"] !=null ? Training["Cod_Embed_Video_Youtube"].ToString(): "";
+            string VimeoVideo = Training["Cod_Embed_Vimeo_Video"] !=null ? Training["Cod_Embed_Vimeo_Video"].ToString(): "";
+            string Thumbnail = Training["Thumbnail"] !=null ? Training["Thumbnail"].ToString(): "";
+      string Titlu = Training["Titlu"] !=null ? Training["Titlu"].ToString(): "";
+
+                  <div class="col-md-4 col-xs-12" style="margin-bottom: 39px;">   
+					<article class="news-block small-block">
+                  @if(TipTraining == "0" ){
+
+                               <a class="videoGallery fancybox.iframe" data-fancybox-type="iframe"  href="@Pdf" rel="group2">
+								 <figure class="image-overlay proportie-1" >
+									<img src="@Thumbnail" alt="" />
+								</figure>
+								</a>  
+
+                            <header class="news-details">
+                              <h3 class="news-title"><a class="videoGallery fancybox.iframe" data-fancybox-type="iframe"  href="@Pdf" rel="group2">@Titlu</a></h3>
+                            </header>
+
+                  } else {
+
+                   if(TipTraining == "1" ){
+
+                              <a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="https://www.youtube.com/embed/@(YoutubeVideo)" rel="group2">
+                            	  
+								<figure class="image-overlay proportie-1" >
+									<img src="@Thumbnail" alt="" />
+								</figure>
+
+                              </a>
+
+                            <header class="news-details">
+                                <h3 class="news-title"><a class="videoGallery fancybox.iframe" data-fancybox-type="iframe"  href="@Pdf" rel="group2">@Titlu</a></h3>
+                            </header>
+
+                   }else{ 
+
+                    if(TipTraining == "2" ){
+
+                                        <a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="https://player.vimeo.com/video/@(VimeoVideo)" rel="group2">
+												
+										<figure class="image-overlay proportie-1" >
+											<img src="@Thumbnail" alt="" />
+										</figure>	
+										</a>
+                                        <header class="news-details">
+                                          <h3 class="news-title"><a class="videoGallery fancybox.iframe" data-fancybox-type="iframe"  href="@Pdf" rel="group2">@Titlu</a></h3>
+                                        </header>
+                                                              }
+
+                                                              }
+                                  }
+							</article>
+                  </div>
+
+                                  }
+
+                   } 
+
+                  }
+
+
+</div>
+  
+<!-- Trainings End-->
+<!-- Testimoniale Start -->
+
+
+  
+          <div class="row">
+                    <div class="col-md-12" data-wow-delay="0.2s">
+                      
+@{int TestimonialeID = companie["Testimoniale"] != null ? (int)companie["Testimoniale"] : 0;
+  int counter = 0;
+ 
+                       }
+@if(TestimonialeID != 0){
+
+<h5>Testimoniale</h5>
+    
+     var ListaTestimoniale = Dynamicweb.Content.Items.ItemList.GetItemListById(TestimonialeID);
+
+       if(ListaTestimoniale != null) {
+
+
+<span style="display:none"></span>
+
+
+  
+                      
+                      
+                     
+<div class="carousel slide" data-ride="carousel" id="quote-carousel">
+                            
+
+
+                            <!-- Carousel Slides / Quotes -->
+                            <div class="carousel-inner text-center">
+                @{counter = 0;}
+                                 @foreach( var ElementID in ListaTestimoniale.Relations){
+                                    var Element = new Dynamicweb.Content.Items.Item(ElementID);
+                                string Poza = Element["Poza"]!=null ? Element["Poza"].ToString(): "";
+                                string Functia = Element["Functia"]!=null ? Element["Functia"].ToString(): "";  
+                                string Nume = Element["Nume"]!=null ? Element["Nume"].ToString(): "";
+                                String Testimonial = Element["Testimonial"]!=null ? Element["Testimonial"].ToString(): "";
+
+                                if(counter == 0){
+                                  <!-- Quote 1 -->
+                                <div class="item active">
+                                
+                                        <div class="row">
+                                            <div class="col-sm-8 col-sm-offset-2">
+
+                                                <p>@Testimonial</p>
+                                               <h4>@Nume - @Functia</h4>
+                                            </div>
+                                        </div>
+                                 
+                                </div>
+
+                                  }else{
+
+                                    <div class="item">
+                                
+                                        <div class="row">
+                                            <div class="col-sm-8 col-sm-offset-2">
+
+                                                <p>@Testimonial</p>
+                                               <h4>@Nume - @Functia</h4>
+                                            </div>
+                                        </div>
+                                 
+                                   </div>
+
+
+                                  }
+
+                                  counter++;
+                                }
+                              
+                               
+                            </div>
+
+
+              <!-- Bottom Carousel Indicators -->
+                            <ol class="carousel-indicators">
+
+                              @foreach( var ElementID in ListaTestimoniale.Relations){
+                                    var Element = new Dynamicweb.Content.Items.Item(ElementID);
+                                string Poza = Element["Poza"]!=null ? Element["Poza"].ToString(): "";
+                                string Functia = Element["Functia"]!=null ? Element["Functia"].ToString(): "";  
+                                string Nume = Element["Nume"]!=null ? Element["Nume"].ToString(): "";
+                                string Testimonial = Element["Testimonial"]!=null ? Element["Testimonial"].ToString(): "";
+
+                                if(counter == 0){
+
+                                <li data-target="#quote-carousel" data-slide-to="@counter" class= "active"><img class="img-responsive " src="@Poza" alt="">
+                                </li>
+
+                              } else {
+
+                                <li data-target="#quote-carousel" data-slide-to="@counter"><img class="img-responsive " src="@Poza" alt="">
+                                </li>
+
+                              }
+
+
+                                 counter++;
+
+
+                      
+                              }  
+                            </ol> 
+
+                            <!-- Carousel Buttons Next/Prev -->
+                            <a data-slide="prev" href="#quote-carousel" class="left carousel-control"><i class="fa fa-chevron-left"></i></a>
+                            <a data-slide="next" href="#quote-carousel" class="right carousel-control"><i class="fa fa-chevron-right"></i></a>
+                      </div>
+                      
+
+
+                      
+
+
+
+          
+              
+
+
+                   }
+}
+</div></div>
+<!-- Testimoniale End-->
+<!-- Galerie Foto Video Start-->
+<div class="row row-galerie-foto">
+@{
+int FotoVideoId = companie["GalerieFotoVideo"] != null ? (int)companie["GalerieFotoVideo"] : 0;
+}
+ 
+              
+@if(FotoVideoId != 0){
+
+  <div class="col-xs-12"><h5>Galerie Foto/Video</h5></div>
+    
+    var GalerieFotoVideoLista = Dynamicweb.Content.Items.ItemList.GetItemListById(FotoVideoId);
+
+ 
+if(GalerieFotoVideoLista != null) { 
+
+          
+
+           
+          foreach( var GalerieID in GalerieFotoVideoLista.Relations){
+
+
+               var Training = new Dynamicweb.Content.Items.Item(GalerieID);
+                          
+            string TipMedia = Training["Tip_Media"]!= null ? Training["Tip_Media"].ToString() :"";
+            string Pdf = Training["Imagine"] !=null ? Training["Imagine"].ToString(): "";
+            string YoutubeVideo = Training["Youtube_Embed_Code"] !=null ? Training["Youtube_Embed_Code"].ToString(): "";
+            string VimeoVideo = Training["Vimeo_Embed_Code"] !=null ? Training["Vimeo_Embed_Code"].ToString(): "";
+            string Thumbnail = Training["Thumbnail"] !=null ? Training["Thumbnail"].ToString(): "";
+      string ThumbnailVimeo = Training["Thumbnail_Vimeo"] !=null ? Training["Thumbnail_Vimeo"].ToString(): "";
+      
+
+<div class="col-md-3 col-xs-12 col-sm-6 col-galerie" style="   margin-bottom: 39px;">        
+@if(TipMedia == "0" ){
+
+<a class="videoGallery fancybox.iframe" data-fancybox-type="iframe"  href="@Pdf" rel="group2"><img src="@Pdf" alt="" /></a>  
+
+
+            } else {
+                  if(TipMedia == "1" ){
+<a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="https://www.youtube.com/embed/@(YoutubeVideo)" rel="group2"><img src="@Thumbnail" alt="" /></a>
+
+                                        } else {  
+                                            if(TipMedia == "2" ){
+                                            <a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="https://player.vimeo.com/video/@(VimeoVideo)" rel="group2"><img src="@ThumbnailVimeo" alt="" /></a>
+
+                                            }
+
+                                            }
+                }
+</div>
+
+                }
+
+ } 
+
+}
+</div>
+<!-- Galerie Foto Video End-->
+<!-- Jobs Start -->
+<div class="row row-jobs">
+@{
+int JobsId = companie["Jobs"] != null ? (int)companie["Jobs"] : 0;
+}
+ 
+              
+@if(JobsId != 0){
+
+<div class="col-xs-12"><h5>@Name Angajeaza</h5></div>
+    
+    var JobsLista = Dynamicweb.Content.Items.ItemList.GetItemListById(JobsId);
+
+ 
+if(JobsLista != null) { 
+
+          
+
+           
+          foreach( var JobID in JobsLista.Relations){
+
+
+               var Element = new Dynamicweb.Content.Items.Item(JobID);
+                          
+            string titlu = Element["Titlu"]!= null ? Element["Titlu"].ToString() :"";
+            string descriere = Element["Descriere"] !=null ? Element["Descriere"].ToString(): "";
+            string data = Element["Data"]!= null ? Element["Data"].ToString() :"";
+     		string locatie = Element["Location"]!= null ? Element["Location"].ToString() :"";
+<div class="col-md-4 col-sm-6 col-xs-12 col-jobs">
+    <div class="job-box">
+        <div class="col-xs-12">
+      	 	 <p>Titlu - @titlu</p>
+      	 	 <p>Descriere : @descriere</p>
+        </div>
+
+        <div class="col-xs-6">
+    	    <p>Data: @data </p>
+   	    	<p>Locatie : @locatie</p>
+        </div>
+      
+        <div class="col-xs-12">
+       	 <a href="mailto:@(Email)?Subject=Job%20Aplication%20from%20TTOnline%20@(titlu)" target="_top" class="buton-formular">Trimite Cv-ul</a>
+        </div>
+    </div>
+</div>
+
+}}}
+
+</div>
+<!-- Jobs End -->
+<!-- Brosuri Start -->
+
+<!-- Brosuri End -->
+<!--Premium End-->
+
+

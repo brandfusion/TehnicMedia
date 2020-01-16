@@ -1,0 +1,28 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+
+@*<h3 class="block-title">@GetString("Title") <span>Redactori si Colaboratori</span></h3>*@
+
+<div class="owl-carousel owl-redactori owl-theme">
+   @if(GetBoolean("ItemPublisher:Items.Any")){
+
+      foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+         string itemNume = item.GetString("ItemPublisher:Item.Nume.Value");
+         string mainImageRaw = item.GetString("ItemPublisher:Item.Poza.Value");
+         string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 90, 115) + "&bgcolor=white"  : "/Files/Images/NoImage/160x120.png";  
+
+         string defaultImage = areaLayoutPath + "/assets/img/demo/160x100.png";
+         string itemLink= "/redactori-si-colaboratori";
+            
+         <div class="item">
+            @if(!string.IsNullOrEmpty(item.GetString("ItemPublisher:Item.Poza.Value"))){
+               <a href='@itemLink'><img src='@mainImage' width="90" height="115" alt="" style="max-height:115px;max-width:90px;" /></a>
+            }  else{
+               <a href='@itemLink'><img src="@areaLayoutPath/assets/img/demo/160x120.png" height="100" alt="" /></a>
+            }
+
+            <p><a href='@itemLink'>@itemNume </a></p>  
+         </div>      
+      }
+   }
+</div>

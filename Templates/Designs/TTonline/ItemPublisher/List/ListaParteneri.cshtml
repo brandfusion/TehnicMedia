@@ -1,0 +1,33 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+
+@* <h3 class="block-title"><span>Parteneri</span></h3> *@
+  
+<div class="owl-carousel owl-parteneri owl-theme parteneri-list">
+  
+@if(GetBoolean("ItemPublisher:Items.Any")) {
+  	
+    foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")) {
+				string mainImageRaw = item.GetString("ItemPublisher:Item.Image.Value");
+  				string imageString = "/Admin/Public/GetImage.ashx?Image={0}&Format=jpg&Width=180&Height=80&Compression=90&Crop=5&DoNotUpscale=1&fillcanvas=1&Background=FFFFFF";
+				string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? String.Format(imageString,mainImageRaw)  : "/Files/Images/NoImage/270x80.png";   		
+			
+				string itemLink1 = item.GetString("ItemPublisher:Item.Link");
+				string itemTitlu1 = item.GetString("ItemPublisher:Item.Titlu.Value");
+				string requestUrl = "http://" + GetGlobalValue("Global:Request.Host"); 
+				if(!string.IsNullOrEmpty(item.GetString("ItemPublisher:Item.Image.Value"))) {
+				<div class="item">
+						
+							@if(!string.IsNullOrEmpty(itemLink1)){
+									<a href='@itemLink1'><img src='@mainImage' alt="@itemTitlu1" /></a>				
+							} else {
+									<a href='@requestUrl/parteneri'><img src='@mainImage' alt="@itemTitlu1" /></a>
+							}
+						
+				</div>
+				}
+	  }
+}
+
+</div>
+

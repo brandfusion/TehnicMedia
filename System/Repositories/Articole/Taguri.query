@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="34c5194c-f932-4d52-b503-6dd9d5ce1fe7" Name="Taguri">
+  <Settings />
+  <Source Repository="Articole" Item="Articole.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters>
+    <Parameter Name="tag" Type="System.String" DefaultValue="" />
+  </Parameters>
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="Dw_Page_Taguri" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="tag" />
+        </Right>
+      </BinaryExpression>
+    </GroupExpression>
+  </Expressions>
+  <SortOrder>
+    <Sort Field="Dw_Page_Data" Direction="Descending" />
+  </SortOrder>
+</Query>

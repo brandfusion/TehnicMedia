@@ -1,0 +1,26 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@helper CreateButton(string link, string text, string style = "padding: 0;line-height:40px;background:#333333;color:#ffffff;font-family:sans-serif;font-size:14px;text-align:center;text-decoration:none;", Dictionary<string, string> options = null){
+  string rect = style,
+         anchor = style;
+
+  if(string.IsNullOrEmpty(style)){
+    string background = options != null && options.ContainsKey("background") ? options["background"].ToString() : "#fff",
+           border = options != null && options.ContainsKey("border") ? options["border"].ToString() : "none",
+           color = options != null && options.ContainsKey("color") ? options["color"].ToString() : "#ff3c14",
+           fontFamily = options != null && options.ContainsKey("font-family") ? options["font-family"].ToString() : "Helvetica, Arial, sans-serif",
+           fontSize = options != null && options.ContainsKey("font-size") ? options["font-size"].ToString() : "14px",
+           fontStyle = options != null && options.ContainsKey("font-style") ? options["font-style"].ToString() : "normal",
+           textAlign = options != null && options.ContainsKey("text-align") ? options["text-align"].ToString() : "left",
+           textDecoration = options != null && options.ContainsKey("text-decoration") ? options["text-decoration"].ToString() : "none",
+		   whiteSpace = options != null && options.ContainsKey("white-space") ? options["white-space"].ToString() : "nowrap",
+		   displayButton = options != null && options.ContainsKey("display") ? options["display"].ToString() : "block",
+		   padding = options != null && options.ContainsKey("padding") ? options["padding"].ToString() : "0"; 
+   
+    anchor = "background:" + background + ";white-space:" + whiteSpace + ";display:" + displayButton + ";border:" + border + ";color:" + color + ";font-family:" + fontFamily + ";padding:" + padding + ";font-size:" + fontSize + ";font-style:" + fontStyle + ";text-align:" + textAlign + ";text-decoration:" + textDecoration + ";";
+  }   
+  
+  
+  <a class="mobile-button" target="_blank" href="@link" style="@anchor">@text</a>
+   
+}

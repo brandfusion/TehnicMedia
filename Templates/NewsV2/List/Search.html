@@ -1,0 +1,19 @@
+<div id="newssearchtext">
+    <!--@News:Search.Text-->
+</div>
+<div id="newssearchform">
+     <!--@If Defined(News:Search.Dropdown.Year)-->
+        <label for="NewsSearchDropdownYear">Select year:</label>
+        <!--@News:Search.Dropdown.Year-->
+    <!--@EndIf(News:Search.Dropdown.Year)-->
+    <!--@If Defined(News:Search.Dropdown.Month)-->
+        <label for="NewsSearchDropdownMonth">Select month:</label>
+        <!--@News:Search.Dropdown.Month-->
+    <!--@EndIf(News:Search.Dropdown.Month)-->
+</div>
+<div id="newssearchnavigation">
+    <a id="newssearchbutton" href="<!--@News:Search.Button.Href-->">
+        <!--@News:Search.Button.Picture-->
+        <!--@News:Search.Button.Text-->
+    </a>
+</div>

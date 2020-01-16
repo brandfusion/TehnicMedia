@@ -1,0 +1,26 @@
+﻿@{
+	string title = GetString("Item.ParagraphName");
+	string icon = GetString("Item.Icon");
+}
+
+<div class="container pt94 pb94">
+	<div class="jx-section-title-1">
+		<div class="jx-pre-title jx-short-border">
+			<div class="jx-title-border left"></div>
+			<div class="jx-title-icon"><i class="fa fa-@icon" style="color: #000 !important;"></i></div>
+			<div class="jx-title-border right"></div> 
+		</div>
+		<div class="jx-title mb40">@title</div>
+		<div class="flexslider">
+		  <ul class="slides">
+
+			@foreach(LoopItem item in GetLoop("Item.ImageList")) {
+				string image = item.GetString("Item.ImageList.Image");
+
+  			<li><img src="@image"></li> 
+  		}  
+
+		  </ul>
+		</div>
+  </div>
+</div>

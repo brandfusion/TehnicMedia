@@ -1,0 +1,94 @@
+﻿<div class="col-xs-12" data-group='@GetValue("Ecom:Group.ID")'> 
+
+
+      <div class="category-header">        
+         @if(GetValue("Ecom:Group.Name") != null) {
+            <h1 class="block-title top-title"><span><text>@GetValue("Ecom:Group.Name") @GetString("System.Web.HttpContext.Current.Request['Producator'].Name")  </text></span></h1>
+            <p>@GetValue("Ecom:Group.Description")</p>
+         } else {
+            <h1 class="block-title top-title"><span><text>@GetGlobalValue("Global:Page.Name")</text></span></h1>
+            <p>@GetGlobalValue("Global:Page.Meta.Description")</p>
+         }           
+      </div>
+
+      <div class="product-search">
+        <input type="text" name="search-products" placeholder="Cautare produse"></input>
+        <button><i class="fa fa-search" aria-hidden="true"></i></button>
+      </div>
+    
+      <div class="sort-content">          
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sortBy">
+          <div class="row">
+
+            
+              <ul class="pagination pagination-custom pull-right">
+                <!--Include("../../Custom/Pagination.cshtml") -->
+              </ul>  
+              <span id="productsOnPage"></span>              
+          </div>   
+        </div>
+      </div>
+    
+      <div class="row product-list clearfix" data-maxcompare='@Translate("maxCompare", "Maximum to compare: 3")'>          
+      	@{
+			
+          string listaProduse = "" ;
+          foreach (LoopItem i in GetLoop("Products"))
+			    {
+          		
+            if (String.IsNullOrEmpty(listaProduse))
+            {
+                listaProduse += i.GetString("Ecom:Product.ID");
+            }
+            else
+            {
+                listaProduse += ","+i.GetString("Ecom:Product.ID");
+            }
+            @Include("../../Custom/Products_loop_box.cshtml")
+				
+  			  }  
+  			}
+      </div>  
+       
+        
+      <div class="gray-border">
+        <div class="row">
+          <div class="col-md-6 col-sm-12"><span id="productsOnPageFooter"></span></div>
+          <div class="col-md-6 col-sm-12">          
+            <ul class="pagination pagination-custom pull-right">
+              <!--Include("../../Custom/Pagination_Bottom.cshtml")-->
+            </ul>
+          </div>
+    	  </div>
+      </div>
+                
+</div>  
+
+@Include("../../Custom/Pagination.cshtml")
+
+<script>
+    // ViewContent
+    // Track key page views (ex: product page, landing page or article)
+    fbq('track', 'ViewContent');
+</script> 
+
+<script type="text/javascript">
+    $('#productsOnPage').html($('.col-sm-6.product').length+' @Translate("products from", "produse din") '+@GetValue("Ecom:ProductList.PageProdCnt"));
+    $('#productsOnPageFooter').html($('.col-sm-6.product').length+' @Translate("products from", "produse din") '+@GetValue("Ecom:ProductList.PageProdCnt"));
+</script>
+
+
+<div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="background-color:rgba(255,255,255, 0.7);">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content" >
+        @RenderParagraphContent(120)
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
+   </div>
+</div>
+
+@SnippetStart("Facets")
+  @Include("/Files/Templates/Designs/TTonline/Custom/Product Filters.cshtml")
+@SnippetEnd("Facets")

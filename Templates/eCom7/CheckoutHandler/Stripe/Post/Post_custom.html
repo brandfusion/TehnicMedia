@@ -1,0 +1,84 @@
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script type="text/javascript">
+
+    var handler = StripeCheckout.configure({
+        key: '<!--@Stripe.publishablekey-->',
+        image: '<!--@Stripe.image-->',
+        locale: '<!--@Stripe.language-->',
+        email: '<!--@Stripe.email-->',
+        allowRememberMe: true,
+        token: tokenCallback
+    });
+
+    function purchase(btn) {
+        var chk = document.getElementById('chkSaveCardToken');
+        if (chk && chk.checked) {
+            var txt = document.getElementById('txtCardTokenName');
+            if (!txt.value) {
+                alert("Enter a name for card token");
+                return;
+            }
+        }
+        btn.disabled = true;
+
+        // Open Checkout with further options
+        handler.open({
+            name: '<!--@Stripe.name-->',
+            description: '<!--@Stripe.description-->',
+            currency: '<!--@Stripe.currency-->',
+            amount: <!--@Stripe.amount-->
+            });
+
+        return false;
+    }
+
+    function tokenCallback(token) {
+        // Use the token to create the charge with a server-side script.
+        purchaseForm.stripeToken.value = token.id;
+        purchaseForm.stripeEmail.value = token.email;
+        purchaseForm.CardTokenName.value = "";
+        var chk = document.getElementById('chkSaveCardToken');
+        if (chk && chk.checked) {
+            var txt = document.getElementById('txtCardTokenName');
+            purchaseForm.CardTokenName.value = txt.value;
+        }
+        purchaseForm.submit();
+    }
+
+    // Close Checkout on page navigation
+    window.addEventListener("beforeunload", function() {
+        handler.close();
+    });
+
+</script>
+
+<!-- Payment Information -->
+<h2><!--@Translate(paymentinformation, "Payment Information")--></h2>
+<p>
+    <label><!--@Translate(orderid, "Order Id")-->: <b><!--@Ecom:Order.ID--></b></label> <br />
+    <label><!--@Translate(amount, "Amount")-->: <b><!--@Ecom:Order.Price.PriceWithVATFormatted--></b></label> <br />
+</p>
+<!--@If Defined(Global:Extranet.UserName)-->
+<div>
+    <!--@If Defined(Ecom:Order.SavedCardName)-->
+    <input type="checkbox" id="chkSaveCardToken" checked="checked" value="1">
+    <label for="chkSaveCardToken"><!--@Translate(savecardwithname, "Save user card with name")--></label>
+    <input type="text" id="txtCardTokenName" name="txtCardTokenName" placeholder="Card name" value="<!--@Ecom:Order.SavedCardName-->">
+    <!--@EndIf(Ecom:Order.SavedCardName)-->
+    <!--@If Not Defined(Ecom:Order.SavedCardName)-->
+    <input type="checkbox" id="chkSaveCardToken" value="1">
+    <label for="chkSaveCardToken"><!--@Translate(savecardwithname, "Save user card with name")--></label>
+    <input type="text" id="txtCardTokenName" name="txtCardTokenName" placeholder="Card name" value="">
+    <!--@EndIf(Ecom:Order.SavedCardName)-->
+</div>
+<!--@EndIf(Global:Extranet.UserName)-->
+
+<button id="customButton" onclick="return purchase(this);">Purchase</button>
+<form name="purchaseForm" id="purchaseForm" action="/Default.aspx?ID=<!--@Global:Page.ID-->" method="POST">
+    <input type="hidden" name="Action" id="Action" value="Approve" />
+    <input type="hidden" name="CheckoutHandlerOrderID" id="CheckoutHandlerOrderID" value="<!--@Ecom:Order.ID-->" />
+    <input type="hidden" name="ResetDraftCardName" id="ResetDraftCardName" value="true" />
+    <input type="hidden" name="CardTokenName" id="CardTokenName" value="" />
+    <input type="hidden" name="stripeToken" id="stripeToken" value="" />
+    <input type="hidden" name="stripeEmail" id="stripeEmail" value="" />
+</form>

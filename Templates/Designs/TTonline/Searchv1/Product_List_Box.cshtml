@@ -1,0 +1,132 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@SnippetStart("bottomJS")
+<script src="@areaLayoutPath/assets/js/productList.js"></script>
+@SnippetEnd("bottomJS")
+@{
+var sortOption = "";
+var sortBy = System.Web.HttpContext.Current.Request["SortBy"];
+var sortOrder = System.Web.HttpContext.Current.Request["SortOrder"];
+
+sortOption = sortBy + ","+sortOrder;
+
+}
+
+<script>
+ 
+  function sortOrderByTwo(arg){ 
+    var string = arg.value;
+    var SortBy = string.split(",")[0];
+    var SortOrder = string.split(",")[1];
+    var currentLink = window.location.href;
+   
+    if(currentLink.indexOf("eComQuery") >=0) {
+    
+      var urlSplit = window.location.href;
+      var urlSplitFinal = urlSplit.split("&")[0];
+     
+      var link = urlSplitFinal + "&SortBy=" + SortBy + "&SortOrder=" + SortOrder;
+    } else {
+     
+      if((window.location.href).indexOf("?") >= 0) {
+          var link = (window.location.href).split("?")[0] + "?SortBy=" + SortBy + "&SortOrder=" + SortOrder;
+        } else {
+          var link = window.location.href + "?SortBy=" + SortBy + "&SortOrder=" + SortOrder;
+        }
+  
+    }
+   
+    
+    window.location.href = link;
+  }
+  
+
+
+</script> 
+
+<div class="col-sm-12" data-group='@GetValue("Ecom:Group.ID")'> 
+  
+      <div class="category-header">        
+         @if(GetValue("Ecom:Group.Name") != null) {
+            <h1 class="block-title top-title"><span><text>@GetValue("Ecom:Group.Name")</text></span></h1>
+            <p>@GetValue("Ecom:Group.Description")</p>
+         } else {
+            <h1 class="block-title top-title"><span><text>@GetGlobalValue("Global:Page.Name")</text></span></h1>
+            <p>@GetGlobalValue("Global:Page.Meta.Description")</p>
+         }           
+      </div>
+    
+      <div class="sort-content">          
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sortBy">
+          <div class="row">
+
+              @* <div class="sort pull-left">   
+                <p>@Translate("sort", "Sortare dupa"):</p>
+                <select id="lstOrderBy" name="lstOrderBy" onchange="return sortOrderByTwo(this)">
+                  <option value="">@Translate("choose", "Alege")</option>
+                  <option value="Name,ASC" @(sortOption == "Name,ASC"? "selected":"")>@Translate("name", "Name")</option>
+                  <option value="Price,ASC" @(sortOption == "Price,ASC"? "selected":"")>@Translate("PriceAscending", "Price, lowest first")</option>
+                  <option value="Price,DESC" @(sortOption == "Price,DESC"? "selected":"")>@Translate("PriceDescending", "Price, highest first")</option>
+                  <option value="MostSold,DESC" @(sortOption == "MostSold,DESC"? "selected":"")>@Translate("MostSold", "Most sold")</option>
+                </select>
+                
+              </div>*@
+              <ul class="pagination pagination-custom pull-right">
+                <!--Include("../../Custom/Pagination.cshtml") -->
+              </ul>  
+              <span id="productsOnPage"></span>              
+          </div>   
+        </div>
+      </div>
+    
+      <div class="row product-list clearfix">          
+      	@{
+          string listaProduse = "" ;
+          foreach (LoopItem i in GetLoop("Products"))
+			    {
+          		
+            if (String.IsNullOrEmpty(listaProduse))
+            {
+                listaProduse += i.GetString("Ecom:Product.ID");
+            }
+            else
+            {
+                listaProduse += ","+i.GetString("Ecom:Product.ID");
+            }
+            @Include("../../Custom/Products_loop_box.cshtml")
+				
+  			  }  
+  			}
+      </div>  
+       
+        
+      <div class="gray-border">
+        <div class="row">
+          <div class="col-md-6 col-sm-12"><span id="productsOnPageFooter"></span></div>
+          <div class="col-md-6 col-sm-12">          
+            <ul class="pagination pagination-custom pull-right">
+              <!--Include("../../Custom/Pagination_Bottom.cshtml")-->
+            </ul>
+          </div>
+    	  </div>
+      </div>
+                
+</div>  
+
+<script>
+    // ViewContent
+    // Track key page views (ex: product page, landing page or article)
+    fbq('track', 'ViewContent');
+</script> 
+
+<!-- RTB House -->
+<iframe src="//creativecdn.com/tags?id=pr_58vAzI0k8hOCN9aAGl30_listing_@listaProduse" width="1" height="1" scrolling="no" frameBorder="0"></iframe>
+<!-- Profitshare -->
+<script type="text/javascript">
+  var _ps_tgt = {a:"db1162c56479b9bae48f99d04b393a31ea46d5aff79527c0e88e6f1ecaa8ac19f7a7e0c3d04b0fa8", cc:"@GetValue("Ecom:Group.ID")"};
+</script>
+<script type="text/javascript" src="//profitshare.ro/tgt/js"></script>
+
+<script type="text/javascript">
+    $('#productsOnPage').html($('.col-sm-6.product').length+' @Translate("products from", "produse din") '+@GetValue("Ecom:ProductList.PageProdCnt"));
+    $('#productsOnPageFooter').html($('.col-sm-6.product').length+' @Translate("products from", "produse din") '+@GetValue("Ecom:ProductList.PageProdCnt"));
+</script>

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="7e22439f-bdf3-4dc6-be0d-07d534f34231" Name="ToateArticolele.query">
+  <Settings />
+  <Source Repository="Articole" Item="Articole.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters>
+    <Parameter Name="Autor" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Autorname" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Tag" Type="System.String" DefaultValue="" />
+    <Parameter Name="Sectiune" Type="System.Int32" DefaultValue="" />
+    <Parameter Name="Companie" Type="System.Int32[]" DefaultValue="" />
+    <Parameter Name="RelevantaGeografica" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="ExcludedArticles" Type="System.String[]" />
+    <Parameter Name="IncludedArticles" Type="System.String[]" />
+  </Parameters>
+  <ViewFields />
+  <ViewLanguages />
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Dw_Page_Tip" />
+        </Left>
+        <Right>
+          <TermExpression Value="Articole" DisplayValue="Articole" Type="System.String" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Dw_Page_SectiuneParinteId" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Sectiune" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="In">
+        <Left>
+          <FieldExpression Field="PageIdString" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="IncludedArticles" />
+        </Right>
+      </BinaryExpression>
+      <GroupExpression Operator="And" Negate="True">
+        <BinaryExpression Operator="In">
+          <Left>
+            <FieldExpression Field="PageIdString" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="ExcludedArticles" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+    </GroupExpression>
+  </Expressions>
+  <SortOrder>
+    <Sort Field="Dw_Page_Data" Direction="Descending" />
+  </SortOrder>
+  <Meta />
+  <CompletionRules />
+  <CompletionLanguages />
+</Query>

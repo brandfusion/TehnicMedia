@@ -1,0 +1,102 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@SnippetStart("StyleSheet")
+<style>
+    .quantity, .amount, .actions {
+        text-align: right;
+    }
+</style>
+@SnippetEnd("StyleSheet")
+
+@if (GetBoolean("Ecom:Order.IsEmpty"))
+{
+    <div class="alert alert-info">@Translate("Your_cart_is_empty", "Your cart is empty")</div>
+}
+else
+{
+    @* Cart is only editable if it's not a quote *@
+    var editable = Dynamicweb.eCommerce.Common.Context.Cart != null && !Dynamicweb.eCommerce.Common.Context.Cart.IsQuote;
+
+    <table class="table orderlines">
+        <thead>
+            <tr>
+                <th class="name">@Translate("Product name")</th>
+                <th class="quantity">@Translate("Quantity")</th>
+                <th class="price">@Translate("Unit price")</th>
+                <th class="price">@Translate("Price")</th>
+                @if (editable)
+                {
+                    <th></th>
+                }
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr class="total">
+                <th colspan="3">@Translate("Total")</th>
+                <th class="price">@GetValue("Ecom:Order.OrderLines.Total.PriceWithVAT")</th>
+                @if (editable)
+                {
+                    <th></th>
+                }
+            </tr>
+        </tfoot>
+
+        <tbody>
+            @foreach (var line in GetLoop("OrderLines"))
+            {
+                <tr data-product-auto-id='@line.GetValue("Ecom:Product.AutoID")'>
+                    <td class="name">
+                        <a href='@line.GetValue("Ecom:Order:OrderLine.ProductLink")'>
+                            @line.GetValue("Ecom:Order:OrderLine.ProductName.Short")
+                            @if (!string.IsNullOrWhiteSpace(line.GetString("Ecom:Order:OrderLine.ProductVariantText")))
+                            {
+                                @: (@line.GetString("Ecom:Order:OrderLine.ProductVariantText"))
+					}
+                        </a>
+                    </td>
+                    <td class="quantity">@line.GetValue("Ecom:Order:OrderLine.Quantity")</td>
+                    <td class="price">@line.GetValue("Ecom:Order:OrderLine.UnitPrice")</td>
+                    <td class="price">@line.GetValue("Ecom:Order:OrderLine.TotalPrice")</td>
+                    @if (editable)
+                    {
+                        <td class="actions">
+                            @if (line.GetBoolean("Ecom:Order:OrderLine.IsProduct"))
+                            {
+                                <form method="post">
+                                    <input type="hidden" name="key" value='@line.GetValue("Ecom:Order:OrderLine.ID")' />
+                                    <button class="btn btn-default" type="submit" name="CartCmd" value="IncOrderLine"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <button class="btn btn-default" type="submit" name="CartCmd" value='@(@line.GetInteger("Ecom:Order:OrderLine.Quantity") > 1 ? "DecOrderLine" : "DelOrderLine")'><span class="glyphicon glyphicon-minus"></span></button>
+                                    <button class="btn btn-default" type="submit" name="CartCmd" value="DelOrderLine"><span class="glyphicon glyphicon-trash"></span></button>
+                                </form>
+                            }
+                        </td>
+                    }
+                </tr>
+
+                foreach (var bomItem in GetLoop("BOMItems"))
+                {
+                    <tr class="bom-item">
+                        <td>@bomItem.GetValue("Ecom:Order:OrderLine.ProductName.Short")</td>
+                        <td>@bomItem.GetValue("Ecom:Order:OrderLine.Quantity")</td>
+                        <td>@bomItem.GetValue("Ecom:Order:OrderLine.UnitPrice")</td>
+                        <td>@bomItem.GetValue("Ecom:Order:OrderLine.TotalPrice")</td>
+                        @if (editable)
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <form method="post">
+        @if (editable)
+        {
+            <button class="btn btn-default" type="submit" name="CartCmd" value="emptycart"><span class="glyphicon glyphicon-trash"></span> @Translate("Empty_cart", "Empty cart")</button>
+        }
+
+        <button class="btn btn-primary pull-right" type="submit" name="@GetValue("CartV2.NextStepButtonName")" id="@GetValue("CartV2.NextStepButtonName")">Next</button>
+    </form>
+}

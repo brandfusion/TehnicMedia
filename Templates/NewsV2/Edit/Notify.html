@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <style type="text/css">
+		Body  {
+			font-size :11px;
+			font-family :Verdana, Helvetica, Arial, Tahoma;
+			font-weight :Normal;
+			font-style :Normal;
+			text-align :Left;
+			color :#333333;
+			background-color:#F9F8F3;
+		}
+		TD  {
+			font-size :11px;
+			font-family :Verdana, Helvetica, Arial, Tahoma;
+			font-weight :Normal;
+			font-style :Normal;
+			color :#333333;
+		}
+		strong { 
+			font-size: 11px; 
+			font-family:Verdana, Helvetica, Arial, Tahoma;
+			font-weight :Bold;
+			color :#333333;
+		}
+	</style>
+</head>
+<body>
+    <fieldset style="width: 550px; padding: 3px">
+        <legend>
+            <!--@News:CategoryName-->
+        </legend>
+        <table>
+            <tr>
+                <td>
+                    <!--@News:Image-->
+                </td>
+                <td>
+                    <br />
+                    <span class="h1">(<!--@News:Date-->)&nbsp;<!--@News:Heading--></span><br>
+                    <br />
+                    <span class="h2">
+                        <!--@News:Manchet-->
+                    </span>
+                    <br />
+                    <!--@News:Text-->
+                    <div style="text-align: right;">
+                        <small>
+                            <!--@News:Initials-->
+                        </small>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <!--@If Defined(News:Approve.Href)-->
+        <a id="newsapprove<!--@News:ID-->" href="<!--@News:Approve.Href-->">Approve news</a>
+    <!--@EndIf(News:Approve.Href)-->
+</body>
+</html>

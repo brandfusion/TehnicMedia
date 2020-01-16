@@ -1,0 +1,63 @@
+﻿<div id="cookieWarningDiv">
+    <script type="text/javascript">
+
+        function setOptInCookie(optInLevel) {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+                $("body").css("padding-top", "0");
+            }
+            else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var div = document.getElementById("cookieWarningDiv");
+                    div.parentNode.removeChild(div);
+                    return false;
+                }
+            }
+            xmlhttp.open("GET", "/admin/public/CookieOptInLevelConfig.aspx?cmd=SetCookieOptInLevel&OptInLevel=" + optInLevel, true);
+            xmlhttp.send();
+            return false;
+        }
+
+        function setOptInCookieAndRefresh(optInLevel) {
+            setOptInCookie(optInLevel);
+            setTimeout(function () { location.reload(true); }, 100);
+            return false;
+        }
+
+        if($('#cookieWarningDiv').length) {
+            function heightCookieWarningDiv(){
+                var heightCookieWarningDiv = $('#cookieWarningDiv').height();
+                $("body").css("padding-top", heightCookieWarningDiv);
+            }  
+            $(document).ready(function () {
+                heightCookieWarningDiv();//run when page first loads
+            });
+
+            $(window).resize(function () {
+                heightCookieWarningDiv();//run on every window resize
+            });
+        } 
+
+    </script>
+    <h1>Accept cookie</h1>
+	<p>www.ttonline.ro utilizează fişiere de tip cookie pentru a personaliza și îmbunătăți experiența ta pe Website-ul nostru.</p>
+	<p>Te informăm că ne-am actualizat politicile pentru a integra în acestea și în activitatea curentă a www.ttonline.ro cele mai recente modificări propuse de Regulamentul (UE) 2016/679 privind protecția persoanelor fizice în ceea ce privește prelucrarea datelor cu caracter personal și privind libera<br /> circulație a acestor date. Înainte de a continua navigarea pe Website-ul nostru, te rugăm să aloci timpul necesar pentru a citi și înțelege conținutul <a style="text-decoration: underline;" href="/Default.aspx?ID=14127">Politicii de Cookie</a>.</p>
+    <p>Prin continuarea navigării pe Website-ul nostru confirmi acceptarea utilizării fişierelor de tip cookie conform Politicii de Cookie. Îți mulțumim  pentru acest accept și nu uita totuși că poți modifica în orice moment setările acestor fişiere cookie urmând instrucțiunile din Politica de Cookie.</p>
+	<div class="cookie-btn">
+		<!--<a href="#" onclick="return setOptInCookie(0);" style="margin-right: 10px;">Nu sunt de acord</a>
+		<a href="#" onclick="return setOptInCookie(1);" style="margin-right: 10px; display:none;">Accept doar cookie functional</a>-->
+		<a href="#" onclick="return setOptInCookieAndRefresh(2);">Da, sunt de acord</a>
+	</div>
+    <style>
+        body {background-position: 0px 90px;}
+        #cookieWarningDiv {z-index: 9001; background-color: white; box-shadow: 0px 0px 5px rgb(0, 0, 0); font: 12px/18px arial; color: rgb(51, 51, 51); position: fixed; left: 0px; top: 0px; width: 100%;}
+        #cookieWarningDiv p {margin: 0px 10px;}
+        #cookieWarningDiv h1 {font: bold 16px/24px arial; margin: 10px 0px 0px 10px;}
+        #cookieWarningDiv .cookie-btn {text-align: left; position: initial; left: auto; bottom: auto; margin: 10px 0 10px 10px;}
+        #cookieWarningDiv .cookie-btn a {background-color: rgb(7, 214, 60); display: inline-block; color: black; border: 1px solid rgb(4, 132, 37); padding: 3px 8px;}
+    </style>
+</div>

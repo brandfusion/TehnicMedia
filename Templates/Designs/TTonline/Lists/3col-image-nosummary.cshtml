@@ -1,0 +1,27 @@
+﻿<div class="col-md-4">
+  <article class="featured-small box-news">
+    <a href="@articleLink" class="overlay-link">
+      <figure class=" proportie-1">
+        <img src="/Admin/Public/GetImage.ashx?Image=@articleImage&altFmImage_path=/Files/Images/NoImage/350x230.png&Format=jpg&Width=350&Height=350&Crop=0" alt="@articleTitle" class="img-responsive" />
+      </figure>
+    </a>
+   
+    <header class="featured-header">
+      <a href="/Default.aspx?ID=@articleSectiuneID" class="bg@(articleSectiuneID) category">@articleSectiune</a>
+      <h2 style="min-height:60px;"><a href="@articleLink">@articleTitle</a></h2>
+      <p class="simple-share">
+        @Translate("articolde","de") 
+
+        @foreach (var articleAutor in articleAutori)
+        {
+          <a href="@articleAutor.Link">@articleAutor.Name</a>
+        }
+        -
+        <span><i class="fa fa-clock-o"></i> @articleDate.ToString("D")</span>
+        @if(itemConditionVisits) {    
+        <span><i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+        }
+      </p>
+    </header>
+  </article><!-- News block -->
+</div>

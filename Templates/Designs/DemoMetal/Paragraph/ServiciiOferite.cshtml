@@ -1,0 +1,33 @@
+﻿@{
+	string title = GetString("Item.ParagraphName");
+	string image = GetString("Item.BackgroundImage");
+	string iconTitle = GetString("Item.Icon");
+	string subtitle = GetString("Item.Subtitle");
+}
+
+<div class="jx-container servicii pt94 pb94">
+	<div class="sixteen columns jx-section-title-1 mb40 ">
+		<div class="jx-pre-title jx-short-border">
+			<div class="jx-title-border left" style="background: #000;"></div>
+			<div class="jx-title-icon"><i class="fa fa-@iconTitle" style="color: #000 !important"></i></div>
+			<div class="jx-title-border right" style="background: #000;"></div> 
+		</div>
+		<div class="jx-title" style="color: #000;">@title</div>
+		<div class="subtitle">@subtitle</div>
+	</div>
+
+	<div class="container">
+	@foreach(LoopItem item in GetLoop("Item.LinkList")) {
+		string link = item.GetString("Item.LinkList.Link");
+		string text = item.GetString("Item.LinkList.Text");
+		string icon = item.GetString("Item.LinkList.Icon");
+		string description = item.GetString("Item.LinkList.Description");
+
+		<div class="eight columns serviciu">
+			<a href="@link" class="@icon">@text</a>
+			<div>@description</div>
+		</div>			
+	}
+	</div>
+
+</div>

@@ -1,0 +1,40 @@
+﻿<div id="account-page">      
+  <div class="container">
+    <div class="row">
+    
+      <!--@Include(../../Custom/Profile_menu.cshtml)-->
+      
+      <div class="col-xs-9">
+        <div class="row">
+          <div class="col-xs-12 profile">                           
+            <h1 class="pull-left">@Translate("myaccount", "Countul meu")</h1>
+            <p class="pull-left">@Translate("welcome", "Welcome") @GetValue("UserManagement:User.AccessUser_Prenume") @GetValue("UserManagement:User.Name")!</p>
+            
+          </div>
+          <div class="col-xs-12 content">
+            <div class="account-header">
+              <h2>@Translate("accountinformation", "Informatii cont")</h2>
+              <a class="edit" href="@GetValue("UserManagement:User.EditUrl")">@Translate("edit", "edit")</a>
+            </div>
+            <div class="account-content">
+              <p><label>Nume:</label> @GetValue("UserManagement:User.AccessUser_Prenume") @GetValue("UserManagement:User.Name")</p>
+              <p><label>Email:</label> @GetValue("UserManagement:User.Email")</p>
+	          	@if (!string.IsNullOrEmpty(GetValue("UserManagement:User.Phone").ToString())){
+              		<p class="toHide"><label>Telefon #1:</label> @GetValue("UserManagement:User.Phone")</p>
+	        	}
+				@if (!string.IsNullOrEmpty(GetValue("UserManagement:User.PhoneMobile").ToString())){
+              		<p class="toHide"><label>Telefon #2:</label> @GetValue("UserManagement:User.PhoneMobile")</p> 
+				}
+				@if (!string.IsNullOrEmpty(GetValue("UserManagement:User.PhonePrivate").ToString())){
+             		<p class="toHide"><label>Telefon #3:</label> @GetValue("UserManagement:User.PhonePrivate")</p>
+	        	}
+            </div>
+            
+
+          </div>
+        </div>
+      </div>
+      
+    </div>                        
+  </div>
+</div>

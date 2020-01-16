@@ -1,0 +1,58 @@
+﻿@{
+	string title = GetString("Item.ParagraphName");
+	string background = GetString("Item.BackgroundImage");
+	string icon = GetString("Item.Icon");
+}
+
+
+<!-- BOF Counter Up -->        
+	<div  class="jx-container container-no-margin jx-padding jx-grey-bg ">
+		<div class='parallax-no-height jx-tint-black'><img src="@background"></div>
+		<!-- Background Image -->
+		
+		<!-- Background Icon -->
+		<div class="container pb94">
+
+			<div class="jx-section-title-1 mb40">
+				<div class="jx-pre-title jx-short-border">
+					<div class="jx-title-border left" style="background: #fff;"></div>
+					<div class="jx-title-icon"><i class="fa fa-@icon" style="color: #fff !important"></i></div>
+					<div class="jx-title-border right" style="background: #fff;"></div> 
+				</div>
+				<div class="jx-title" style="color: #fff;">@title</div>
+			</div>
+
+			<div class="jx-countup ">
+
+			@foreach(LoopItem item in GetLoop("Item.CounterList")) {
+				string counterTitle = item.GetString("Item.CounterList.Title");
+				string counterIcon = item.GetString("Item.CounterList.Icon");
+				int counterNumber = item.GetInteger("Item.CounterList.Number");
+
+				<div class="four columns count-item">				
+					<div class="jx-counter-item">            
+						<div class="jx-counter-icon"><i class="fa fa-@counterIcon"></i></div>
+						<div class="jx-counter-info">
+							<div class="jx-counter-text">@counterTitle</div>
+							<div class="jx-counter-number jx-counter-up">@counterNumber</div>
+						</div>
+					</div>
+				</div>
+			}
+
+			</div>
+
+			<div class="row jx-countup-btn mt170">
+
+			@foreach(LoopItem item in GetLoop("Item.LinkList")) {
+				string link = item.GetString("Item.LinkList.Link");
+				string text = item.GetString("Item.LinkList.Text");
+
+				<div class="eight columns">
+					<a href="@link" class="jx-btn-default">@text</a>
+				</div>			
+			}
+
+		</div>
+	</div>        
+	<!-- EOF Counter Up --> 

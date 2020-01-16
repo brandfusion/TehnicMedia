@@ -1,0 +1,71 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@helper DisplayProducts()
+{
+    var products = GetLoop("Products");
+    if (products.Count == 0)
+    {
+        <div class="alert alert-info">@Translate("No products found")</div>
+    }
+    else
+    {
+        <form method="post">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@Translate("Product number")</th>
+                        <th>@Translate("Product name")</th>
+                        <th class="price">@Translate("Price")</th>
+                        <th class="quantity">@Translate("Quantity")</th>
+                    </tr>
+                </thead>
+                @foreach (var product in products)
+                {
+                    <tr>
+                        <td>
+                            <a href='@product.GetValue("Ecom:Product.Link.Clean.PID")'>
+                                @product.GetValue("Ecom:Product.Number")
+                            </a>
+                        </td>
+                        <td>
+                            <a href='@product.GetValue("Ecom:Product.Link.Clean.PID")'>
+                                @product.GetValue("Ecom:Product.Name")
+                            </a>
+                        </td>
+                        <td class="price">
+                            @product.GetValue("Ecom:Product.Price")
+                        </td>
+                        <td class="quantity">
+                            @product.GetValue("Ecom:Product.Form.Multi.HiddenFields")
+                            <input type="number" name='Quantity@(product.GetValue("Ecom:Product.LoopCounter"))' />
+                        </td>
+                    </tr>
+                }
+            </table>
+
+            <div class="actions">
+                <button class="btn btn-primary pull-right" type="submit" name="CartCmd" value="AddMulti">@Translate("Add all to cart")</button>
+            </div>
+        </form>
+    }
+}
+
+<h2>@GetValue("Ecom:Group.Name")</h2>
+
+<div class="row">
+    @if (string.IsNullOrWhiteSpace(GetString("Ecom:Search.SearchBox")))
+    {
+        <div class="col-md-12">
+            @DisplayProducts()
+        </div>
+    }
+    else
+    {
+        <div class="col-md-3">
+            @GetValue("Ecom:Search.SearchBox")
+        </div>
+        <div class="col-md-9">
+            @DisplayProducts()
+        </div>
+    }
+</div>

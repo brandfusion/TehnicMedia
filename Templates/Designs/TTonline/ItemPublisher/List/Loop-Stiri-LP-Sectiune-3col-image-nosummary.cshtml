@@ -1,0 +1,79 @@
+﻿@using Dynamicweb.Frontend
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using BrandFusion.Dw.eCommerce
+@using Dynamicweb.Ecommerce.Products
+@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/ArticleHelper.cshtml")
+@Include("../../Includes/VerifyImage.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+@using System.Web
+
+@{
+	string sectiuneId = "";
+}
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+	int numarArticole = GetInteger("ItemPublisher:Items.TotalCount");
+	if(numarArticole != 0){
+<div class="row">
+
+<h3 class="block-title" style="margin-top:25px!important;"><span>@Translate("Stiri","Stiri")</span></h3>
+
+</div>
+
+}
+
+<div class="row">
+  
+
+  	@foreach(var item in GetLoop("ItemPublisher:Items.List")){
+      string articleTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+      string itemAuthor = "";
+      var articleDate = item.GetDate("ItemPublisher:Item.Data");
+      string articleLink = item.GetString("ItemPublisher:Item.Url");
+  
+      string articleImageRaw = item.GetString("ItemPublisher:Item.ImaginePrincipala.Value");
+  	  string articleImage = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 255, 168) : ""; 
+ 	  articleImage = articleImage + "&bgcolor=white";
+  
+      string articleExcerpt = item.GetString("ItemPublisher:Item.Sumar");
+      string articleVisits = item.GetString("ItemPublisher:Item.Visits.Value");
+      bool itemConditionVisits = item.GetBoolean("ItemPublisher:Item.Vizite");
+      string itemAutori = item.GetString("ItemPublisher:Item.Autori.Value");
+      string articleSectiune = item.GetString("ItemPublisher:Item.SectiuneParinte");
+      int articleSectiuneID = item.GetInteger("ItemPublisher:Item.SectiuneParinteId");
+      string ID_De_Companie = item.GetString("ItemPublisher:Item.De_Companie.Value");
+  		sectiuneId = item.GetString("ItemPublisher:Item.SectiuneParinteId");
+  		int parinteId = item.GetInteger("ItemPublisher:Global.PageId");
+ 
+      string itemSections = "";
+  
+      List<Autor> articleAutori = GetAutori(itemAutori);
+      List<Sectiune> articleSections = GetSectiuni(itemSections);
+      List<Companie> articleCompanies = GetCompany(ID_De_Companie);
+
+
+      @Include("../../Lists/Stiri-LP-Sectiune-1-col-image-summary.cshtml")
+
+
+   
+  
+
+
+	}
+  
+  
+  
+</div>
+}
+ 
+  
+  @if(GetBoolean("ItemPublisher:Items.Any")){
+  <div class="row load-more">
+      <a href='/stiri?Sectiune=@sectiuneId'><button type="button" class="btn btn-lg btn-block">@Translate("MaiMulteStiri","Mai multe stiri")</button></a>
+  </div>
+  }
+ 
+ 
+  

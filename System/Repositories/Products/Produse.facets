@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Facets>
+  <Settings />
+  <Source Repository="Products" Item="ProduseQuery.query" />
+  <Facet Name="Sectiune" Type="Field" Field="GroupIDs" QueryParameter="GroupID">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+  <Facet Name="Subcategorie" Type="Field" Field="CustomField_SubcategorieProduse" QueryParameter="Subcategorie">
+    <RenderType Name="Checkboxes" SystemName="Checkboxes" />
+  </Facet>
+  <Facet Name="Producator" Type="Field" Field="ManufacturerID" QueryParameter="Producator">
+    <RenderType Name="Checkboxes" SystemName="Checkboxes" />
+  </Facet>
+  <Facet Name="Furnizor" Type="Field" Field="Dealeri" QueryParameter="Dealer">
+    <RenderType Name="Select" SystemName="Select" />
+  </Facet>
+</Facets>

@@ -1,0 +1,78 @@
+﻿<!-- Footer -->
+
+@{
+
+string AdresaLogoFooter= "https://" + GetGlobalValue("Global:Request.Host")+ "/Files/Images/tehnicmedia-logo.jpg";
+}
+
+
+<footer class="footer source-org vcard copyright clearfix" id="footer" role="contentinfo">
+    <div class="footer-main">
+        <div class="fixed-main">
+            <div class="container">
+                <div class="mag-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="footer-block clearfix">
+                                <h3>@Translate("link", "Link-uri utile"):</h3> 
+
+                                <ul class="footer-menu">
+                                    @foreach(LoopItem footerMenu in GetLoop("Item.Area.FooterMenu")) {
+
+                                        string footerLink = footerMenu.GetString("Item.Area.FooterMenu.FooterLinkUrl"),
+                                               footerLinkText = footerMenu.GetString("Item.Area.FooterMenu.FooterLinkText.Value"),
+                                               openInNewWindow = footerMenu.GetBoolean("Item.Area.FooterMenu.OpenInNewWindows") ? "_blank" : "_self";
+
+                                        <li><a href="@footerLink" target='@openInNewWindow' >@footerLinkText</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="footer-block clearfix">
+                                <h3>@Translate("aboutUs", "DESPRE NOI"):</h3>
+                                <p>@Pageview.Area.Item["FooterAbout"]</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-md-offset-1">
+                            <div class="footer-block clearfix">
+                                <h3>@Translate("contactUs", "CONTACT"):</h3>
+                                <ul>
+                                    <li><i class="fa fa-phone" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Phone"]</li>
+                                    <li><i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Email"]</li>
+                                    <li> <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Address"]</li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom clearfix">
+        <div class="fixed-main">
+            <div class="container">
+                <div class="mag-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>@Translate("copyright", "Copyright"): @Translate("TehnicMedia2017", "Tehnic Media") &copy; @DateTime.Now.Year.
+                            <a href="http://www.tehnicmedia.ro"><img src="@AdresaLogoFooter" width="" height=""></a></p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="social-icons pull-right">
+                                <a href='@Pageview.Area.Item["FacebookLink"]' target="_blank"><i class="fa fa-facebook" style="padding: 0px 8px;"></i></a>
+                                <a href='@Pageview.Area.Item["TwitterLink"]' target="_blank"><i class="fa fa-twitter" style="padding: 0px 8px;"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<!-- End Footer -->

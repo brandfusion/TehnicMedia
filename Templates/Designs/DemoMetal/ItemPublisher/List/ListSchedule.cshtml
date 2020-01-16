@@ -1,0 +1,87 @@
+<div class="shortcode_tab_e jx-white-tab jx-arrow-tab">
+
+	<div id="ParentTab">
+		<ul class="resp-tabs-list parenttab_1">
+
+		  	@foreach(LoopItem i in GetLoop("ItemPublisher:Items.List")) {
+
+			  	DateTime date = i.GetDate("ItemPublisher:Item.Date");
+			  	string dateItem = date.ToString("dd MMMM");
+			  	int dayCounter = i.GetInteger("ItemPublisher:Items.List.LoopCounter");
+			  	string day = "Day " + dayCounter.ToString();
+			  
+			  	<li>
+					<div class="jx-tab-date jx-uppercase">@dateItem</div>
+					<div class="jx-tab-day jx-uppercase">@day</div>
+			 	</li>
+
+			}
+
+		</ul>
+		<!-- EOF Parent Tab Head -->
+
+		<div class="resp-tabs-container parenttab_1">
+
+			@{
+			  int counter = 0;
+			}
+
+			@foreach(LoopItem i in GetLoop("ItemPublisher:Items.List")) {
+				counter++;
+				<div>
+					<p>
+						<div id="ChildTab-@counter">
+							<ul class="resp-tabs-list jx-subtab childtab_@counter">
+							  
+								@foreach(LoopItem j in i.GetLoop("ItemPublisher:Item.TabList")) {
+									string tabTitle = j.GetString("ItemPublisher:Item.TabList.Title");
+									<li><div class="jx-tab-title">@tabTitle</div></li>
+								}
+
+							</ul>                            
+							<!-- EOF Child Tab Head -->
+
+							<div class="resp-tabs-container jx-event-schedule childtab_@counter">
+							  
+							  	@foreach(LoopItem j in i.GetLoop("ItemPublisher:Item.TabList")) {
+								  	<div data-accordion-group class="jx-accordion-box">
+										
+										@foreach(LoopItem h in j.GetLoop("ItemPublisher:Item.TabList.List_Speakeri")) {
+											string title = @h.GetString("ItemPublisher:Item.TabList.List_Speakeri.Title");
+											string text = @h.GetString("ItemPublisher:Item.TabList.List_Speakeri.Text");
+											string image = @h.GetString("ItemPublisher:Item.TabList.List_Speakeri.Image");
+
+											<div class="item">            
+												<div class="left-position">
+												  	<div class="image"><img src="@image" alt=""></div>
+												  	<!-- Image -->
+												</div>
+												<!-- Left item Position -->
+
+												<div class="right-position">
+												  	<div data-accordion class="head open">
+														<div class="date">   <i class="fa fa-clock-o"></i><span>@title</span></div>
+														<div class="title" data-control>@text</div>                        
+														<!-- Title -->
+														<div data-content>
+													  		<div class="content"></div>
+														</div>
+														<!-- Content -->
+												  	</div>              
+												</div>
+											</div>    
+										} 
+
+									</div>
+
+								}
+								
+							</div>
+						</div>
+					</p>
+			  </div>
+			}
+
+		</div>
+	</div>
+</div>

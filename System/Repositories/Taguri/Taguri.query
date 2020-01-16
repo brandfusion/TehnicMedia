@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="24290da0-cc64-47d1-ab4a-8c2b8e410d32" Name="Taguri.query">
+  <Settings />
+  <Source Repository="Taguri" Item="Taguri.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters />
+  <SortOrder>
+    <Sort Field="Name" Direction="Descending" />
+  </SortOrder>
+</Query>

@@ -1,0 +1,34 @@
+﻿@if (GetBoolean("ItemPublisher:Items.Any")) {
+  foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")) {
+
+  string title = item.GetString("ItemPublisher:Item.Title");
+  string image = item.GetString("ItemPublisher:Item.Image");
+  DateTime date = item.GetDate("ItemPublisher:Item.Date");
+  string description = item.GetString("ItemPublisher:Item.Description");
+  string url = item.GetString("ItemPublisher:Item.Url");
+
+    <div class="jx-blog-item">
+    	<div class="image jx-image-wrapper">
+        	<img src="@image" alt="">                        
+        	<div class="jx-image-overlay"></div>
+          <div class="jx-image-hover">
+          	<a href="#" class="jx-blog-more"><i class="line-icon icon-doc"></i></a>                            
+          </div>
+       </div>
+      <div class="jx-blog-content">
+      	<div class="title"><a href="@url">@title</a></div>
+        <div class="jx-metabox">
+        	<div class="date">
+            	<i class="line-icon icon-calendar"></i><span>@date.ToString("D")</span><i class="line-icon icon-location"></i><span>London</span>
+          </div>
+        </div>
+        <div class="description">@description</div>
+        <div>
+      		<a href="#" class="jx-btn-default">Read More..</a>
+      	</div>                            
+      </div>
+    </div>
+
+  }
+}
+    

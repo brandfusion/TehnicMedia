@@ -1,0 +1,26 @@
+﻿ 
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+  foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+	@*string itemImage = item.GetString("ItemPublisher:Item.ImaginePrincipala.Value");
+   	string itemTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+    string itemURL = item.GetString("ItemPublisher:Item.Url");
+   	string itemVisits = item.GetString("ItemPublisher:Item.Visits.Value");*@
+
+<ul>
+                    <li>
+                        <a href="#">Tech <span class="count">25</span></a>
+                    </li>
+                    <li>
+                        <a href="#">Lifestyle <span class="count">23</span></a>
+                    </li>
+                    <li>
+                        <a href="#">Business <span class="count">19</span></a>
+                    </li>
+                    <li>
+                        <a href="#">Entertainment <span class="count">20</span></a>
+                    </li>
+                </ul>
+
+}
+}

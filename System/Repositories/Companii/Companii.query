@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="7554fcf6-47c2-4522-8a1d-545c1d2c2045" Name="Companii.query">
+  <Settings />
+  <Source Repository="Companii" Item="Companii.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters>
+    <Parameter Name="GroupID" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Index" Type="System.String" DefaultValue="" />
+    <Parameter Name="Tip" Type="System.String" DefaultValue="" />
+    <Parameter Name="Geo" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="ProdCount" Type="System.String" DefaultValue="" />
+    <Parameter Name="Nume" Type="System.String" DefaultValue="" />
+    <Parameter Name="q" Type="System.String" DefaultValue="" />
+    <Parameter Name="Nationalitate" Type="System.String" DefaultValue="" />
+    <Parameter Name="NameSortable" Type="System.String" DefaultValue="" />
+    <Parameter Name="Brand" Type="System.Boolean" />
+  </Parameters>
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="Sectiune" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="GroupID" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="AlphaIndex" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Index" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="TipClient" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Tip" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="RelevantaGeografica" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Geo" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="ProductCountSortable" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="ProdCount" />
+        </Right>
+      </BinaryExpression>
+      <GroupExpression Operator="Or">
+        <BinaryExpression Operator="MatchAny">
+          <Left>
+            <FieldExpression Field="Name" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="Nume" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="ContainsExtended">
+          <Left>
+            <FieldExpression Field="Name" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="q" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="RomanaSau_Straina" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Nationalitate" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="Afiseaza_Companie" />
+        </Left>
+        <Right>
+          <ConstantExpression Value="True" Type="System.Boolean" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="Marca" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Brand" />
+        </Right>
+      </BinaryExpression>
+    </GroupExpression>
+  </Expressions>
+  <SortOrder>
+    <Sort Field="Promovata" Direction="Ascending" />
+  </SortOrder>
+</Query>

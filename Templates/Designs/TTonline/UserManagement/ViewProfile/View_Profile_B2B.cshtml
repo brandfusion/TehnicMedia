@@ -1,0 +1,104 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@{
+string user = Dynamicweb.Frontend.PageView.Current().User.UserName;
+  var userObject = Dynamicweb.Frontend.PageView.Current().User;
+BrandFusion.Dw.Austral.eCommerce.CustomerAddress billingAddress = null;
+
+}
+
+      <div class="col-xs-12"> 
+        <h2 class="account-heading">@Translate("accountinformation", "Informatii cont")</h2>
+       
+        <div class="account-content">
+          <div class="col-md-12">
+          <p><label>Nume:</label> @GetValue("UserManagement:User.AccessUser_Prenume") @GetValue("UserManagement:User.Name")</p>
+          <p><label>Email:</label> @GetValue("UserManagement:User.Email")</p>
+        	@if (!string.IsNullOrEmpty(GetValue("UserManagement:User.Phone").ToString())){
+          		<p class="toHide"><label>Telefon #1:</label> @GetValue("UserManagement:User.Phone")</p>
+          	}
+            @if (!string.IsNullOrEmpty(GetValue("UserManagement:User.PhoneMobile").ToString())){
+                		<p class="toHide"><label>Telefon #2:</label> @GetValue("UserManagement:User.PhoneMobile")</p> 
+            }
+            @if (!string.IsNullOrEmpty(GetValue("UserManagement:User.PhonePrivate").ToString())){
+               		<p class="toHide"><label>Telefon #3:</label> @GetValue("UserManagement:User.PhonePrivate")</p>
+            }
+        
+          </div>
+          <h3>Date de facturare</h3>
+			<div class="col-md-12">
+			@if(!string.IsNullOrEmpty(customerNo)){
+            billingAddress = BrandFusion.Dw.Austral.eCommerce.CustomerFacade.GetB2bBillingAddress(customerNo);
+    
+                if (billingAddress != null)
+                {
+                    <p>@Translate("Address", "Adresa"): @billingAddress.Address</p>
+                    <p>@Translate("city", "Oras"): @billingAddress.City</p>
+                    <p>@Translate("Company", "Companie"): @billingAddress.Company</p>
+                    <p>@Translate("CustomerNumber", "Cod client"): @billingAddress.CustomerNumber</p>
+                    <p>@Translate("email", "Email"): @billingAddress.Email</p>
+                    <p>@Translate("regNumber", "CUI"): @billingAddress.VatRegNumber</p>
+                }
+            }
+			</div>
+
+			<h3>Adrese de livrare</h3>
+          	<div class="col-md-12">
+              <ul>
+              @{
+              	int addressListSize = 0;
+  				if (!string.IsNullOrEmpty(user)){
+    				System.Collections.Generic.Dictionary<string, object> root = new System.Collections.Generic.Dictionary<string,object>();
+    				var userAddresses = BrandFusion.Dw.Austral.eCommerce.UserFacade.GetAddresses(userObject.UserID);
+
+					addressListSize = userAddresses.Count();
+
+                    foreach (var userAddress in userAddresses)
+                    {
+                      if(!string.IsNullOrEmpty(userAddress.Name)){
+              
+              				<li>@userAddress.Address, @userAddress.City, @userAddress.LocationId</li>
+                            
+              //address["description"] = userAddress.Name;
+              //address["address"] = userAddress.Address;
+              //address["state"] = userAddress.State;
+              //address["company"] = userAddress.CompanyName;
+              //address["cui"] = userObject.CustomerNumber;
+              //address["city"] = userAddress.City;
+              //address["addresses"] = userAddress.LocationId;
+              //address["default"] = i.GetString("UserManagement:User.UserAddress.Default");
+
+                       }
+                    }  
+              	}
+              }
+              </ul>
+			</div>
+         @*  <!--
+          <div class="col-md-6">
+            <h3>Configurari</h3>
+            <p>Limita lunara pe comanda: </p>
+            <p>Prima zi calendaristica de comanda: </p>
+            <p>Ultima zi calendaristica de comanda: </p>
+            <p>Prima zi calendaristica de aprobare: </p>
+            <p>Ultima zi calendaristica de aprobare: </p>
+            <p>Valoare minima comanda: </p>
+            <p>Valoare maxima comanda: </p>
+            <p>Customer Number: @customerNo</p>
+            @{
+            	var CSs = BrandFusion.Dw.Austral.eCommerce.UserFacade.GetCSs(customerNo);
+            	var CS = System.Linq.Enumerable.FirstOrDefault(CSs);
+            	if (CS != null)
+            	{
+            		<p>@CS.Name</p>
+            	}
+            	else
+            	{
+            		<p>Niciun CS asignat</p>
+            	}
+            }
+            
+            <p>Rol: @(BrandFusion.Dw.Austral.eCommerce.UserFacade.GetRole(currentUserAccess).GetValueOrDefault())</p>
+          </div>
+          --> *@
+        </div>
+      </div>

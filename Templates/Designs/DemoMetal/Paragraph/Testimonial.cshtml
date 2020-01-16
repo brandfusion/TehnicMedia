@@ -1,0 +1,51 @@
+﻿@{
+	string title = GetString("Item.ParagraphName");
+	string icon = GetString("Item.Icon");
+	string background = GetString("Item.BackgroundImage");
+}
+
+
+<!-- Testimonial -->
+<div class="jx-container container-no-margin  jx-grey-bg  pb94">
+		<div class='parallax-no-height' style='background-position: 0px -342px;'><img src="@background"></div>
+		<!-- Background Image -->
+		
+		<!-- Background Icon -->
+		<div class="container ">
+			<div class="jx-section-title-1 mb40 pt40">
+				<div class="jx-pre-title jx-short-border">
+					<div class="jx-title-border left" style="background: #fff;"></div>
+					<div class="jx-title-icon"><i class="line-icon @icon" style="color: #fff !important"></i></div>
+					<div class="jx-title-border right" style="background: #fff;"></div> 
+				</div>
+				<div class="jx-title" style="color: #fff;">@title</div>
+			</div>
+
+			<div class="jx-testimonial">		
+				<div class="flexslider-testimonial">
+					<ul class="slides">
+
+					@foreach(LoopItem item in GetLoop("Item.TestimonialList")) {
+						string testimonialTitle = item.GetString("Item.TestimonialList.Title");
+						string text = item.GetString("Item.TestimonialList.Text");
+						string image = item.GetString("Item.TestimonialList.Image");
+
+						<li>
+							<div class="jx-testimonial-item">
+								<div class="jx-photo"><img width="176" height="178" src="@image" class="attachment-testimonial wp-post-image" alt="team-1" /></div>
+								<div class="jx-testimonial-content">
+									<div class="jx-name"><i class="fa fa-quote-left"></i><span>@testimonialTitle</span></div>
+									<div class="jx-content">@text</div>
+								</div>
+								<div class="clearfix"></div>	 
+							</div>
+						</li>
+					}
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- EOF Testimonial-->

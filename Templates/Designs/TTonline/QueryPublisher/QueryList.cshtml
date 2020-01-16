@@ -1,0 +1,100 @@
+﻿<div>		
+
+    @* <h4>Facet Groups</h4> *@
+		@foreach (var facetGroup in GetLoop("FacetGroup"))
+		{
+			<ul>
+				@foreach (var facet in facetGroup.GetLoop("Facets"))
+				{
+					<li>
+						Facet.Name = @facet.GetValue("Facet.Name")<br />
+	                  	Facet.QueryParameter = @facet.GetValue("Facet.QueryParameter")<br />
+	                  	Facet.Field = @facet.GetValue("Facet.Field")<br />
+	                  	Facet.Type = @facet.GetValue("Facet.Type")<br />
+	                  	Facet.Value = @facet.GetValue("Facet.Value")<br />
+
+	                  	<select>
+	                  		@foreach (var opt in facet.GetLoop("FacetOptions"))
+	                  		{
+	                  			<option value="@opt.GetValue("FacetOption.Value")" selected="@opt.GetValue("FacetOption.Selected")">@opt.GetValue("FacetOption.Label")</option>
+	                  		}
+	                  	</select>
+					</li>
+				}
+			</ul>
+		}
+
+		@* <h4>Parameters</h4> *@
+		<ul>        
+			@foreach (var parameter in GetLoop("Query.Parameters"))
+			{     		
+				<li>
+					@parameter.GetValue("Name") = @parameter.GetValue("Value")
+				</li>
+			} 
+		</ul>
+
+		@* <h4>QueryResult</h4> *@
+    <div class="row">
+
+	      @foreach (var result in GetLoop("QueryResultItem")) {		 					      	
+
+	    		string title = result.GetString("Dw_Page_Titlu");
+					string description = result.GetString("Dw_Page_Sumar");
+string url = "";//Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(result.GetString("ItemPublisher:Item.Url"));
+
+					DateTime date = result.GetDate("Dw_Page_Data");
+					string data = date.ToString("dd MMMM yyyy");
+
+					<article class="simple-post simple-big clearfix col-md-12">		
+						
+						<div class="simple-thumb">
+				        <a href="@url">
+				          <figure class="">
+				            <img src="/Admin/Public/GetImage.ashx?Image=&amp;altFmImage_path=/Files/Images/NoImage/255x168.png&amp;Format=jpg&amp;Width=255&amp;Height=168&amp;Crop=0" alt="Digital Twin lansează primul portal cu training Siemens NX în România">
+				          </figure>
+				        </a> 
+				    </div>
+				    <header>
+				        <p class="simple-share">
+				            <span><i class="fa fa-clock-o"></i> @data</span>
+				        </p>
+				        <h3>
+				            <a href="@url">@title</a>
+				        </h3>
+				    </header>
+
+	        </article>     
+
+		    }
+	  </div>
+
+
+</div>
+
+<div id="productlistnavigation">
+    
+    <div class="row" id="pagenavigation">
+    	<div class="col-sm-4">
+		    @if(GetInteger("DwPaging.PageCount") > 1)
+		    {
+		    	if(GetInteger("DwPaging.CurrentPage") > 1)
+			    {
+			    	<a href='@GetValue("DwPaging.PreviousPageLink")' class="prev">Previous</a>
+			    }
+			  }
+		  </div>
+		  <div class="col-sm-4 text-center" id="pagecount">
+	        Page @GetValue("DwPaging.CurrentPage") of @GetValue("DwPaging.PageCount")
+	    </div>
+	    <div class="col-sm-4 text-right">
+			  @if(GetInteger("DwPaging.PageCount") > 1) 
+			  {
+			    if(GetInteger("DwPaging.CurrentPage") < GetInteger("DwPaging.PageCount"))
+			    {
+			    	<a href='@GetValue("DwPaging.NextPageLink")' class="next">Next</a>
+			    }
+		    }
+		  </div>
+    </div>
+</div>

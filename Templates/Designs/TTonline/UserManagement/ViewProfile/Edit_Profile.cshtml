@@ -1,0 +1,97 @@
+﻿@{System.Globalization.TextInfo myTI = new System.Globalization.CultureInfo("en-US", false).TextInfo;
+
+}
+
+@Include("../../Custom/GlobalVariables.cshtml")
+<div id="account-page">      
+  <div class="container">
+    <div class="row">
+		<!--@Include(../../Custom/Profile_menu.cshtml)-->
+      <!--!User form start-->
+	  @GetValue("UserManagement:User.FormStart")
+	  <input type="hidden" name="ObjectID" value="<!--@Global:Extranet.UserID-->">
+      <div class="col-xs-9">
+        <div class="row">
+          <div class="col-xs-12 profile">
+            <h1 class="pull-left">@Translate("myaccount", "My account")</h1>
+            <p class="pull-left">@Translate("welcome", "Welcome") @myTI.ToTitleCase(GetString("UserManagement:User.AccessUser_Prenume")) @myTI.ToTitleCase(GetValue("UserManagement:User.Name").ToString())</p>        
+          
+          </div>
+          
+          <!--!Titular-->
+          <div class="col-xs-12 content">
+            <div class="account-header">
+              <h2>Titular</h2>
+              <a class="edit" href="#">@Translate("edit", "edit")</a>
+            </div>
+            <div class="account-content">
+              <p>
+                <label>@Translate("FirstName", "First name"): </label> <label class="toHide">@GetValue("UserManagement:User.AccessUser_Prenume")</label>
+                <input class="hide" type="text" name="CustomField.AccessUser_AccessUser_Prenume" id="CustomFieldAccessUser_AccessUser_Prenume" value="@myTI.ToTitleCase(GetString("UserManagement:User.AccessUser_Prenume"))" />
+              </p>
+              <p>
+                <label>@Translate("Name", "Name"): </label><label class="toHide">@GetValue("UserManagement:User.Name")</label>
+                <span class="hide">@GetValue("UserManagement:User.Name.Input")</span>
+             </p>
+            </div>
+            <div class="account-header">
+              <h2>@Translate("accountinformation", "Account information")</h2>
+              <a class="edit" href="#">@Translate("edit", "edit")</a>
+            </div>
+            <div class="account-content">
+            	@if (!string.IsNullOrEmpty(GetValue("UserManagement:User.Phone").ToString())){
+              		<p class="toHide"><label>@Translate("phone", "Phone") #1:</label> @GetValue("UserManagement:User.Phone")</p>
+            	}
+				@if (!string.IsNullOrEmpty(GetValue("UserManagement:User.PhoneMobile").ToString())){
+              		<p class="toHide"><label>@Translate("phone", "Phone") #2:</label> @GetValue("UserManagement:User.PhoneMobile")</p> 
+				}
+				@if (!string.IsNullOrEmpty(GetValue("UserManagement:User.PhonePrivate").ToString())){
+              		<p class="toHide"><label>@Translate("phone", "Phone") #3:</label> @GetValue("UserManagement:User.PhonePrivate")</p>
+            	}
+                <p class="hide"><label>@Translate("phone", "Phone") #1:</label> @GetValue("UserManagement:User.Phone.Input")</p>
+                <p class="hide"><label>@Translate("phone", "Phone") #2:</label> @GetValue("UserManagement:User.PhoneMobile.Input")</p>
+                <p class="hide"><label>@Translate("phone", "Phone") #3:</label> @GetValue("UserManagement:User.PhonePrivate.Input")</p>
+            </div>
+            <div class="account-header">
+              <h2>@Translate("password", "password")</h2>
+              <a class="edit" href="#">@Translate("changepassword", "change password")</a>
+            </div>
+            <div class="account-content pass">
+              <!--<p>Email: @GetValue("UserManagement:User.Email")</p> --> 
+              <!--<a href="#" class="btn-1 btn-change-password">Modifica Parola</a>-->
+              @GetValue("UserManagement:User.Password")
+              @GetGlobalValue("Global:Extranet.Password")
+              <div class="hide">
+	              <p><label>@Translate("oldpassword", "Old password"):</label> <input name="UserManagement_Form_OldPassword" type="password" id="UserManagement_Form_OldPassword" autocomplete="off"></p>
+	              <p><label>@Translate("newpassword", "New password"):</label> <input name="UserManagement_Form_NewPassword" type="password" id="UserManagement_Form_NewPassword" autocomplete="off"></p>
+	              <p><label>@Translate("confirmpassword", "Confirm password"):</label> <input name="UserManagement_Form_NewPasswordConfirm" type="password" id="UserManagement_Form_NewPasswordConfirm" autocomplete="off"></p>
+              </div>            
+            </div>
+            @* <div class="account-header">
+              <h2>@Translate("newsletter", "Newsletter")</h2>                  
+            </div>
+            
+            <div class="account-content newsletter">
+              <p>@GetValue("UserManagement:User.EmailAllowed.Input") Vreau sa primesc noutati si promotii pe email</p>
+              @GetValue("UserManagement:User.EmailAllowed.Hidden.Input")
+            </div> *@
+            
+            
+            @foreach (LoopItem grup in GetLoop("Groups")){
+	            int subGrupId = 0;
+	            Int32.TryParse(Pageview.Area.Item["Subscribers_Group_ID"].ToString(), out subGrupId);
+	            if(grup.GetInteger("UserManagement:Group.ID") == subGrupId){
+		            @:<a href='#' target="_blank" onclick="newsletterUnsubscribe('/Default.aspx?ID=@(Pageview.Area.Item["NewsletterPage_ID"])&action=unsubscribe&email=@(GetValue("UserManagement:User.UserName"))');">Dezabonare de la newsletter</a><br />
+	            }
+	        }
+	        
+            <input class="btn-main" type="submit" id="submitter" value='@Translate("save", "Save")'>
+          </div>
+          @GetValue("UserManagement:User.FormEnd")
+          <!--!User form end-->
+          
+        </div>
+      </div>
+    </div>                        
+  </div>
+</div>

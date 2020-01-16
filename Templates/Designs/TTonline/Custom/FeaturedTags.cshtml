@@ -1,0 +1,45 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using System;
+@using System.Linq;
+@using System.Collections.Generic;
+@using Dynamicweb.Rendering;
+@using BrandFusion.Dw.TTOnline;
+@{
+
+
+    string generalSettingsPage = "5";//ID of the Taxonomy Item
+    Dynamicweb.Content.Items.Item stickyTags = Dynamicweb.Content.Items.Item.GetItemById("Taxonomy_Settings", generalSettingsPage);
+
+    System.Collections.Generic.IEnumerable<Dynamicweb.Content.Items.Item> allTags = new List<Dynamicweb.Content.Items.Item>();
+    if (stickyTags != null )
+    {
+        System.Collections.Generic.IEnumerable<string> stickyTagsIds = (stickyTags["Sticky_Tags"] ?? "").ToString().Split(',');
+        
+        if (stickyTagsIds.Any()) {
+            allTags =  Dynamicweb.Content.Items.Queries.StorageManager.Current.GetByIds("Taxonomie_Taguri", stickyTagsIds);
+        }
+    }
+
+}
+@{int counter = 0;}
+
+@if (allTags.Any()) {
+<ul class="tag-list clearfix">
+    <li class="trending">#Trending</li>
+    @foreach (var tag in allTags)
+
+    {
+
+  
+  		string tagName = tag["Name"].ToString();
+  		
+  		string tagID = tag["Id"].ToString();
+
+  		
+  		string tagURL = TTOnlineUrlFacade.GenerateLinkForTaguri(tagID, tagName);
+  <li><a href="/tag/@(tagURL)">@tag["Name"] </a></li>
+
+
+    }
+    </ul>
+}

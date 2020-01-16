@@ -1,0 +1,33 @@
+﻿<div class="col-md-12">
+  <div class="owl-carousel owl-theme"> 
+
+     @{ 
+                                var Produse = GetLoop("Item.Product.Value");
+                                if(Produse.Any()){	
+                                            foreach(LoopItem i in Produse){
+   
+ 
+                                             string mainImage = i.GetString("Ecom:Product.ImageLarge.Default.Clean"); 
+                                             string mainTitle = i.GetString("Ecom:Product.Name");
+                                            string mainURL = i.GetString("Ecom:Product.Link.Clean");
+            i.TemplateTags() ;                   
+          <div class="item">
+
+             @if(!string.IsNullOrEmpty(i.GetString("Ecom:Product.ImageLarge.Default.Clean"))){
+                 <a href="@mainURL"><img src="@mainImage" width="160" height="100" alt="" /></a>
+              }
+  
+ @* else{
+                 <a href="@mainURL"><img src="@areaLayoutPath/assets/img/demo/160x120.png" height="100" alt="" /></a>
+              }*@
+
+              <h4><a href="@mainURL">@mainTitle </a></h4>  
+            
+         </div>              
+         
+
+       
+       }}
+}
+</div>
+</div> 

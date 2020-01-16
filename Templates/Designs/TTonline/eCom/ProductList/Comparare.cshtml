@@ -1,0 +1,357 @@
+﻿@Include("../../Includes/GetImage_new.cshtml")
+
+
+
+<div id="compare-page">
+  <div class="container">
+    <div class="row wrap">
+       <div class="col-xs-12">
+
+         <link rel="stylesheet" type="text/css" href="/Files/Templates/eCom/ProductList/ecom.css" />         
+         <div class="row">
+               
+               <div class="col-xs-12" id="catalog-filters">
+                 <h2>@Translate("compareproducts", "Compare products")</h2>                 
+               </div>
+                                
+               @foreach (LoopItem i in GetLoop("Products")){  
+           
+           		    string productBoxClass = "col-sm-6";  
+
+double priceProductDB = Math.Round(i.GetDouble("Ecom:Product.DBPrice"),2);
+double priceProductDiscount = Math.Round(i.GetDouble("Ecom:Product.Discount.Price.Price"),2);
+
+double percent = (priceProductDB-priceProductDiscount)*100/priceProductDB;  
+percent = Math.Round(percent);
+
+string imagePath = "/Files/Images/";
+string imageCustom = imagePath + i.GetString("Ecom:Product.ImageLargeLarge.Clean");  
+string pathImagine = i.GetString("Ecom:Product.ImageLargeLarge.Clean");
+string imagineProdusRaw = i.GetString("Ecom:Product.ImageLarge.Clean");
+
+string imagineProdus = !string.IsNullOrEmpty(imagineProdusRaw) ? GetImage(imagineProdusRaw, 350, 230) : ""; 
+    imagineProdus = imagineProdus + "&bgcolor=white";
+
+int stockTotal = i.GetInteger("Ecom:Product.VariantCount") > 0 ? 0 : i.GetInteger("Ecom:Product.Stock");
+
+string productName = i.GetString("Ecom:Product.Name");
+string productLink = i.GetString("Ecom:Product.LinkGroup.Clean");
+
+string AfisarePromotie = i.GetString("Ecom:Product:Field.TagPromotie.Value");
+string manufacturerName = i.GetString("Ecom:Manufacturer.Name");
+string manufacturerLink = i.GetString("Ecom:Manufacturer.Web");
+string manufacturerLogo =i.GetString("Ecom:Manufacturer.Logo");
+string productID = i.GetString("Ecom:Product.ID");
+string productLanguage = i.GetString("Ecom:Product.LanguageID");
+string productVariantID = i.GetString("Ecom:Product.VariantID");
+string dealeriProdusRaw = i.GetString("Ecom:Product:Field.Dealeri");
+string[] dealeriProdus = (dealeriProdusRaw ?? "").Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+string descriereProdus = i.GetString("Ecom:Product.LongDescription");
+
+
+string compareLink = productID + "$" + productLanguage + "$" + productVariantID;
+
+string Grup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System.Web.HttpContext.Current.Request["GroupID"].ToString(): "";
+string Producator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
+string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
+bool first = true;
+
+
+
+if(Dealer == "" && Producator == ""){
+<div class="col-xs-12 col-sm-6 col-md-4 " style="margin-bottom:15px; margin-top:15px; ">
+  <div class="produs-col-background">
+  
+        <div class="row" >
+          <div class="col-xs-12">
+             <div class="product-image">
+                  <a href="@productLink" class="overlay-link">
+                      <figure class=""> 
+                          @{  
+                             
+                              <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
+                          }
+                      </figure>
+                  </a>
+             </div>
+           </div>
+        </div>
+        <div class="row row-promotii-produs">
+            <div class="col-xs-12">
+                @if(AfisarePromotie == "True"){
+                      <div class="promotie">
+                        <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                      </div>
+                }
+            
+                @if(priceProductDB > 0 ){
+                    <div class="pret-produs pull-right">
+                        <a href="@productLink">
+                        <span class="detalii-produs" ><text>@priceProductDB LEI</text></span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+     <div class="row">
+        <div class="col-xs-12">
+
+          <h5 class="titlu-produs-lista news-title" ><a href="@productLink">@productName</a></h5>
+
+        </div>
+
+        <div class="col-xs-12 col-descriere-produs-compare">
+
+          @descriereProdus
+        </div>
+      </div>
+
+    <div class="row" style="min-height:40px;">
+     <div class="col-xs-12">
+            @if(!String.IsNullOrEmpty(manufacturerName)){
+              <div class="col-xs-4" >      
+                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                     <text>@Translate("manufacturer", "Producator"):</text>         
+                   </p>
+              </div>
+          
+
+            <div class="col-xs-8">
+              <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
+               @if(!String.IsNullOrEmpty(manufacturerLink)){
+                <a href="@manufacturerLink"><span style="color:black;">@manufacturerName</span></a>
+                        } else {
+                          <span style="color:black;">@manufacturerName</span>
+                        }
+              </p>
+            </div>
+           }
+       </div>
+    </div>
+     
+
+    <div class="row" style="min-height:35px;">
+      <div class="col-xs-12">
+             @if(dealeriProdus.Any()){
+          <div class="col-xs-3" style="text-align: center;">      
+               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                <text>@Translate("Furnizor", "Furnizor"):</text>         
+               </p>
+            </div>
+          
+
+            <div class="col-xs-9" style="text-align: center;">
+              <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+             <text style="color:black;">@(dealeriProdus.Length == 1 ? dealeriProdus.First() :  dealeriProdus.Length + " furnizori")</text>
+              </p>
+            </div>
+           }
+       </div>
+    </div>
+
+      <div class="row">
+          <div class="col-xs-12 col-butoane-lista">
+            
+                  
+              <div class="col-xs-6">
+
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                    <span class="detalii-produs">
+                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                    </span>
+                  </a>
+                     
+               </div>   
+              
+
+               <div class="col-xs-6">
+
+                  <a href="@productLink" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
+
+                </div>
+            
+                  
+                
+                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                          <div class="modal-content" >
+                            @RenderParagraphContent(120)
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                                                   <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
+                      </div>
+                  </div>
+            
+
+            
+
+          </div>
+      </div>
+  </div>
+
+
+</div>
+} else{
+
+if(Dealer != "" || Producator != ""){
+
+<div class="col-xs-12 col-sm-3 col-md-3 " style="margin-bottom:15px; margin-top:15px; ">
+  <div class="produs-col-background">
+  
+        <div class="row" >
+          <div class="col-xs-12">
+             <div class="product-image">
+                  <a href="@productLink" class="overlay-link">
+                      <figure class=""> 
+                          @{  
+                             
+                              <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
+                          }
+                      </figure>
+                  </a>
+             </div>
+           </div>
+        </div>
+        <div class="row row-promotii-produs">
+            <div class="col-xs-12">
+                @if(AfisarePromotie == "True"){
+                      <div class="promotie">
+                        <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                      </div>
+                }
+            
+                @if(priceProductDB > 0 ){
+                    <div class="pret-produs pull-right">
+                        <a href="@productLink">
+                        <span class="detalii-produs" ><text>@priceProductDB LEI</text></span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+     <div class="row">
+        <div class="col-xs-12">
+
+          <h5 class="titlu-produs-lista news-title"><a href="@productLink">@productName</a></h5>
+
+        </div>
+      </div>
+
+    <div class="row" style="min-height:40px;">
+     <div class="col-xs-12">
+            @if(!String.IsNullOrEmpty(manufacturerName)){
+              <div class="col-xs-4" >      
+                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                     <text>@Translate("manufacturer", "Producator"):</text>         
+                   </p>
+              </div>
+      
+
+            <div class="col-xs-8">
+              <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
+               @if(!String.IsNullOrEmpty(manufacturerLink)){
+                <a href="@manufacturerLink"><span style="color:black;">@manufacturerName</span></a>
+                        } else {
+                          <span style="color:black;">@manufacturerName</span>
+                        }
+              </p>
+            </div>
+           }
+       </div>
+    </div>
+     
+
+    <div class="row" style="min-height:30px;">
+      <div class="col-xs-12">
+             @if(dealeriProdus.Any()){
+          <div class="col-xs-3" style="text-align: center;">      
+               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                <text>@Translate("Furnizor", "Furnizor"):</text>         
+               </p>
+            </div>
+          
+
+            <div class="col-xs-9" style="text-align: center;">
+              <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+             <text style="color:black;">@(dealeriProdus.Length == 1 ? dealeriProdus.First() :  dealeriProdus.Length + " furnizori")</text>
+              </p>
+            </div>
+           }
+       </div>
+    </div>
+
+      <div class="row">
+          <div class="col-xs-12 col-butoane-lista">
+            
+                  
+              <div class="col-xs-6">
+
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                    <span class="detalii-produs">
+                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                    </span>
+                  </a>
+                     
+               </div>   
+              
+
+               <div class="col-xs-6">
+
+                  <a href="@productLink" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
+
+                </div>
+            
+                  
+                
+                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                          <div class="modal-content" >
+                            @RenderParagraphContent(120)
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                                                   <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
+                      </div>
+                  </div>
+            
+
+            
+
+          </div>
+      </div>
+  </div>
+
+
+</div>
+}
+}
+
+
+               }
+         </div> 
+      </div>
+    </div>
+    <!--@Include(../../Custom/CompareBox.cshtml)-->      	
+  </div>  
+</div>
+
+
+@SnippetStart("bottomJS")
+<script type="text/javascript" >
+  
+var compareCategoryField = 0;
+  $('.category-field').each(function(){
+    var value = $(this).height();
+    if(value > compareCategoryField) {
+      compareCategoryField = value;
+    }   
+  });
+  $('.category-field').each(function(){
+    $(this).height(compareCategoryField);
+  });
+  
+</script>
+@SnippetEnd("bottomJS")

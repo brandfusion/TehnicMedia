@@ -1,0 +1,21 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+
+
+
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+
+
+foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+
+	string Name = item.GetString("ItemPublisher:Item.PageName");
+<div class="col-xs-12"><h3 class="block-title"><span class="primary-color-border-bottom">@Name</span></h3></div>
+
+@item.TemplateTags()
+
+}
+
+
+
+
+}

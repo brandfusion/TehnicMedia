@@ -1,0 +1,159 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using BrandFusion.Dw.eCommerce
+@using Dynamicweb.Ecommerce.Products
+
+@GetValue("Title(Article page)")
+@GetValue("Description(Pagina de articol)")
+@Include("Includes/ArticleHelper.cshtml")
+
+@Include("Includes/GetImage.cshtml")
+@Include("Includes/VerifyImage.cshtml")
+
+@MasterPageFile("Master.cshtml")
+@using System.Web
+
+@* @Include("Includes/ArticleHelper.cshtml") *@
+
+@* @Include("Custom/GlobalVariables.cshtml") *@
+
+<link rel="stylesheet" href="/Files/Templates/ItemPublisher/ItemPublisher.css" />
+
+
+@{
+    var idCompanie = HttpContext.Current.Request["CompanyID"];
+    Dynamicweb.Content.Items.Item companie = null;
+
+    if (!string.IsNullOrEmpty(idCompanie)){
+        companie = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Companii", idCompanie);
+                    
+
+    if(companie != null){
+            //begin content
+
+          var MissingFoto = "http://placehold.it/100x100";
+            var MissingBanner = "http://placehold.it/1170x250";
+			
+            var Name = companie["Name"];   
+            var ID = companie["Id"]; 
+            string LogoS = companie["Logo"] != null ? companie["Logo"].ToString(): "";
+            var Logo = !string.IsNullOrEmpty(LogoS) ? LogoS : MissingFoto;
+            string BannerS = companie["Banner"] !=null ? companie["Banner"].ToString():"";
+            var BannerRaw = !string.IsNullOrEmpty(BannerS) ? BannerS : MissingBanner;
+		
+			
+     		string Banner = GetImage(BannerRaw, 1140, 400);
+
+
+            string ImgProfilS = companie["ImgProfil"] != null ? companie["ImgProfil"].ToString(): "";
+            var ImgProfil = !string.IsNullOrEmpty(ImgProfilS) ? ImgProfilS : MissingFoto;  
+            string SummaryS = companie["Summary"] !=null ? companie["Summary"].ToString(): "";
+            var Summary = !string.IsNullOrEmpty(SummaryS) ? SummaryS : "";
+            string OldTidS = companie["OldTid"] !=null ? companie["OldTid"].ToString(): "";
+            var OldTid = !string.IsNullOrEmpty(OldTidS) ? OldTidS: "Missing OldTid";
+            string DateContactS = companie["DateContact"] !=null ? companie["DateContact"].ToString(): "";
+            var DateContact = !string.IsNullOrEmpty(DateContactS) ? DateContactS: "Missing DateContact";
+			bool AfiseazaJobs = companie["Afiseaza_Jobs"] != null ? (bool)companie["Afiseaza_Jobs"]: false;
+			bool AfiseazaArticole = companie["Afiseaza_Articole"] != null ? (bool)companie["Afiseaza_Articole"]: false;
+			bool AfiseazaStiri = companie["Afiseaza_Stiri"] != null ? (bool)companie["Afiseaza_Stiri"]: false;
+            var DescriptionS = companie["Description"] !=null ? companie["Description"].ToString(): "";
+			string Description = !string.IsNullOrEmpty(DescriptionS) ? DescriptionS:"Missing Description";
+			var MapContactS = companie["MapContact"] !=null ? companie["MapContact"].ToString(): "";
+			string MapContact = !string.IsNullOrEmpty(MapContactS) ? MapContactS:"Missing MapContact";
+			var EnvelopeContactS = companie["EnvelopeContact"] !=null ? companie["EnvelopeContact"].ToString(): "";
+			string EnvelopeContact = !string.IsNullOrEmpty(EnvelopeContactS) ? EnvelopeContactS:"Missing EnvelopeContact";
+			var PhoneContactS = companie["PhoneContact"] !=null ? companie["PhoneContact"].ToString(): "";
+			string PhoneContact = !string.IsNullOrEmpty(PhoneContactS) ? PhoneContactS:"Missing PhoneContact";
+			var GlobeContactS = companie["GlobeContact"] !=null ? companie["GlobeContact"].ToString(): "";
+			string GlobeContact = !string.IsNullOrEmpty(GlobeContactS) ? GlobeContactS:"Missing GlobeContact";
+            string Tara = companie["Tara"] !=null ? companie["Tara"].ToString(): "";
+            string Oras = companie["Oras"] !=null ? companie["Oras"].ToString(): "";
+			string Strada = companie["Strada"] !=null ? companie["Strada"].ToString(): "";
+			string CodPostal = companie["Cod_Postal"] !=null ? companie["Cod_Postal"].ToString(): "";
+			string LinkCatreSiteS = companie["LinkCatreSite"] !=null ? companie["LinkCatreSite"].ToString(): "";
+			string LinkCatreSite = !string.IsNullOrEmpty(LinkCatreSiteS) ? LinkCatreSiteS:"";
+			string FacebookLink = companie["SocialMediaFacebook"] !=null ? companie["SocialMediaFacebook"].ToString(): "";
+			string TwitterLink = companie["SocialMediaTwitter"] !=null ? companie["SocialMediaTwitter"].ToString(): "";
+			string LinkedinLink = companie["SocialMediaLinkedin"] !=null ? companie["SocialMediaLinkedin"].ToString(): "";
+			string DeclaratieManager = companie["DeclaratieManager"] !=null ? companie["DeclaratieManager"].ToString(): ""; 
+			string ImagineProfilS = companie["ImgProfil"] !=null ? companie["ImgProfil"].ToString(): "";
+            var ImagineProfil = !string.IsNullOrEmpty(ImagineProfilS) ? ImagineProfilS : "#";
+			string DescriereCompanie = companie["Description"] !=null ? companie["Description"].ToString(): "";
+			string Email = companie["Email"] !=null ? companie["Email"].ToString(): "";
+			string Character = "@";			
+
+            bool Contactform = companie["Contacteaza_ne"] != null ? (bool)companie["Contacteaza_ne"]: false;
+			string Geolocatie = companie["Geolocation"] != null ? companie["Geolocation"].ToString() : "";
+            string TipClient = companie["TipClient"] !=null ? companie["TipClient"].ToString(): "";
+  			
+            bool AfiseazaBandaSubBranduri = companie["BandaSubbranduri"] != null ? (bool)companie["BandaSubbranduri"]: false;
+            int BandaSubBranduri = companie["Banda_Sub_Branduri"] != null ? (int)companie["Banda_Sub_Branduri"] : 0 ;
+			string ProduseReprezentativeID = companie["RepresentativeProducts"] != null ? companie["RepresentativeProducts"].ToString(): "";
+			 var ProduseReprezentative = ProductFacade.GetItemTypeProducts(companie["RepresentativeProducts"]);
+           
+        
+				<!--Standard start -->
+                      if(ProduseReprezentative.Any()){
+                      <div class="row space-10">
+                        <div class="col-xs-12"><h3 class="block-title"><span class="primary-color-border-bottom">Produse @Name</span></h3></div>
+                      <div class="product reset-padding-right item-scope animated">
+                     
+
+
+                      @foreach (var produsReprezentativ in ProduseReprezentative) {
+
+                       var grupuri = produsReprezentativ.Groups;
+                        
+                      <div class="product-item standard-item col-sm-6 col-xs-12 col-md-4">
+                          <div class="product-image">
+                            <a href="/ibuysmart?ProductID=@(produsReprezentativ.Id)" class="overlay-link">
+                              <figure class="image-overlay proportie-1 text-center">
+                                @if(!String.IsNullOrEmpty(@produsReprezentativ.ImageLarge)) {
+                                    <img src="/Files/@(produsReprezentativ.ImageLarge)" alt="@produsReprezentativ.Name" class="">
+                                } else {
+                                    <img src="http://placehold.it/350x150" alt="@produsReprezentativ.Name" class="img-responsive">
+                                }
+                              </figure>
+                            </a>
+                          </div>
+
+                          <div class="product-title">
+                            <h2>
+                              @produsReprezentativ.Name 
+                            </h2>      
+                          </div>
+
+
+
+
+
+
+                          <div class="product-buttons">    
+                              <a class="yellow-btn"  href="/ibuysmart?ProductID=@(produsReprezentativ.Id)"><i class="fa fa-eye"></i><span class="detalii-produs">Detalii produs</span></a>    
+                          </div>
+
+
+
+                        </div>
+                          
+
+                         
+                      }
+
+
+                      </div>
+                      </div>
+                      }
+                      <!--Standard end -->
+
+
+
+    }
+}
+}
+
+  <!-- Go to www.addthis.com/dashboard to customize your tools --> 
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5941501b1be8de2c"></script> 
+<!-- Google map api -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyC3qzD9htQdRmf9Utip_B4jozI61S1Kub0"></script>

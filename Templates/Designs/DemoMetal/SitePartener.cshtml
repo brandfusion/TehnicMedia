@@ -1,0 +1,24 @@
+﻿@using Dynamicweb.Frontend
+
+
+<ul class="header-bar-left">
+  
+  @foreach(var item in GetLoop("Item.Area.SitePartenere")) {
+  string imagine = item.GetString("Item.Area.SitePartenere.Logo_Eveniment.Value");
+  string linkSite = item.GetString("Item.Area.SitePartenere.Url_Eveniment.Value");
+  string logoHover = item.GetString("Item.Area.SitePartenere.LogoHover.Value");
+  
+
+  
+  <li><a href="@linkSite"><img src="@imagine" data-hover-image="@logoHover"></a></li>
+  }
+ 
+  
+  
+  
+  
+					@*<li><a href="http://www.demometal.ro/vest"><img src="images/dm_header_logo1.png" data-hover-image="/Files/Templates/Designs/DemoMetal/images/dm_header_logo1_hover.png"></a></li>
+					<li><a href="http://www.demoplast.ro/vest"><img src="images/dm_header_logo2.png" data-hover-image="/Files/Templates/Designs/DemoMetal/images/dm_header_logo2_hover.png"></a></li>
+					<li><a href="http://www.demometal.ro"><img src="images/dm_header_logo3.png" data-hover-image="/Files/Templates/Designs/DemoMetal/images/dm_header_logo3_hover.png"></a></li>
+					<li><a href="http://www.ttonline.ro"><span>Powered by</span><img src="images/dm_header_logo4.png"></a></li>*@
+				</ul>

@@ -1,0 +1,44 @@
+﻿<div class="col-xs-12 col-sm-12 col-md-4">
+   
+  <article class="news-block small-block" style="margin-bottom: 110px;">
+    <a href="@articleLink" class="overlay-link">
+    <figure class="image-overlay proportie-1">
+         @if(!String.IsNullOrEmpty(articleImageRaw)){
+      <img src="@articleImage" />
+      }else{
+      <img src="/Files/Images/NoImage/160x120.png" /> 
+      }
+      <!--<img src="/Admin/Public/GetImage.ashx?Image=@articleImage&altFmImage_path=/Files/Images/NoImage/255x168.png&Format=jpg&Width=250&Height=150&Crop=5" alt="@articleTitle" class="img-responsive" />-->
+    </figure>
+    </a>
+
+   <a href='/Default.aspx?ID=@articleSectiuneID' class="bg@(articleSectiuneID) category">@articleSectiune</a>
+    <header class="news-details">
+     
+      <h3 class="news-title"><a href="@articleLink">@articleTitle</a></h3> 
+      <p class="simple-share">
+        @foreach (var articleSection in articleSections)
+        {
+            <a href="#">@articleSectiune</a>
+        }
+
+        @Translate("articolde","de")
+
+        @foreach (var articleAutor in articleAutori)
+        {
+            <a href="@articleAutor.Link">@* <span style="color: #bbbbbb; font-size: 13px; font-weight: 400;">@Translate("articolde","de")</span> *@ @articleAutor.Name</a>
+        }
+<br/>
+        <span><i class="fa fa-clock-o"></i> @articleDate.ToString("D")</span>
+        @if (itemConditionVisits) {    
+          <span><i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+        } 
+      </p>
+      
+    </header>
+
+   
+
+  </article><!-- News block --> <p>
+</div>
+

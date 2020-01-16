@@ -1,0 +1,29 @@
+<div id="newselement">
+    <h2>
+        <!--@News:Date.ShortDate-->
+        <!--@News:Heading-->
+    </h2>
+    <div id="newsdetails">
+        <!--@News:Image-->
+        <!--@News:Manchet-->
+        <!--@News:ImageText-->
+        <!--@News:Initials-->
+	  <br/><!--@News:Text-->
+    </div>
+    <ul id="newsrelated">
+        <!--@LoopStart(News:RelatedNews)-->
+            <li><a id="newsrelated<!--@News:ID-->" href="<!--@News:Href-->">
+                <!--@News:NewsDate-->
+                <!--@News:Heading-->
+            </a></li>
+        <!--@LoopEnd(News:RelatedNews)-->
+    </ul>
+    <div id="newsnavigation">
+        <!--@If Defined(News:Back.Href)-->
+            <a id="newsback" href="<!--@News:Back.Href-->">
+                <!--@News:Back.Picture-->
+                <!--@News:Back.Text-->
+            </a>
+        <!--@EndIf(News:Back.Href)-->
+    </div>
+</div>

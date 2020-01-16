@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="bedd2623-4d2d-48bd-992f-4d6bfe3661d5" Name="ProduseQuery.query">
+  <Settings />
+  <Source Repository="Products" Item="Produse.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters>
+    <Parameter Name="GroupID" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="q" Type="System.String" DefaultValue="" />
+    <Parameter Name="Producator" Type="System.String" DefaultValue="" />
+    <Parameter Name="TipM-U" Type="System.String" DefaultValue="" />
+    <Parameter Name="Dealer" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Name" Type="System.String" DefaultValue="" />
+    <Parameter Name="Subcategorie" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Nume" Type="System.String" DefaultValue="" />
+  </Parameters>
+  <Expressions>
+    <GroupExpression Operator="And">
+      <GroupExpression Operator="Or">
+        <BinaryExpression Operator="Contains">
+          <Left>
+            <FieldExpression Field="NumeNormalizat" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="q" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="Contains">
+          <Left>
+            <FieldExpression Field="GroupNames" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="q" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="Contains">
+          <Left>
+            <FieldExpression Field="Name" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="q" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Active" />
+        </Left>
+        <Right>
+          <ConstantExpression Value="True" Type="System.Boolean" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="IsVariant" />
+        </Left>
+        <Right>
+          <ConstantExpression Value="False" Type="System.Boolean" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="ManufacturerID" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Producator" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="Dealeri" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Dealer" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="CustomField_SubcategorieProduse" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Subcategorie" />
+        </Right>
+      </BinaryExpression>
+      <GroupExpression Operator="Or">
+        <BinaryExpression Operator="MatchAny">
+          <Left>
+            <FieldExpression Field="GroupIDs" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="GroupID" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="MatchAny">
+          <Left>
+            <FieldExpression Field="ParentGroupIDs" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="GroupID" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+    </GroupExpression>
+  </Expressions>
+  <SortOrder>
+    <Sort Field="CustomField_ProdusPromovat" Direction="Descending" />
+    <Sort Field="Created" Direction="Descending" />
+  </SortOrder>
+  <Meta />
+  <ViewFields />
+  <ViewLanguages />
+  <CompletionRules />
+  <CompletionLanguages />
+</Query>

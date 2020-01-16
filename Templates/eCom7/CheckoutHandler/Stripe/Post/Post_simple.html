@@ -1,0 +1,38 @@
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<!-- Payment Information -->
+<h2><!--@Translate(paymentinformation, "Payment Information")--></h2>
+<p>
+    <label><!--@Translate(orderid, "Order Id")-->: <b><!--@Ecom:Order.ID--></b></label> <br />
+    <label><!--@Translate(amount, "Amount")-->: <b><!--@Ecom:Order.Price.PriceWithVATFormatted--></b></label> <br />
+</p>
+<form action="/Default.aspx?ID=<!--@Global:Page.ID-->" method="POST">
+    <input type="hidden" name="Action" id="Action" value="Approve" />
+    <input type="hidden" name="CheckoutHandlerOrderID" id="CheckoutHandlerOrderID" value="<!--@Ecom:Order.ID-->" />
+    <!--@If Defined(Global:Extranet.UserName)-->
+    <div>
+        <!--@If Defined(Ecom:Order.SavedCardName)-->
+        <input type="checkbox" id="chkSaveCardToken" checked="checked" value="1">
+        <label for="chkSaveCardToken"><!--@Translate(savecardwithname, "Save user card with name")--></label>
+        <input type="text" id="CardTokenName" name="CardTokenName" placeholder="Card name" value="<!--@Ecom:Order.SavedCardName-->">
+        <!--@EndIf(Ecom:Order.SavedCardName)-->
+        <!--@If Not Defined(Ecom:Order.SavedCardName)-->
+        <input type="checkbox" id="chkSaveCardToken" value="1">
+        <label for="chkSaveCardToken"><!--@Translate(savecardwithname, "Save user card with name")--></label>
+        <input type="text" id="CardTokenName" name="CardTokenName" placeholder="Card name" value="">
+        <!--@EndIf(Ecom:Order.SavedCardName)-->
+        <input type="hidden" name="DontUseDraftCardName" id="DontUseDraftCardName" value="true" />
+    </div>
+    <!--@EndIf(Global:Extranet.UserName)-->
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<!--@Stripe.publishablekey-->"
+            data-image="<!--@Stripe.image-->"
+            data-name="<!--@Stripe.name-->"
+            data-description="<!--@Stripe.description-->"
+            data-currency="<!--@Stripe.currency-->"
+            data-amount="<!--@Stripe.amount-->"
+            data-locale="<!--@Stripe.language-->"
+            data-allow-remember-me=true>
+    </script>
+</form>
+
+

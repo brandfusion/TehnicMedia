@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="af83d598-7578-4078-b948-87fc73669c8c" Name="ArticoleSQL.query">
+  <Meta />
+  <Settings />
+  <Source Repository="SQLIndexes" Item="ArticoleSQL.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters>
+    <Parameter Name="Included" Type="System.Int32[]" DefaultValue="" />
+    <Parameter Name="Excluded" Type="System.Int32[]" DefaultValue="" />
+    <Parameter Name="ItemID" Type="System.String" DefaultValue="" />
+    <Parameter Name="PageID" Type="System.Int32[]" DefaultValue="" />
+    <Parameter Name="Sections" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Autori" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Tags" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Editions" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="StartDate" Type="System.DateTime" DefaultValue="" />
+    <Parameter Name="EndDate" Type="System.DateTime" DefaultValue="" />
+    <Parameter Name="Type" Type="System.String" DefaultValue="" />
+  </Parameters>
+  <ViewFields />
+  <ViewLanguages />
+  <CompletionRules />
+  <CompletionLanguages />
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="PageAreaID" />
+        </Left>
+        <Right>
+          <MacroExpression Lookup="Dynamicweb.Frontend.PageView.Context:WebsiteID" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="PageActive" />
+        </Left>
+        <Right>
+          <TermExpression Value="True" DisplayValue="True" Type="System.Boolean" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="PageHidden" />
+        </Left>
+        <Right>
+          <TermExpression Value="False" DisplayValue="False" Type="System.Boolean" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="GreaterThanOrEqual">
+        <Left>
+          <FieldExpression Field="PageActiveTo" />
+        </Left>
+        <Right>
+          <MacroExpression Lookup="Dynamicweb.Frontend.PageView.Context:DateTime.Now" />
+        </Right>
+      </BinaryExpression>
+      <GroupExpression Operator="And">
+        <BinaryExpression Operator="MatchAny">
+          <Left>
+            <FieldExpression Field="ItemTaguri" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="Tags" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="In">
+          <Left>
+            <FieldExpression Field="ItemEditie" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="Editions" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="Equal">
+          <Left>
+            <FieldExpression Field="ItemID" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="ItemID" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="In">
+          <Left>
+            <FieldExpression Field="PagePageID" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="PageID" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="In">
+          <Left>
+            <FieldExpression Field="ItemSectiuneParinteId" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="Sections" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="MatchAny">
+          <Left>
+            <FieldExpression Field="ItemAutori" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="Autori" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="Equal">
+          <Left>
+            <FieldExpression Field="ItemTip" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="Type" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+      <GroupExpression Operator="And">
+        <BinaryExpression Operator="LessThanOrEqual">
+          <Left>
+            <FieldExpression Field="ItemData" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="EndDate" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="GreaterThanOrEqual">
+          <Left>
+            <FieldExpression Field="ItemData" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="StartDate" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+    </GroupExpression>
+  </Expressions>
+  <SortOrder>
+    <Sort Field="ItemID" Direction="Descending" />
+  </SortOrder>
+</Query>

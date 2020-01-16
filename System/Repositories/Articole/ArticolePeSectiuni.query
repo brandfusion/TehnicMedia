@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="ba0a8ebc-8906-4bff-819a-946412a25ec1" Name="ArticolePeSectiuni.query">
+  <Settings />
+  <Source Repository="Articole" Item="Articole.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters>
+    <Parameter Name="Tip" Type="System.String" DefaultValue="" />
+    <Parameter Name="Sectiune" Type="System.Int32" DefaultValue="" />
+    <Parameter Name="Autor" Type="System.String" DefaultValue="" />
+    <Parameter Name="Companie" Type="System.String" DefaultValue="" />
+  </Parameters>
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Dw_Page_Tip" />
+        </Left>
+        <Right>
+          <ConstantExpression Value="Articole" Type="System.String" />
+        </Right>
+      </BinaryExpression>
+      <GroupExpression Operator="Or">
+        <BinaryExpression Operator="Equal">
+          <Left>
+            <FieldExpression Field="Dw_Page_SectiuneParinteId" />
+          </Left>
+          <Right>
+            <MacroExpression Lookup="Dynamicweb.Frontend.PageView.Context:PageID" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="Equal">
+          <Left>
+            <FieldExpression Field="Dw_Page_SectiuneSecundara" />
+          </Left>
+          <Right>
+            <MacroExpression Lookup="Dynamicweb.Frontend.PageView.Context:PageID" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="ListaAutori" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Autor" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="Companie" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Companie" />
+        </Right>
+      </BinaryExpression>
+      <GroupExpression Operator="And" Negate="True">
+        <BinaryExpression Operator="In">
+          <Left>
+            <FieldExpression Field="PageItemIdString" />
+          </Left>
+          <Right>
+            <MacroExpression Lookup="TTOnline.SectiuneArticole:SectiuneArticoleIds" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+    </GroupExpression>
+  </Expressions>
+  <SortOrder>
+    <Sort Field="Dw_Page_Data" Direction="Descending" />
+  </SortOrder>
+  <ViewFields />
+  <ViewLanguages />
+</Query>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="be3b6216-9352-4b11-83c6-77ea608a69f8" Name="Articole.query">
+  <Settings />
+  <Source Repository="Articole" Item="Articole.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters>
+    <Parameter Name="Autor" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="AutorName" Type="System.String[]" DefaultValue="" />
+    <Parameter Name="Tag" Type="System.String" DefaultValue="" />
+    <Parameter Name="Sectiune" Type="System.Int32" DefaultValue="" />
+    <Parameter Name="Companie" Type="System.Int32[]" DefaultValue="" />
+    <Parameter Name="RelevantaGeografica" Type="System.String[]" DefaultValue="" />
+  </Parameters>
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="ListaAutori" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Autor" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Dw_Page_Tip" />
+        </Left>
+        <Right>
+          <ConstantExpression Value="Articole" Type="System.String" />
+        </Right>
+      </BinaryExpression>
+      <GroupExpression Operator="Or">
+        <BinaryExpression Operator="MatchAny">
+          <Left>
+            <FieldExpression Field="Dw_Page_De_Companie" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="Companie" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="MatchAny">
+          <Left>
+            <FieldExpression Field="Dw_Page_Despre_Companie" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="Companie" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="MatchAny">
+          <Left>
+            <FieldExpression Field="Dw_Page_Si_Despre_Companie" />
+          </Left>
+          <Right>
+            <ParameterExpression Name="Companie" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+    </GroupExpression>
+  </Expressions>
+  <SortOrder>
+    <Sort Field="Dw_Page_Data" Direction="Descending" />
+  </SortOrder>
+</Query>

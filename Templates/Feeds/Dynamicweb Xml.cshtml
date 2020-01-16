@@ -1,0 +1,227 @@
+@using Dynamicweb.Rendering;
+@using Dynamicweb.Ecommerce.ProductCatalog;
+@using Newtonsoft.Json;
+@using System.Xml.Linq;
+@inherits ViewModelTemplate<ProductListViewModel>
+@functions
+{
+    public enum FieldType
+    {
+        System,
+        Standard,
+        Custom,
+        CategoryField
+    };
+
+    public class Field
+    {
+        public string ID { get; set; }
+        public FieldType FieldType { get; set; }
+        public string Label { get; set; }
+
+        public Field(string id, string label, FieldType type)
+        {
+            ID = id;
+            Label = label;
+            FieldType = type;
+        }
+    }
+
+
+    public string GenerateXML()
+    {
+        var fields = GetFields();
+
+        XDocument xdoc = new XDocument();
+
+        var rootElement = new XElement("Root");
+
+        foreach (ProductViewModel product in Model.Products)
+        {
+            ProcessProductXml(rootElement, fields, product);
+        }
+
+        xdoc.Add(rootElement);
+        return xdoc.ToString();
+    }
+
+    public List<Field> GetFields()
+    {
+        var fields = new List<Field>();
+
+        fields.Add(new Field("Id", "Id", FieldType.System));
+        fields.Add(new Field("VariantId", "Variant id", FieldType.System));
+        fields.Add(new Field("LanguageId", "Language id", FieldType.System));
+        fields.Add(new Field("Name", "Name", FieldType.Standard));
+        fields.Add(new Field("Number", "Number", FieldType.Standard));
+        fields.Add(new Field("ShortDescription", "Short description", FieldType.Standard));
+        fields.Add(new Field("LongDescription", "Long description", FieldType.Standard));
+        fields.Add(new Field("Price", "Price", FieldType.Standard));
+        fields.Add(new Field("Created", "Created", FieldType.System));
+
+        return fields;
+    }
+
+    private void ProcessProductXml(XElement rootElement, IEnumerable<Field> fields, ProductViewModel product)
+    {
+        var productElement = new XElement("Product");
+        var systemFieldsElement = new XElement("SystemFields");
+        var productFieldsElement = new XElement("ProductFields");
+        var customFieldsElement = new XElement("CustomFields");
+        var productCategoryFieldsElement = new XElement("ProductCategoryFields");
+
+        foreach (var field in fields)
+        {
+            if (field.FieldType == FieldType.System)
+            {
+                CreateLabelValueSection(systemFieldsElement, field, product);
+            }
+            else if (field.FieldType == FieldType.Standard)
+            {
+                if (field.ID == "Price")
+                {
+                    var priceElement = new XElement("Price");
+                    productFieldsElement.Add(priceElement);
+                    foreach (var priceProp in product.Price.GetType().GetProperties())
+                    {
+                        CreateLabelValueSection(priceElement, priceProp, product.Price);
+                    }
+                }
+                else
+                {
+                    CreateLabelValueSection(productFieldsElement, field, product);
+                }
+            }
+        }
+
+        if (product.ProductFields != null && product.ProductFields.Any())
+        {
+            foreach (var field in product.ProductFields)
+            {
+                CreateLabelValueSection(customFieldsElement, field.Value);
+            }
+        }
+
+        if (product.ProductCategories != null && product.ProductCategories.Any())
+        {
+            foreach (var category in product.ProductCategories)
+            {                
+                var productCategoryElement = new XElement(category.Value.Id);
+                productCategoryFieldsElement.Add(productCategoryElement);
+                foreach (var field in category.Value.Fields)
+                {
+                    CreateLabelValueSection(productCategoryElement, field.Value);
+                }
+            }
+        }
+
+        productElement.Add(systemFieldsElement);
+        productElement.Add(productFieldsElement);
+        productElement.Add(customFieldsElement);
+        productElement.Add(productCategoryFieldsElement);
+
+        rootElement.Add(productElement);
+    }
+
+    private void CreateLabelValueSection(XElement section, System.Reflection.PropertyInfo prop, object values)
+    {
+        if (section.Element("Labels") == null)
+        {
+            var labelsElement = new XElement("Labels");
+            section.Add(labelsElement);
+        }
+
+        if (section.Element("Values") == null)
+        {
+            var valuesElement = new XElement("Values");
+            section.Add(valuesElement);
+        }
+
+        //Labels
+        section.Element("Labels").Add(createLabelElement(prop.Name, prop.Name));
+
+        //Values
+        section.Element("Values").Add(createValueElement(prop.Name, Dynamicweb.Core.Converter.ToString(prop.GetValue(values))));
+    }
+
+    private void CreateLabelValueSection(XElement section, FieldValueViewModel field)
+    {
+        if (section.Element("Labels") == null)
+        {
+            var labelsElement = new XElement("Labels");
+            section.Add(labelsElement);
+        }
+
+        if (section.Element("Values") == null)
+        {
+            var valuesElement = new XElement("Values");
+            section.Add(valuesElement);
+        }
+
+        //Labels
+        section.Element("Labels").Add(createLabelElement(field.SystemName, field.Name));
+
+        var value = "";
+        if (field.Value != null && field.Value is List<FieldOptionValueViewModel>)
+        {
+            var options = (List<FieldOptionValueViewModel>)field.Value;
+            value = string.Join(",", options.Select(x => x.Value));
+        }
+        else {
+            value = Dynamicweb.Core.Converter.ToString(field.Value);
+        }
+        //Values
+        section.Element("Values").Add(createValueElement(field.SystemName, value));
+    }
+
+    private void CreateLabelValueSection(XElement section, Field field, ProductViewModel product)
+    {
+        if (section.Element("Labels") == null)
+        {
+            var labelsElement = new XElement("Labels");
+            section.Add(labelsElement);
+        }
+
+        if (section.Element("Values") == null)
+        {
+            var valuesElement = new XElement("Values");
+            section.Add(valuesElement);
+        }
+
+        //Labels
+        section.Element("Labels").Add(createLabelElement(field.ID, field.Label));
+
+        var value = Dynamicweb.Core.Converter.ToString(product.GetType().GetProperty(field.ID).GetValue(product, null));
+        //Values
+        section.Element("Values").Add(createValueElement(field.ID, value));
+    }
+
+    public XElement createLabelElement(string fieldId, string fieldLabel)
+    {
+        if (string.IsNullOrEmpty(fieldId))
+        {
+            fieldId = "empty";
+        }
+
+        var labelElement = new XElement(string.Format("{0}_Label", fieldId));
+        var nameAttribute = new XAttribute("name", fieldId);
+
+        labelElement.Add(nameAttribute);
+        labelElement.Value = fieldLabel;
+
+        return labelElement;
+    }
+
+    public XElement createValueElement(string fieldId, string fieldLabel)
+    {
+        var valueElement = new XElement(string.Format("{0}_Value", fieldId));
+        var nameAttribute = new XAttribute("name", fieldId);
+
+        valueElement.Add(nameAttribute);
+        valueElement.Value = fieldLabel;
+
+        return valueElement;
+    }
+}
+
+@GenerateXML()

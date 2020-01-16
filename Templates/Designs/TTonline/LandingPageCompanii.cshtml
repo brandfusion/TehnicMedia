@@ -1,0 +1,69 @@
+﻿@MasterPageFile("Master.cshtml")
+@GetValue("Title(Catalog Companii)")
+@GetValue("Description(Catalog Companii)")
+<div class="row main-body" data-stickyparent>
+  <!-- <div class="container"> -->
+  
+  @*<div class="col-md-4" data-stickycolumn >    
+    <aside class="sidebar clearfix">
+      @RenderNavigation(new {
+        startlevel = "1",
+        endlevel = "5",
+        template = "LandingPageNavigation.xslt",
+        id = "navLeftCompanii",
+        expandmode = "all"         
+      }) 
+    </aside> 
+  </div>*@
+  
+  
+  <div class="col-md-12">
+    <section class="admag-block">
+     @if(GetInteger("DwPageID") == 	8376){
+      <div class="row">
+      	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: -63px;">
+           <div class="breadcrumb-container ">
+             <ul class="breadcrumb" id="breadCrumbsMenu">
+                 <ul id="breadCrumbsMenu38" class="dwnavigation" settings="startlevel:1;endlevel:6;template:Breadcrumb.xslt;expandmode:Pathonly;includemode:all;id:breadCrumbsMenu38;"></ul>
+
+              <li>
+                     @GetString("DwPageName")
+                </li>
+
+             </ul>
+           </div>
+         </div>
+      </div>
+      }
+      <div class="row">  
+          <div class="dwcontent" id="maincontent" title="Main Content" data-settings="unwrap:true"></div>
+      </div> 
+       <div class="row" style="margin-bottom:20px; margin-top:20px;">
+        <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href='@Pageview.Area.Item["Link_Revista"]' alt='@Pageview.Area.Item["Link_Revista.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Revista"]'alt='@Pageview.Area.Item["Banner_Revista.Name"]' /></a></div>
+         <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href='@Pageview.Area.Item["Link_Catalog"]' alt='@Pageview.Area.Item["Link_Catalog.Name"]' target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"]'alt='@Pageview.Area.Item["Banner_Catalog.Name"]' /></a></div>
+       </div>
+    </section>
+   </div>
+</div>
+<!-- Google Analytics -->
+
+<script>
+
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+ga('create', 'UA-26068739-1', 'auto');
+
+ 
+
+// DIMENSIONS DECLARATION WHERE NEEDED
+
+ 
+
+ga('send', 'pageview');
+
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+
+<!-- End Google Analytics -->
+

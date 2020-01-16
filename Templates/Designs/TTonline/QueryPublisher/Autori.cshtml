@@ -1,0 +1,175 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Linq;
+@using System.Web;
+
+@Include("../Includes/ArticleHelper.cshtml") 
+@Include("../Includes/GetImage_new.cshtml") 
+    
+@{
+	string activeURL = "PageNum=" + GetString("DwPaging.CurrentPage"); 
+	string numarPagina = System.Web.HttpContext.Current.Request.Params["PageNum"];
+}
+
+    <div class="row">
+
+	      @foreach (var result in GetLoop("QueryResultItem")) {		 					      	
+
+	    		string title = result.GetString("Dw_Page_Titlu");
+					string description = result.GetString("Dw_Page_Sumar");
+					string url = result.GetString("ItemPublisher:Item.Url");
+      
+					string imageRaw = result.GetString("Dw_Page_ImaginePrincipala");
+      				 string image = !string.IsNullOrEmpty(imageRaw) ? GetImage(imageRaw, 240, 155) + "&bgcolor=white"  : "/Files/Images/NoImage/240x155.png";  
+      			
+      
+      
+  				string sectiune = result.GetString("Dw_Page_SectiuneParinte");
+  				string sectiuneID = result.GetString("Dw_Page_SectiuneParinteId");
+  				string pageID = result.GetString("PageId");
+  				string link = "Default.aspx?ID="+pageID;
+  				string sectionLink = "Default.aspx?ID="+sectiuneID;
+  				string sectionClass= "bg"+@sectiuneID;
+					DateTime date = result.GetDate("Dw_Page_Data");
+					string data = date.ToString("dd MMMM yyyy");
+					string pageLink = GetString("DwPaging.FirstPageLink");
+					string queryAutor = HttpContext.Current.Request.QueryString["autor"];
+  				var autori = GetAutori(queryAutor);
+  				var numeAutor = autori.FirstOrDefault().Name;
+
+  			
+
+					<article class="simple-post simple-big clearfix col-md-12 separator-articole media">		
+						<div class="simple-thumb media-left media-top" style="width: 265px;">
+					        <a href="@link">
+					          <figure class="image-overlay">
+					            <img src="@image">
+					          </figure>
+					        </a> 
+				    </div>
+
+					  <header class="media-body">
+			        <p class="simple-share" style="color: #bbbbbb; font-weight: 400;">
+			        	<a href="@sectionLink" class="link-autor" style="color: #999999 !important; font-weight: 400 !important;">@sectiune</a> 
+			        	<span style="margin: 0;">/</span>
+			        	@Translate("articolde","de")        
+			          <a href="@pageLink" class="link-autor" style="color: #999999 !important; font-weight: 400 !important;">@numeAutor</a>
+			          <span>- <i class="fa fa-clock-o"></i> @data</span>
+			        </p>
+
+			        <h3>
+			          <a href="@link">@title</a>
+			        </h3>
+
+			        @description
+				    </header>
+	        </article> 
+
+
+		    }
+	</div>
+
+
+
+
+
+@if(GetInteger("DwPaging.PageCount") >1)
+{
+<nav>
+    <ul class="pagination pagination-sm">
+
+
+        @if(GetInteger("DwPaging.CurrentPage") >1)
+      	{
+			<li>
+			    
+          <a style="margin-right: 0.2em" href="@GetValue("DwPaging.FirstPageLink")">«  </a>
+          <a href='@GetValue("DwPaging.PreviousPageLink")' aria-label='@Translate("paginaAnterioara", "Pagina anterioara")'><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></a>
+          
+            
+			</li>
+		}
+
+	@foreach (LoopItem i in GetLoop("DwPaging.LoopPageGroup")) {
+
+		if(GetBoolean("PageGroup.PageNumber")) {
+			<li class="active">@i.GetValue("PageGroup.PageNumber")</li>
+		} else {
+			<li><a href='@i.GetValue("PageGroup.PageLink")'>@i.GetValue("PageGroup.PageNumber")</a></li>
+		}
+
+
+	}
+
+	        @if(GetInteger("DwPaging.PageCount") > GetInteger("DwPaging.CurrentPage"))
+			{
+	            <li>
+	                <a href='@GetValue("DwPaging.NextPageLink")' aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></a>
+	                <a href='@GetValue("DwPaging.LastPageLink")'>» </a>
+	            </li>
+	        }
+
+
+			
+        
+
+    </ul>
+</nav>
+}
+
+<script>
+
+  $(function(){
+
+
+    function getURL(url) {
+        name = url.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]').replace("&amp;" , "&").replace("&amp;" , "&");
+
+        return name;
+    }
+
+    // get URL value
+    var query = getURL("@activeURL");
+    var listOfLi =  $("ul.pagination.pagination-sm li a");
+
+ 	console.log("query" , query);
+    // if the URL does not contains 'page' , make the first li active
+    // if(query.indexOf("PageNum") != 0) {
+    //   $("ul.pagination.pagination-sm li:first").addClass("active");
+    // }
+
+
+    // remove PID=153 from each li url
+    $.each(listOfLi , function(index , element){
+    	var replacement = $(element).attr("href").replace("&PID=153" , "");
+    	$(element).attr("href" , replacement);
+    });
+
+
+    var firstTimeOnPage = _.includes(query , "PageNum");
+
+    if(!firstTimeOnPage) {
+    	$("ul.pagination.pagination-sm li:first").addClass("active");
+    }
+
+
+
+    // check if URL value is equal to any of li's URL value
+    _.map(listOfLi , function(obj){
+
+      var liURL = $(obj).attr("href").replace("/" , "").replace("&PID=153" , "");
+      var included = _.includes(liURL , query);
+
+      if(included) {
+      	$(obj).parent().addClass("active");
+      }
+
+    }); 
+
+  });
+
+
+</script> 
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>  

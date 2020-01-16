@@ -1,0 +1,29 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  
+    @if(GetValue("Ecom:Group.Name") != null) {
+       <h1><text>@GetValue("Ecom:Group.Name")</text></h1>
+       <p>@GetValue("Ecom:Group.Description")</p>
+    } else {
+       <h1><text>@GetGlobalValue("Global:Page.Name")</text></h1>
+    }                  
+    <div class="col-xs-12 reset-padding-left">
+      <div class="row category-list clearfix">
+        
+      </div>
+    </div>    
+  </div>   
+
+</div>  
+ 
+
+@SnippetStart("bottomJS")
+<script src="@areaLayoutPath/assets/js/menu_landing.js"></script>
+@SnippetEnd("bottomJS")
+      
+   

@@ -1,0 +1,26 @@
+﻿@{
+int CatalogID = companie["CataloageProduse"] != null ? (int)companie["CataloageProduse"] : 0;
+
+		if(CatalogID != 0){
+		 var ListaCatalog = Dynamicweb.Content.Items.ItemList.GetItemListById(CatalogID);
+
+			 if(ListaCatalog != null) {
+			        
+			      foreach( var ElementID in ListaCatalog.Relations){
+			        var Element = new Dynamicweb.Content.Items.Item(ElementID);
+
+								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+			                      <div class="col-xs-12">@Element["Titlu"]</div>
+			                      <div class="col-md-12"><a href='@Element["Fisier"]' target="_blank"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></a></div>
+			                     
+			                    </div>
+
+
+			 		} <!--foreachElementID-->
+			 }  
+		} 
+
+}
+
+
+

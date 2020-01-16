@@ -1,0 +1,41 @@
+<div class="container ">
+	<div class="jx-section-title-1 mb40 pt40">
+		<div class="jx-pre-title">
+			<div class="jx-title-border left" style="background: #fff;"></div>
+			<div class="jx-title-icon"><i class="line-icon icon-heart" style="color: #fff !important"></i></div>
+			<div class="jx-title-border right" style="background: #fff;"></div> 
+		</div>
+		<div class="jx-title" style="color: #fff;">Testimoniale</div>
+	</div>
+
+	<div class="jx-testimonial">		
+		<div class="flexslider-testimonial">
+			<ul class="slides">
+
+			@foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")) {
+				foreach(LoopItem i in item.GetLoop("ItemPublisher:Item.TestimonialList")) {
+					string testimonialTitle = i.GetString("ItemPublisher:Item.TestimonialList.Title");
+					string text = i.GetString("ItemPublisher:Item.TestimonialList.Text");
+					string image = i.GetString("ItemPublisher:Item.TestimonialList.Image");
+					bool onHomepage = i.GetBoolean("ItemPublisher:Item.TestimonialList.ArataPe_Homepage");
+
+					if (onHomepage) {
+						<li>
+							<div class="jx-testimonial-item">
+								<div class="jx-photo"><img width="176" height="178" src="@image" class="attachment-testimonial wp-post-image" alt="team-1" /></div>
+								<div class="jx-testimonial-content">
+									<div class="jx-name"><i class="fa fa-quote-left"></i><span>@testimonialTitle</span></div>
+									<div class="jx-content">@text</div>
+								</div>
+								<div class="clearfix"></div>	 
+							</div>
+						</li>
+					}
+
+				}
+			}
+				
+			</ul>
+		</div>
+	</div>
+</div>

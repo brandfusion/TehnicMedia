@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Query ID="60c0b586-53a8-428e-97ef-72c4544c709b" Name="StiriPeSectiune">
+  <Settings />
+  <Source Repository="Articole" Item="Articole.index" Type="Dynamicweb.Indexing.Queries.IndexQueryProvider, Dynamicweb.Indexing" />
+  <Parameters>
+    <Parameter Name="Sectiune" Type="System.Int32" DefaultValue="" />
+    <Parameter Name="Companie" Type="System.String" DefaultValue="" />
+    <Parameter Name="Autor" Type="System.String" DefaultValue="" />
+  </Parameters>
+  <Expressions>
+    <GroupExpression Operator="And">
+      <BinaryExpression Operator="Equal">
+        <Left>
+          <FieldExpression Field="Dw_Page_Tip" />
+        </Left>
+        <Right>
+          <ConstantExpression Value="Stiri" Type="System.String" />
+        </Right>
+      </BinaryExpression>
+      <GroupExpression Operator="Or">
+        <BinaryExpression Operator="Equal">
+          <Left>
+            <FieldExpression Field="Dw_Page_SectiuneParinteId" />
+          </Left>
+          <Right>
+            <MacroExpression Lookup="Dynamicweb.Frontend.PageView.Context:PageID" />
+          </Right>
+        </BinaryExpression>
+        <BinaryExpression Operator="Equal">
+          <Left>
+            <FieldExpression Field="Dw_Page_SectiuneSecundara" />
+          </Left>
+          <Right>
+            <MacroExpression Lookup="Dynamicweb.Frontend.PageView.Context:PageID" />
+          </Right>
+        </BinaryExpression>
+      </GroupExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="Companie" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Companie" />
+        </Right>
+      </BinaryExpression>
+      <BinaryExpression Operator="MatchAny">
+        <Left>
+          <FieldExpression Field="ListaAutori" />
+        </Left>
+        <Right>
+          <ParameterExpression Name="Autor" />
+        </Right>
+      </BinaryExpression>
+    </GroupExpression>
+  </Expressions>
+</Query>

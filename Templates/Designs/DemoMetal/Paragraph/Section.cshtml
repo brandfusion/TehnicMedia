@@ -1,0 +1,53 @@
+﻿@{
+	string image = GetString("Item.Image");
+	string title = GetString("Item.Title");
+	string text = GetString("Item.Text");
+	string icon = GetString("Item.Icon");
+	string align = GetString("Item.Alignment");
+}
+
+<div class="container mt30 pb94">
+
+			<div class="eight columns @align">
+				<img src="@image">
+			</div>
+
+			<div class="seven columns">
+
+    	<div class="jx-section-title-1 mb40">
+            <div class="jx-pre-title jx-short-border">
+                <div class="jx-title-border left"></div>
+                <div class="jx-title-icon"><i class="fa fa-@icon" style="color: #000 !important;"></i></div>
+                <div class="jx-title-border right"></div> 
+            </div>
+            <div class="jx-title">@title</div>
+     
+
+      <div class="service-description mb20">
+				<div class="jx-subtitle">@text</div>
+			</div>
+		 </div>
+			<div class="service-btn">
+
+				@foreach(LoopItem item in GetLoop("Item.LinkList")) {
+					string link = item.GetString("Item.LinkList.Link");
+					string linkTitle = item.GetString("Item.LinkList.Text");
+					string linkIcon = item.GetString("Item.LinkList.Icon");
+					if(!string.IsNullOrEmpty(item.GetString("Item.LinkList.Icon"))){
+              
+             
+					<a href="@link" class="jx-btn-default"><i class="@linkIcon"></i>@linkTitle</a>
+
+					 }
+						else{
+
+					<a href="@link" class="jx-btn-default">@linkTitle</a>
+				}
+						
+				}
+
+			</div>
+
+		</div>
+
+  </div>

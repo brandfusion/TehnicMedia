@@ -1,0 +1,31 @@
+﻿@using BrandFusion.Dw.TTOnline;		
+
+@foreach (LoopItem result in GetLoop("QueryResultItem")) {	
+          
+		       	string logoRaw = result.GetString("Logo"); 
+          		string logo = !string.IsNullOrEmpty(logoRaw) ? GetImage(logoRaw, 255, 168) +  "&bgcolor=white" : "/Files/Images/NoImage/255x168.png"; 
+          		
+              	string name = result.GetString("Name");
+                string summary = result.GetString("Summary");
+				string idcompanie = result.GetInteger("Id").ToString();
+				string Link = idcompanie;
+//string Link= TTOnlineUrlFacade.GenerateLinkForCompanii2(idcompanie, name);
+
+//string Link = result.GetString("Link");
+                
+                string categorie = result.GetString("Sectiune");
+                string tipClient = result.GetString("TipClient");
+                string locatie = result.GetString("RelevantaGeografica");
+
+int nrProduseSort = result.GetInteger("ProductCountSortable");
+
+int nrProduse = result.GetString("RepresentativeProducts").Count() == 0 ? result.GetString("RepresentativeProducts").Count() : result.GetInteger("ProductCountSortable");
+                string produs = nrProduse == 1 ? "produs" : "produse";
+          		string linkPremium = result.GetString("Page_Link");
+          		bool afiseazaCompanie = result.GetBoolean("Afiseaza_Companie");
+          		bool CompaniePromovata = result.GetBoolean("Promovata");
+
+				
+	
+				
+		

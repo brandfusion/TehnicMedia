@@ -1,0 +1,148 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+<div id="productdetails">
+    <div class="col-md-6">
+        @if (!string.IsNullOrWhiteSpace(GetString("Ecom:Product.ImageLarge.Default.Clean")))
+        {
+            <a href="@GetValue("Ecom:Product.ImageLarge.Default.Clean")" target="_blank">
+                <img src="@GetValue("Ecom:Product.ImageLarge.Default.Clean")" class="img-responsive" style="height:300px;" />
+            </a>
+        }
+        @if (string.IsNullOrWhiteSpace(GetString("Ecom:Product.ImageLarge.Default.Clean")))
+        {
+            <img src="@GetValue("Ecom:Product.ImageMedium.Default.Clean")" class="img-responsive" />
+        }
+    </div>
+    <div class="col-md-6">
+        <h3>@GetValue("Ecom:Product.Name")</h3>
+
+        @if (GetInteger("Ecom:Product.VariantCount") == 0)
+        {
+            <span class="price">
+                @if (GetDouble("Ecom:Product.Discount.Price.PriceWithVAT") == GetDouble("Ecom:Product.Price.Price"))
+                {
+                    <text>Price: </text>
+                    @GetValue("Ecom:Product.Price")
+                }
+                else
+                {
+                    <text>Old price:</text>
+                    <s>@GetValue("Ecom:Product.Price")</s>
+                    <text>Sale price:</text>
+                    <mark>@GetValue("Ecom:Product.Discount.Price.PriceWithVATFormatted")</mark>
+                }
+            </span>
+
+            <br />
+
+            <span class="shortdescription"><small>@GetValue("Ecom:Product.ShortDescription")</small></span>
+            <span class="longdescription">@GetValue("Ecom:Product.LongDescription")</span>
+
+            <form method="post" role="form">
+                <input type="hidden" name="ProductID" value="@GetValue("Ecom:Product.ID")" />
+                <button type="submit" name="CartCmd" value="add" class="btn btn-default">@Translate("Add to cart")</button>
+            </form>
+
+            @* Buy with loyalty points start *@
+                var productPoints = GetDouble("Ecom:Product.PointPrice");
+                if (productPoints > 0)
+                {
+                    <span class="points">@productPoints @Translate("Points", "Points")</span>
+                    var user = Dynamicweb.Modules.UserManagement.User.get_Current(Dynamicweb.Modules.UserManagement.PagePermissionLevels.Frontend);
+                    if (user == null)
+                    {
+                        <div class="alert alert-info">@Translate("Sign in to buy this product using points")</div>
+                    }
+                    else
+                    {
+                        var availablePoints = user != null ? user.PointBalance : 0;
+                        var cart = Dynamicweb.eCommerce.Common.Context.Cart;
+                        var pointsUsedInCart = cart != null ? cart.TotalPoints : 0;
+
+                        if (availablePoints < productPoints + pointsUsedInCart)
+                        {
+                            <div class="alert alert-danger">@string.Format(Translate("You don't have enough points to buy this product using points ({0:0.00}/{1:0.00})"), availablePoints, productPoints + pointsUsedInCart)</div>
+                        }
+                        else
+                        {
+                            <form method="post" role="form">
+                                <input type="hidden" name="ProductID" value="@GetValue("Ecom:Product.ID")" />
+                                <button type="submit" class="btn btn-default" name="CartCmd" value="addWithPoints">@Translate("Add with points")</button>
+                            </form>
+                        }
+                    }
+                }
+                @* Buy with loyalty points end *@
+        }
+
+        @if (GetInteger("Ecom:Product.VariantCount") > 0)
+        {
+            <span class="shortdescription"><small>@GetValue("Ecom:Product.ShortDescription")</small></span>
+            <span class="longdescription">@GetValue("Ecom:Product.LongDescription")</span>
+            <h4>Variants </h4>
+            <table class="table table-hover">
+                @foreach (LoopItem i in GetLoop("VariantCombinations"))
+                {
+                    if (String.Equals(i.GetValue("Ecom:VariantCombination.VariantID"), GetValue("Ecom:Product.VariantID.Extented")))
+                    {
+                        <tr class="active">
+                            <td><a href="@i.GetValue("Ecom:VariantCombination.Link.Clean")">@i.GetValue("Ecom:VariantCombination.VariantText")</a></td>
+                            <td>
+                                @if (i.GetDouble("Ecom:Product.Discount.Price.PriceWithVAT") == i.GetDouble("Ecom:Product.Price.Price"))
+                                {
+                                    <text>Price: </text>
+                                    @GetValue("Ecom:Product.Price")
+                                }
+                                else
+                                {
+                                    <text>Old price:</text>
+                                    <s>@i.GetValue("Ecom:Product.Price")</s>
+                                    <text>Sale price:</text>
+                                    <mark>i.@GetValue("Ecom:Product.Discount.Price.PriceWithVATFormatted")</mark>
+                                }
+                            </td>
+                            <td>
+                                <form method="post" role="form">
+                                    <input type="hidden" name="ID" value="@GetValue("Ecom:Product:Page.ID")" />
+                                    <input type="hidden" name="ProductID" value="@GetValue("Ecom:Product.ID")" />
+                                    <input type="hidden" name="VariantID" value="@i.GetValue("Ecom:VariantCombination.VariantID")" />
+                                    <input type="hidden" name="CartCmd" value="add" />
+                                    <button type="submit" class="btn btn-default">Add to basket</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td><a href="@i.GetValue("Ecom:VariantCombination.Link.Clean")">@i.GetValue("Ecom:VariantCombination.VariantText")</a></td>
+                            <td>
+                                @if (i.GetDouble("Ecom:Product.Discount.Price.PriceWithVAT") == i.GetDouble("Ecom:Product.Price.Price"))
+                                {
+                                    <text>Price: </text>
+                                    @GetValue("Ecom:Product.Price")
+                                }
+                                else
+                                {
+                                    <text>Old price:</text>
+                                    <s>@i.GetValue("Ecom:Product.Price")</s>
+                                    <text>Sale price:</text>
+                                    <mark>@i.GetValue("Ecom:Product.Discount.Price.PriceWithVATFormatted")</mark>
+                                }
+                            </td>
+                            <td>
+                                <form method="post" role="form">
+                                    <input type="hidden" name="ID" value="@GetValue("Ecom:Product:Page.ID")" />
+                                    <input type="hidden" name="ProductID" value="@GetValue("Ecom:Product.ID")" />
+                                    <input type="hidden" name="VariantID" value="@i.GetValue("Ecom:VariantCombination.VariantID")" />
+                                    <input type="hidden" name="CartCmd" value="add" />
+                                    <button type="submit" class="btn btn-default">Add to basket</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        }
+    </div>
+</div>

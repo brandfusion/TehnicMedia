@@ -1,0 +1,414 @@
+﻿@using Dynamicweb.Frontend
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/VerifyImage.cshtml")
+@{
+	string activeURL = "PageNum=" + GetString("DwPaging.CurrentPage"); 
+	string numarPagina = System.Web.HttpContext.Current.Request.Params["PageNum"];
+string queryString = GetGlobalValue("Global:Request.Query").Replace("&PageNum="+GetString("DwPaging.CurrentPage"),"");
+}
+
+
+@{
+
+  string verificare = System.Web.HttpContext.Current.Request.Params["Tip"];
+  string verificare2 = System.Web.HttpContext.Current.Request.Params["Companie"];
+  string verificare3 = System.Web.HttpContext.Current.Request.Params["Autor"];
+	string pageId = System.Web.HttpContext.Current.Request.Params["ID"];
+	string sectiuneId = System.Web.HttpContext.Current.Request.Params["Sectiune"];
+  string pagelink = GetString("DwPaging.FirstPageLink");
+  int globalPageID = 0;
+  List <LoopItem> Autori = new List<LoopItem>();
+  List <LoopItem> Companii = new List<LoopItem>();  
+
+  foreach (LoopItem parameter in GetLoop("FacetGroups"))
+      {   
+        foreach (LoopItem facet in parameter.GetLoop("Facets")) {
+            if (facet.GetString("Facet.Name") == "Autori") {
+            Autori = facet.GetLoop("FacetOptions");
+            }
+    
+          if (facet.GetString("Facet.Name") == "Companii") {
+            Companii = facet.GetLoop("FacetOptions");
+          }
+          
+
+        }      
+      }
+
+
+
+}
+@*
+
+<div class="row row-filtre-sectiune" style="background-color:#f5f5f5; padding:10px 10px 10px;" data-page-link="@pagelink">
+                   <h3 class="block-title"><span>Filtreaza:</span></h3>
+
+
+
+                    <!-- Filtru de Autori-->
+                   <div class="col-xs-6">
+                   <select class="select-test" name="AutoriSectiune" >
+                      <option value="ValoareaDefault" selected data-groupid="AutorDefault">Autor</option>
+                            @foreach(LoopItem autor in Autori) {
+
+
+                                                  string facetValue = autor.GetString("FacetOption.Value");
+                                  var facetObject = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Autori", facetValue);
+                                  object facetNameRaw = facetObject != null ? facetObject["Name"] : null;
+                                  string facetName = facetNameRaw != null ? facetNameRaw.ToString() : "";  
+                                  var facetGroup = Dynamicweb.Ecommerce.Products.Group.GetGroupById(facetValue);
+                                                  string facetGroupName = facetGroup != null ? facetGroup.Name : "Autori";
+                                                  string facetCount = autor.GetString("FacetOption.Count");
+                                                  bool isSelected = facetValue == verificare3 ? true : false;
+
+
+
+                                                  if (String.IsNullOrEmpty(facetName)) {
+                                                      facetName = "Autori";
+                                                  }
+
+                                if (isSelected == true ) {
+
+                                                <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount)</option>
+
+                                                }   
+
+                                            else {
+                                                <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                            }
+                                                  
+								}
+
+
+                   </select>
+                   </div>
+                    <!-- End Filtru autori-->
+                   <!-- Filtru de companii-->
+                      <div class="col-xs-6">
+                          <select class="select-test" name="Companie">
+                      <option value="ValoareaDefault" selected data-groupid="CompanieDefault">Companie</option>
+                      @foreach(LoopItem companie in Companii) {
+
+                                                  string facetValue = companie.GetString("FacetOption.Value");
+                                  var facetObject = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Companii", facetValue);
+                                  object facetNameRaw = facetObject != null ? facetObject["Name"] : null;
+                                  string facetName = facetNameRaw != null ? facetNameRaw.ToString() : "";   
+
+                                                  var facetGroup = Dynamicweb.Ecommerce.Products.Group.GetGroupById(facetValue);
+                                                  string facetGroupName = facetGroup != null ? facetGroup.Name : "Companii";
+                                                  string facetCount = companie.GetString("FacetOption.Count");
+                                                  bool isSelected = facetValue == verificare2 ? true : false;
+
+                                                  if (facetValue == "") {
+                                                      facetValue = "Companii";
+                                                  }
+
+                                          if (isSelected == true ) {
+
+                                                              <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount)</option>
+
+                                                          }   
+
+                                                      else {
+                                                          <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                                      }
+                                              }
+
+
+                          </select>
+                       </div>
+                    <!-- End Filtru companii-->
+
+                          <!-- Resetare filtre -->
+                          <div class="col-xs-6">
+                            <a class="btn btn-primary" href="/Default.aspx?ID=@pageId">Resetare Filtre</a>  
+                          </div> 
+                          <!--Resetare filtre end --> 
+
+
+</div> 
+
+*@
+
+
+
+
+
+
+
+
+<div>
+    <div class="row">
+       @if (GetLoop("QueryResultItem").Any()) { 
+        foreach (var item in GetLoop("QueryResultItem"))
+        {
+
+            string description = item.GetString("Dw_Page_Sumar");
+            string url = "/Default.aspx?ID=" + item.GetInteger("PageId");
+			int idArticole = item.GetInteger("PageId");
+            DateTime date = item.GetDate("Dw_Page_Data");
+
+            string articleTitle = item.GetString("Dw_Page_Titlu");
+            string itemAuthor = "";
+            var articleDate = date;
+            string articleLink = url;
+      
+            string articleImageRaw = item.GetString("Dw_Page_ImaginePrincipala");
+      		string articleImage = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 255, 168) : ""; 
+ 	 		articleImage = articleImage + "&bgcolor=white";
+      
+      
+            string articleExcerpt = item.GetString("Dw_Page_Sumar");
+            string articleVisits = item.GetString("Dw_Page_Visits");
+            bool itemConditionVisits = false; // item.GetBoolean("Dw_Page_Vizite");
+            string itemAutori = string.Join(",", (item.GetValue("Dw_Page_Autori") as IList<string>) ?? new List<string> { item.GetString("Dw_Page_Autori") }); //item.GetString("Dw_Page_Autori");
+            string articleSectiune = item.GetString("Dw_Page_SectiuneParinte");
+            int articleSectiuneID = item.GetInteger("Dw_Page_SectiuneParinteId");
+            string itemSections = "";
+            List<Autor> articleAutori = GetAutori(itemAutori);
+            List<Sectiune> articleSections = GetSectiuni(itemSections);
+	
+            @Include("../Lists/Articole-LP-Sectiune-1col-image-summary-small.cshtml")
+
+           }
+       } else
+       {
+           <h4>Nu exista articole</h4>
+       }
+    </div>
+
+
+</div>
+ @{
+	int currentPage = GetInteger("DwPaging.CurrentPage");
+	int totalPages = GetInteger("DwPaging.PageCount");
+    string nextPage = GetString("DwPaging.NextPageLink");
+    string previousPage = GetString("DwPaging.PreviousPageLink");
+    string firstPageLink = GetString("DwPaging.FirstPageLink");
+    string lastPageLink = GetString("DwPaging.LastPageLink");
+    
+    
+}
+        
+           
+      @if (GetInteger("DwPaging.PageCount") > 1)
+          {
+              <nav>
+                  <ul class="pagination pagination-sm">
+                          @if (GetInteger("DwPaging.CurrentPage") > 1)
+                          {
+
+
+                             	<li class="test">
+
+                               				 <a style="margin-right: 0.2em" href='@("Default.aspx"+queryString+"&page=1")'>«  </a>
+								</li>
+        
+        						<li>
+                                      <a href="@previousPage" aria-label='@Translate("paginaAnterioara", "Pagina anterioara")'><span aria-hidden="true"><i class="fa fa-angle-left"></i></span>
+
+                                      </a>
+								</li>
+                              
+
+
+                               }
+							
+								
+           					 
+                              @{
+											    int firstPage = currentPage - 2;
+											    if (firstPage < 1) 
+											    {
+											        firstPage = 1;
+											    }
+											    if (firstPage > 1) 
+											    {
+											        <li class="disabled"><a href="javascript:void(0);">...</a></li>
+											    }
+											    int lastPage = currentPage + 2;
+											    if (lastPage > totalPages) 
+											    {
+											        lastPage = totalPages;
+											    }
+											    for (int i = firstPage; i <= lastPage; i++)
+											    {
+											        if (i == currentPage)
+											        {
+											            <li class="active disabled"><a href="javascript:void(0);">@i </a></li>
+											        }
+											        else
+											        {
+											            <li><a href='@("Default.aspx"+queryString+"&PageNum="+ i)'>@i</a></li>
+											        }
+											    }
+											    if (lastPage < totalPages) 
+											    {
+											        <li class="disabled"><a href="javascript:void(0);">...</a></li>
+											    }
+											   
+									}
+            					
+							
+                              @if(GetInteger("DwPaging.CurrentPage") < GetInteger("DwPaging.PageCount"))
+                               {
+                              <li>
+                                  <a href='@GetValue("DwPaging.NextPageLink")' aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></a>
+                                  <a href="@lastPageLink">» </a>
+                              </li>
+                              }
+
+
+
+                      </ul>
+              </nav>
+
+
+          }
+      
+      
+@*
+@if (GetInteger("DwPaging.PageCount") > 1)
+{
+    <div id="productlistnavigation">
+        <div class="row" id="pagenavigation">
+            <div class="col-sm-4">
+                @if (GetInteger("DwPaging.CurrentPage") > 1)
+                {
+                    <a href='@GetValue("DwPaging.PreviousPageLink")' class="prev">Previous</a>  }
+
+            </div>
+            <div class="col-sm-4 text-center" id="pagecount">
+                Page @GetValue("DwPaging.CurrentPage") of @GetValue("DwPaging.PageCount")
+            </div>
+            <div class="col-sm-4 text-right">
+                @if (GetInteger("DwPaging.CurrentPage") < GetInteger("DwPaging.PageCount"))
+                {
+                    <a href='@GetValue("DwPaging.NextPageLink")' class="next">Next</a>  }
+
+            </div>
+        </div>
+    </div>
+}
+@if(GetInteger("DwPaging.PageCount") >1)
+{
+<nav>
+    <ul class="pagination pagination-sm">
+
+
+        @if(GetInteger("DwPaging.CurrentPage") >1)
+      	{
+			<li>
+			    
+          <a style="margin-right: 0.2em" href="@GetValue("DwPaging.FirstPageLink")">«  </a>
+          <a href='@GetValue("DwPaging.PreviousPageLink")' aria-label='@Translate("paginaAnterioara", "Pagina anterioara")'><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></a>
+          
+            
+			</li>
+		}
+
+	@foreach (LoopItem i in GetLoop("DwPaging.LoopPageGroup")) {
+
+		if(GetBoolean("PageGroup.PageNumber")) {
+			<li class="active">@i.GetValue("PageGroup.PageNumber")</li>
+		} else {
+			<li><a href='@i.GetValue("PageGroup.PageLink")'>@i.GetValue("PageGroup.PageNumber")</a></li>
+		}
+
+
+	}
+
+	        @if(GetInteger("DwPaging.PageCount") > GetInteger("DwPaging.CurrentPage"))
+			{
+	            <li>
+	                <a href='@GetValue("DwPaging.NextPageLink")' aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></a>
+	                <a href='@GetValue("DwPaging.LastPageLink")'>» </a>
+	            </li>
+	        }
+
+
+			
+        
+
+    </ul>
+</nav>
+}
+
+<script>
+
+  $(function(){
+
+
+    function getURL(url) {
+        name = url.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]').replace("&amp;" , "&").replace("&amp;" , "&");
+
+        return name;
+    }
+
+    // get URL value
+    var query = getURL("@activeURL");
+    var listOfLi =  $("ul.pagination.pagination-sm li a");
+
+ 	console.log("query" , query);
+    // if the URL does not contains 'page' , make the first li active
+    // if(query.indexOf("PageNum") != 0) {
+    //   $("ul.pagination.pagination-sm li:first").addClass("active");
+    // }
+
+
+    // remove PID=153 from each li url
+    $.each(listOfLi , function(index , element){
+    	var replacement = $(element).attr("href").replace("&PID=153" , "");
+    	$(element).attr("href" , replacement);
+    });
+
+
+    var firstTimeOnPage = _.includes(query , "PageNum");
+
+    if(!firstTimeOnPage) {
+    	$("ul.pagination.pagination-sm li:first").addClass("active");
+    }
+
+
+
+    // check if URL value is equal to any of li's URL value
+    _.map(listOfLi , function(obj){
+
+      var liURL = $(obj).attr("href").replace("/" , "").replace("&PID=153" , "");
+      var included = _.includes(liURL , query);
+
+      if(included) {
+      	$(obj).parent().addClass("active");
+      }
+
+    }); 
+
+  });
+
+
+</script> 
+*@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>  
+<!-- Google Analytics -->
+
+<script>
+
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+ga('create', 'UA-26068739-1', 'auto');
+
+ 
+
+// DIMENSIONS DECLARATION WHERE NEEDED
+
+ 
+
+ga('send', 'pageview');
+
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+
+<!-- End Google Analytics -->
