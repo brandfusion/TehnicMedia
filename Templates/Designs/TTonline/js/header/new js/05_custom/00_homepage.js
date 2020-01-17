@@ -1,6 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function(event) {
-    console.log("TEST");
+
     if (document.getElementById('HomePageSlider') !== null) {
         loadFirstView();
     }
@@ -9,17 +9,27 @@ document.addEventListener('DOMContentLoaded', function(event) {
 function loadFirstView() {
     var homePageSliderWrapper = document.getElementById('HomePageSlider');
     var homepageSliderTemplate = document.getElementById('HomepageSliderTemplate');
-    var urlFeed =homePageSliderWrapper.getAttribute("data-json-feed");
+    var urlFeed = homePageSliderWrapper.getAttribute("data-json-feed");
     axios({
         method:'get',
         url:urlFeed
     })
-        .then(function (response) {
-            console.log(response, 'this is the response');
-            
+        .then(function (response) {            
             var theScriptHTML = homepageSliderTemplate !== null ? homepageSliderTemplate.innerHTML : "";
             var theTemplate = Handlebars.compile(theScriptHTML);
             homePageSliderWrapper.innerHTML = theTemplate(response.data[0]);
+
+            $('.flexslider').flexslider({
+                selector: ".featured-slider > .slider-item",
+                maxItems: 1,
+                minItems: 1,
+                startAt: 0,
+                animation:"slide",
+                slideshow: true,
+                controlNav: false,
+                nextText:'<i class="fa fa-angle-right"></i>',
+                prevText:'<i class="fa fa-angle-left"></i>'
+            });
         })
         .catch(function (error) {
             // handle error
