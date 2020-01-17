@@ -3,7 +3,7 @@
 @if(GetBoolean("ItemPublisher:Items.Any")){
 
   	foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
-@item.TemplateTags()
+
 	@*string itemTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
     string itemURL = item.GetString("ItemPublisher:Item.Url");
    	string itemVisits = item.GetString("ItemPublisher:Item.Visits.Value");
