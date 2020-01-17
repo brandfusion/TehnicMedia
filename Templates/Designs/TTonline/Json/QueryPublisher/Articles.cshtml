@@ -43,8 +43,9 @@
         public int pageParentPageId {get; set;}
         public int pageSort {get; set;}
         public int parentLoopIndex {get; set;}
-
-        public List<Author> articleAutori {get; set;}
+	    public int sliderCounter { get; set; }
+        
+	    public List<Author> articleAutori {get; set;}
         public List<Section> articleSections {get; set;}
         public List<Tag> articleTags {get; set;}
     }
@@ -140,7 +141,7 @@
     var results = GetLoop("QueryResultItem");
     int paginaAutori = GetPageIdByNavigationTag("PaginaAutori");
     int paginaTag = GetPageIdByNavigationTag("PaginaTag");
-
+	var counter = 1;
     List<Root> feedObject = new List<Root>();
     List<ArticlesContainer> articleFeedObject = new List<ArticlesContainer>();
 
@@ -202,7 +203,7 @@
         articleObject.pageParentPageId=article.GetInteger("PageParentPageId");
         articleObject.pageSort=article.GetInteger("PageSort");
         articleObject.parentLoopIndex=article.GetInteger("parentLoopIndex");
-        
+	    articleObject.sliderCounter = counter % 3;
         articleObject.articleAutori = new List<Author>();
         var authorList = articleObject.itemAutori.Zip(articleObject.itemAutoriName, (s, i) => new { sv = s, iv = i }).ToList();
         if (authorList.Any()){
@@ -232,7 +233,7 @@
         }
 
 
-
+	    counter++;
         articleContainerObject.Article.Add(articleObject);
         feedRoot.ArticlesContainer.Add(articleContainerObject);
 
