@@ -44,6 +44,7 @@
         public int pageSort {get; set;}
         public int parentLoopIndex {get; set;}
 	    public int sliderCounter { get; set; }
+	    public bool isLast { get; set; }
         
 	    public List<Author> articleAutori {get; set;}
         public List<Section> articleSections {get; set;}
@@ -204,6 +205,7 @@
         articleObject.pageSort=article.GetInteger("PageSort");
         articleObject.parentLoopIndex=article.GetInteger("parentLoopIndex");
 	    articleObject.sliderCounter = counter % 3;
+	    articleObject.isLast = counter == results.Count;
         articleObject.articleAutori = new List<Author>();
         var authorList = articleObject.itemAutori.Zip(articleObject.itemAutoriName, (s, i) => new { sv = s, iv = i }).ToList();
         if (authorList.Any()){
