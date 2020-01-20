@@ -50,18 +50,18 @@
           
           <div class="featured-href">
             <figure class="image-overlay2">
-              <img src='{{itemImaginePrincipala}}' alt="{{mainTitle}}"/>
+              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}' alt="{{itemTitlu}}"/>
             </figure>
            
           <div class="featured-header">
             <a  href="{{mainURL}}">
-             <h2 style="color:white;">{{mainTitle}}</h2>
+             <h2 style="color:white;">{{itemTitlu}}</h2>
               <p class="simple-share">
                 @Translate("articolde","de")
                {{#articleAutori}}
                                 {{Name}}
                 {{/articleAutori}} 
-                <span class="article-date">{{mainDate}}</span>
+                <span class="article-date">{{itemData}}</span>
               </p>
                </a>
             </div>
@@ -78,7 +78,7 @@
         </div> 
           <div  class="featured-href">
             <figure class="image-overlay2">
-              <img src='{{itemImaginePrincipala}}' alt="{{mainTitle}}"/>
+              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}' alt="{{itemTitlu}}"/>
             </figure>
           
             <div class="featured-header">
@@ -86,13 +86,13 @@
               {{#articleSections}}
                 <span class="category bgcolor5">{{Name}}</span>
               {{/articleSections}}
-              <h2 style="color:white;">{{mainTitle}}</h2>
+              <h2 style="color:white;">{{itemTitlu}}</h2>
               <p class="simple-share">
                  @Translate("articolde","de")
                  {{#articleAutori}}
                    {{Name}}
                  {{/articleAutori}}
-                <span class="article-date">{{mainDate}}</span>
+                <span class="article-date">{{itemData}}</span>
               </p>
             </a>
             </div>
@@ -108,7 +108,7 @@
           </div> 
              <div class="featured-href">
                <figure class="image-overlay2">
-                 <img src='{{itemImaginePrincipala}}' alt="{{mainTitle}}"/>
+              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}' alt="{{itemTitlu}}"/>
                </figure>
            
                <div class="featured-header">
@@ -116,13 +116,13 @@
                  {{#articleSections}}
                   <span class="category bgcolor4">{{Name}}</span>
                  {{/articleSections}}
-                 <h2 style="color:white;">{{mainTitle}}</h2>
+                 <h2 style="color:white;">{{itemTitlu}}</h2>
                  <p class="simple-share">
                     @Translate("articolde","de")
                     {{#articleAutori}}
                      {{Name}}
                    {{/articleAutori}}
-                   <span class="article-date">{{mainDate}}</span>
+                   <span class="article-date">{{itemData}}</span>
                  </p>
                </a>
                </div>
@@ -131,8 +131,10 @@
           </div>
         </div> 
       </div>
+      {{#ifCond isLast '===' false}}
+      <div class='slider-item'><div class='row'>
+      {{/ifCond}}  
       
-      <div class='slider-item'><div class='row'> 
               
     {{/ifCond}}
 
