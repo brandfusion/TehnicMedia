@@ -2294,19 +2294,7 @@ a.category:hover{
   outline: none;
   text-decoration: none;
 }
-.news-details{
-  color: #a9a9a9;
-  margin-top:-40px;
-  position: relative;
-  padding:10px 20px 0px;
-  background-color: #fff;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
-  margin-right: 10px;
-  margin-left: 10px;
-  z-index: 10;
-}
+
 
 .news-title:hover {
   max-height: 320px;
@@ -2350,19 +2338,7 @@ a.category:hover{
   color: #000;
 }
 
-.small-block .news-details{
-  position: absolute;
-  //bottom: 25px;
-  //color: #ffffff;
-  margin-top: -40px;
-  padding: 10px 20px 0px;
-  background: #fff;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
-  z-index: 10;
-  bottom: 1px;
-}
+
 .big-block .news-title{
   /*font-size: 41px;
   line-height: 45px;*/

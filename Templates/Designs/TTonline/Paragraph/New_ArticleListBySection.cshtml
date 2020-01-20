@@ -100,7 +100,7 @@ var featuredArticles = GetLoop("Item.Featured_Article");
 	var noImage = listTemplate.Contains("noimage");
 
 	<div class="list-container @listTemplate">
-		<article class="news-block small-block" style="margin-bottom: 110px;">
+		<article class="news-block small-block">
 			@if (!noImage)
 			{
 				<a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0" class="overlay-link">
@@ -124,15 +124,16 @@ var featuredArticles = GetLoop("Item.Featured_Article");
 					@*TODO conditie de afisafe din feed *@
 					<span><i class="fa fa-eye"></i> 20 vizualizari</span>
 				</p>
+				@if (!noSummary)
+                {
+                    <div class="excerpt">
+                        Inginerii Centrului de excelenţă Aerospace DMG MORI implementează soluţii de proces orientate spre viitor pentru cele mai solicitante aplicaţii din sectorul Aerospace 
+                    </div>
+                }
 			</header>
-			@if (!noSummary)
-            {
-                <div class="excerpt">
-                	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                </div>
-            }
+			
 		</article>
-		<article class="news-block small-block" style="margin-bottom: 110px;">
+		<article class="news-block small-block">
             @if (!noImage)
             {
                 <a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0" class="overlay-link">
@@ -140,9 +141,9 @@ var featuredArticles = GetLoop("Item.Featured_Article");
 		                <img src="https://www.ttonline.ro/Files/Images/Articole/74211319_2540465939322875_7252300678729564160_o.jpg" alt="article title" class="img-responsive"/>
 	                </figure>
                 </a>
-                <a href='/revista/web-exclusive' class="bg6828 category">Web Exclusive</a>
+                
             }
-        
+			<a href='/revista/web-exclusive' class="bg6828 category">Web Exclusive</a>
            
             <header class="news-details">
                 <h3 class="news-title"><a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0">Ateliere de descoperire antreprenorială - Industrie 4.0</a></h3> 
@@ -155,13 +156,14 @@ var featuredArticles = GetLoop("Item.Featured_Article");
 	                <span><i class="fa fa-clock-o"></i>  9 decembrie 2019</span>
 					 <span><i class="fa fa-eye"></i> 20 vizualizari</span>
                 </p>
-            </header>
-              @if (!noSummary)
+                 @if (!noSummary)
                 {
                     <div class="excerpt" >
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </div>
+	                    Noul sistem sofisticat (paletizat) de sisteme de fixare Komeg- Mitutoyo reduce semnificativ timpul de măsurare atat pe mașinile de măsurat pe coordonate, cat și pe dispozitivele de măsurare a profilului și pe cele tip vision                    
+	                    </div>
                 }
+            </header>
+             
                               
           </article>
 	</div>
