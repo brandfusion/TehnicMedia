@@ -1,0 +1,97 @@
+ if (Converter.ToBoolean(Pageview.Area.Item["EnableSaleTags"]))
+        {
+            string contentType = Pageview.Area.Item["EcommerceSaleTagContentType"].ToString();
+            var currency = Dynamicweb.Ecommerce.Services.Currencies.GetDefaultCurrency();
+            Sticker saleSticker = new Sticker();
+
+            switch (contentType)
+            {
+                case "Name":
+                    foreach (LoopItem discount in product.GetLoop("ProductDiscounts"))
+                    {
+                        saleSticker = new Sticker();
+                        saleSticker.text = discount.GetString("Ecom:Product.Discount.Name");
+                        saleSticker.className = "stickers-container__tag--sale";
+                        productObject.Stickers.Add(saleSticker);
+                    }
+                    break;
+                case "Amount":
+                    if (product.GetLoop("ProductDiscounts").Count > 0)
+                    {
+                        saleSticker = new Sticker();
+                        saleSticker.text = Dynamicweb.Ecommerce.Services.Currencies.Format(currency, product.GetDouble("Ecom:Product.Discount.Price.Price") - product.GetDouble("Ecom:Product.Price.Price"));
+                        saleSticker.className = "stickers-container__tag--sale";
+                        productObject.Stickers.Add(saleSticker);
+                    }
+                    break;
+                case "Percents":
+                    double percents = 0;
+                    foreach (LoopItem discount in product.GetLoop("ProductDiscounts"))
+                    {
+                        percents += discount.GetDouble("Ecom:Product.Discount.PercentWithoutVAT");
+                    }
+                    if (percents > 0) {
+                        saleSticker = new Sticker();
+                        saleSticker.text = Math.Round(percents, 0) + "%";
+                        saleSticker.className = "stickers-container__tag--sale";
+                        productObject.Stickers.Add(saleSticker);
+                    }
+                    break;
+                case "Amount+and+percents":
+                    double amount = 0;
+                    double percent = 0;
+                    foreach (LoopItem discount in product.GetLoop("ProductDiscounts"))
+                    {
+                        if (discount.GetString("Ecom:Product.Discount.Type") == "PERCENT")
+                        {
+                            percent += discount.GetDouble("Ecom:Product.Discount.PercentWithoutVAT");
+                        }
+                        else if (discount.GetString("Ecom:Product.Discount.Type") == "AMOUNT")
+                        {
+                            amount += discount.GetDouble("Ecom:Product.Discount.AmountWithVAT");
+                        }
+                    }
+
+                    if (percent > 0)
+                    {
+                        saleSticker = new Sticker();
+                        saleSticker.text = percent + "%";
+                        saleSticker.className = "stickers-container__tag--sale";
+                        productObject.Stickers.Add(saleSticker);
+                    }
+
+                    if (amount > 0)
+                    {
+                        saleSticker = new Sticker();
+                        saleSticker.text = "-" + Dynamicweb.Ecommerce.Services.Currencies.Format(currency, amount);
+                        saleSticker.className = "stickers-container__tag--sale";
+                        productObject.Stickers.Add(saleSticker);
+                    }
+                    break;
+                default:
+                    if (product.GetLoop("ProductDiscounts").Count > 0)
+                    {
+                        saleSticker = new Sticker();
+                        saleSticker.text = Translate("Sale!");
+                        saleSticker.className = "stickers-container__tag--sale";
+                        productObject.Stickers.Add(saleSticker);
+                    }
+                    break;
+            }
+        }
+
+        if (Converter.ToBoolean(Pageview.Area.Item["NewStickersEnable"]) && product.GetDate("Ecom:Product.Created").AddDays(Converter.ToDouble(Pageview.Area.Item["NewStickersExpiration"])) > DateTime.Now)
+        {
+            Sticker newSticker = new Sticker();
+            newSticker.className = "stickers-container__tag--new";
+            newSticker.text = Translate("New!");
+            productObject.Stickers.Add(newSticker);
+        }
+
+        if (!String.IsNullOrEmpty(product.GetString("Ecom:Product:Field.CustomSticker.Value")))
+        {
+            Sticker customSticker = new Sticker();
+            customSticker.className = "stickers-container__tag--custom";
+            customSticker.text = product.GetString("Ecom:Product:Field.CustomSticker.Value");
+            productObject.Stickers.Add(customSticker);
+        }

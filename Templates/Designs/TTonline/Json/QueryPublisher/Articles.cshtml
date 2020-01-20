@@ -2,6 +2,8 @@
 @using System.Web;
 @using System.Collections.Specialized;
 @using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
 
 @functions{
     
@@ -44,6 +46,7 @@
         public int pageSort {get; set;}
         public int parentLoopIndex {get; set;}
 	    public int sliderCounter { get; set; }
+	    public bool isLast { get; set; }
         
 	    public List<Author> articleAutori {get; set;}
         public List<Section> articleSections {get; set;}
@@ -185,10 +188,11 @@
         articleObject.itemSectiuneSecundara=article.GetString("ItemSectiuneSecundara");
         articleObject.itemSiDespreCompanie=article.GetString("ItemSiDespreCompanie");
         articleObject.itemSort=article.GetInteger("ItemSort");
-        articleObject.itemSumar=article.GetString("ItemSumar");
+        var itemSumarRaw = article.GetString("ItemSumar");
+	    articleObject.itemSumar = Regex.Replace(itemSumarRaw, @"[^\u0020-\u007E\u00A0-\u00FF]", string.Empty);
         string articleExcerpt = article.GetString("ItemSumar") != null ? article.GetString("ItemSumar") : "";
 	    articleExcerpt = articleExcerpt != "" ? Regex.Replace(articleExcerpt, @"<[^>]*>", String.Empty) : articleExcerpt;
-        articleObject.itemSumar= System.Web.HttpUtility.JavaScriptStringEncode(articleExcerpt);
+        //articleObject.itemSumar= System.Web.HttpUtility.JavaScriptStringEncode(articleExcerpt);
         articleObject.itemTaguri=(string[])article.GetValue("ItemTaguri");
         articleObject.itemTaguriName=(string[])article.GetValue("ItemTaguriName");
         articleObject.itemTip=article.GetString("ItemTip");
@@ -204,6 +208,7 @@
         articleObject.pageSort=article.GetInteger("PageSort");
         articleObject.parentLoopIndex=article.GetInteger("parentLoopIndex");
 	    articleObject.sliderCounter = counter % 3;
+	    articleObject.isLast = counter == results.Count;
         articleObject.articleAutori = new List<Author>();
         var authorList = articleObject.itemAutori.Zip(articleObject.itemAutoriName, (s, i) => new { sv = s, iv = i }).ToList();
         if (authorList.Any()){
