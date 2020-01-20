@@ -2,6 +2,8 @@
 @using System.Web;
 @using System.Collections.Specialized;
 @using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
 
 @functions{
     
@@ -17,7 +19,7 @@
     {
         public string[] itemAutori {get; set;}
         public string[] itemAutoriName {get; set;}
-        public DateTime itemData {get; set;}
+        public string itemData {get; set;}
         public string itemDeCompanie {get; set;}
         public string itemDespreCompanie {get; set;}
         public string itemEditie {get; set;}
@@ -34,6 +36,7 @@
         public string itemTip {get; set;}
         public string itemTitlu {get; set;}
         public int itemVisits {get; set;}
+	    public bool showItemVisits { get; set; }
         public bool pageActive {get; set;}
         public DateTime pageActiveTo {get; set;}
         public string pageAreaID {get; set;}
@@ -175,7 +178,7 @@
         Article articleObject = new Article();
         articleObject.itemAutori=(string[])article.GetValue("ItemAutori");
         articleObject.itemAutoriName=(string[])article.GetValue("ItemAutoriName");
-        articleObject.itemData=article.GetDate("ItemData");
+        articleObject.itemData= article.GetDate("ItemData").ToString("dd.MM.yyyy");
         articleObject.itemDeCompanie=article.GetString("ItemDeCompanie");
         articleObject.itemDespreCompanie=article.GetString("ItemDespreCompanie");
         articleObject.itemEditie=article.GetString("ItemEditie");
@@ -185,16 +188,18 @@
         articleObject.itemSectiuneParinteId=article.GetString("ItemSectiuneParinteId");
         articleObject.itemSectiuneSecundara=article.GetString("ItemSectiuneSecundara");
         articleObject.itemSiDespreCompanie=article.GetString("ItemSiDespreCompanie");
-        articleObject.itemSort=article.GetInteger("ItemSort");
-        articleObject.itemSumar=article.GetString("ItemSumar");
+	    articleObject.itemSort = counter; //article.GetInteger("ItemSort");
+        var itemSumarRaw = article.GetString("ItemSumar");
+	    articleObject.itemSumar = Regex.Replace(itemSumarRaw, @"[^\u0020-\u007E\u00A0-\u00FF]", string.Empty);
         string articleExcerpt = article.GetString("ItemSumar") != null ? article.GetString("ItemSumar") : "";
 	    articleExcerpt = articleExcerpt != "" ? Regex.Replace(articleExcerpt, @"<[^>]*>", String.Empty) : articleExcerpt;
-        articleObject.itemSumar= System.Web.HttpUtility.JavaScriptStringEncode(articleExcerpt);
+        //articleObject.itemSumar= System.Web.HttpUtility.JavaScriptStringEncode(articleExcerpt);
         articleObject.itemTaguri=(string[])article.GetValue("ItemTaguri");
         articleObject.itemTaguriName=(string[])article.GetValue("ItemTaguriName");
         articleObject.itemTip=article.GetString("ItemTip");
         articleObject.itemTitlu=article.GetString("ItemTitlu");
         articleObject.itemVisits=article.GetInteger("ItemVisits");
+	    articleObject.showItemVisits = article.GetBoolean("ItemVizite");
         articleObject.pageActive=article.GetBoolean("PageActive");
         articleObject.pageActiveTo=article.GetDate("PageActiveTo");
         articleObject.pageAreaID=article.GetString("PageAreaID");
