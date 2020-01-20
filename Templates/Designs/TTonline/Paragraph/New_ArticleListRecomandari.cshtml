@@ -1,0 +1,90 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Linq;
+@using System.Web;
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+
+@{
+	var pageId = GetPageIdByNavigationTag("ArticlesFeed");
+	var articlesSlides = "";
+	foreach (LoopItem i in GetLoop("Item.Lista_Articole"))
+	{
+		var slideId = i.GetString("Item.Lista_Articole.Id");
+		var pageService = new Dynamicweb.Content.PageService();
+		articlesSlides += pageService.GetPageForItem("Dw_Page", slideId.ToString()).ID + ",";
+	}
+}
+
+<div class="col-md-9 col-xs-12 recomandari">
+	<h3 class="block-title">
+		<span>@Translate("recomandari","Recomandari") T&T</span>
+	</h3>
+    <div id="RecomandariTT" data-template="RecomandariTTTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesSlides">
+        <div class="loader"></div>
+        @*HANDLEBARS TEMPLATE GOES HERE*@
+    </div>
+</div>
+
+<script id="RecomandariTTTemplate"  type="text/x-handlebars-template">
+
+    {{#ArticlesContainer}}
+       {{#each Article}}
+       {{#ifCond itemSort '===' 1}} 
+            <article class="news-block">
+                <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                    <figure class="image-overlay proportie-1">
+                        <img src="{{itemImaginePrincipala}}" class="img-responsive">
+                    </figure>
+                </a>
+                <a href="/Default.aspx?ID={{itemSectiuneParinteId}}" class="bg{{itemSectiuneParinteId}}" category">{{itemSectiuneParinte}}</a>
+                          
+                <header class="news-details">
+                    <h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{pageMenuText}}</a></h3>                     
+                    <p>{{itemSumar}}</p>
+                    <p class="simple-share"> 
+                    @Translate("articolde","de")  
+                       {{#articleAutori}}                         
+                          <a href="{{Link}}"><b>{{Name}}</b></a>
+                       {{/articleAutori}}
+                       <span style="margin: 0!important;">-</span>                       
+                       <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>                        
+                        {{#if showItemVisits}}    
+                            <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                         {{/if}}   
+                        }
+                    </p> 
+                </header>  
+            </article>
+        {{/ifCond}}
+        {{#ifCond itemSort '!==' 1}} 
+            <article class="simple-post clearfix">
+                <div class="simple-thumb">
+                    <a href="/Default.aspx?ID={{pagePageID}}">
+                        <img src="{{itemImaginePrincipala}}" class="img-responsive">
+                    </a>
+                </div>
+                <header>
+                    <h3><a href="/Default.aspx?ID={{pagePageID}}">{{pageMenuText}}</a></h3>
+                </header>
+                <p class="simple-share">
+                    <a href="/Default.aspx?ID={{itemSectiuneParinteId}}">{{itemSectiuneParinte}}</a>  
+                    
+                    @Translate("articolde","de")  
+                    {{#articleAutori}}                         
+                       <a href="{{Link}}"><b>{{Name}}</b></a>
+                    {{/articleAutori}}
+                    <span style="margin: 0!important;">-</span>                     
+                    <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                        
+                   {{#if showItemVisits}}    
+                       <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                   {{/if}}   
+                </p>
+            </article>
+        {{/ifCond}}
+        {{/each}}
+    {{/ArticlesContainer}}
+</script>

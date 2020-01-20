@@ -1,0 +1,112 @@
+/*START LIST DISPLAY TYPE GRID VIEW*/
+.list-container {
+    display: grid;
+}
+/*1 COLUMN*/
+/*1 column No Image No Summary*/
+/*1 column No Image with Summary*/
+.onecol-noimage-summary .category,
+.onecol-noimage-nosummary .category {
+    position: initial;
+}
+.onecol-noimage-summary .news-details,
+.onecol-noimage-nosummary .news-details {
+    margin-top: 1em;
+}
+.onecol-noimage-summary  .small-block .news-title,
+.onecol-noimage-nosummary .small-block .news-title {
+    min-height: auto;
+}
+.onecol-noimage-summary .simple-share {
+    margin-bottom: 1em;
+}
+
+/*1 column with Image No Summary*/
+/*1 column with Image with Summary*/
+.onecol-image-summary .small-block,
+.onecol-image-nosummary .small-block,
+.onecol-image-nosummary-small .small-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
+}
+
+/*1 column with Image small No Summary */
+.onecol-image-nosummary-small .small-block {
+    grid-template-columns: 1fr 2fr;
+}
+.onecol-image-nosummary-small .simple-share span {
+    display: block;
+}
+/*2 COLUMNS*/
+.twocol-noimage-nosummary, .twocol-noimage-summary, .twocol-image-nosummary, .twocol-image-summary {
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 3rem;
+}
+
+/*2 columns No Image No Summary*/
+/*2 columns No Image with Summary*/
+.twocol-noimage-summary .category,
+.twocol-noimage-nosummary .category {
+    position: initial;
+}
+.twocol-noimage-summary .news-details,
+.twocol-noimage-nosummary .news-details,
+.twocol-image-summary .news-details {
+    margin-top: 1em;
+}
+.twocol-noimage-summary .simple-share,
+.twocol-image-summary .simple-share{
+    margin-bottom: 1em;
+}
+
+/*2 columns with Image No Summary*/
+.twocol-image-nosummary .news-block  {
+    margin-bottom: 110px
+}
+.twocol-image-nosummary .small-block .news-details {
+    position: absolute;
+    background: #fff;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    z-index: 10;
+    bottom: -90px;
+    left: 1px;
+    right: 1px;
+    margin-right: 25px;
+    margin-left: 25px;
+    padding: 2em;
+    padding-top: 10px;
+}
+
+/*3 COLUMNS*/
+/*3 columns with Image No Summary*/
+.threecol-image-nosummary {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 1rem;
+}
+.threecol-image-nosummary .category {
+    top: 15px;
+    left: 10px;
+}
+.threecol-image-nosummary .simple-share span {
+    display: block;
+}
+/*END LIST DISPLAY TYPE GRID VIEW*/
+
+.loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 900000;
+    width: 100%;
+    height: 100%;
+    background-image: url('/Files/Templates/Designs/TTonline/images/loader.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+#HomePageSlider {
+    min-height: 2em; 
+}

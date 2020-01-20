@@ -28,7 +28,7 @@
   <div class="col-md-12">
     <div class="flexslider">
       <div class="featured-slider" id="HomePageSlider" data-template="HomepageSliderTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesSlides">
-        
+ 			<div class="loader"></div>        
             @*HANDLEBARS TEMPLATE GOES HERE*@
       </div>
     </div>
@@ -112,7 +112,7 @@
                </figure>
            
                <div class="featured-header">
-                 <a href="{{mainURL}}" >
+                 <a href="/Default.aspx?ID={{pagePageID}}" >
                  {{#articleSections}}
                   <span class="category bgcolor4">{{Name}}</span>
                  {{/articleSections}}

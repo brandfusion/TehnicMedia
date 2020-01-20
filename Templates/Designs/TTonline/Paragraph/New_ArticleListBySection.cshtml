@@ -1,0 +1,192 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System
+@using System.Web;
+@using System.Collections;
+@using System.Collections.Generic
+@using System.Linq;
+@using Dynamicweb.Content.Items
+
+@Include("Layout.cshtml")
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+
+@NewRow() 
+
+
+<div class="@ColumnClass() homepage-sectiune" style="margin-top: 25px; margin-bottom:0px">
+	<h3 class="block-title"><span>@GetString("Item.ParagraphName")</span></h3>
+
+	@RenderFeaturedArticle()
+	@RenderArticleList()
+	@RenderModule() 
+</div>
+
+@helper RenderFeaturedArticle()
+{
+//int featuredArticle = GetInteger("Item.Featured_Article");
+var featuredArticles = GetLoop("Item.Featured_Article");
+	if(featuredArticles.Any()){	
+  		foreach(LoopItem i in featuredArticles){
+
+				
+
+				string mainImageRaw = i.GetString("Item.Featured_Article.ImaginePrincipala.Value"); 
+        		string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 730, 355) + "&bgcolor=white" : "/Files/Images/NoImage/540x355.png"; 
+							   		
+							
+
+
+				 string mainTitle = i.GetString("Item.Featured_Article.Titlu.Value");
+          		 var mainDate = i.GetDate("Item.Featured_Article.Data");
+          		 string mainSummary = StripHtmlTagByCharArray(i.GetString("Item.Featured_Article.Sumar"));
+          		 string mainURL = i.GetString("Item.Featured_Article.Url");
+          		 string mainAutori = i.GetString("Item.Featured_Article.Autori");
+				 string articleSectiune = i.GetString("Item.Featured_Article.SectiuneParinte");
+				 bool itemConditionVisits = i.GetBoolean("Item.Featured_Article.Vizite");
+				 string articleVisits = i.GetString("Item.Featured_Article.Visits.Value");
+                 int articleSectiuneID = i.GetInteger("Item.Featured_Article.SectiuneParinteId");
+      			 string mainSections = "";
+				
+				
+                List<Autor> articleAutori = GetAutori(mainAutori);
+      			List<Sectiune> articleSections = GetSectiuni(mainSections);
+
+				<article class="news-block">
+					 <a href="@mainURL" class="overlay-link">
+                  
+                
+						<figure class=" ">
+							@if(!string.IsNullOrEmpty(i.GetString("Item.Featured_Article.ImaginePrincipala.Value"))){
+							<img src="@mainImage" alt="@mainTitle" class="img-responsive" />
+							}else{
+							<img src="/Files/Images/NoImage/540x355.png" alt="@mainTitle" />
+                          	}
+						</figure>
+                   <a href='/Default.aspx?ID=@articleSectiuneID' class="bg@(articleSectiuneID) category">@articleSectiune</a>
+					</a>
+              
+
+					@foreach (var articleSection in articleSections)
+		            {
+		                <a href="#" class="category bgcolor3">@articleSectiune</a>
+		            }
+					<header class="news-details">
+						<h3 class="news-title"> <a href='@mainURL' alt='@mainTitle'>@mainTitle</a></h3>
+					    	<p>@mainSummary</p>
+					        <p class="simple-share">@Translate("articolde","de")  
+					        @foreach (var articleAutor in articleAutori)
+				            {
+				                <a href="@articleAutor.Link"><b>@articleAutor.Name</b></a>
+				            }
+					        - <span class="article-date"><i class="fa fa-clock-o"></i> @mainDate.ToString("dd/MM/yyyy")</span>
+                              @if (itemConditionVisits) {    
+                                            <span>  -  <i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+              				  }
+							</p>
+					</header>  
+				</article><!-- News block -->	
+
+				
+
+        }
+	}
+}
+
+@helper RenderArticleList()
+{
+	string listTemplate = GetString("Item.Display").Replace("1", "one").Replace("2", "two").Replace("3", "three");
+	var noSummary = listTemplate.Contains("nosummary");
+	var noImage = listTemplate.Contains("noimage");
+
+	<div class="list-container @listTemplate">
+		<article class="news-block small-block">
+			@if (!noImage)
+			{
+				<a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0" class="overlay-link">
+					<figure class=" ">
+						<img src="https://www.ttonline.ro/Files/Images/Articole/74211319_2540465939322875_7252300678729564160_o.jpg" alt="article title" class="img-responsive"/>
+					</figure>
+				</a>
+			}
+
+			<a href='/revista/web-exclusive' class="bg6828 category">Web Exclusive</a>
+			<header class="news-details">
+
+				<h3 class="news-title"><a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0">Ateliere de descoperire antreprenorială - Industrie 4.0</a></h3>
+				<p class="simple-share">
+
+					@Translate("articolde", "de")
+
+					<a href="/autor/t-t-a551"> T&T</a>
+					<br/>
+					<span><i class="fa fa-clock-o"></i> 9 decembrie 2019</span>
+					@*TODO conditie de afisafe din feed *@
+					<span><i class="fa fa-eye"></i> 20 vizualizari</span>
+				</p>
+				@if (!noSummary)
+                {
+                    <div class="excerpt">
+                        Inginerii Centrului de excelenţă Aerospace DMG MORI implementează soluţii de proces orientate spre viitor pentru cele mai solicitante aplicaţii din sectorul Aerospace 
+                    </div>
+                }
+			</header>
+			
+		</article>
+		<article class="news-block small-block">
+            @if (!noImage)
+            {
+                <a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0" class="overlay-link">
+	                <figure class=" ">
+		                <img src="https://www.ttonline.ro/Files/Images/Articole/74211319_2540465939322875_7252300678729564160_o.jpg" alt="article title" class="img-responsive"/>
+	                </figure>
+                </a>
+                
+            }
+			<a href='/revista/web-exclusive' class="bg6828 category">Web Exclusive</a>
+           
+            <header class="news-details">
+                <h3 class="news-title"><a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0">Ateliere de descoperire antreprenorială - Industrie 4.0</a></h3> 
+                <p class="simple-share">
+                
+	                @Translate("articolde","de")
+        
+	                <a href="/autor/t-t-a551">  T&T</a>   
+	                <br/>
+	                <span><i class="fa fa-clock-o"></i>  9 decembrie 2019</span>
+					 <span><i class="fa fa-eye"></i> 20 vizualizari</span>
+                </p>
+                 @if (!noSummary)
+                {
+                    <div class="excerpt" >
+	                    Noul sistem sofisticat (paletizat) de sisteme de fixare Komeg- Mitutoyo reduce semnificativ timpul de măsurare atat pe mașinile de măsurat pe coordonate, cat și pe dispozitivele de măsurare a profilului și pe cele tip vision                    
+	                    </div>
+                }
+            </header>
+             
+                              
+          </article>
+	</div>
+
+}
+
+
+@helper RenderModule()
+{
+	@GetString("ParagraphModule")
+}
+
+
+@foreach(LoopItem j in GetLoop("Item.Featured_Article")){
+
+	string articleSectiune = j.GetString("Item.Featured_Article.SectiuneParinte");
+ 	int articleSectiuneID = j.GetInteger("Item.Featured_Article.SectiuneParinteId");
+
+ 	<div class="col-md-12 col-xs-12 load-more">
+      <a href="/Default.aspx?ID=@articleSectiuneID"><button type="button" class="btn btn-lg btn-block">@Translate("maimulte","Mai multe")</button></a>
+    </div>
+
+}
+
+
+                
