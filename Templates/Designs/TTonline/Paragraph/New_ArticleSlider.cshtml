@@ -27,7 +27,7 @@
 <div class="row">
   <div class="col-md-12">
     <div class="flexslider">
-      <div class="featured-slider" id="HomePageSlider" data-template="HomepageSliderTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesSlides">
+      <div class="featured-slider handlebars-wrapper" id="HomePageSlider" data-template="HomepageSliderTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesSlides">
  			<div class="loader"></div>        
             @*HANDLEBARS TEMPLATE GOES HERE*@
       </div>
@@ -74,7 +74,7 @@
    <div class="col-md-4 alpha">
       <div class="featured-small featured-top">
           <div class="tag-categorie-container">
-            <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+            <a href='/Default.aspx?ID={{pageParentPageId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
         </div> 
           <div  class="featured-href">
             <figure class="image-overlay2">

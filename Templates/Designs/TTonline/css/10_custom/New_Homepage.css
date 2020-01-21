@@ -110,3 +110,9 @@
 #HomePageSlider {
     min-height: 2em; 
 }
+
+.handlebars-wrapper {
+    clear: both;
+    position: relative;
+    min-height: 2em;
+}

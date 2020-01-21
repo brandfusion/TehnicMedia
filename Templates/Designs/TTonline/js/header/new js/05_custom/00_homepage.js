@@ -1,11 +1,14 @@
 
 document.addEventListener('DOMContentLoaded', function(event) {
-
+    console.log('DOM loaded');
     if (document.getElementById('HomePageSlider') !== null) {
         loadFirstView();
     }
 });
+window.onload = function() {
+    console.log('Page loaded');
 
+};
 /*START HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 //On page load, first items loaded will be the slider and the first categories
@@ -26,10 +29,15 @@ function loadFirstView() {
         //load Recomandari T&T
         var recomandariWrapper = document.getElementById('RecomandariTT');
         getDataForHandlebars(recomandariWrapper)
-    })    
+    })
+    .then(function() {
+        //load Ultimele stiri
+        var recomandariWrapper = document.getElementById('UltimeleStiri');
+        getDataForHandlebars(recomandariWrapper)
+    })
     .catch(function (error) {
-        // handle error
-        console.log(error, "error boo1");
+    // handle error
+    console.log(error, "error boo1");
     })
 }
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
@@ -43,7 +51,7 @@ function compileDataToHandlebars(data, homePageSliderWrapper) {
 }
 //generic function to create call and get data to compile handlebars
 function getDataForHandlebars(homePageSliderWrapper) {
-    var urlFeed = homePageSliderWrapper.getAttribute('data-json-feed')
+    var urlFeed = homePageSliderWrapper.getAttribute('data-json-feed');
     axios({
         method:'get',
         url:urlFeed
