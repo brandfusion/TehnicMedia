@@ -11,12 +11,22 @@
 @Include("../Includes/ArticleHelper.cshtml")
 @Include("../Includes/GetImage_new.cshtml")
 
+@{
+	var pageId = GetPageIdByNavigationTag("ArticlesFeed");
+	var articlesIDs = "";
+	foreach (LoopItem i in GetLoop("Item.Featured_Article"))
+	{
+		var slideId = i.GetString("Item.Featured_Article.Id");
+		var pageService = new Dynamicweb.Content.PageService();
+		articlesIDs += pageService.GetPageForItem("Dw_Page", slideId.ToString()).ID + ",";
+	}
+}
+
 @NewRow() 
 
 
 <div class="@ColumnClass() homepage-sectiune" style="margin-top: 25px; margin-bottom:0px">
 	<h3 class="block-title"><span>@GetString("Item.ParagraphName")</span></h3>
-
 	@RenderFeaturedArticle()
 	@RenderArticleList()
 	@RenderModule() 
@@ -24,73 +34,45 @@
 
 @helper RenderFeaturedArticle()
 {
-//int featuredArticle = GetInteger("Item.Featured_Article");
-var featuredArticles = GetLoop("Item.Featured_Article");
-	if(featuredArticles.Any()){	
-  		foreach(LoopItem i in featuredArticles){
+	<div id="ArticleListBySection" class="handlebars-wrapper" data-template="ArticleListBySectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
+		<div class="loader"></div>
+		@*HANDLEBARS TEMPLATE GOES HERE*@
+	</div>
+	<script id="ArticleListBySectionTemplate" type="text/x-handlebars-template">
+	{{#ArticlesContainer}}
+		{{#each Article}}
+			<article class="news-block">
+            	<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
 
-				
+            		<figure class=" ">	
+            			<img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive" />
+            		</figure>
+               <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+            	</a>
 
-				string mainImageRaw = i.GetString("Item.Featured_Article.ImaginePrincipala.Value"); 
-        		string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 730, 355) + "&bgcolor=white" : "/Files/Images/NoImage/540x355.png"; 
-							   		
-							
-
-
-				 string mainTitle = i.GetString("Item.Featured_Article.Titlu.Value");
-          		 var mainDate = i.GetDate("Item.Featured_Article.Data");
-          		 string mainSummary = StripHtmlTagByCharArray(i.GetString("Item.Featured_Article.Sumar"));
-          		 string mainURL = i.GetString("Item.Featured_Article.Url");
-          		 string mainAutori = i.GetString("Item.Featured_Article.Autori");
-				 string articleSectiune = i.GetString("Item.Featured_Article.SectiuneParinte");
-				 bool itemConditionVisits = i.GetBoolean("Item.Featured_Article.Vizite");
-				 string articleVisits = i.GetString("Item.Featured_Article.Visits.Value");
-                 int articleSectiuneID = i.GetInteger("Item.Featured_Article.SectiuneParinteId");
-      			 string mainSections = "";
-				
-				
-                List<Autor> articleAutori = GetAutori(mainAutori);
-      			List<Sectiune> articleSections = GetSectiuni(mainSections);
-
-				<article class="news-block">
-					 <a href="@mainURL" class="overlay-link">
-                  
-                
-						<figure class=" ">
-							@if(!string.IsNullOrEmpty(i.GetString("Item.Featured_Article.ImaginePrincipala.Value"))){
-							<img src="@mainImage" alt="@mainTitle" class="img-responsive" />
-							}else{
-							<img src="/Files/Images/NoImage/540x355.png" alt="@mainTitle" />
-                          	}
-						</figure>
-                   <a href='/Default.aspx?ID=@articleSectiuneID' class="bg@(articleSectiuneID) category">@articleSectiune</a>
-					</a>
-              
-
-					@foreach (var articleSection in articleSections)
-		            {
-		                <a href="#" class="category bgcolor3">@articleSectiune</a>
-		            }
-					<header class="news-details">
-						<h3 class="news-title"> <a href='@mainURL' alt='@mainTitle'>@mainTitle</a></h3>
-					    	<p>@mainSummary</p>
-					        <p class="simple-share">@Translate("articolde","de")  
-					        @foreach (var articleAutor in articleAutori)
-				            {
-				                <a href="@articleAutor.Link"><b>@articleAutor.Name</b></a>
-				            }
-					        - <span class="article-date"><i class="fa fa-clock-o"></i> @mainDate.ToString("dd/MM/yyyy")</span>
-                              @if (itemConditionVisits) {    
-                                            <span>  -  <i class="fa fa-eye"></i> @articleVisits vizualizari</span>
-              				  }
-							</p>
-					</header>  
-				</article><!-- News block -->	
-
-				
-
-        }
-	}
+            	{{#articleSections}}
+                    <a href="#" class="category bgcolor3">{{Name}}</a>
+                {{/articleSections}}
+            	<header class="news-details">
+            		<h3 class="news-title"> <a href='/Default.aspx?ID={{pagePageID}}' alt='{{itemTitlu}}'>{{itemTitlu}}</a></h3>
+            		    <p>{{{itemSumar}}}</p>
+            	        <p class="simple-share">@Translate("articolde","de")  
+            	        {{#itemAutori}}
+                        
+                            <a href="{{Link}}"><b>{{Name}}</b></a>
+                        {{/itemAutori}}
+            	        - <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                          {{#if showItemVisits}}
+                                        <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                          {{/if}}
+            			</p>
+            	</header>  
+            </article><!-- News block -->
+		{{/each}}
+	{{/ArticlesContainer}}
+	
+	</script>
+	
 }
 
 @helper RenderArticleList()
@@ -98,75 +80,54 @@ var featuredArticles = GetLoop("Item.Featured_Article");
 	string listTemplate = GetString("Item.Display").Replace("1", "one").Replace("2", "two").Replace("3", "three");
 	var noSummary = listTemplate.Contains("nosummary");
 	var noImage = listTemplate.Contains("noimage");
-
-	<div class="list-container @listTemplate">
-		<article class="news-block small-block">
+	
+	<div class="list-container @listTemplate" data-template="ArticleListBySectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
+		<div class="loader"></div>
+		@*HANDLEBARS TEMPLATE GOES HERE*@
+	</div>
+	<script id="ArticleListBySectionTemplate" type="text/x-handlebars-template">
+	{{#ArticlesContainer}}
+	{{#Article}}
+	<article class="news-block small-block">
 			@if (!noImage)
 			{
-				<a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0" class="overlay-link">
+				
+				<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
 					<figure class=" ">
-						<img src="https://www.ttonline.ro/Files/Images/Articole/74211319_2540465939322875_7252300678729564160_o.jpg" alt="article title" class="img-responsive"/>
+						<img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive"/>
 					</figure>
 				</a>
 			}
 
-			<a href='/revista/web-exclusive' class="bg6828 category">Web Exclusive</a>
+			<a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
 			<header class="news-details">
 
-				<h3 class="news-title"><a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0">Ateliere de descoperire antreprenorială - Industrie 4.0</a></h3>
+				<h3 class="{{itemTitlu}}"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3>
 				<p class="simple-share">
 
 					@Translate("articolde", "de")
-
-					<a href="/autor/t-t-a551"> T&T</a>
+					{{#articleAutori}}
+					<a href="{{Link}}">{{Name}}</a>
+					{{/articleAutori}}
 					<br/>
-					<span><i class="fa fa-clock-o"></i> 9 decembrie 2019</span>
+					<span><i class="fa fa-clock-o"></i>{{itemData}}</span>
 					@*TODO conditie de afisafe din feed *@
-					<span><i class="fa fa-eye"></i> 20 vizualizari</span>
+					{{#if showItemVisits}}
+                        <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                    {{/if}}
 				</p>
 				@if (!noSummary)
-                {
-                    <div class="excerpt">
-                        Inginerii Centrului de excelenţă Aerospace DMG MORI implementează soluţii de proces orientate spre viitor pentru cele mai solicitante aplicaţii din sectorul Aerospace 
+				{
+					<div class="excerpt">
+                       {{{itemSumar}}}
                     </div>
-                }
+				}
 			</header>
 			
 		</article>
-		<article class="news-block small-block">
-            @if (!noImage)
-            {
-                <a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0" class="overlay-link">
-	                <figure class=" ">
-		                <img src="https://www.ttonline.ro/Files/Images/Articole/74211319_2540465939322875_7252300678729564160_o.jpg" alt="article title" class="img-responsive"/>
-	                </figure>
-                </a>
-                
-            }
-			<a href='/revista/web-exclusive' class="bg6828 category">Web Exclusive</a>
-           
-            <header class="news-details">
-                <h3 class="news-title"><a href="https://www.ttonline.ro/revista/web-exclusive/ateliere-de-descoperire-antreprenoriala-industrie-4-0">Ateliere de descoperire antreprenorială - Industrie 4.0</a></h3> 
-                <p class="simple-share">
-                
-	                @Translate("articolde","de")
-        
-	                <a href="/autor/t-t-a551">  T&T</a>   
-	                <br/>
-	                <span><i class="fa fa-clock-o"></i>  9 decembrie 2019</span>
-					 <span><i class="fa fa-eye"></i> 20 vizualizari</span>
-                </p>
-                 @if (!noSummary)
-                {
-                    <div class="excerpt" >
-	                    Noul sistem sofisticat (paletizat) de sisteme de fixare Komeg- Mitutoyo reduce semnificativ timpul de măsurare atat pe mașinile de măsurat pe coordonate, cat și pe dispozitivele de măsurare a profilului și pe cele tip vision                    
-	                    </div>
-                }
-            </header>
-             
-                              
-          </article>
-	</div>
+		{{/Article}}
+		{{/ArticlesContainer}}
+	</script>
 
 }
 

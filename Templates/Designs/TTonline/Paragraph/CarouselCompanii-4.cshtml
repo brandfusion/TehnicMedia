@@ -13,11 +13,7 @@
 
 @foreach(LoopItem companie in GetLoop("Item.Lista_Companii")){
 
-
-
-
-      	
-    
+	
     	string mainImageRaw = companie.GetString("Item.Lista_Companii.Logo");
     		string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 255, 168) : ""; 
  	  				mainImage = mainImage + "&bgcolor=white";

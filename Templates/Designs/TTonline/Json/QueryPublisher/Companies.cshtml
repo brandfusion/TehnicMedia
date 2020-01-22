@@ -1,0 +1,139 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+@functions{
+    
+
+    public class SectionsContainer
+    {
+        public string itemTitle { get; set; }
+        public string itemId { get; set; }
+        public string itemImagine { get; set; }
+    }
+	public class Page
+    {
+        public bool isCurrent {get; set;}
+        public string pageNumber {get; set;}
+        public string pageLink {get; set;}
+    }
+    public class FacetSelection
+    {
+        public string template { get; set; }
+        public string group { get; set; }
+        public string name { get; set; }
+        public string label { get; set; }
+        public string value { get; set; }
+        public string queryParameter { get; set; }
+    }
+    public class FacetOption
+    {
+        public string template { get; set; }
+        public string name { get; set; }
+        public string value { get; set; }
+        public string queryParameter { get; set; }
+        public string label { get; set; }
+        public string count { get; set; }
+        public string disabled { get; set; }
+        public string selected { get; set; }
+    }
+
+    public class FacetGroup
+    {
+        public string counter { get; set; }
+        public string name { get; set; }
+        public string defaultState { get; set; }
+        public string showFilter { get; set; }
+        public List<FacetOption> FacetOptions { get; set; }
+    }
+    public class Root
+    {
+        public string currentPage {get; set;}
+        public string currentSection {get; set;}
+        public string currentArticleType {get; set;}
+        public int totalPages {get; set;}
+        public string pagingFirstPageLink {get; set;}
+        public string pagingLastPageLink {get; set;}
+        public string pagingNextButtonText {get; set;}
+        public string pagingNextPageLink {get; set;}
+        public string pagingNextPageNumber {get; set;}
+        public string pagingPageable {get; set;}
+        public string pagingPageCount {get; set;}
+        public string pagingPageSize {get; set;}
+        public string pagingTypeOfNextButton {get; set;}
+        public string pagingTypeOfPreviousButton {get; set;}
+        public string queryResultCount {get; set;}
+        public string queryResultTotalCount {get; set;}
+        public string templateBaseUrl {get; set;}
+        public string templateDesignBaseUrl {get; set;}
+        public List<SectionsContainer> SectionsContainer {get; set;}
+        public List<Page> Pages {get; set;}
+        public List<FacetGroup> FacetGroups { get; set; }
+        public List<FacetSelection> FacetSelections { get; set; }
+	}
+}
+@{
+    var results = GetLoop("QueryResultItem");
+    int paginaAutori = GetPageIdByNavigationTag("PaginaAutori");
+    int paginaTag = GetPageIdByNavigationTag("PaginaTag");
+	var counter = 1;
+    List<Root> feedObject = new List<Root>();
+    List<SectionsContainer> articleFeedObject = new List<SectionsContainer>();
+	
+    Root feedRoot = new Root();
+    feedRoot.SectionsContainer = new List<SectionsContainer>();
+    feedRoot.currentPage= GetString("DwPaging.CurrentPage");
+    feedRoot.currentSection="";
+    feedRoot.currentArticleType="";
+    feedRoot.totalPages=GetInteger("DwPaging.TotalItems");
+    feedRoot.pagingFirstPageLink=GetString("DwPaging.FirstPageLink");
+    feedRoot.pagingLastPageLink=GetString("DwPaging.LastPageLink");
+    feedRoot.pagingNextButtonText=GetString("DwPaging.NextButtonText");
+    feedRoot.pagingNextPageLink=GetString("DwPaging.NextPageLink");
+    feedRoot.pagingNextPageNumber=GetString("DwPaging.NextPageNumber");
+    feedRoot.pagingPageable=GetString("DwPaging.Pageable");
+    feedRoot.pagingPageCount=GetString("DwPaging.PageCount");
+    feedRoot.pagingPageSize=GetString("DwPaging.PageSize");
+    feedRoot.pagingTypeOfNextButton=GetString("DwPaging.TypeOfNextButton");
+    feedRoot.pagingTypeOfPreviousButton=GetString("DwPaging.TypeOfPreviousButton");
+    feedRoot.queryResultCount=GetString("QueryResult.Count");
+    feedRoot.queryResultTotalCount=GetString("QueryResult.TotalCount");
+    feedRoot.templateBaseUrl=GetString("Template:BaseUrl");
+    feedRoot.templateDesignBaseUrl=GetString("Template:DesignBaseUrl");
+
+    foreach (LoopItem sectionItem in results){
+        SectionsContainer sectionsContainerObject = new SectionsContainer();
+	    sectionsContainerObject.itemTitle = sectionItem.GetString("Landing_Page_Title");
+        sectionsContainerObject.itemId = sectionItem.GetString("PageIdString");
+        sectionsContainerObject.itemImagine = sectionItem.GetString("Landing_Page_ImagineSectiune");
+        counter++;
+	    feedRoot.SectionsContainer.Add(sectionsContainerObject);
+    }
+
+//Parameters
+//FacetGroups
+//Query.Parameters
+//QueryResultItem
+//DwPaging.LoopAllPages
+//DwPaging.LoopPageGroup
+
+
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = "";
+
+    if (results.Count == 0)
+    {
+        jsonFeed = "[]";
+    }
+    else
+    {
+        jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed
+
+

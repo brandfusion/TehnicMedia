@@ -23,9 +23,13 @@
         public string link { get; set; }
         public string image { get; set; }
         public string noImage { get; set; }
+        public bool afisarePromotie { get; set; }
+        public double priceProductDB { get; set; }
         public List<Sticker> Stickers { get; set; }
         public string manufacturer { get; set; }
+        public string manufacturerLink { get; set; }
         public List<Dealer> Dealers { get; set; }
+        public string dealerResult { get; set; }
         public string idFormDetalii { get; set; }
     }
 }
@@ -43,12 +47,22 @@
         productObject.link = "/" + product.GetString("Ecom:Product.LinkGroup.Clean") + (!String.IsNullOrEmpty(product.GetString("Ecom:Product.VariantID")) ? "&VariantID=" + product.GetString("Ecom:Product.VariantID") : "");
         productObject.image = product.GetString("Ecom:Product.ImageLarge.Default.Clean");
         productObject.noImage = string.IsNullOrEmpty(product.GetString("Ecom:Product.ImageLarge.Default.Clean")) ? "u-hidden" : "";
+        productObject.afisarePromotie = product.GetBoolean("Ecom:Product:Field.TagPromotie");
+        productObject.priceProductDB = Math.Round(product.GetDouble("Ecom:Product.DBPrice"),2);
         productObject.manufacturer = product.GetString("Ecom:Manufacturer.Name");
+        productObject.manufacturerLink = product.GetString("Ecom:Manufacturer.Web");
         productObject.Stickers = new List<Sticker>();
+        
+        string[] dealeriProdus = (product.GetString("Ecom:Product:Field.Dealeri") ?? "").Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        
         productObject.Dealers = new List<Dealer>();
-        Dealer itemDealer = new Dealer();
-        itemDealer.DealerName = product.GetString("Ecom:Product:Field.Dealeri");
-        productObject.Dealers.Add(itemDealer);
+        foreach (var dealer in dealeriProdus)
+        {
+            Dealer itemDealer = new Dealer();
+            itemDealer.DealerName = dealer;
+            productObject.Dealers.Add(itemDealer);
+        }
+        productObject.dealerResult = dealeriProdus.Length == 1 ? dealeriProdus[0] : dealeriProdus.Length.ToString();
         productObject.idFormDetalii = "120";
         feedObject.Add(productObject);
     }

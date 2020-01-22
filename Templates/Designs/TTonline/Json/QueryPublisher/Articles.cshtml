@@ -15,7 +15,14 @@
         public List<Article> Article { get; set; }
     }
 
-    public class Article
+	public class SectionsContainer
+	{
+		public string id { get; set; }
+		public string title { get; set; }
+		public string image { get; set; }
+	}
+
+	public class Article
     {
         public string[] itemAutori {get; set;}
         public string[] itemAutoriName {get; set;}
@@ -137,6 +144,7 @@
         public List<Page> Pages {get; set;}
         public List<FacetGroup> FacetGroups { get; set; }
         public List<FacetSelection> FacetSelections { get; set; }
+	    public List<SectionsContainer> SectionsContainer { get; set; }
     }
     
 
@@ -148,6 +156,7 @@
 	var counter = 1;
     List<Root> feedObject = new List<Root>();
     List<ArticlesContainer> articleFeedObject = new List<ArticlesContainer>();
+	List<SectionsContainer> sectionsFeedObject = new List<SectionsContainer>();
 
     Root feedRoot = new Root();
     feedRoot.ArticlesContainer = new List<ArticlesContainer>();
@@ -183,7 +192,7 @@
         articleObject.itemDespreCompanie=article.GetString("ItemDespreCompanie");
         articleObject.itemEditie=article.GetString("ItemEditie");
         articleObject.itemID=article.GetInteger("ItemID");
-        articleObject.itemImaginePrincipala=article.GetString("ItemImaginePrincipala");
+        articleObject.itemImaginePrincipala=article.GetString("ItemImaginePrincipala") != "" ? article.GetString("ItemImaginePrincipala") : "/Files/Images/NoImage/540x355.png";
         articleObject.itemSectiuneParinte=article.GetString("ItemSectiuneParinte");
         articleObject.itemSectiuneParinteId=article.GetString("ItemSectiuneParinteId");
         articleObject.itemSectiuneSecundara=article.GetString("ItemSectiuneSecundara");
