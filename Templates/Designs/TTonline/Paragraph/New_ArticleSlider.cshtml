@@ -1,4 +1,4 @@
-@using Dynamicweb.Content;
+﻿@using Dynamicweb.Content;
 @inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
 @using System
 @using System.Web;
@@ -27,7 +27,7 @@
 <div class="row">
   <div class="col-md-12">
     <div class="flexslider">
-      <div class="featured-slider handlebars-wrapper" id="HomePageSlider" data-template="HomepageSliderTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesSlides">
+      <div class="featured-slider" id="HomePageSlider" data-template="HomepageSliderTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesSlides">
  			<div class="loader"></div>        
             @*HANDLEBARS TEMPLATE GOES HERE*@
       </div>
@@ -50,7 +50,7 @@
           
           <div class="featured-href">
             <figure class="image-overlay2">
-              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Height=145&Compression=75' alt="{{itemTitlu}}"/>
+              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=760&Height=510' alt="{{itemTitlu}}"/>
             </figure>
            
           <div class="featured-header">
@@ -78,7 +78,7 @@
         </div> 
           <div  class="featured-href">
             <figure class="image-overlay2">
-              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Height=145&Compression=75' alt="{{itemTitlu}}"/>
+              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=365&Height=250' alt="{{itemTitlu}}"/>
             </figure>
           
             <div class="featured-header">
@@ -108,7 +108,7 @@
           </div> 
              <div class="featured-href">
                <figure class="image-overlay2">
-              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Height=145&Compression=75' alt="{{itemTitlu}}"/>
+              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=365&Height=250' alt="{{itemTitlu}}"/>
                </figure>
            
                <div class="featured-header">

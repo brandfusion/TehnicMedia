@@ -1,0 +1,45 @@
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+<style>
+  .owl-carousel .owl-item img {width:auto!important;}
+</style>
+
+
+@{
+	var pageId = GetPageIdByNavigationTag("CompaniesFeed");
+	var companiesIDs = "";
+	foreach (LoopItem i in GetLoop("Item.Lista_Companii"))
+	{
+	    companiesIDs += i.GetString("Item.Lista_Companii.Titlu") + ",";
+	}
+}
+<h1>@companiesIDs</h1>
+<div class="col-md-12 companii-background">
+    <h4><span class="tipcompanie-homepage-tag" style="background-color: #996633;">@GetString("Item.Titlu")</span></h4>
+    <div id="CarouselCompanii1" class="handlebars-wrapper" data-template="CarouselCompanii1Template" data-json-feed="/Default.aspx?ID=@pageId&CompanieID=@companiesIDs">
+        <div class="loader"></div>
+        @*HANDLEBARS TEMPLATE GOES HERE*@
+    </div>
+</div>
+
+<script id="CarouselCompaniiTemplate" type="text/x-handlebars-template">
+    <div class="carousel-companii caruselMarginBottom">
+        <div class="owl-carousel owl-companii-2 owl-theme"> 
+
+            <div class="item col-companie"> 
+                {{#CompanyContainer}}
+                <article class="news-block small-block">		
+                    <figure class="image-overlay-addon companii-logo-figure" >
+                           <img src="{{itemLogo}}"/>                  
+                    </figure> 	   
+                    <header class="news-details"> 
+                        <h3 class="news-title">  
+                            <a href="{{itemLink}}"><span  style="font-size:16px;">{{itemName}}</span></a></h3> 
+                        <p class="companie-numar-produse">{{itemProdNumber}}</p> 
+                    </header>						   
+                </article>
+                {{/CompanyContainer}}
+            </div>         
+        </div>
+    </div>
+</script>
