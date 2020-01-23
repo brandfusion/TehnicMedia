@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     console.log('DOM loaded');
     if (document.getElementById('HomePageSlider') !== null) {
         loadFirstView();
+        loadOnScroll();
     }
 });
 window.onload = function() {
@@ -40,6 +41,24 @@ function loadFirstView() {
     console.log(error, "error boo1");
     })
 }
+
+function loadOnScroll() {
+    window.addEventListener('scroll', function(e) {
+        var top  = window.pageYOffset || document.documentElement.scrollTop;        
+        var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper');
+        
+        allHandlebarsWrapers.forEach(function(elem) {
+            var currentElementTop = elem.parentNode.offsetTop;
+            if (parseFloat(currentElementTop) < parseFloat(top) && !elem.classList.contains('content-loaded'))
+            {
+                elem.classList.add('content-loaded');
+                getDataForHandlebars(elem);
+            }
+        });
+    })
+    
+}
+
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 /*START ADDITIONAL FUNCTIONS*/
@@ -57,6 +76,7 @@ function getDataForHandlebars(homePageSliderWrapper) {
         url:urlFeed
     })
     .then(function (response) {
+        console.log(response, homePageSliderWrapper)
         compileDataToHandlebars(response.data[0], homePageSliderWrapper);
     })
     .catch(function (error) {

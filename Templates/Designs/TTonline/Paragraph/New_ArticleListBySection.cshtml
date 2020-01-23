@@ -1,4 +1,4 @@
-@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+ @inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
 @using System
 @using System.Web;
 @using System.Collections;
@@ -12,9 +12,12 @@
 @Include("../Includes/GetImage_new.cshtml")
 
 @{
-	var pageId = GetPageIdByNavigationTag("ArticlesFeed");
+	var pageId = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+    var paragraphName = GetString("Item.ParagraphName");
+	var featuredArticles = GetLoop("Item.Featured_Article");
 	var articlesIDs = "";
-	foreach (LoopItem i in GetLoop("Item.Featured_Article"))
+	var sectionID = GetString("Item.Section"); 
+	foreach (LoopItem i in featuredArticles)
 	{
 		var slideId = i.GetString("Item.Featured_Article.Id");
 		var pageService = new Dynamicweb.Content.PageService();
@@ -24,48 +27,54 @@
 
 @NewRow() 
 
-
 <div class="@ColumnClass() homepage-sectiune" style="margin-top: 25px; margin-bottom:0px">
-	<h3 class="block-title"><span>@GetString("Item.ParagraphName")</span></h3>
-	@RenderFeaturedArticle()
-	@RenderArticleList()
+	<h3 class="block-title"><span>@paragraphName</span></h3>
+	@if(featuredArticles.Any()) {
+		<text>
+		@RenderFeaturedArticle(pageId, articlesIDs, paragraphName)
+		</text>
+	}
+	
+	@RenderArticleList(pageId, sectionID, paragraphName)
+    @RenderMoreButton(sectionID) 
 	@RenderModule() 
 </div>
 
-@helper RenderFeaturedArticle()
+@helper RenderFeaturedArticle(string pageId, string articlesIDs, string paragraphName)
 {
-	<div id="ArticleListBySection" class="handlebars-wrapper" data-template="ArticleListBySectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
+	var templateName = paragraphName.Replace(" ", string.Empty) + "FeaturedTemplate";
+	<div class="handlebars-wrapper" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
 		<div class="loader"></div>
 		@*HANDLEBARS TEMPLATE GOES HERE*@
 	</div>
-	<script id="ArticleListBySectionTemplate" type="text/x-handlebars-template">
+
+	<script id="@templateName" type="text/x-handlebars-template">
 	{{#ArticlesContainer}}
 		{{#each Article}}
 			<article class="news-block">
-            	<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
-
-            		<figure class=" ">	
-            			<img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive" />
+               <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                    <figure class=" ">	
+            			<img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive" />
             		</figure>
                <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
-            	</a>
+               </a>
 
-            	{{#articleSections}}
-                    <a href="#" class="category bgcolor3">{{Name}}</a>
-                {{/articleSections}}
+               {{#articleSections}}
+                     <a href="#" class="category bgcolor3">{{Name}}</a>
+               {{/articleSections}}
             	<header class="news-details">
             		<h3 class="news-title"> <a href='/Default.aspx?ID={{pagePageID}}' alt='{{itemTitlu}}'>{{itemTitlu}}</a></h3>
-            		    <p>{{{itemSumar}}}</p>
-            	        <p class="simple-share">@Translate("articolde","de")  
-            	        {{#itemAutori}}
-                        
-                            <a href="{{Link}}"><b>{{Name}}</b></a>
-                        {{/itemAutori}}
-            	        - <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
-                          {{#if showItemVisits}}
-                                        <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+            		<p>{{{itemSumar}}}</p>
+            	    <p class="simple-share">
+                         @Translate("articolde","de")  
+            	         {{#articleAutori}}
+                              <a href="{{Link}}"><b>{{Name}}</b></a>
+                         {{/articleAutori}}
+            	         - <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                         {{#if showItemVisits}}
+                              <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
                           {{/if}}
-            			</p>
+            		</p>
             	</header>  
             </article><!-- News block -->
 		{{/each}}
@@ -75,36 +84,33 @@
 	
 }
 
-@helper RenderArticleList()
+@helper RenderArticleList(string pageId, string sectionID, string paragraphName)
 {
 	string listTemplate = GetString("Item.Display").Replace("1", "one").Replace("2", "two").Replace("3", "three");
 	var noSummary = listTemplate.Contains("nosummary");
 	var noImage = listTemplate.Contains("noimage");
+    var templateName = paragraphName.Replace(" ", string.Empty) + "LsitTemplate";
+	int listSize = GetInteger("Item.ListSize") > 0 ? GetInteger("Item.ListSize") : 2;
 	
-	<div class="list-container @listTemplate" data-template="ArticleListBySectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
-		<div class="loader"></div>
+	<div class="list-container handlebars-wrapper @listTemplate" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&Sections=@sectionID&pagesize=@listSize">
 		@*HANDLEBARS TEMPLATE GOES HERE*@
 	</div>
-	<script id="ArticleListBySectionTemplate" type="text/x-handlebars-template">
-	{{#ArticlesContainer}}
-	{{#Article}}
-	<article class="news-block small-block">
-			@if (!noImage)
-			{
-				
-				<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
-					<figure class=" ">
-						<img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive"/>
-					</figure>
-				</a>
-			}
-
-			<a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
-			<header class="news-details">
-
-				<h3 class="{{itemTitlu}}"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3>
+	<script id="@templateName" type="text/x-handlebars-template">
+	   {{#ArticlesContainer}}
+	       {{#Article}}
+	          <article class="news-block small-block">
+		      @if (!noImage)
+          		{			
+					<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+				       <figure>
+					      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive"/>
+				       </figure>
+			        </a>
+		        }
+			  <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+			  <header class="news-details">
+				<h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3>
 				<p class="simple-share">
-
 					@Translate("articolde", "de")
 					{{#articleAutori}}
 					<a href="{{Link}}">{{Name}}</a>
@@ -116,17 +122,17 @@
                         <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
                     {{/if}}
 				</p>
+				
 				@if (!noSummary)
 				{
 					<div class="excerpt">
                        {{{itemSumar}}}
                     </div>
 				}
-			</header>
-			
-		</article>
+			   </header>			
+		  </article>
 		{{/Article}}
-		{{/ArticlesContainer}}
+	   {{/ArticlesContainer}}
 	</script>
 
 }
@@ -137,17 +143,14 @@
 	@GetString("ParagraphModule")
 }
 
-
-@foreach(LoopItem j in GetLoop("Item.Featured_Article")){
-
-	string articleSectiune = j.GetString("Item.Featured_Article.SectiuneParinte");
- 	int articleSectiuneID = j.GetInteger("Item.Featured_Article.SectiuneParinteId");
-
- 	<div class="col-md-12 col-xs-12 load-more">
-      <a href="/Default.aspx?ID=@articleSectiuneID"><button type="button" class="btn btn-lg btn-block">@Translate("maimulte","Mai multe")</button></a>
+@helper RenderMoreButton(string sectionID) 
+{
+	<div class="col-md-12 col-xs-12 load-more">
+      <a href="/Default.aspx?ID=@sectionID"><button type="button" class="btn btn-lg btn-block">@Translate("maimulte","Mai multe")</button></a>
     </div>
-
 }
+
+
 
 
                 

@@ -4,7 +4,7 @@
 @using System.Text.RegularExpressions;
 @using System.Net;
 @using System;
-
+@Include("../../Custom/GlobalVariables.cshtml")
 @functions{
     
 
@@ -192,7 +192,7 @@
         articleObject.itemDespreCompanie=article.GetString("ItemDespreCompanie");
         articleObject.itemEditie=article.GetString("ItemEditie");
         articleObject.itemID=article.GetInteger("ItemID");
-        articleObject.itemImaginePrincipala=article.GetString("ItemImaginePrincipala") != "" ? article.GetString("ItemImaginePrincipala") : "/Files/Images/NoImage/540x355.png";
+        articleObject.itemImaginePrincipala=article.GetString("ItemImaginePrincipala") != "" ? article.GetString("ItemImaginePrincipala") : areaLayoutPath + "/Files/Images/NoImage/540x355.png";
         articleObject.itemSectiuneParinte=article.GetString("ItemSectiuneParinte");
         articleObject.itemSectiuneParinteId=article.GetString("ItemSectiuneParinteId");
         articleObject.itemSectiuneSecundara=article.GetString("ItemSectiuneSecundara");
