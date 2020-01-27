@@ -89,7 +89,7 @@
 	string listTemplate = GetString("Item.Display").Replace("1", "one").Replace("2", "two").Replace("3", "three");
 	var noSummary = listTemplate.Contains("nosummary");
 	var noImage = listTemplate.Contains("noimage");
-    var templateName = paragraphName.Replace(" ", string.Empty) + "LsitTemplate";
+    var templateName = paragraphName.Replace(" ", string.Empty) + "ListTemplate";
 	int listSize = GetInteger("Item.ListSize") > 0 ? GetInteger("Item.ListSize") : 2;
 	
 	<div class="list-container handlebars-wrapper @listTemplate" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&Sections=@sectionID&pagesize=@listSize">
