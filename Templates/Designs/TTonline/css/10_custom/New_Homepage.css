@@ -111,8 +111,13 @@
     min-height: 2em; 
 }
 
-.handlebars-wrapper {
+.handlebars-wrapper, #RecomandariTT, #UltimeleStiri {
     clear: both;
     position: relative;
     min-height: 2em;
+}
+
+#myCarousel .description {
+    height: 150px;
+    overflow: hidden;
 }

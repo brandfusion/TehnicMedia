@@ -7,7 +7,7 @@
 	</h3>
 
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
-		<div class="carousel-inner sidebar-handlebars-wrapper" role="listbox" data-template="WidgetEvenimenteTemplate"  data-json-feed="/Default.aspx?ID=@eventsPageID">
+		<div class="carousel-inner handlebars-wrapper" role="listbox" data-template="WidgetEvenimenteTemplate"  data-json-feed="/Default.aspx?ID=@eventsPageID">
 			@*Handlebars goes here*@
 		</div>
 		
@@ -23,14 +23,13 @@
 </div>
 
 <script id="WidgetEvenimenteTemplate"  type="text/x-handlebars-template">  
-{{#each apidata}}
+{{#each EvenimenteContainer}}
    <div class="item">
         <figure class="image-overlay">
 			<img src="{{Afis}}" class="img-responsive">
         </figure>
-        <span>{{title}}</span>
-                
-        <p style="max-height:100px; overflow:hidden;">{{{Descriere}}}  </p> 
+        <span>{{title}}</span>                
+        <div class="description">{{{Descriere}}}</div>
         @if(GetInteger("DwAreaID") == 1){
               <a href="{{URLEveniment}}" style="z-index: 200;">Mai mult</a>
           }else{
@@ -42,18 +41,7 @@
 
 
 <script type="text/javascript">
-	$(".carousel-inner .item:first-child").addClass('active');
-
-	$(".glyphicon-chevron-right").hide();
-	$(".glyphicon-chevron-left").hide();
-
-	$('#myCarousel').hover(function() {
-		$(".glyphicon-chevron-right").show();
-		$(".glyphicon-chevron-left").show();
-	}, function() {
-		$(".glyphicon-chevron-right").hide();
-		$(".glyphicon-chevron-left").hide();
-	});
+	
 </script>
 
 

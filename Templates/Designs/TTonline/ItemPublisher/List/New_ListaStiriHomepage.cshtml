@@ -13,7 +13,7 @@
     <h3 class="block-title"><span>@Translate("ultimelestiri", "ULTIMELE STIRI")</span></h3>
   
     @*if(GetBoolean("ItemPublisher:Items.Any")){*@
-    <ul class="widget-content handlebars-wrapper" id="UltimeleStiri" data-template="UltimeleStiriTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
+    <ul class="widget-content" id="UltimeleStiri" data-template="UltimeleStiriTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
         <div class="loader"></div>
         @*HANDLEBARS TEMPLATE GOES HERE*@
     </ul>

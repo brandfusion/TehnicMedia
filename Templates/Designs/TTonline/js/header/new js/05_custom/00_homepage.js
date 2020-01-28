@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function(event) {
     if (document.getElementById('HomePageSlider') !== null) {
+        window.scrollTo(0, 0);
         loadFirstView();
         loadOnScroll();
     }
@@ -16,10 +17,9 @@ function loadFirstView() {
         url:urlFeed
     })
     .then(function (response) {
-        compileDataToHandlebars(response.data[0], homePageSliderWrapper);      
-
+        compileDataToHandlebars(response.data[0], homePageSliderWrapper);              
         //initialize homepage slider after handlebars template was compiled
-        initializeHomepageSlider()
+        initializeHomepageSlider();
     })
     .then(function() {
         //load Recomandari T&T
@@ -38,15 +38,32 @@ function loadFirstView() {
 }
 
 function loadOnScroll() {
-    window.addEventListener('scroll', function(e) {
+    /*window.addEventListener('scroll', function(e) {
         
         var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper:not(.rendered)');
         var allSidebarWrappers = document.querySelectorAll('.sidebar-handlebars-wrapper:not(.rendered)');
         
         lazyLoadElements(allHandlebarsWrapers);
         lazyLoadElements(allSidebarWrappers);
-    })
+    })*/
+    var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper:not(.rendered)');
+    var allSidebarWrappers = document.querySelectorAll('.sidebar-handlebars-wrapper:not(.rendered)');
     
+    const options = {
+        threshold: 0,
+        rootMargin: "500px"
+    }
+    const observer = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+            if(entry.isIntersecting) {
+                getDataForHandlebars(entry.target)
+                observer.unobserve(entry.target);
+            }
+        })
+    }, options);
+    allHandlebarsWrapers.forEach(function(elem) {
+       observer.observe(elem) 
+    });
 }
 
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
@@ -77,12 +94,18 @@ function getDataForHandlebars(homePageSliderWrapper) {
         url:urlFeed
     })
     .then(function (response) {
-        compileDataToHandlebars(response.data[0], homePageSliderWrapper);
-        /*if (homePageSliderWrapper.classList.contains("owl-carousel")) {
-            initializeHomepageCarousel(homePageSliderWrapper.getAttribute("class"), parseFloat(homePageSliderWrapper.getAttribute("data-slides-number")));
-        }*/
+        compileDataToHandlebars(response.data[0], homePageSliderWrapper);        
         homePageSliderWrapper.classList.remove('rendering')
         homePageSliderWrapper.classList.add('rendered')
+    })
+    .then(function() {
+        if(homePageSliderWrapper.classList.contains("carousel-inner")) {
+            initializeEventsCarousel();
+        }
+        if (homePageSliderWrapper.classList.contains("owl-carousel")) {
+            $(".owl-carousel").trigger('destroy.owl.carousel');
+            initializeHomepageCarousel(homePageSliderWrapper.getAttribute("class"), parseFloat(homePageSliderWrapper.getAttribute("data-slides-number")));
+        }
     })
     .catch(function (error) {
         // handle error
@@ -104,8 +127,7 @@ function initializeHomepageSlider() {
 }
 
 function initializeHomepageCarousel(elem, numberOfSlides){
-    $(".owl-carousel").onRefresh();
-   /* $(".owl-carousel").owlCarousel({
+    $(".owl-carousel").owlCarousel({
         loop: true,
         margin: 10,
         dots: false,
@@ -125,7 +147,22 @@ function initializeHomepageCarousel(elem, numberOfSlides){
                 items: numberOfSlides
             }
         }
-    });*/
+    });
 
+}
+
+function initializeEventsCarousel() {
+    $(".carousel-inner .item:first-child").addClass('active');
+
+    $(".glyphicon-chevron-right").hide();
+    $(".glyphicon-chevron-left").hide();
+
+    $('#myCarousel').hover(function() {
+        $(".glyphicon-chevron-right").show();
+        $(".glyphicon-chevron-left").show();
+    }, function() {
+        $(".glyphicon-chevron-right").hide();
+        $(".glyphicon-chevron-left").hide();
+    });
 }
 /*END ADDITIONAL FUNCTIONS*/

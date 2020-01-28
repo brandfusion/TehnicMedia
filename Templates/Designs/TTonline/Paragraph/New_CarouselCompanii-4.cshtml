@@ -9,7 +9,7 @@
 	var companiesIDs = "";
 	foreach (LoopItem i in GetLoop("Item.Lista_Companii"))
 	{
-	    companiesIDs += i.GetString("Item.Lista_Companii.Companie") + ",";
+	    companiesIDs += i.GetString("Item.Lista_Companii.Id") + ",";
 	}
 }
 <div class="col-md-12 companii-background">
@@ -25,7 +25,7 @@
     </div>
 </div>
 <script id="CarouselCompanii1Template" type="text/x-handlebars-template">
-    {{#CompanyContainer}}
+    {{#each CompanyContainer}}
     <div class="item col-companie">
         <article class="news-block small-block">
             <figure class="image-overlay-addon companii-logo-figure">
@@ -38,5 +38,5 @@
             </header>
         </article>
     </div>
-    {{/CompanyContainer}}
+    {{/each}}
 </script>
