@@ -22,14 +22,12 @@
 </style>
 <div class="col-md-12">
 	<h3 class="block-title"><span>@GetString("Item.Titlu")</span></h3>
-	<div class="carousel-produse">
-		<div class="owl-carousel owl-theme" > 
-			<div id="CaruselHomepage" class="handlebars-wrapper" data-template="CaruselHomepageTemplate" data-json-feed="/Default.aspx?ID=@pageId&Promoted=@productsIDs">
-				<div class="loader"></div>
-				@*HANDLEBARS TEMPLATE GOES HERE*@
-			</div>
-		</div>
-	</div>
+    <div class="carousel-produse">
+        <div class="owl-carousel owl-theme handlebars-wrapper" data-template="CaruselHomepageTemplate" data-slides-number="4" data-json-feed="/Default.aspx?ID=@pageId&Promoted=@productsIDs">
+            <div class="loader"></div>
+            @*HANDLEBARS TEMPLATE GOES HERE*@
+        </div>
+    </div>
 </div>
 
 <script id="CaruselProduseTemplate" type="text/x-handlebars-template">

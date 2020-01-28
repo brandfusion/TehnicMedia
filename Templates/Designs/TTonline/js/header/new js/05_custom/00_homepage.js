@@ -1,15 +1,11 @@
 
 document.addEventListener('DOMContentLoaded', function(event) {
-    console.log('DOM loaded');
     if (document.getElementById('HomePageSlider') !== null) {
         loadFirstView();
         loadOnScroll();
     }
 });
-window.onload = function() {
-    console.log('Page loaded');
 
-};
 /*START HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 //On page load, first items loaded will be the slider and the first categories
@@ -47,13 +43,25 @@ function loadOnScroll() {
         var top  = window.pageYOffset || document.documentElement.scrollTop;        
         var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper');
         
-        allHandlebarsWrapers.forEach(function(elem) {
-            var currentElementTop = elem.parentNode.offsetTop;
-            if (parseFloat(currentElementTop) < parseFloat(top) && !elem.classList.contains('content-loaded'))
+        allHandlebarsWrapers.forEach(function(elem, index, array) {
+            var currentElementTop = elem.closest('.main-body').offsetTop + elem.offsetTop;
+            if (parseFloat(currentElementTop) < parseFloat(top))
             {
-                elem.classList.add('content-loaded');
-                getDataForHandlebars(elem);
-            }
+                if (index===0 && !elem.classList.contains('content-loaded')) 
+                {
+                    elem.classList.add('content-loaded');
+                    getDataForHandlebars(elem);
+                    array[index+1].classList.add('content-loaded');
+                    getDataForHandlebars(array[index+1]);
+                    
+                }
+                else {
+                    if (!array[index + 1].classList.contains('content-loaded')) {
+                        array[index + 1].classList.add('content-loaded');
+                        getDataForHandlebars(array[index + 1]);
+                    }
+                }
+            } 
         });
     })
     
@@ -76,8 +84,10 @@ function getDataForHandlebars(homePageSliderWrapper) {
         url:urlFeed
     })
     .then(function (response) {
-        console.log(response, homePageSliderWrapper)
         compileDataToHandlebars(response.data[0], homePageSliderWrapper);
+        if (homePageSliderWrapper.classList.contains("owl-carousels")) {
+            initializeHomepageCarousel(homePageSliderWrapper.getAttribute("class"), parseFloat(homePageSliderWrapper.getAttribute("data-slides-number")));
+        }
     })
     .catch(function (error) {
         // handle error
@@ -98,4 +108,29 @@ function initializeHomepageSlider() {
     });
 }
 
+function initializeHomepageCarousel(elem, numberOfSlides){
+    
+    $("#SectiuniCarusel").owlCarousel({
+        loop: true,
+        margin: 10,
+        dots: false,
+        nav: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 3,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            1000: {
+                items: numberOfSlides
+            }
+        }
+    });
+
+}
 /*END ADDITIONAL FUNCTIONS*/
