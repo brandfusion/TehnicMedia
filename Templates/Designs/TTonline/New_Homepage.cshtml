@@ -1,0 +1,91 @@
+@MasterPageFile("Master.cshtml")
+@GetValue("Title(Homepage)")
+@GetValue("Description(Homepage)")
+
+<div class="row">
+  <div class="col-sm-12">
+    @Include("Custom/FeaturedTags.cshtml")
+  </div>
+</div>
+<!--Main Slider Begin-->
+<div class="dwcontent" id="homepageSlider" title="Homepage Slider" data-settings="unwrap=true"></div>
+<!--Main Slider End-->
+
+
+<div class="row main-body" data-stickyparent>
+  <!-- <div class="container"> -->
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <section class="admag-block">
+      <div class="row">
+        <!--Main Content Begin-->
+     <div class="dwcontent" id="maincontent" title="Main Content 1" data-settings="unwrap=true"></div>
+        <!--Main Content End-->
+      </div>
+    </section>
+  </div>
+  
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 sticky"  >
+   @Include("Custom/New_Sidebar-TopPart.cshtml")
+</div>
+</div>
+
+<div class="row main-body shop-background homepage-shop" style="margin-top:-20px!important; padding-bottom: 34px;" data-stickyparent>
+  <div class="col-md-12">
+    <section class="admag-block">
+      <div class="row">
+        <!--Main Content Begin-->
+        <div class="dwcontent" id="maincontent-1" title="Main Content Full Width" data-settings="unwrap=true"></div>
+        <!--Main Content End-->
+      </div>
+    </section>
+  </div>
+</div> 
+<div class="row main-body" data-stickyparent style=" margin-top: -25px;">
+  <div class="col-md-8">
+    <section class="admag-block">
+      <div class="row">
+        <!--Main Content Begin-->
+        <div class="dwcontent" id="maincontent-2" title="Main Content 2" data-settings="unwrap=true"></div>
+        <!--Main Content End-->
+      </div>
+    </section>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 sticky " >
+   @Include("Custom/Sidebar-BottomPart.cshtml")
+  </div>
+</div>
+
+<div class="row main-body" data-stickyparent  style="margin-top:-12px!important;">
+  <div class="col-md-12">
+    <section class="admag-block">
+      <div class="row">
+        <!--Main Content Begin-->
+        <div class="dwcontent" id="maincontent-3" title="Main Content Full Width -2" data-settings="unwrap=true"></div>
+        <!--Main Content End-->
+      </div>
+    </section>
+  </div>
+</div>      
+<!-- </div> -->  
+<!-- Google Analytics -->
+@RenderSnippet("ProductCarouselModal")
+<script>
+
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+ga('create', 'UA-26068739-1', 'auto');
+
+ 
+
+// DIMENSIONS DECLARATION WHERE NEEDED
+
+ 
+
+ga('send', 'pageview');
+
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+
+<!-- End Google Analytics -->

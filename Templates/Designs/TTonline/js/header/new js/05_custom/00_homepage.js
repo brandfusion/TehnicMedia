@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function(event) {
     if (document.getElementById('HomePageSlider') !== null) {
         loadFirstView();
@@ -40,29 +39,12 @@ function loadFirstView() {
 
 function loadOnScroll() {
     window.addEventListener('scroll', function(e) {
-        var top  = window.pageYOffset || document.documentElement.scrollTop;        
-        var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper');
         
-        allHandlebarsWrapers.forEach(function(elem, index, array) {
-            var currentElementTop = elem.closest('.main-body').offsetTop + elem.offsetTop;
-            if (parseFloat(currentElementTop) < parseFloat(top))
-            {
-                if (index===0 && !elem.classList.contains('content-loaded')) 
-                {
-                    elem.classList.add('content-loaded');
-                    getDataForHandlebars(elem);
-                    array[index+1].classList.add('content-loaded');
-                    getDataForHandlebars(array[index+1]);
-                    
-                }
-                else {
-                    if (!array[index + 1].classList.contains('content-loaded')) {
-                        array[index + 1].classList.add('content-loaded');
-                        getDataForHandlebars(array[index + 1]);
-                    }
-                }
-            } 
-        });
+        var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper:not(.rendered)');
+        var allSidebarWrappers = document.querySelectorAll('.sidebar-handlebars-wrapper:not(.rendered)');
+        
+        lazyLoadElements(allHandlebarsWrapers);
+        lazyLoadElements(allSidebarWrappers);
     })
     
 }
@@ -70,6 +52,17 @@ function loadOnScroll() {
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 /*START ADDITIONAL FUNCTIONS*/
+function lazyLoadElements(elementsList) {
+    var top  = window.pageYOffset || document.documentElement.scrollTop;
+    var firstElem = elementsList[0];
+    var currentElementTop = firstElem.closest('.main-body').offsetTop + firstElem.parentNode.offsetTop - 300;
+    if (parseFloat(currentElementTop) < parseFloat(top) && !firstElem.classList.contains("rendering"))
+    {
+        firstElem.classList.add('rendering');
+        getDataForHandlebars(firstElem);
+    }
+}
+
 function compileDataToHandlebars(data, homePageSliderWrapper) {
     var homepageSliderTemplate = document.getElementById(homePageSliderWrapper.getAttribute('data-template'));
     var theScriptHTML = homepageSliderTemplate !== null ? homepageSliderTemplate.innerHTML : "";
@@ -85,9 +78,11 @@ function getDataForHandlebars(homePageSliderWrapper) {
     })
     .then(function (response) {
         compileDataToHandlebars(response.data[0], homePageSliderWrapper);
-        if (homePageSliderWrapper.classList.contains("owl-carousels")) {
+        /*if (homePageSliderWrapper.classList.contains("owl-carousel")) {
             initializeHomepageCarousel(homePageSliderWrapper.getAttribute("class"), parseFloat(homePageSliderWrapper.getAttribute("data-slides-number")));
-        }
+        }*/
+        homePageSliderWrapper.classList.remove('rendering')
+        homePageSliderWrapper.classList.add('rendered')
     })
     .catch(function (error) {
         // handle error
@@ -109,8 +104,8 @@ function initializeHomepageSlider() {
 }
 
 function initializeHomepageCarousel(elem, numberOfSlides){
-    
-    $("#SectiuniCarusel").owlCarousel({
+    $(".owl-carousel").onRefresh();
+   /* $(".owl-carousel").owlCarousel({
         loop: true,
         margin: 10,
         dots: false,
@@ -130,7 +125,7 @@ function initializeHomepageCarousel(elem, numberOfSlides){
                 items: numberOfSlides
             }
         }
-    });
+    });*/
 
 }
 /*END ADDITIONAL FUNCTIONS*/
