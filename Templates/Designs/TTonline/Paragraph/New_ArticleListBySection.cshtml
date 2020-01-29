@@ -1,4 +1,4 @@
- @inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+﻿ @inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
 @using System
 @using System.Web;
 @using System.Collections;
@@ -36,7 +36,12 @@
 	}
 	
 	@RenderArticleList(pageId, sectionID, paragraphName)
-    @RenderMoreButton(sectionID) 
+	@if(featuredArticles.Any()) {
+    	<text>
+		    @RenderMoreButton(sectionID) 
+    	</text>
+    }
+   
 	@RenderModule() 
 </div>
 
@@ -54,7 +59,7 @@
 			<article class="news-block">
                <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
                     <figure class=" ">	
-            			<img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive" />
+            			<img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive" />
             		</figure>
                <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
                </a>
@@ -103,7 +108,7 @@
           		{			
 					<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
 				       <figure>
-					      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive"/>
+					      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive"/>
 				       </figure>
 			        </a>
 		        }

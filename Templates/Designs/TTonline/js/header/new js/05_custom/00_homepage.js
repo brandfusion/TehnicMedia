@@ -2,7 +2,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if (document.getElementById('HomePageSlider') !== null) {
         window.scrollTo(0, 0);
         loadFirstView();
-        loadOnScroll();
+        if(!isIE11()) {
+            loadOnScroll();
+        } else {
+            loadOnScrollForIE();
+        }
     }
 });
 
@@ -38,16 +42,9 @@ function loadFirstView() {
 }
 
 function loadOnScroll() {
-    /*window.addEventListener('scroll', function(e) {
-        
-        var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper:not(.rendered)');
-        var allSidebarWrappers = document.querySelectorAll('.sidebar-handlebars-wrapper:not(.rendered)');
-        
-        lazyLoadElements(allHandlebarsWrapers);
-        lazyLoadElements(allSidebarWrappers);
-    })*/
-    var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper:not(.rendered)');
-    var allSidebarWrappers = document.querySelectorAll('.sidebar-handlebars-wrapper:not(.rendered)');
+   
+    var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper');
+    var allSidebarWrappers = document.querySelectorAll('.sidebar-handlebars-wrapper');
     
     const options = {
         threshold: 0,
@@ -64,19 +61,37 @@ function loadOnScroll() {
     allHandlebarsWrapers.forEach(function(elem) {
        observer.observe(elem) 
     });
+    allSidebarWrappers.forEach(function(elem) {
+        observer.observe(elem)
+    });
 }
 
+function loadOnScrollForIE() {
+    
+    window.addEventListener('scroll', function(e) {
+    
+    var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper');
+    var allSidebarWrappers = document.querySelectorAll('.sidebar-handlebars-wrapper');
+
+    for(var x = 0; x < allHandlebarsWrapers.length; x++) {
+        lazyLoadElements(allHandlebarsWrapers[x]);
+    }
+    for(var x = 0; x < allSidebarWrappers.length; x++) {
+        lazyLoadElements(allSidebarWrappers[x]);
+    } 
+    })
+    
+}
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 /*START ADDITIONAL FUNCTIONS*/
-function lazyLoadElements(elementsList) {
+function lazyLoadElements(element) {
     var top  = window.pageYOffset || document.documentElement.scrollTop;
-    var firstElem = elementsList[0];
-    var currentElementTop = firstElem.closest('.main-body').offsetTop + firstElem.parentNode.offsetTop - 300;
-    if (parseFloat(currentElementTop) < parseFloat(top) && !firstElem.classList.contains("rendering"))
+    var currentElementTop = element.parentNode.offsetTop  - 500;
+    if (parseFloat(currentElementTop) < parseFloat(top) && !element.classList.contains("rendering"))
     {
-        firstElem.classList.add('rendering');
-        getDataForHandlebars(firstElem);
+        element.classList.add('rendering');
+        getDataForHandlebars(element);
     }
 }
 
@@ -94,9 +109,11 @@ function getDataForHandlebars(homePageSliderWrapper) {
         url:urlFeed
     })
     .then(function (response) {
-        compileDataToHandlebars(response.data[0], homePageSliderWrapper);        
-        homePageSliderWrapper.classList.remove('rendering')
-        homePageSliderWrapper.classList.add('rendered')
+        compileDataToHandlebars(response.data[0], homePageSliderWrapper);   
+        if(isIE11()) {
+            homePageSliderWrapper.classList.remove('rendering');
+            homePageSliderWrapper.classList.add('rendered');
+        }        
     })
     .then(function() {
         if(homePageSliderWrapper.classList.contains("carousel-inner")) {
@@ -104,7 +121,9 @@ function getDataForHandlebars(homePageSliderWrapper) {
         }
         if (homePageSliderWrapper.classList.contains("owl-carousel")) {
             $(".owl-carousel").trigger('destroy.owl.carousel');
-            initializeHomepageCarousel(homePageSliderWrapper.getAttribute("class"), parseFloat(homePageSliderWrapper.getAttribute("data-slides-number")));
+            $(".owl-companii-1").trigger('destroy.owl.carousel');
+            $(".owl-companii-2").trigger('destroy.owl.carousel');
+            initializeHomepageCarousel();
         }
     })
     .catch(function (error) {
@@ -126,8 +145,8 @@ function initializeHomepageSlider() {
     });
 }
 
-function initializeHomepageCarousel(elem, numberOfSlides){
-    $(".owl-carousel").owlCarousel({
+function initializeHomepageCarousel(){
+    $('.owl-carousel').not('.owl-parteneri, .owl-parteneri-1, .owl-companii-1, .owl-companii-2, .owl-redactori, .owl-testimonial').owlCarousel({
         loop: true,
         margin: 10,
         dots: false,
@@ -144,7 +163,49 @@ function initializeHomepageCarousel(elem, numberOfSlides){
                 items: 2
             },
             1000: {
-                items: numberOfSlides
+                items: 4
+            }
+        }
+    })
+    $('.owl-companii-1').owlCarousel({
+        loop: true,
+        margin: 10,
+        dots: false,
+        nav: true,
+    //    autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 2,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            1000: {
+                items: 4
+            }
+        }
+    })
+    $(".owl-companii-2").owlCarousel({
+        loop: true,
+        margin: 10,
+        dots: false,
+        nav: true,
+      //  autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 3,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            1000: {
+                items: 6
             }
         }
     });
@@ -164,5 +225,8 @@ function initializeEventsCarousel() {
         $(".glyphicon-chevron-right").hide();
         $(".glyphicon-chevron-left").hide();
     });
+}
+function isIE11() {
+    return (!(window.ActiveXObject) && "ActiveXObject" in window);
 }
 /*END ADDITIONAL FUNCTIONS*/

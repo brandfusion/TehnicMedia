@@ -1,3 +1,21 @@
+.news-title {
+    background: #fff;
+}
+.news-details {
+    color: #a9a9a9;
+    background-color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    margin-right: 25px;
+    margin-left: 25px;
+    z-index: 10;
+    padding: 2em;
+    padding-top: 10px
+}
+.titlu-produs-lista.news-title {
+    background: #eaeaea;
+}
 /*START LIST DISPLAY TYPE GRID VIEW*/
 .list-container {
     display: grid;
@@ -35,8 +53,20 @@
 .onecol-image-nosummary-small .small-block {
     grid-template-columns: 1fr 2fr;
 }
-.onecol-image-nosummary-small .simple-share span {
-    display: block;
+.onecol-image-nosummary-small .simple-share, .onecol-image-nosummary-small .category  {
+    display: none;
+}
+.onecol-image-nosummary-small .news-title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    overflow: initial;
+    max-height: initial;
+}
+.onecol-image-nosummary-small .news-details {
+    padding: 0;
+    margin-right: 0;
 }
 /*2 COLUMNS*/
 .twocol-noimage-nosummary, .twocol-noimage-summary, .twocol-image-nosummary, .twocol-image-summary {
@@ -120,4 +150,15 @@
 #myCarousel .description {
     height: 150px;
     overflow: hidden;
+}
+
+.recomandari .news-block header {
+    position: absolute;
+    bottom: -180px;
+}
+.mag-content .col-companie .news-block.small-block {
+    padding-bottom: 0;
+}
+.companii-background {
+    background-color: #3a5375;
 }

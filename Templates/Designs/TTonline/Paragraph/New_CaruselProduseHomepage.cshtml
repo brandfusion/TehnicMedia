@@ -1,4 +1,4 @@
-@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
 @using Dynamicweb.Rendering
 @using Dynamicweb.Content
 @using System.Linq;
@@ -32,281 +32,228 @@
 
 <script id="CaruselProduseTemplate" type="text/x-handlebars-template">
 {{#each Product}}
-
-    <div class="item"> 
- 
-@if(Dealer == "" && Producator == ""){
-<div class="col-xs-12" style="margin-bottom:15px; margin-top:15px; ">
-  <div class="produs-col-background">
-  
-        <div class="row" >
-          <div class="col-xs-12">
-             <div class="product-image">
-                  <a href="{{link}}" class="overlay-link">
-                      <figure class=""> 
-                          @{  
-                             
-                              <img src="/Admin/Public/GetImage.ashx?Image={{image}}&Crop=0&Format=jpg&Width=350&Height=230&bgcolor=white" alt='{{name}}' class="img-responsive"/>             
-                          }
-                      </figure>
-                  </a>
-             </div>
-           </div>
-        </div>
-        <div class="row row-promotii-produs">
-            <div class="col-xs-12">
-                {{#if afisarePromotie}}
-                      <div class="promotie">
-                        <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
-                      </div>
-                {{/if}}
-            
-                {{#ifCond priceProductDB ">" 0}}
-                    <div class="pret-produs pull-right">
-                        <a href="{{link}}">
-                        <span class="detalii-produs" ><text>{{priceProductDB}} LEI</text></span>
-                        </a>
+    <div class="item">      
+        @if(Dealer == "" && Producator == "") {
+            <div class="col-xs-12" style="margin-bottom:15px; margin-top:15px; ">
+              <div class="produs-col-background">  
+                    <div class="row" >
+                      <div class="col-xs-12">
+                         <div class="product-image">
+                              <a href="{{link}}" class="overlay-link">
+                                  <figure class=""> 
+                                      @{
+                                          <img src="/Admin/Public/GetImage.ashx?Image={{image}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=350&Height=230&bgcolor=white" alt='{{name}}' class="img-responsive"/>             
+                                      }
+                                  </figure>
+                              </a>
+                         </div>
+                       </div>
                     </div>
-                {{/ifCond}}
-            </div>
-        </div>
-
-     <div class="row">
-        <div class="col-xs-12">
-
-          <h5 class="titlu-produs-lista news-title" ><a href="{{link}}">{{name}}</a></h5>
-
-        </div>
-      </div>
-
-    <div class="row" style="min-height:40px;">
-     <div class="col-xs-12">
-           {{#ifCond manufacturer "!==" ""}}
-              <div class="col-xs-6" >      
-                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-                     <text class="trim-text trim-lines-2">@Translate("manufacturer", "Producator"):</text>         
-                   </p>
-              </div>
-          
-
-            <div class="col-xs-6">
-              <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
-               {{#ifCond manufacturerLink "!==" ""}}
-                    <a href="{{manufacturerLink}}"><span style="color:black;">{{manufacturerName}}</span></a>
-               {{/ifCond}}
-               {{#ifCond manufacturerLink "===" ""}}
-                    <span style="color:black;">{{manufacturerName}}</span>
-               {{/ifCond}}
-              </p>
-            </div>
-           {{/ifCond}}
-       </div>
-    </div>
-     
-
-    <div class="row" style="min-height:30px;">
-      <div class="col-xs-12">
-          <div class="col-xs-6" style="text-align: center;">      
-               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-                <text>@Translate("Furnizor", "Furnizor"):</text>         
-               </p>
-            </div>
-          
-            <div class="col-xs-6" style="text-align: center;">
-              <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-             <text class="trim-text trim-lines-2" style="color:black;">{{dealerResult}} furnizori</text>
-              </p>
-            </div>
-       </div>
-    </div>
-
-      <div class="row">
-          <div class="col-xs-12 col-butoane-lista">
-            
-                  
-              <div class="col-xs-6">
-
-                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
-                    <span class="detalii-produs">
-                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
-                    </span>
-                  </a>
-                     
-               </div>   
-              
-
-               <div class="col-xs-6">
-
-                  <a href="{{link}}" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
-
-                </div>
-            
-                  
-                @SnippetStart("ProductCarouselModal")
-                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
-                      <div class="modal-dialog modal-sm">
-                          <div class="modal-content" >
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:right!important;">X</button>
-                            @RenderParagraphContent(120)
-                          </div>
-                          <div class="modal-footer">
-                            
-                          </div>
-                      </div>
-                      
-                  </div>
-                @SnippetEnd("ProductCarouselModal")
-            
-
-            
-
-          </div>
-      </div>
-  </div>
-
-
-</div>
-} else{
-
-if(Dealer != "" || Producator != ""){
-
-<div class="col-xs-12 col-sm-3 col-md-3 " style="margin-bottom:15px; margin-top:15px; ">
-  <div class="produs-col-background">
-  
-        <div class="row" >
-          <div class="col-xs-12">
-             <div class="product-image">
-                  <a href="{{link}}" class="overlay-link">
-                      <figure class=""> 
-                          @{  
-                             
-                              <img src="/Admin/Public/GetImage.ashx?Image={{image}}&Crop=0&Format=jpg&Width=350&Height=230&bgcolor=white" alt='{{name}}' class="img-responsive"/>             
-                          }
-                      </figure>
-                  </a>
-             </div>
-           </div>
-        </div>
-        <div class="row row-promotii-produs">
-            <div class="col-xs-12">
-               {{#if afisarePromotie}}
-                      <div class="promotie">
-                        <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
-                      </div>
-               {{/if}}
-            
-                {{#ifCond priceProductDB ">" 0 }}
-                    <div class="pret-produs pull-right">
-                        <a href="{{link}}">
-                        <span class="detalii-produs" ><text>{{priceProductDB}} LEI</text></span>
-                        </a>
+                    <div class="row row-promotii-produs">
+                        <div class="col-xs-12">
+                            {{#if afisarePromotie}}
+                                  <div class="promotie">
+                                    <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                                  </div>
+                            {{/if}}
+                        
+                            {{#ifCond priceProductDB ">" 0}}
+                                <div class="pret-produs pull-right">
+                                    <a href="{{link}}">
+                                    <span class="detalii-produs" ><text>{{priceProductDB}} LEI</text></span>
+                                    </a>
+                                </div>
+                            {{/ifCond}}
+                        </div>
                     </div>
-                {{/ifCond}}
-            </div>
-        </div>
-
-     <div class="row">
-        <div class="col-xs-12">
-
-          <h5 class="titlu-produs-lista news-title"><a href="{{link}}">{{name}}</a></h5>
-
-        </div>
-      </div>
-
-    <div class="row" style="min-height:40px;">
-     <div class="col-xs-12">
-            {{#ifCond manufacturer "!==" ""}}
-              <div class="col-xs-4" >      
-                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-                     <text>@Translate("manufacturer", "Producator"):</text>         
-                   </p>
-              </div>
-          
-
-            <div class="col-xs-8">
-              <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
-               {{#ifCond manufacturerLink "!==" ""}}
-                    <a href="{{link}}"><span style="color:black;">{{name}}</span></a>
-                {{/ifCond}}
-                {{#ifCond manufacturerLink "===" ""}}
-                    <span style="color:black;">{{name}}</span>
-                {{/ifCond}}
-              </p>
-            </div>
-           {{/ifCond}}
-       </div>
-    </div>
-     
-
-    <div class="row" style="min-height:30px;">
-      <div class="col-xs-12">
- 
-          <div class="col-xs-3" style="text-align: center;">      
-               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-                <text>@Translate("Furnizor", "Furnizor"):</text>         
-               </p>
-            </div>
-          
-
-            <div class="col-xs-9" style="text-align: center;">
-              <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-             <text style="color:black;">{{dealerResult}} " furnizori")</text>
-              </p>
-            </div>
-       </div>
-    </div>
-
-      <div class="row">
-          <div class="col-xs-12 col-butoane-lista">
-            
-                  
-              <div class="col-xs-6">
-
-                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
-                    <span class="detalii-produs">
-                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
-                    </span>
-                  </a>
-                     
-               </div>   
-              
-
-               <div class="col-xs-6">
-
-                  <a href="{{link}}" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
-
-                </div>
-            
-                  
-                @SnippetStart("ProductCarouselModal")
-                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
-                      <div class="modal-dialog modal-sm">
-                          <div class="modal-content" >
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:right!important;">X</button>
-                            @RenderParagraphContent(120)
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
-                          </div>
-                      </div>
-                      
+                    
+                 <div class="row">
+                    <div class="col-xs-12">
+                      <h5 class="titlu-produs-lista news-title" ><a href="{{link}}">{{name}}</a></h5>
+                    </div>
                   </div>
-            
-                @SnippetEnd("ProductCarouselModal")
-            
+                  
+                <div class="row" style="min-height:40px;">
+                 <div class="col-xs-12">
+                       {{#ifCond manufacturer "!==" ""}}
+                          <div class="col-xs-6" >      
+                               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                                 <text class="trim-text trim-lines-2">@Translate("manufacturer", "Producator"):</text>         
+                               </p>
+                          </div>
+                        <div class="col-xs-6">
+                          <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
+                           {{#ifCond manufacturerLink "!==" ""}}
+                                <a href="{{manufacturerLink}}"><span style="color:black;">{{manufacturer}}</span></a>
+                           {{/ifCond}}
+                           {{#ifCond manufacturerLink "===" ""}}
+                                <span style="color:black;">{{manufacturer}} </span>
+                           {{/ifCond}}
+                          </p>
+                        </div>
+                       {{/ifCond}}
+                   </div>
+                </div>     
 
-          </div>
-      </div>
-  </div>
+                <div class="row" style="min-height:30px;">
+                  <div class="col-xs-12">
+                      <div class="col-xs-6" style="text-align: center;">      
+                           <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                            <text>@Translate("Furnizor", "Furnizor"):</text>         
+                           </p>
+                        </div>
+                      
+                        <div class="col-xs-6" style="text-align: center;">
+                          <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                         <text class="trim-text trim-lines-2" style="color:black;">{{dealerResult}}</text>
+                          </p>
+                        </div>
+                   </div>
+                </div>
 
+                  <div class="row">
+                      <div class="col-xs-12 col-butoane-lista">
+                          <div class="col-xs-6">
+                              <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                                <span class="detalii-produs">
+                                  <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                                </span>
+                              </a>                    
+                           </div>                
 
-</div>
-}
+                           <div class="col-xs-6">
+                              <a href="{{link}}" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
+                            </div>            
+                              
+                            @SnippetStart("ProductCarouselModal")
+                              <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                                  <div class="modal-dialog modal-sm">
+                                      <div class="modal-content" >
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:right!important;">X</button>
+                                        @RenderParagraphContent(120)
+                                      </div>
+                                      <div class="modal-footer">                            
+                                      </div>
+                                  </div>                      
+                              </div>
+                            @SnippetEnd("ProductCarouselModal")
+                      </div>
+                  </div>
+              </div>
+            </div>
+        } else {
+            if(Dealer != "" || Producator != ""){
 
-  }
-</div>   
-   {{/each}}
-       
+            <div class="col-xs-12 col-sm-3 col-md-3 " style="margin-bottom:15px; margin-top:15px; ">
+              <div class="produs-col-background">  
+                    <div class="row" >
+                      <div class="col-xs-12">
+                         <div class="product-image">
+                              <a href="{{link}}" class="overlay-link">
+                                  <figure class=""> 
+                                      @{
+                                          <img src="/Admin/Public/GetImage.ashx?Image={{image}}&Crop=0&Format=jpg&Width=350&Height=230&bgcolor=white" alt='{{name}}' class="img-responsive"/>             
+                                      }
+                                  </figure>
+                              </a>
+                         </div>
+                       </div>
+                    </div>
+                    <div class="row row-promotii-produs">
+                        <div class="col-xs-12">
+                           {{#if afisarePromotie}}
+                                  <div class="promotie">
+                                    <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                                  </div>
+                           {{/if}}
+                        
+                            {{#ifCond priceProductDB ">" 0 }}
+                                <div class="pret-produs pull-right">
+                                    <a href="{{link}}">
+                                    <span class="detalii-produs" ><text>{{priceProductDB}} LEI</text></span>
+                                    </a>
+                                </div>
+                            {{/ifCond}}
+                        </div>
+                    </div>
+
+                 <div class="row">
+                    <div class="col-xs-12">
+                      <h5 class="titlu-produs-lista news-title"><a href="{{link}}">{{name}}</a></h5>
+                    </div>
+                  </div>
+
+                <div class="row" style="min-height:40px;">
+                 <div class="col-xs-12">
+                        {{#ifCond manufacturer "!==" ""}}
+                          <div class="col-xs-4" >      
+                               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                                 <text>@Translate("manufacturer", "Producator"):</text>         
+                               </p>
+                          </div>     
+                        <div class="col-xs-8">
+                          <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
+                           {{#ifCond manufacturerLink "!==" ""}}
+                                <a href="{{link}}"><span style="color:black;">{{manufacturer}}</span></a>
+                            {{/ifCond}}
+                            {{#ifCond manufacturerLink "===" ""}}
+                                <span style="color:black;">{{manufacturer}}</span>
+                            {{/ifCond}}
+                          </p>
+                        </div>
+                       {{/ifCond}}
+                   </div>
+                </div>     
+
+                <div class="row" style="min-height:30px;">
+                  <div class="col-xs-12"> 
+                      <div class="col-xs-3" style="text-align: center;">      
+                           <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                            <text>@Translate("Furnizor", "Furnizor"):</text>         
+                           </p>
+                        </div>
+                        <div class="col-xs-9" style="text-align: center;">
+                          <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                         <text style="color:black;">{{dealerResult}} </text>
+                          </p>
+                        </div>
+                   </div>
+                </div>
+
+                  <div class="row">
+                      <div class="col-xs-12 col-butoane-lista">   
+                          <div class="col-xs-6">
+                              <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                                <span class="detalii-produs">
+                                  <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                                </span>
+                              </a>                     
+                           </div>              
+                           <div class="col-xs-6">
+                              <a href="{{link}}" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
+                            </div>           
+                              
+                            @SnippetStart("ProductCarouselModal")
+                              <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                                  <div class="modal-dialog modal-sm">
+                                      <div class="modal-content" >
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:right!important;">X</button>
+                                        @RenderParagraphContent(120)
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
+                                      </div>
+                                  </div>                      
+                              </div>            
+                            @SnippetEnd("ProductCarouselModal")
+                      </div>
+                  </div>
+              </div>
+            </div>
+            }
+        }
+    </div>   
+{{/each}}       
 </script>
   
   
