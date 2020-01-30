@@ -32,9 +32,16 @@
         public string dealerResult { get; set; }
         public string idFormDetalii { get; set; }
     }
+    public class Root
+    {
+        public List<Product> Product { get; set; }
+    }
 }
 @{
-    List<Product> feedObject = new List<Product>();
+    List<Root> feedObject = new List<Root>();
+    List<Product> productFeedObject = new List<Product>();
+    Root feedRoot = new Root();
+    feedRoot.Product = new List<Product>();
     foreach (LoopItem product in GetLoop("Products"))
     {
         Product productObject = new Product();
@@ -64,8 +71,19 @@
         }
         productObject.dealerResult = dealeriProdus.Length == 1 ? dealeriProdus[0] : dealeriProdus.Length.ToString();
         productObject.idFormDetalii = "120";
-        feedObject.Add(productObject);
+        feedRoot.Product.Add(productObject);
     }
-    string jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = "";
+
+    if (GetLoop("Products").Count == 0)
+    {
+        jsonFeed = "[]";
+    }
+    else
+    {
+        jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
 }
 @jsonFeed

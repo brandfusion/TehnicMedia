@@ -15,6 +15,7 @@
 }
 .titlu-produs-lista.news-title {
     background: #eaeaea;
+    padding: 0 0.5em;
 }
 /*START LIST DISPLAY TYPE GRID VIEW*/
 .list-container {
@@ -141,7 +142,7 @@
     min-height: 2em; 
 }
 
-.handlebars-wrapper, #RecomandariTT, #UltimeleStiri {
+.handlebars-wrapper, #RecomandariTT, #UltimeleStiri, .first-container {
     clear: both;
     position: relative;
     min-height: 2em;
@@ -161,4 +162,7 @@
 }
 .companii-background {
     background-color: #3a5375;
+}
+.shop-background {
+    background-color: #3f444c;
 }
