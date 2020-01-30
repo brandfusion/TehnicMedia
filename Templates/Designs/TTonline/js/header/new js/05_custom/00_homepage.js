@@ -1,10 +1,24 @@
 document.addEventListener('DOMContentLoaded', function(event) {
+    //load content on homepage
     if (document.getElementById('HomePageSlider') !== null) {
         window.scrollTo(0, 0);
-        loadFirstView();
+        loadFirstViewHomepage();
         if(!isIE11()) {
             loadOnScroll();
         } else {
+            loadOnScrollForIE();
+        }
+    }
+    //load content on other pages
+    if (document.querySelector('.first-container') !== null) {
+       // window.scrollTo(0, 0);
+        //load first view
+        loadFirstView(document.querySelector('.first-container'));
+        //load on scroll
+        if(!isIE11()) {
+            loadOnScroll();
+        } else {
+            //load first view
             loadOnScrollForIE();
         }
     }
@@ -12,8 +26,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 /*START HOMEPAGE HANDLEBARS AJAX CALLS*/
 
-//On page load, first items loaded will be the slider and the first categories
-function loadFirstView() {
+//On page load on homepage, first items loaded will be the slider and the first categories
+function loadFirstViewHomepage() {
     var homePageSliderWrapper = document.getElementById('HomePageSlider');
     var urlFeed = homePageSliderWrapper.getAttribute("data-json-feed");
     axios({
@@ -32,15 +46,29 @@ function loadFirstView() {
     })
     .then(function() {
         //load Ultimele stiri
-        var recomandariWrapper = document.getElementById('UltimeleStiri');
-        getDataForHandlebars(recomandariWrapper)
+        var ultimeleStiriWrapper = document.getElementById('UltimeleStiri');
+        getDataForHandlebars(ultimeleStiriWrapper)
     })
     .catch(function (error) {
     // handle error
     console.log(error, "error boo1");
     })
 }
-
+//On page load, make call for first container on page
+function loadFirstView(handlebarsWrapper) {
+    var urlFeed = handlebarsWrapper.getAttribute("data-json-feed");
+    axios({
+        method:'get',
+        url: urlFeed
+    })
+    .then(function (response) {
+        compileDataToHandlebars(response.data[0], handlebarsWrapper);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error, "error boo1");
+    })
+}
 function loadOnScroll() {
    
     var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper');
@@ -58,12 +86,16 @@ function loadOnScroll() {
             }
         })
     }, options);
-    allHandlebarsWrapers.forEach(function(elem) {
-       observer.observe(elem) 
-    });
-    allSidebarWrappers.forEach(function(elem) {
-        observer.observe(elem)
-    });
+    if(allHandlebarsWrapers.length > 0) {
+        allHandlebarsWrapers.forEach(function(elem) {
+            observer.observe(elem)
+        });
+    }
+    if(allSidebarWrappers.length > 0) {
+        allSidebarWrappers.forEach(function(elem) {
+            observer.observe(elem)
+        }); 
+    }    
 }
 
 function loadOnScrollForIE() {
