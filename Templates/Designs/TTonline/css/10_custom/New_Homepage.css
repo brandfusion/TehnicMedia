@@ -142,12 +142,13 @@
     min-height: 2em; 
 }
 
-.handlebars-wrapper, #RecomandariTT, #UltimeleStiri, .first-container {
-    clear: both;
+.handlebars-wrapper, #RecomandariTT, #UltimeleStiri, .first-container {   
     position: relative;
     min-height: 2em;
 }
-
+#RecomandariTT, #UltimeleStiri, .first-container {
+     clear: both;
+}
 #myCarousel .description {
     height: 150px;
     overflow: hidden;

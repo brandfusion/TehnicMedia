@@ -1,0 +1,100 @@
+@MasterPageFile("Master.cshtml")
+@{
+string linkCatalog = Pageview.Area.Item["Link_Catalog"].ToString();
+string linkCompanii = Pageview.Area.Item["Link_Companii"].ToString();
+}
+
+<div class="row" data-stickyparent>
+
+    <div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+      
+      <div class="row"> 
+        <div class="col-xs-12">
+          @if(GetString("DwPageName") !="Editii"){
+            <h1 class="block-title top-title"><span>@GetString("DwPageName")</span></h1>
+          }
+      		  <p> @GetString("Item.Description")</p>
+        </div>  
+      </div>
+
+      <div class="row"> 
+          <div class="dwcontent" id="maincontent" title="Main Content" data-settings="unwrap:true"></div>
+      </div>
+      
+      <div class="row">
+        <div class="dwcontent" id="Chenare" title="Chenare" data-settings="unwrap:true">
+
+
+        </div>
+	  </div>
+      
+      <div class="row">
+        <div class="dwcontent" id="Redactori" title="Redactori" data-settings="unwrap:true">
+
+     		</div>
+      </div>
+      
+      <div class="row banners">
+        <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href="@linkCatalog" alt='@Pageview.Area.Item["Link_Catalog.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"    ]' alt='@Pageview.Area.It        em["Ba    nner_Catalog.Name"]' /></a></div>
+         <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href="@linkCompanii" alt='@Pageview.Area.Item["Link_Companii.Name"]' target="blank"><img src='@Pageview.Area.Item["Banner_Companii"]' alt='@Pageview.Area.Item["Banner_Companii.Name"]' /></a></div>
+       </div>
+     
+    </div>
+
+
+	 <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 sticky" ><!--aici incepe sidebar--> 
+      @Include("Custom/New_Sidebar.cshtml")	
+    </div><!--se inchide divul pentru sidebar-->   
+
+	
+	<div class="dwcontent" id="rowsigle" title="Row Sigle" data-settings="unwrap:true">
+      
+    </div>
+
+      
+</div> 
+<!-- Google Analytics -->
+
+<script>
+
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+ga('create', 'UA-26068739-1', 'auto');
+
+ 
+
+// DIMENSIONS DECLARATION WHERE NEEDED
+
+ 
+
+ga('send', 'pageview');
+
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script type="text/javascript">
+$(function(){
+
+  	// fix magazine archive (arhiva revistei) links in Firefox
+	if(navigator.userAgent.includes("Firefox"))
+  	{
+      $(".bhoechie-tab-menu a").each(function(index,el){
+          $(el).on("click" , function(event){
+              event.preventDefault();
+
+              $(this).siblings("a").removeClass("current-active").removeClass("active");
+              $(this).addClass("current-active").addClass("active");
+
+              $(".bhoechie-tab-content").removeClass("active");
+              $(".bhoechie-tab-content").eq(index).ad    dCl    ass("active")
+
+          });
+      });
+  	}
+});
+
+</script>
+
+<!-- End Google Analytics -->

@@ -5,10 +5,19 @@
 @Include("Includes/GetImage_new.cshtml")
 @Include("Includes/VerifyImage.cshtml")
 
+@functions {
+  string returnPageID(string itemID) {
+    var pageService = new Dynamicweb.Content.PageService();
+    var pageID = pageService.GetPageForItem("Dw_Page", itemID).ID + ",";
+ 
+    return pageID;
+  }
+
+}
+
 @{
-  string mainArticleID = "";
-  string secondaryArticleID = "";
-  string thirdArticleID = "";
+  
+  
   string itemDescription = GetString("Item.Description");
   var mainArticle = GetLoop("Item.MainArticle");
   var secondaryArticle1 = GetLoop("Item.Secundar1");
@@ -26,9 +35,23 @@ string filterValue8= "Item.Tip='Articole'";
 int counterAutor = 1;
 int counterAutor1 = 1;
 int counterAutor2 = 1;
+var articlesPageId = GetPageIdByNavigationTag("ArticlesFeed").ToString(); 
 
-
-
+  var mainArticleID = "";
+  string secondaryArticleID = "";
+  string thirdArticleID = "";
+  foreach(LoopItem i in mainArticle)
+   {
+     mainArticleID += returnPageID(i.GetString("Item.MainArticle.Id"));
+   }
+  foreach (LoopItem i in secondaryArticle1)
+  {
+    secondaryArticleID += returnPageID(i.GetString("Item.Secundar1.Id"));
+  }
+  foreach (LoopItem i in secondaryArticle2)
+  {
+    thirdArticleID += returnPageID(i.GetString("Item.Secundar2.Id"));
+  }
 
 }
 
@@ -42,17 +65,13 @@ int counterAutor2 = 1;
           @if (!string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ID"]))
           {
               <li>
-                @pageName
-                
+                @pageName                
               </li>
           }
       </ul>
   </div>
-@if(String.IsNullOrEmpty(numarPagina) || numarPagina == "1"){ 
-  
-  string containerArticoleMic = "col-xs-12 col-sm-8 col-md-8 col-lg-8";  
 
-  <div class="@containerArticoleMic">
+<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
    
     <!--divul pentru articole-->  
 
@@ -75,171 +94,39 @@ int counterAutor2 = 1;
               @itemDescription
             }
           </div>
-
-          }
-        
+          }        
         </div>
+        
       <div class="dwcontent" id="mainContent1" title="Main Content" data-settings="unwrap:true"></div>
       @if(mainArticle.Any()){
+                                
           <h3 class="block-title"><span>Articole</span></h3>
-          foreach(LoopItem i in mainArticle)
-          {
-              string mainAutori = i.GetString("Item.MainArticle.Autori");
-              string mainSections = "";
+          <div class="first-container" data-template="MainArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@mainArticleID">
+               <div class="loader"></div>
+          		@*Handlebars goes here*@
+          </div>
+       }
+       </div>
+    </div>     
 
-              List<Autor> articleAutori = GetAutori(mainAutori);
-              List<Sectiune> articleSections = GetSectiuni(mainSections);
-              mainArticleID = i.GetString("Item.MainArticle.Id.Value");
-              string mainImage = i.GetString("Item.MainArticle.ImaginePrincipala.Value");
-              string mainTitle = i.GetString("Item.MainArticle.Titlu.Value");
-              var mainDate = i.GetDate("Item.MainArticle.Data");
-              string mainSummary = i.GetString("Item.MainArticle.Sumar");
-              string mainURL = i.GetString("Item.MainArticle.Url");
-              string articleSectiuneID = GetString("DwPageID_2");
-			
-  				
-      <article class="news-block big-block" style="margin-bottom:0px;">
-    
-        <a href="@mainURL" class="overlay-link">
-            <figure class="image-overlay proportie-1">
-              @if(!string.IsNullOrEmpty(mainImage)){
-              <img src="/Admin/Public/GetImage.ashx?Image=@mainImage&Format=jpg&Width=870&Height=572&Crop=5" alt="@mainTitle" />
-              }else{
-              <img src="@areaLayoutPath/assets/img/demo/710x480.png" alt="@mainTitle" />
-              }
-            </figure>
-      </a>
-          <header class="news-details">
-          <h3 class="news-title"> <a href='@mainURL' alt='@mainTitle'>@mainTitle</a></h3>
-          <div class="main-summary">@mainSummary</div>
-          <p class="simple-share">@Translate("articolde","de")
-             @foreach (var articleAutor in articleAutori)
-            {        
-                if(counterAutor == 1){
-                <span style="margin:0px!important;"><a href="@articleAutor.Link">@articleAutor.Name</a></span>
-           
-            } else {
-            <span style="margin:0px!important;">, <a href="@articleAutor.Link">@articleAutor.Name</a></span>
-            
-            } counterAutor++;
-            }
-
-          - <span class="article-date"><i class="fa fa-clock-o"></i> @mainDate.ToString("dd/MM/yyyy")</span></p>
-        </header>
-       
-      </article><!-- News block -->
-}
-}
-</div>
-</div>     
-
-<div class="row"><!-- row-ul pentru Articole secundar 1 si secundar 2-->
-  @if(secondaryArticle1.Any()){
-      foreach(LoopItem i in secondaryArticle1)
-      {
-          string mainAutori = i.GetString("Item.Secundar1.Autori");
-          string mainSections = "";
-          List<Autor> articleAutori = GetAutori(mainAutori);
-          List<Sectiune> articleSections = GetSectiuni(mainSections);
-          secondaryArticleID = i.GetString("Item.Secundar1.Id.Value");
-          string secondaryImageRaw = i.GetString("Item.Secundar1.ImaginePrincipala.Value");
-          string secondaryImage = GetImage(secondaryImageRaw, 350, 230);
-          string secondaryTitle = i.GetString("Item.Secundar1.Titlu.Value");
-          var secondaryDate = i.GetDate("Item.Secundar1.Data");
-          string secondarySummary = i.GetString("Item.Secundar1.Sumar");
-          string secondaryURL = i.GetString("Item.Secundar1.Url");
-          string secondaryarticleSectiuneID = GetString("DwPageID_2");
-  <div class="col-md-6">
-    <article class="news-block small-block">
-      <a href="@secondaryURL" class="overlay-link">
-        <figure class="image-overlay proportie-1">
-         <img src="@secondaryImage" alt="@secondaryTitle" />
-      </figure>
-    </a>
-      <!--<a href="/Default.aspx?ID=@parentPageID" class='category bg@(secondaryarticleSectiuneID)'>@parentPage</a>-->
-    <header class="news-details">
-        <h3 class="news-title"><a href='@secondaryURL' alt='@secondaryTitle'>@secondaryTitle</a></h3>
-            <p class="simple-share">
-              @Translate("articolde","de")
-              @foreach (var articleAutor in articleAutori)
-            {        
-                if(counterAutor1 == 1){
-                <span style="margin:0px!important;"><a href="@articleAutor.Link">@articleAutor.Name</a></span>
-           
-            } else {
-            <span style="margin:0px!important;">, <a href="@articleAutor.Link">@articleAutor.Name</a></span>
-            
-            } counterAutor1++;
-            }
- -
-            <span class="article-date"><i class="fa fa-clock-o"></i> @secondaryDate.ToString("dd/MM/yyyy")</span>
-          </p>
-    </header>
-  </article><!-- News block -->
-</div>
-
-
-}
-}
-@if(secondaryArticle2.Any()){     
-foreach(LoopItem i in secondaryArticle2){  
-string mainAutori = i.GetString("Item.Secundar2.Autori");
-string mainSections = "";
-
-List<Autor> articleAutori = GetAutori(mainAutori);
-List<Sectiune> articleSections = GetSectiuni(mainSections);
-thirdArticleID = i.GetString("Item.Secundar2.Id.Value");
-string secondaryImageRaw = i.GetString("Item.Secundar2.ImaginePrincipala.Value") != "" ? i.GetString("Item.Secundar2.ImaginePrincipala.Value") : "http://via.placeholder.com/350x250"  ; 
-string secondaryImage = GetImage(secondaryImageRaw, 350, 230);
-string secondaryTitle = i.GetString("Item.Secundar2.Titlu.Value");
-var secondaryDate = i.GetDate("Item.Secundar2.Data");
-string secondarySummary = i.GetString("Item.Secundar2.Sumar");
-string secondaryURL = i.GetString("Item.Secundar2.Url");
-string secondary1articleSectiuneID = GetString("DwPageID_2");
-<div class="col-md-6">
-  <article class="news-block small-block">
-    <a href="@secondaryURL" class="overlay-link">
-      <figure class="image-overlay proportie-1">
-       <img src="@secondaryImage" alt="@secondaryTitle" />
- </figure>
-</a>
- <!--<a href="/Default.aspx?ID=@parentPageID" class='category bg@(secondary1articleSectiuneID)'>@parentPage</a>-->
-<header class="news-details">
-  <h3 class="news-title"><a href='@secondaryURL' alt='@secondaryTitle'>@secondaryTitle</a></h3>
-  <p class="simple-share">
-    @Translate("articolde","de")
-     @foreach (var articleAutor in articleAutori)
-            {        
-                if(counterAutor2 == 1){
-                <span style="margin:0px!important;"><a href="@articleAutor.Link">@articleAutor.Name</a></span>
-           
-            } else {
-            <span style="margin:0px!important;">, <a href="@articleAutor.Link">@articleAutor.Name</a></span>
-            
-            } counterAutor2++;
-            }
- -
-  <span class="article-date"><i class="fa fa-clock-o"></i> @secondaryDate.ToString("dd/MM/yyyy")</span>
-</p>
-</header>
-</article><!-- News block -->
-</div>
-
-
-}
-}
-
-</div><!--se inchide row-ul pentru Articole-->
+    <div class="row"><!-- row-ul pentru Articole secundar 1 si secundar 2-->
+        @if(secondaryArticle1.Any()){
+          <div class="handlebars-wrapper col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@secondaryArticleID">
+               @*Handlebars goes here*@ 
+          </div>
+        }
+        @if(secondaryArticle2.Any()){     
+            <div class="handlebars-wrapper col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@thirdArticleID">
+                 @*Handlebars goes here*@ 
+            </div>
+        }
+    </div><!--se inchide row-ul pentru Articole-->
 
 @{
 
 filterValue2 =  filterValue2 + " and " + "Item.Id !='" + mainArticleID +"'" + " and " + "Item.Id !='" + secondaryArticleID +"'" + " and " + "Item.Id !='" + thirdArticleID +"'"  + " and " ;
 filterValue2 = filterValue2 + "Item.SectiuneParinteId ='" + GetString("DwPageID")+ "'";
-
-
-//string  filterValue6 =  "Item.SectiuneParinteId ='" + GetString("DwPageID")+ "'";
-//string  filterValue7 =  "Item.SectiuneSecundara ='" + GetString("DwPageID")+ "'";
-//filterValue2 =   filterValue2 + filterValue6;
+    
 
 } 
 	
@@ -287,90 +174,14 @@ filterValue2 = filterValue2 + "Item.SectiuneParinteId ='" + GetString("DwPageID"
       ListOrderByDirection = "Descending",
       Filter = filterValue4
     })
-    
- 
-@*
-    <div class="row load-more">
-      <a href='/stiri?Sectiune=@(GetString("DwPageID"))'><button type="button" class="btn btn-lg btn-block">Mai multe stiri</button></a>
-     
-    </div>
-*@
-  </div>
-    
-</div>
 
-</div>
-} else {
-<div class="col-xs-8">
-<div class="row">
-  
-  <div class="col-xs-12">
-    
-
-@{
-
-filterValue8 =  filterValue8 + " and " + "Item.Id !='" + mainArticleID +"'" + " and " + "Item.Id !='" + secondaryArticleID +"'" + " and " + "Item.Id !='" + thirdArticleID +"'"  + " and " ;
-filterValue8 = filterValue8 + "Item.SectiuneParinteId ='" + GetString("DwPageID")+ "'";
-
-}
-    
-    @* <p>@filterValue8</p>*@
-    
-    @RenderItemList(new { 
-      ItemType = "Dw_Page",
-      ListSourceType = "Area",
-      ListSourceArea ="1",
-      ItemFieldsList = "*",
-      ListTemplate = "ItemPublisher/List/Loop-ArticoleSiStiri-LP-Sectiune.cshtml",
-      ListPageSize = 8,
-      ListOrderBy = "Data",
-      ListOrderByDirection = "Descending",
-      Filter = filterValue8
-    })
-  </div>
-    
-</div>
-
-
-<div class="row">
-  
-  <div class="col-xs-12">
-@{
-	 string filterValue3 = "Item.Tip='Stiri' and Item.SectiuneParinteId ='"+ GetString("DwPageID") +"'";
-           filterValue3 = filterValue3 + "\"\"";
-    
-}
-    
-    @RenderItemList(new { 
-      ItemType = "Dw_Page",
-      ListSourceType = "Area",
-      ListSourceArea ="1",
-      ItemFieldsList = "*",
-      ListTemplate = "/ItemPublisher/List/Loop-Stiri-LP-Sectiune-3col-image-nosummary.cshtml",
-      ListViewMode = "Partial",
-    	ListShowFrom = 1,
-    	ListShowTo= 6,
-      ListPageSize = 7,
-      ListOrderBy = "Data",
-      ListOrderByDirection = "Descending",
-      Filter = filterValue3
-    })
-  @*
-    <div class="row load-more">
-      <a href='/stiri?Sectiune=@(GetString("DwPageID"))'><button type="button" class="btn btn-lg btn-block">Mai multe stiri</button></a>
-     
-    </div>
-*@
   </div>
     
 </div>
 
 </div>
 
-}
-
-
-
+    @*SIDEBAR*@
 <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 sticky" >
 
     @Include("Custom/New_Sidebar.cshtml")
@@ -378,11 +189,13 @@ filterValue8 = filterValue8 + "Item.SectiuneParinteId ='" + GetString("DwPageID"
 </div>
 
 </div>
-
 <div>
-  <style>
+
+@*CAROUSEL PRODUSE*@
+<style>
   .owl-carousel .owl-item img {width:auto!important;}
 </style>
+
       @{ 
           var Produse = GetLoop("Item.ShowroomProducs.Value");
           if(Produse.Any()){
@@ -704,6 +517,9 @@ if(Dealer != "" || Producator != ""){
                                                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
                       </div>
                   </div>
+            
+
+            
 
           </div>
       </div>
@@ -715,6 +531,11 @@ if(Dealer != "" || Producator != ""){
 }
 
 
+
+
+
+    
+    
           </div>   
    
         }
@@ -728,15 +549,59 @@ if(Dealer != "" || Producator != ""){
         <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:20px; margin-top:20px;"><a href='@Pageview.Area.Item["Link_Catalog"]' alt='@Pageview.Area.Item["Link_Catalog.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"]'alt='@Pageview.Area.Item["Banner_Catalog.Name"]' /></a></div>
          <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:20px; margin-top:20px;"><a href='@Pageview.Area.Item["Link_Companii"]' alt='@Pageview.Area.Item["Link_Companii.Name"]' target="blank"><img src='@Pageview.Area.Item["Banner_Companii"]'alt='@Pageview.Area.Item["Banner_Companii.Name"]' /></a></div>
        </div>
+       
+@*MAIN ARTICLE CONTAINER*@       
+<script id="MainArticleTemplate" type="text/x-handlebars-template">   
+   {{#ArticlesContainer}}
+        {{#each Article}}       				
+             <article class="news-block big-block" style="margin-bottom:0px;">           
+               <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                   <figure class="image-overlay proportie-1">
+                     <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=870&Height=572" alt="{{itemTitlu}}" alt="{{itemTitlu}}" /> 
+                   </figure>
+             </a>
+                 <header class="news-details">
+                 <h3 class="news-title"> <a href='/Default.aspx?ID={{pagePageID}}' alt='{{itemTitlu}}'>{{itemTitlu}}</a></h3>
+                 <div class="main-summary">{{{itemSumar}}}</div>
+                 <p class="simple-share">@Translate("articolde","de")
+                 {{#articleAutori}}
+                      <span><a href="{{Link}}">{{Name}}</a></span>
+                 {{/articleAutori}}       
+                 - <span class="article-date"><i class="fa fa-clock-o"></i>{{itemData}}</span></p>
+               </header>
+              
+             </article><!-- News block -->
+        {{/each}}
+    {{/ArticlesContainer}}
+</script>
+@*SECONDARY ARTICLES CONTAINER*@ 
+<script id="SecondaryArticleTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}        
+          <article class="news-block small-block">
+              <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                  <figure class="image-overlay proportie-1">
+                   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=870&Height=572" alt="{{itemTitlu}}" />
+                </figure>
+              </a>
+              <header class="news-details">
+                  <h3 class="news-title"><a href='/Default.aspx?ID={{pagePageID}}' alt='{{itemTitlu}}'>{{itemTitlu}}</a></h3>
+                      <p class="simple-share">
+                      {{#articleAutori}}
+                            <span><a href="{{Link}}">{{Name}}</a></span>
+                       {{/articleAutori}}                 -
+                      <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                    </p>
+              </header>
+          </article><!-- News block -->
+    {{/each}}
+{{/ArticlesContainer}}     
+
+</script>
 <script>
-
   $(function(){
-
-
-
     function getURL(url) {
         name = url.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]').replace("&amp;" , "&").replace("&amp;" , "&");
-
         return name;
     }
 
@@ -747,8 +612,8 @@ if(Dealer != "" || Producator != ""){
     // fix link for go to first page
    if($(".pagination").length){
     $("ul.pagination.pagination-sm li a").first().attr("href" , $("ul.pagination.pagination-sm li a").first().attr("href").replace("PID=0&" , ""));
-    // $("ul.pagination.pagination-sm li a").last().attr("href" , $("ul.pagination.pagination-sm li a").last().attr("href").replace("PID=0&" , ""));
-	 }
+	}
+
     // remove PID=0 from each li url
     $.each(listOfLi , function(index , element){
       var replacement = $(element).attr("href").replace("&PID=0" , "");
@@ -770,25 +635,18 @@ if(Dealer != "" || Producator != ""){
         $(obj).parent().addClass("active");
       }
     }); 
-
   });
-
-
 </script> 
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>               
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>       
+        
 <!-- Google Analytics -->
-
 <script>
-
 window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-
-ga('create', 'UA-26068739-1', 'auto');
+ga('create', 'UA-26068739-1', 'auto'); 
 
 // DIMENSIONS DECLARATION WHERE NEEDED
-
 ga('send', 'pageview');
-
 </script>
 
 <script async="" src='https://www.google-analytics.com/analytics.js'></script>
