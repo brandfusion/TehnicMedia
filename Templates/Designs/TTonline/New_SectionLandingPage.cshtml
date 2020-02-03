@@ -25,32 +25,32 @@
   string pageName = GetString("DwPageName");
   string parentPage = GetString("DwPageName_2");
   string parentPageID = GetString("DwPageID_2");
-  string filterValue1 = "Item.Tip='Stiri' and Item.SectiuneParinteId ='"+ GetString("DwPageID") +"'";
-          filterValue1 = filterValue1 + "\"\"";
 string numarPagina = System.Web.HttpContext.Current.Request.Params["page"];
 string imagine = GetString("Item.ImagineSectiune");
 string activeURL = GetString("DWExtranetAction"); 
-string filterValue2= "Item.Tip='Articole'";
 string filterValue8= "Item.Tip='Articole'";
-int counterAutor = 1;
-int counterAutor1 = 1;
-int counterAutor2 = 1;
-var articlesPageId = GetPageIdByNavigationTag("ArticlesFeed").ToString(); 
 
+
+  var articlesPageId = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+  var sectionID = GetString("DwPageID");
   var mainArticleID = "";
   string secondaryArticleID = "";
   string thirdArticleID = "";
+  string excludedArticles = "";  
   foreach(LoopItem i in mainArticle)
    {
      mainArticleID += returnPageID(i.GetString("Item.MainArticle.Id"));
+     excludedArticles += returnPageID(i.GetString("Item.MainArticle.Id"));
    }
   foreach (LoopItem i in secondaryArticle1)
   {
     secondaryArticleID += returnPageID(i.GetString("Item.Secundar1.Id"));
+    excludedArticles += returnPageID(i.GetString("Item.Secundar1.Id"));
   }
   foreach (LoopItem i in secondaryArticle2)
   {
     thirdArticleID += returnPageID(i.GetString("Item.Secundar2.Id"));
+    excludedArticles += returnPageID(i.GetString("Item.Secundar2.Id"));
   }
 
 }
@@ -76,7 +76,7 @@ var articlesPageId = GetPageIdByNavigationTag("ArticlesFeed").ToString();
     <!--divul pentru articole-->  
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12 hideSecondPage">
         <h1 class="block-title"><span>@pageName</span></h1>
         <div class="row">
           @if(!string.IsNullOrEmpty(imagine)){
@@ -109,47 +109,26 @@ var articlesPageId = GetPageIdByNavigationTag("ArticlesFeed").ToString();
        </div>
     </div>     
 
-    <div class="row"><!-- row-ul pentru Articole secundar 1 si secundar 2-->
+    <div class="row hideSecondPage"><!-- row-ul pentru Articole secundar 1 si secundar 2-->
         @if(secondaryArticle1.Any()){
-          <div class="handlebars-wrapper col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@secondaryArticleID">
+          <div class="handlebars-wrapper display-title-up col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@secondaryArticleID">
                @*Handlebars goes here*@ 
           </div>
         }
         @if(secondaryArticle2.Any()){     
-            <div class="handlebars-wrapper col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@thirdArticleID">
+            <div class="handlebars-wrapper display-title-up col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@thirdArticleID">
                  @*Handlebars goes here*@ 
             </div>
         }
     </div><!--se inchide row-ul pentru Articole-->
 
-@{
 
-filterValue2 =  filterValue2 + " and " + "Item.Id !='" + mainArticleID +"'" + " and " + "Item.Id !='" + secondaryArticleID +"'" + " and " + "Item.Id !='" + thirdArticleID +"'"  + " and " ;
-filterValue2 = filterValue2 + "Item.SectiuneParinteId ='" + GetString("DwPageID")+ "'";
-    
-
-} 
-	
-<div class="col-xs-12" style="margin-top:-20px!important;">
-  
-<p style="display: none;">@filterValue2</p>
-
-    
-    @RenderItemList(new { 
-      ItemType = "Dw_Page",
-      ListSourceType = "Area",
-      ListSourceArea ="1",
-      ItemFieldsList = "*",
-      ListTemplate = "ItemPublisher/List/Loop-ArticoleSiStiri-LP-Sectiune.cshtml",
-      ListPageSize = 8,
-      ListOrderBy = "Data",
-      ListOrderByDirection = "Descending",
-      Filter = filterValue2
-    })
-
-
-  
-</div>
+@*ARTICOLE SI STIRI*@	
+    <div class="col-xs-12">
+        <div class="row handlebars-wrapper display-title-up" id="LoopArticoleStiri" data-template="LoopArticoleStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&pagesize=8&Sections=@sectionID&Excluded=@excludedArticles">
+             @*Handlebars goes here*@ 
+        </div>
+    </div>
 
 <div class="row">
   
@@ -394,7 +373,7 @@ bool first = true;
 
 
 </div>
-} else{
+
 
 if(Dealer != "" || Producator != ""){
 
@@ -581,7 +560,7 @@ if(Dealer != "" || Producator != ""){
           <article class="news-block small-block">
               <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
                   <figure class="image-overlay proportie-1">
-                   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=870&Height=572" alt="{{itemTitlu}}" />
+                   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230" alt="{{itemTitlu}}" />
                 </figure>
               </a>
               <header class="news-details">
@@ -597,6 +576,66 @@ if(Dealer != "" || Producator != ""){
     {{/each}}
 {{/ArticlesContainer}}     
 
+</script>
+@*ARTICOLE SI STIRI*@
+<script id="LoopArticoleStiriTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}  
+         <div class="col-xs-12 col-sm-12 col-md-6">
+           <article class="news-block small-block">
+             <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+             <figure class="">
+                <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230" />                   
+             </figure>
+             </a>             
+             <header class="news-details">
+               <h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3> 
+               <p class="simple-share">                  
+                 @Translate("articolde","de")
+                 {{#articleAutori}}
+                     <span style="margin:0px!important;"><a href="{{Link}}">{{Name}}</a></span>
+                 {{/articleAutori}}                          
+                 <span style="margin: 0 !important;">-</span>                     
+                 <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                 {{#if showItemVisits}}    
+                     <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                  {{/if}}                     
+               </p>
+             </header>
+           </article><!-- News block --> 
+         </div>
+    {{/each}}
+{{/ArticlesContainer}}
+{{#ifCond pagingPageCount '>' 1}}
+    <nav>
+        <ul class="pagination pagination-sm">
+            {{#ifCond currentPage "!==" "1"}}
+                 <li data-page-link="{{pagingFirstPageLink}}" data-container="LoopArticoleStiriTemplate">                			        
+                    <span style="margin-right: 0.2em"> « </span>                 </li>
+                 <li data-page-link="{{pagingPrevPageLink}}" data-container="LoopArticoleStiriTemplate">
+                    <span aria-label="@Translate("paginaAnterioara", "Pagina anterioara")"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></span>
+                 </li>
+            {{/ifCond}}
+            
+            {{#Pages}}
+                {{#if isCurrent}}
+                   <li class="active"><span data-page-link="{{pageLink}}">{{pageNumber}}</span></li>
+                {{else}}
+                   <li data-page-link="{{pageLink}}" data-container="LoopArticoleStiriTemplate"><span>{{pageNumber}}</span></li>
+                {{/if}}                
+            {{/Pages}}
+
+            {{#if isNotLastPage}}
+                <li data-page-link="{{pagingNextPageLink}}" data-container="LoopArticoleStiriTemplate">
+                    <span aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></span>                     
+                </li>
+                <li data-page-link="{{pagingLastPageLink}}" data-container="LoopArticoleStiriTemplate">
+                    <span> » </span>
+                </li>
+            {{/if}}
+        </ul>
+    </nav>
+ {{/ifCond}}
 </script>
 <script>
   $(function(){

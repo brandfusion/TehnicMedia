@@ -79,7 +79,7 @@
     public class Page
     {
         public bool isCurrent {get; set;}
-        public string pageNumber {get; set;}
+        public int pageNumber {get; set;}
         public string pageLink {get; set;}
     }
 
@@ -120,6 +120,7 @@
         public string showFilter { get; set; }
         public List<FacetOption> FacetOptions { get; set; }
     }
+	
     public class Root
     {
         public string currentPage {get; set;}
@@ -128,11 +129,15 @@
         public int totalPages {get; set;}
         public string pagingFirstPageLink {get; set;}
         public string pagingLastPageLink {get; set;}
+	    public bool isNotLastPage { get; set;}
         public string pagingNextButtonText {get; set;}
         public string pagingNextPageLink {get; set;}
         public string pagingNextPageNumber {get; set;}
+	    public string pagingPrevButtonText {get; set;}
+	    public string pagingPrevPageLink {get; set;}
+	    public string pagingPrevPageNumber {get; set;}
         public string pagingPageable {get; set;}
-        public string pagingPageCount {get; set;}
+        public int pagingPageCount {get; set;}
         public string pagingPageSize {get; set;}
         public string pagingTypeOfNextButton {get; set;}
         public string pagingTypeOfPreviousButton {get; set;}
@@ -160,17 +165,22 @@
 
     Root feedRoot = new Root();
     feedRoot.ArticlesContainer = new List<ArticlesContainer>();
+	feedRoot.Pages = new List<Page>();
     feedRoot.currentPage= GetString("DwPaging.CurrentPage");
     feedRoot.currentSection="";
     feedRoot.currentArticleType="";
     feedRoot.totalPages=GetInteger("DwPaging.TotalItems");
     feedRoot.pagingFirstPageLink=GetString("DwPaging.FirstPageLink");
     feedRoot.pagingLastPageLink=GetString("DwPaging.LastPageLink");
+	feedRoot.isNotLastPage = GetString("DwPaging.CurrentPage") != GetString("DwPaging.PageCount");
     feedRoot.pagingNextButtonText=GetString("DwPaging.NextButtonText");
     feedRoot.pagingNextPageLink=GetString("DwPaging.NextPageLink");
     feedRoot.pagingNextPageNumber=GetString("DwPaging.NextPageNumber");
+	feedRoot.pagingPrevButtonText=GetString("DwPaging.PreviousButtonText");
+	feedRoot.pagingPrevPageLink=GetString("DwPaging.PreviousPageLink");
+	feedRoot.pagingPrevPageNumber=GetString("DwPaging.PreviousPageNumber");
     feedRoot.pagingPageable=GetString("DwPaging.Pageable");
-    feedRoot.pagingPageCount=GetString("DwPaging.PageCount");
+    feedRoot.pagingPageCount=Convert.ToInt32(GetString("DwPaging.PageCount"));
     feedRoot.pagingPageSize=GetString("DwPaging.PageSize");
     feedRoot.pagingTypeOfNextButton=GetString("DwPaging.TypeOfNextButton");
     feedRoot.pagingTypeOfPreviousButton=GetString("DwPaging.TypeOfPreviousButton");
@@ -260,6 +270,15 @@
 //Query.Parameters
 //QueryResultItem
 //DwPaging.LoopAllPages
+	foreach (var page in GetLoop("DwPaging.LoopPageGroup"))
+	{
+		var pageObj = new Page();
+
+		pageObj.isCurrent = page.GetBoolean("PageGroup.ActivePage");
+		pageObj.pageLink = page.GetString("PageGroup.PageLink");
+		pageObj.pageNumber  = Convert.ToInt32(page.GetString("PageGroup.PageNumber"));
+		feedRoot.Pages.Add(pageObj);
+	}
 //DwPaging.LoopPageGroup
 
 

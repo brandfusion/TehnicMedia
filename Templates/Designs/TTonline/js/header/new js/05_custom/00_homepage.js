@@ -22,6 +22,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
             loadOnScrollForIE();
         }
     }
+    
+    //load content on change page
+    if(document.querySelector('.pagination') !== null) {
+        loadOnChangePage();
+    }
 });
 
 /*START HOMEPAGE HANDLEBARS AJAX CALLS*/
@@ -63,6 +68,9 @@ function loadFirstView(handlebarsWrapper) {
     })
     .then(function (response) {
         compileDataToHandlebars(response.data[0], handlebarsWrapper);
+        if(document.querySelector('.pagination') !== null) {
+            loadOnChangePage();
+        }
     })
     .catch(function (error) {
         // handle error
@@ -77,11 +85,11 @@ function loadOnScroll() {
     const options = {
         threshold: 0,
         rootMargin: "500px"
-    }
+    };
     const observer = new IntersectionObserver(function(entries, observer) {
         entries.forEach(function(entry) {
             if(entry.isIntersecting) {
-                getDataForHandlebars(entry.target)
+                getDataForHandlebars(entry.target);
                 observer.unobserve(entry.target);
             }
         })
@@ -111,8 +119,39 @@ function loadOnScrollForIE() {
     for(var x = 0; x < allSidebarWrappers.length; x++) {
         lazyLoadElements(allSidebarWrappers[x]);
     } 
-    })
+    })    
+}
+
+function loadOnChangePage() {
+    var buttons = document.querySelectorAll('.pagination li:not(.active)');
     
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            document.querySelector('li.active').classList.remove('active');
+            button.classList.add('active');
+            window.scrollTo(0, 0);
+            
+            if(button.textContent !== "1") {
+                document.querySelectorAll('.hideSecondPage').forEach(function(elem) {elem.classList.add("hidden")})
+            }
+            var urlFeed = button.getAttribute('data-page-link');
+            var containerName = button.getAttribute('data-container');
+            var container = document.querySelector('[data-template="'+containerName+'"]');
+            
+              axios({
+                  method:'get',
+                  url: urlFeed
+              })
+              .then(function (response) {
+                  compileDataToHandlebars(response.data[0], container);
+              })
+              .catch(function (error) {
+                  // handle error
+                  console.log(error, "error boo2");
+              }) 
+        });
+        
+    });    
 }
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
@@ -138,14 +177,18 @@ function getDataForHandlebars(homePageSliderWrapper) {
     var urlFeed = homePageSliderWrapper.getAttribute('data-json-feed');
     axios({
         method:'get',
-        url:urlFeed
+        url: urlFeed
     })
     .then(function (response) {
         compileDataToHandlebars(response.data[0], homePageSliderWrapper);   
         if(isIE11()) {
             homePageSliderWrapper.classList.remove('rendering');
             homePageSliderWrapper.classList.add('rendered');
-        }        
+        }
+
+        if(document.querySelector('.pagination') !== null) {
+            loadOnChangePage();
+        }
     })
     .then(function() {
         if(homePageSliderWrapper.classList.contains("carousel-inner")) {
