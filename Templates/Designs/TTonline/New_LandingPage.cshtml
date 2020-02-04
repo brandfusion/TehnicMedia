@@ -35,7 +35,7 @@ string linkCompanii = Pageview.Area.Item["Link_Companii"].ToString();
       </div>
       
       <div class="row banners">
-        <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href="@linkCatalog" alt='@Pageview.Area.Item["Link_Catalog.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"    ]' alt='@Pageview.Area.It        em["Ba    nner_Catalog.Name"]' /></a></div>
+        <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href="@linkCatalog" alt='@Pageview.Area.Item["Link_Catalog.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"]' alt='@Pageview.Area.Item["Banner_Catalog.Name"]' /></a></div>
          <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href="@linkCompanii" alt='@Pageview.Area.Item["Link_Companii.Name"]' target="blank"><img src='@Pageview.Area.Item["Banner_Companii"]' alt='@Pageview.Area.Item["Banner_Companii.Name"]' /></a></div>
        </div>
      
@@ -88,7 +88,7 @@ $(function(){
               $(this).addClass("current-active").addClass("active");
 
               $(".bhoechie-tab-content").removeClass("active");
-              $(".bhoechie-tab-content").eq(index).ad    dCl    ass("active")
+              $(".bhoechie-tab-content").eq(index).addClass("active")
 
           });
       });

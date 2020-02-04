@@ -1,13 +1,5 @@
 @using Dynamicweb.Frontend
-@{
-    int toateStirile = GetPageIdByNavigationTag("ToateStirile");
-    var pageId = GetPageIdByNavigationTag("ArticlesFeed");
-    var articlesIDs = "";
-    foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
-    {
-        articlesIDs += item.GetString("ItemPublisher:Item.Field.PageId") + ",";
-    }
-}
+
 
 <div class="news-feed">  
     <h3 class="block-title"><span>@Translate("ultimelestiri", "ULTIMELE STIRI")</span></h3>
