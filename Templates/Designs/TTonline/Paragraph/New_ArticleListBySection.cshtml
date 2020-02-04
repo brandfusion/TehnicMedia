@@ -16,10 +16,12 @@
     var paragraphName = GetString("Item.ParagraphName");
 	var featuredArticles = GetLoop("Item.Featured_Article");
 	var articlesIDs = "";
-	var sectionID = GetString("Item.Section"); 
+	var sectionID = GetString("Item.Section");
+	var excludedID = "";
 	foreach (LoopItem i in featuredArticles)
 	{
 		var slideId = i.GetString("Item.Featured_Article.Id");
+		excludedID += slideId;
 		var pageService = new Dynamicweb.Content.PageService();
 		articlesIDs += pageService.GetPageForItem("Dw_Page", slideId.ToString()).ID + ",";
 	}
@@ -35,7 +37,7 @@
 		</text>
 	}
 	
-	@RenderArticleList(pageId, sectionID, paragraphName)
+	@RenderArticleList(pageId, sectionID, paragraphName, excludedID)
 	@if(featuredArticles.Any()) {
     	<text>
 		    @RenderMoreButton(sectionID) 
@@ -89,7 +91,7 @@
 	
 }
 
-@helper RenderArticleList(string pageId, string sectionID, string paragraphName)
+@helper RenderArticleList(string pageId, string sectionID, string paragraphName, string exludedItems)
 {
 	string listTemplate = GetString("Item.Display").Replace("1", "one").Replace("2", "two").Replace("3", "three");
 	var noSummary = listTemplate.Contains("nosummary");
@@ -97,7 +99,7 @@
     var templateName = paragraphName.Replace(" ", string.Empty) + "ListTemplate";
 	int listSize = GetInteger("Item.ListSize") > 0 ? GetInteger("Item.ListSize") : 2;
 	
-	<div class="list-container handlebars-wrapper @listTemplate" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&Sections=@sectionID&pagesize=@listSize">
+	<div class="list-container handlebars-wrapper @listTemplate" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&Sections=@sectionID&pagesize=@listSize&Excluded=@exludedItems">
 		@*HANDLEBARS TEMPLATE GOES HERE*@
 	</div>
 	<script id="@templateName" type="text/x-handlebars-template">

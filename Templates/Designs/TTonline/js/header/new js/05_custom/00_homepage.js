@@ -84,7 +84,7 @@ function loadOnScroll() {
     
     const options = {
         threshold: 0,
-        rootMargin: "500px"
+        rootMargin: "100px"
     };
     const observer = new IntersectionObserver(function(entries, observer) {
         entries.forEach(function(entry) {
