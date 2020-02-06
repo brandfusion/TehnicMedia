@@ -188,7 +188,7 @@ string filterValue8= "Item.Tip='Articole'";
              <article class="news-block big-block" style="margin-bottom:0px;">           
                <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
                    <figure class="image-overlay proportie-1">
-                     <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=870&Height=572" alt="{{itemTitlu}}" alt="{{itemTitlu}}" /> 
+                     <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=870&Height=572" alt="{{itemTitlu}}" style="height: 100%;" /> 
                    </figure>
              </a>
                  <header class="news-details">
@@ -237,7 +237,7 @@ string filterValue8= "Item.Tip='Articole'";
            <article class="news-block small-block">
              <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
              <figure class="">
-                <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230" />                   
+                <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230&bgcolor=white" />                   
              </figure>
              </a>             
              <header class="news-details">
@@ -263,7 +263,7 @@ string filterValue8= "Item.Tip='Articole'";
         <ul class="pagination pagination-sm">
             {{#ifCond currentPage "!==" "1"}}
                  <li data-page-link="{{pagingFirstPageLink}}" data-container="LoopArticoleStiriTemplate">                			        
-                    <span style="margin-right: 0.2em"> Â« </span>                 
+                    <span style="margin-right: 0.2em"> « </span>                 
                  </li>
                  <li data-page-link="{{pagingPrevPageLink}}" data-container="LoopArticoleStiriTemplate">
                     <span aria-label="@Translate("paginaAnterioara", "Pagina anterioara")"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></span>
@@ -283,7 +283,7 @@ string filterValue8= "Item.Tip='Articole'";
                     <span aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></span>                     
                 </li>
                 <li data-page-link="{{pagingLastPageLink}}" data-container="LoopArticoleStiriTemplate">
-                    <span> Â» </span>
+                    <span> » </span>
                 </li>
             {{/if}}
         </ul>

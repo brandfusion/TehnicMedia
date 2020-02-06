@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
     //load content on other pages
     if (document.querySelector('.first-container') !== null) {
-       // window.scrollTo(0, 0);
+        window.scrollTo(0, 0);
         //load first view
         loadFirstView(document.querySelector('.first-container'));
         //load on scroll
@@ -137,21 +137,55 @@ function loadOnChangePage() {
             var urlFeed = button.getAttribute('data-page-link');
             var containerName = button.getAttribute('data-container');
             var container = document.querySelector('[data-template="'+containerName+'"]');
-            
-              axios({
-                  method:'get',
-                  url: urlFeed
-              })
-              .then(function (response) {
-                  compileDataToHandlebars(response.data[0], container);
-              })
-              .catch(function (error) {
-                  // handle error
-                  console.log(error, "error boo2");
-              }) 
-        });
-        
+
+            getDataToChangePage(urlFeed, container)
+        });        
     });    
+}
+
+function getDataToChangePage(urlFeed, container) {
+    axios({
+        method:'get',
+        url: urlFeed
+    })
+    .then(function (response) {
+        compileDataToHandlebars(response.data[0], container);
+    })
+    .then(function() {
+        loadOnChangePage()
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error, "error boo2");
+    })
+}
+function getEditionsByYear() {
+    var archiveButtons = document.querySelectorAll('.bhoechie-tab-menu .list-group-item');
+    var container = document.querySelector('.bhoechie-tab-content');
+    var loader = ' <div class="loader"></div>';
+    
+    archiveButtons.forEach(function(item) {
+       item.addEventListener('click', function(e) {
+          var year = item.getAttribute('data-year');
+          var feedURL = document.querySelector('.bhoechie-tab-menu .list-group').getAttribute('data-json-feed-reviste') + year;
+          
+          document.querySelector('.bhoechie-tab-menu .list-group-item.active').classList.remove('active');
+          item.classList.add('active');
+          
+          container.innerHTML = loader;
+           axios({
+               method:'get',
+               url: feedURL
+           })
+           .then(function (response) {
+               compileDataToHandlebars(response.data[0], container);
+           })
+           .catch(function (error) {
+               // handle error
+               console.log(error, "error boo2");
+           })
+       }); 
+    });
 }
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
@@ -199,6 +233,16 @@ function getDataForHandlebars(homePageSliderWrapper) {
             $(".owl-companii-1").trigger('destroy.owl.carousel');
             $(".owl-companii-2").trigger('destroy.owl.carousel');
             initializeHomepageCarousel();
+        }
+        if(document.querySelector('.bhoechie-tab-container') !== null) {
+            var evt = new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true,
+                view: window
+            });
+            var firstButton = document.querySelector('.bhoechie-tab-menu .list-group-item');
+            firstButton.dispatchEvent(evt);
+            getEditionsByYear();
         }
     })
     .catch(function (error) {
@@ -284,7 +328,28 @@ function initializeHomepageCarousel(){
             }
         }
     });
-
+    $('.owl-parteneri-1').owlCarousel({
+        loop: true,
+        margin: 10,
+        dots: false,
+        center:true,
+        nav: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 2,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 1
+            },
+            1000: {
+                items: 1
+            }
+        }
+    })
 }
 
 function initializeEventsCarousel() {

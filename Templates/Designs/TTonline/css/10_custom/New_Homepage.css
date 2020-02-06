@@ -203,10 +203,12 @@
     background-position: center;
     background-size: contain;
 }
-#HomePageSlider {
+#HomePageSlider, .sidebar-handlebars-wrapper {
     min-height: 2em; 
 }
-
+.sidebar-handlebars-wrapper.owl-carousel {
+    display: block;
+}
 .handlebars-wrapper, #RecomandariTT, #UltimeleStiri, .first-container {   
     position: relative;
     min-height: 2em;
@@ -223,13 +225,24 @@
     position: absolute;
     bottom: -180px;
 }
-.mag-content .col-companie .news-block.small-block {
-    padding-bottom: 0;
-}
+
 .companii-background {
     background-color: #3a5375;
 }
 .shop-background {
     background-color: #3f444c;
 }
-
+.list-group-item,
+.pagination li {
+    cursor: pointer;
+}
+.col-companie .small-block .news-details {
+    position:absolute;
+}
+@media (max-width: 767px) {
+    .twocol-image-nosummary .small-block .news-details {
+        margin: 0;
+        padding: 10px 10px 0;
+    }
+}
+    
