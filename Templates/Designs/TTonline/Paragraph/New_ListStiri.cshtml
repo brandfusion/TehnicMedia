@@ -1,0 +1,57 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Linq;
+@using System.Web;
+
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+
+@{
+    var stiriPageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+    var sectionID = GetString("DwPageID");
+}
+<div>
+    <div class="row">
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="block-title" style="margin-top:25px!important;"><span>@Translate("Stiri","Stiri")</span></h3>
+        <div class="first-container" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="/Default.aspx?ID=@stiriPageID&pagesize=12&type=Stiri">
+            @*Handlebars goes here*@ 
+        </div>
+    </div>
+</div>
+</div>
+<script id="LoopStiriTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}
+<article class="simple-post simple-big clearfix col-md-12 separator-articole">
+    <div class="simple-thumb" style="width: 250px!important;">
+        <a href="/Default.aspx?ID={{pagePageID}}">
+            <figure class="">
+                <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168"/> 
+            </figure>
+        </a>
+    </div>
+    <header>
+        <p class="simple-share">
+                @Translate("articolde", "de")
+                {{#each articleAutori}}
+                    <a href="{{Link}}">{{Name}}</a>
+                {{/each}}
+                <span style="margin: 0 !important;">-</span>
+            <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+            {{#if showItemVisits}} 
+                <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+             {{/if}}
+
+        </p>
+        <h3 style="font-size: 18px;  overflow: hidden;">
+            <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
+        </h3>
+        <div class="excerpt" >{{{itemSumar}}}</div>
+    </header>
+</article>
+{{/each}}
+{{/ArticlesContainer}}
+</script>
