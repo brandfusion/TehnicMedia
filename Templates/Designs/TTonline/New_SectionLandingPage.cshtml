@@ -1,4 +1,4 @@
-@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
 @MasterPageFile("Master.cshtml")
 @using Dynamicweb.Content;
 @using Dynamicweb.Rendering
@@ -22,6 +22,7 @@
   var mainArticle = GetLoop("Item.MainArticle");
   var secondaryArticle1 = GetLoop("Item.Secundar1");
   var secondaryArticle2 = GetLoop("Item.Secundar2");
+    var ProduseLoop = GetLoop("Item.ShowroomProducs.Value");
   string pageName = GetString("DwPageName");
   string parentPage = GetString("DwPageName_2");
   string parentPageID = GetString("DwPageID_2");
@@ -30,14 +31,17 @@ string imagine = GetString("Item.ImagineSectiune");
 string activeURL = GetString("DWExtranetAction"); 
 string filterValue8= "Item.Tip='Articole'";
 
-
-  var articlesPageId = GetPageIdByNavigationTag("ArticlesFeed").ToString();
-  var sectionID = GetString("DwPageID");
-  var mainArticleID = "";
-  string secondaryArticleID = "";
-  string thirdArticleID = "";
-  string excludedArticles = "";  
-  foreach(LoopItem i in mainArticle)
+    string Producator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
+    string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
+    var articlesPageId = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+    var productsPageId = GetPageIdByNavigationTag("ProductsFeed").ToString();
+    var sectionID = GetString("DwPageID");
+    var mainArticleID = "";
+    string secondaryArticleID = "";
+    string thirdArticleID = "";
+    string excludedArticles = "";
+    string productsIDs = "";
+    foreach(LoopItem i in mainArticle)
    {
      mainArticleID += returnPageID(i.GetString("Item.MainArticle.Id"));
      excludedArticles += returnPageID(i.GetString("Item.MainArticle.Id"));
@@ -47,11 +51,16 @@ string filterValue8= "Item.Tip='Articole'";
     secondaryArticleID += returnPageID(i.GetString("Item.Secundar1.Id"));
     excludedArticles += returnPageID(i.GetString("Item.Secundar1.Id"));
   }
-  foreach (LoopItem i in secondaryArticle2)
-  {
-    thirdArticleID += returnPageID(i.GetString("Item.Secundar2.Id"));
-    excludedArticles += returnPageID(i.GetString("Item.Secundar2.Id"));
-  }
+    foreach (LoopItem i in secondaryArticle2)
+    {
+        thirdArticleID += returnPageID(i.GetString("Item.Secundar2.Id"));
+        excludedArticles += returnPageID(i.GetString("Item.Secundar2.Id"));
+    }
+    
+    foreach (LoopItem i in ProduseLoop)
+    {
+        productsIDs += i.GetString("Ecom:Product.ID")+',';
+    }
 
 }
 
@@ -124,55 +133,24 @@ string filterValue8= "Item.Tip='Articole'";
 
 
     @*ARTICOLE SI STIRI*@	
-    @{
-        int toateStirile = GetPageIdByNavigationTag("ToateStirile");
-        var pageId = GetPageIdByNavigationTag("ArticlesCititeFeed");
-        var articlesIDs = "";
-        foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
-        {
-            articlesIDs += item.GetString("ItemPublisher:Item.Field.PageId") + ",";
-        }
-    }
+ 
     <div class="col-xs-12">
         <div class="row handlebars-wrapper display-title-up" id="LoopArticoleStiri" data-template="LoopArticoleStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&pagesize=8&Sections=@sectionID&Excluded=@excludedArticles">
             @*Handlebars goes here*@ 
         </div>
     </div>
     
-
-@*     @{ *@
-@* 	 string filterValue4 = "Item.Tip='Stiri' and Item.SectiuneParinteId ='"+ GetString("DwPageID") +"'"; *@
-@*             filterValue4 = filterValue4 + "\"\""; *@
-@*      *@
-@* } *@
-@*      *@
-@*     @RenderItemList(new {  *@
-@*       ItemType = "Dw_Page", *@
-@*       ListSourceType = "Area", *@
-@*       ListSourceArea ="1", *@
-@*       ItemFieldsList = "*", *@
-@*       ListTemplate = "/ItemPublisher/List/Loop-Stiri-LP-Sectiune-3col-image-nosummary.cshtml", *@
-@*       ListViewMode = "Partial", *@
-@*     	ListShowFrom = 1, *@
-@*     	ListShowTo= 6, *@
-@*    	  ListPageSize = 7,     *@
-@*       ListOrderBy = "Data", *@
-@*       ListOrderByDirection = "Descending", *@
-@*         Filter = filterValue4 *@
-    @*     }) *@
     <div class="row">
-    
-    <h3 class="block-title" style="margin-top:25px!important;"><span>@Translate("Stiri","Stiri")</span></h3>
-    
-    </div>
-    <div class="col-xs-12">
-        <div class="row handlebars-wrapper display-title-up" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&Sections=@sectionID&pagesize=5&type=Stiri">
-            @*Handlebars goes here*@ 
+        <div class="col-xs-12">
+            <h3 class="block-title" style="margin-top:25px!important;"><span>@Translate("Stiri","Stiri")</span></h3>
+            <div class="row handlebars-wrapper display-title-up" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&Sections=@sectionID&pagesize=5&type=Stiri">
+                @*Handlebars goes here*@ 
+            </div>
+            <div class="row load-more">
+                <a href='/stiri?Sectiune=@sectionID'><button type="button" class="btn btn-lg btn-block">@Translate("MaiMulteStiri","Mai multe stiri")</button></a>
+            </div>
         </div>
     </div>
-    <div class="row load-more">
-                  <a href='/stiri?Sectiune=@sectionID'><button type="button" class="btn btn-lg btn-block">@Translate("MaiMulteStiri","Mai multe stiri")</button></a>
-              </div>
 
 </div>
 
@@ -185,365 +163,23 @@ string filterValue8= "Item.Tip='Articole'";
 
 </div>
 <div>
-
-@*CAROUSEL PRODUSE*@
+    @*CAROUSEL PRODUSE*@
 <style>
   .owl-carousel .owl-item img {width:auto!important;}
 </style>
 
-      @{ 
-          var Produse = GetLoop("Item.ShowroomProducs.Value");
-          if(Produse.Any()){
-            <h3 class="block-title"><span>Produse din categoria: @pageName</span></h3>
-          }
-       }
-		<div class="carousel-produse">
-        
-        <div class="owl-carousel owl-theme">
-       @{ 
-          @* var Produse = GetLoop("Item.ShowroomProducs.Value");*@
-         if(Produse.Any()){  
-             foreach(LoopItem i in Produse){
-    		
-          string mainImageRaw = i.GetString("Ecom:Product.ImageLarge.Clean"); 
-    		string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 160, 120) : ""; 
- 	  				mainImage = mainImage + "&bgcolor=white";	
-    
-          string mainTitle = i.GetString("Ecom:Product.Name");
-          string mainURL = i.GetString("Ecom:Product.LinkGroup.Clean");
- 			string manufacturer = i.GetString("Ecom:Manufacturer.Name");
-    
-    		          string productBoxClass = "col-sm-6";  
-
-double priceProductDB = Math.Round(i.GetDouble("Ecom:Product.DBPrice"),2);
-double priceProductDiscount = Math.Round(i.GetDouble("Ecom:Product.Discount.Price.Price"),2);
-
-double percent = (priceProductDB-priceProductDiscount)*100/priceProductDB;  
-percent = Math.Round(percent);
-
-string imagePath = "/Files/Images/";
-string imageCustom = imagePath + i.GetString("Ecom:Product.ImageLargeLarge.Clean");  
-string pathImagine = i.GetString("Ecom:Product.ImageLargeLarge.Clean");
-string imagineProdusRaw = i.GetString("Ecom:Product.ImageLarge.Clean");
-
-string imagineProdus = !string.IsNullOrEmpty(imagineProdusRaw) ? GetImage(imagineProdusRaw, 350, 230) : ""; 
-    imagineProdus = imagineProdus + "&bgcolor=white";
-
-int stockTotal = i.GetInteger("Ecom:Product.VariantCount") > 0 ? 0 : i.GetInteger("Ecom:Product.Stock");
-
-string productName = i.GetString("Ecom:Product.Name");
-string productLink = i.GetString("Ecom:Product.LinkGroup.Clean");
-
-string AfisarePromotie = i.GetString("Ecom:Product:Field.TagPromotie.Value");
-string manufacturerName = i.GetString("Ecom:Manufacturer.Name");
-string manufacturerLink = i.GetString("Ecom:Manufacturer.Web");
-string manufacturerLogo =i.GetString("Ecom:Manufacturer.Logo");
-string productID = i.GetString("Ecom:Product.ID");
-string productLanguage = i.GetString("Ecom:Product.LanguageID");
-string productVariantID = i.GetString("Ecom:Product.VariantID");
-string dealeriProdusRaw = i.GetString("Ecom:Product:Field.Dealeri");
-string[] dealeriProdus = (dealeriProdusRaw ?? "").Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-string compareLink = productID + "$" + productLanguage + "$" + productVariantID;
-
-string Grup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System.Web.HttpContext.Current.Request["GroupID"].ToString(): "";
-string Producator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
-string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
-bool first = true;
-    
-    
-  		    <div class="item"> 
-    
-    
-
-
-
-
-@if(Dealer == "" && Producator == ""){
-<div class="col-xs-12" style="margin-bottom:15px; margin-top:15px; ">
-  <div class="produs-col-background">
-  
-        <div class="row" >
-          <div class="col-xs-12">
-             <div class="product-image">
-                  <a href="@productLink" class="overlay-link">
-                      <figure class=""> 
-                          @{  
-                             
-                              <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
-                          }
-                      </figure>
-                  </a>
-             </div>
-           </div>
-        </div>
-        <div class="row row-promotii-produs">
-            <div class="col-xs-12">
-                @if(AfisarePromotie == "True"){
-                      <div class="promotie">
-                        <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
-                      </div>
-                }
-            
-                @if(priceProductDB > 0 ){
-                    <div class="pret-produs pull-right">
-                        <a href="@productLink">
-                        <span class="detalii-produs" ><text>@priceProductDB LEI</text></span>
-                        </a>
-                    </div>
-                }
+<h3 class="block-title"><span>Produse din categoria: @pageName</span></h3>
+    <div class="carousel-produse">
+        <div class="owl-carousel owl-theme handlebars-wrapper display-title-up" data-template="LoopProduseTemplate" data-json-feed="/Default.aspx?ID=@productsPageId&Promoted=@productsIDs">
+                @*Handlebars goes here*@ 
             </div>
-        </div>
-
-     <div class="row">
-        <div class="col-xs-12">
-
-          <h5 class="titlu-produs-lista news-title" ><a href="@productLink">@productName</a></h5>
-
-        </div>
-      </div>
-
-    <div class="row" style="min-height:40px;">
-     <div class="col-xs-12">
-            @if(!String.IsNullOrEmpty(manufacturerName)){
-              <div class="col-xs-6" >      
-                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-                     <text class="trim-text trim-lines-2">@Translate("manufacturer", "Producator"):</text>         
-                   </p>
-              </div>
-          
-
-            <div class="col-xs-6">
-              <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
-               @if(!String.IsNullOrEmpty(manufacturerLink)){
-                <a href="@manufacturerLink"><span style="color:black;">@manufacturerName</span></a>
-                        } else {
-                          <span style="color:black;">@manufacturerName</span>
-                        }
-              </p>
-            </div>
-           }
-       </div>
-    </div>
-     
-
-    <div class="row" style="min-height:30px;">
-      <div class="col-xs-12">
-             @if(dealeriProdus.Any()){
-          <div class="col-xs-6" style="text-align: center;">      
-               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-                <text>@Translate("Furnizor", "Furnizor"):</text>         
-               </p>
-            </div>
-          
-
-            <div class="col-xs-6" style="text-align: center;">
-              <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-             <text class="trim-text trim-lines-2" style="color:black;">@(dealeriProdus.Length == 1 ? dealeriProdus.First() :  dealeriProdus.Length + " furnizori")</text>
-              </p>
-            </div>
-           }
-       </div>
-    </div>
-
-      <div class="row">
-          <div class="col-xs-12 col-butoane-lista">
-            
-                  
-              <div class="col-xs-6">
-
-                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
-                    <span class="detalii-produs">
-                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
-                    </span>
-                  </a>
-                     
-               </div>   
-              
-
-               <div class="col-xs-6">
-
-                  <a href="@productLink" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
-
-                </div>
-            
-                  
-                
-                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
-                      <div class="modal-dialog modal-sm">
-                          <div class="modal-content" >
-                            @RenderParagraphContent(120)
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                                                   <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
-                      </div>
-                  </div>
-            
-
-            
-
-          </div>
-      </div>
-  </div>
-
-
+     </div>
 </div>
-
-
-if(Dealer != "" || Producator != ""){
-
-<div class="col-xs-12 col-sm-3 col-md-3 " style="margin-bottom:15px; margin-top:15px; ">
-  <div class="produs-col-background">
-  
-        <div class="row" >
-          <div class="col-xs-12">
-             <div class="product-image">
-                  <a href="@productLink" class="overlay-link">
-                      <figure class=""> 
-                          @{  
-                             
-                              <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
-                          }
-                      </figure>
-                  </a>
-             </div>
-           </div>
-        </div>
-        <div class="row row-promotii-produs">
-            <div class="col-xs-12">
-                if(AfisarePromotie == "True"){
-                      <div class="promotie">
-                        <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
-                      </div>
-                }
-            
-                if(priceProductDB > 0 ){
-                    <div class="pret-produs pull-right">
-                        <a href="@productLink">
-                        <span class="detalii-produs" ><text>@priceProductDB LEI</text></span>
-                        </a>
-                    </div>
-                }
-            </div>
-        </div>
-
-     <div class="row">
-        <div class="col-xs-12">
-
-          <h5 class="titlu-produs-lista news-title"><a href="@productLink">@productName</a></h5>
-
-        </div>
-      </div>
-
-    <div class="row" style="min-height:40px;">
-     <div class="col-xs-12">
-            if(!String.IsNullOrEmpty(manufacturerName)){
-              <div class="col-xs-4" >      
-                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-                     <text>@Translate("manufacturer", "Producator"):</text>         
-                   </p>
-              </div>
-          
-
-            <div class="col-xs-8">
-              <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
-               if(!String.IsNullOrEmpty(manufacturerLink)){
-                <a href="@manufacturerLink"><span style="color:black;">@manufacturerName</span></a>
-                        } else {
-                          <span style="color:black;">@manufacturerName</span>
-                        }
-              </p>
-            </div>
-           }
-       </div>
-    </div>
-     
-
-    <div class="row" style="min-height:30px;">
-      <div class="col-xs-12">
-             if(dealeriProdus.Any()){
-          <div class="col-xs-3" style="text-align: center;">      
-               <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-                <text>@Translate("Furnizor", "Furnizor"):</text>         
-               </p>
-            </div>
-          
-
-            <div class="col-xs-9" style="text-align: center;">
-              <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
-             <text style="color:black;">@(dealeriProdus.Length == 1 ? dealeriProdus.First() :  dealeriProdus.Length + " furnizori")</text>
-              </p>
-            </div>
-           }
-       </div>
-    </div>
-
-      <div class="row">
-          <div class="col-xs-12 col-butoane-lista">
-            
-                  
-              <div class="col-xs-6">
-
-                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
-                    <span class="detalii-produs">
-                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
-                    </span>
-                  </a>
-                     
-               </div>   
-              
-
-               <div class="col-xs-6">
-
-                  <a href="@productLink" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
-
-                </div>
-            
-                  
-                
-                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
-                      <div class="modal-dialog modal-sm">
-                          <div class="modal-content" >
-                            @RenderParagraphContent(120)
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                                                   <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
-                      </div>
-                  </div>
-            
-
-            
-
-          </div>
-      </div>
-  </div>
-
-
-</div>
-}
-}
-
-
-
-
-
-    
-    
-          </div>   
-   
-        }
-        }
-        } 
-        </div>
-  		</div>
-         </div>
 
 <div class="row" style="margin-bottom:20px; margin-top:20px;">
         <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:20px; margin-top:20px;"><a href='@Pageview.Area.Item["Link_Catalog"]' alt='@Pageview.Area.Item["Link_Catalog.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"]'alt='@Pageview.Area.Item["Banner_Catalog.Name"]' /></a></div>
          <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:20px; margin-top:20px;"><a href='@Pageview.Area.Item["Link_Companii"]' alt='@Pageview.Area.Item["Link_Companii.Name"]' target="blank"><img src='@Pageview.Area.Item["Banner_Companii"]'alt='@Pageview.Area.Item["Banner_Companii.Name"]' /></a></div>
-       </div>
+ </div>
        
 @*MAIN ARTICLE CONTAINER*@       
 <script id="MainArticleTemplate" type="text/x-handlebars-template">   
@@ -627,7 +263,8 @@ if(Dealer != "" || Producator != ""){
         <ul class="pagination pagination-sm">
             {{#ifCond currentPage "!==" "1"}}
                  <li data-page-link="{{pagingFirstPageLink}}" data-container="LoopArticoleStiriTemplate">                			        
-                    <span style="margin-right: 0.2em"> « </span>                 </li>
+                    <span style="margin-right: 0.2em"> Â« </span>                 
+                 </li>
                  <li data-page-link="{{pagingPrevPageLink}}" data-container="LoopArticoleStiriTemplate">
                     <span aria-label="@Translate("paginaAnterioara", "Pagina anterioara")"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></span>
                  </li>
@@ -646,7 +283,7 @@ if(Dealer != "" || Producator != ""){
                     <span aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></span>                     
                 </li>
                 <li data-page-link="{{pagingLastPageLink}}" data-container="LoopArticoleStiriTemplate">
-                    <span> » </span>
+                    <span> Â» </span>
                 </li>
             {{/if}}
         </ul>
@@ -659,36 +296,248 @@ if(Dealer != "" || Producator != ""){
     {{#each Article}}
         <article class="simple-post simple-big clearfix col-md-12 separator-articole">
             <div class="simple-thumb" style="width:255px" >
-                <a href="/Default.aspx?ID={{pagepageID}}&Purge=True">
+                <a href="/Default.aspx?ID={{pagePageID}}">
                   <figure class="">
-    				   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168 "/> 
-                    <!--<img src="/Admin/Public/GetImage.ashx?Image=articleImage&altFmImage_path=/Files/Images/NoImage/350x230.png&Format=jpg&Width=350&Height=230&Crop=5" alt="articleTitle" class="img-responsive" />-->
+    				   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168"/> 
                   </figure>
                 </a>
             </div>
             <header>
-                <p class="simple-share">
-                  
+                <p class="simple-share">                  
                     @Translate("articolde","de") 
                     {{#each articleAutori}}
                         <a href="{{Link}}">{{Name}}</a>
                     {{/each}}
                     <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
-                    {{#ifCond showItemVisits '===' true}} 
+                    {{#if showItemVisits}} 
                       <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
-                    {{/ifCond}}
-                                                                    </p>
+                    {{/if}}
+                </p>
                 <h3 style="font-size: 18px; min-height:50px; max-height: 50px; overflow: hidden;">
-                    <a href="/Default.aspx?ID={{pagepageID}}&Purge=True">{{itemTitlu}}</a>
+                    <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
                 </h3>
                 <div class="excerpt" style="min-height:80px; max-height:80px; overflow:hidden;" >{{{itemSumar}}}</div>
-        <br/>
+             <br/>
             </header>
-        </article>
-        
+        </article>        
     {{/each}}
 {{/ArticlesContainer}}
 </script>
+
+<script id="LoopProduseTemplate" type="text/x-handlebars-template">
+{{#each Product}}
+   <div class="item"> 
+    @if (Dealer == "" && Producator == "")
+    {
+        <div class="col-xs-12" style="margin-bottom:15px; margin-top:15px; ">
+      <div class="produs-col-background">      
+            <div class="row" >
+              <div class="col-xs-12">
+                 <div class="product-image">
+                      <a href="{{link}}" class="overlay-link">
+                          <figure class=""> 
+                            <img src="/Admin/Public/GetImage.ashx?Image={{image}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=350&Height=230" class="img-responsive"/>             
+                          </figure>
+                      </a>
+                 </div>
+               </div>
+            </div>
+            <div class="row row-promotii-produs">
+                <div class="col-xs-12">
+                    {{#if afisarePromotie}}
+                          <div class="promotie">
+                            <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                          </div>
+                    {{/if}}
+                    {{#ifCond priceProductDB ">" 0}}
+                        <div class="pret-produs pull-right">
+                            <a href="{{link}}">
+                            <span class="detalii-produs" ><text>{{priceProductDB}} LEI</text></span>
+                            </a>
+                        </div>
+                    {{/ifCond}}
+                </div>
+            </div>    
+         <div class="row">
+            <div class="col-xs-12">    
+              <h5 class="titlu-produs-lista news-title" ><a href="{{link}}">{{name}}</a></h5>    
+            </div>
+          </div>    
+        <div class="row" style="min-height:40px;">
+         <div class="col-xs-12">
+                {{#ifCond manufacturer "!==" ""}}
+                  <div class="col-xs-6" >      
+                       <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                         <text class="trim-text trim-lines-2">@Translate("manufacturer", "Producator"):</text>         
+                       </p>
+                  </div>    
+                    <div class="col-xs-6">
+                      <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
+                       {{#ifCond manufacturerLink "!==" ""}}
+                        <a href="{{manufacturerLink}}"><span style="color:black;">{{manufacturer}}</span></a>
+                        {{/ifCond}}   
+                        {{#ifCond manufacturerLink "===" ""}}   
+                            <span style="color:black;">{{manufacturer}}</span>
+                        {{/ifCond}}
+                      </p>
+                    </div>
+                {{/ifCond}}
+           </div>
+        </div>         
+    
+        <div class="row" style="min-height:30px;">
+          <div class="col-xs-12">
+              <div class="col-xs-6" style="text-align: center;">      
+                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                    <text>@Translate("Furnizor", "Furnizor"):</text>         
+                   </p>
+                </div>
+                <div class="col-xs-6" style="text-align: center;">
+                  <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                 <text class="trim-text trim-lines-2" style="color:black;">{{dealerResult}}</text>
+                  </p>
+                </div>
+           </div>
+        </div>
+    
+          <div class="row">
+              <div class="col-xs-12 col-butoane-lista">                             
+                  <div class="col-xs-6">    
+                      <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                        <span class="detalii-produs">
+                          <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                        </span>
+                      </a>                         
+                   </div> 
+                   <div class="col-xs-6">    
+                      <a href="{{link}}" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>    
+                   </div>
+                 @SnippetStart("ProductCarouselModal")
+                    <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                          <div class="modal-content" >
+                          <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:right!important;">X</button>
+                            @RenderParagraphContent(120)
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                       </div>
+                    </div>
+                 @SnippetEnd("ProductCarouselModal")
+              </div>
+           </div>
+       </div>    
+    </div>
+    }
+    
+    @if(Dealer != "" || Producator != ""){
+    
+        <div class="col-xs-12 col-sm-3 col-md-3 " style="margin-bottom:15px; margin-top:15px; ">
+      <div class="produs-col-background">      
+            <div class="row" >
+              <div class="col-xs-12">
+                 <div class="product-image">
+                      <a href="{{link}}" class="overlay-link">
+                          <figure class=""> 
+                            <img src="/Admin/Public/GetImage.ashx?Image={{image}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=350&Height=230" class="img-responsive"/>    
+                          </figure>
+                      </a>
+                 </div>
+               </div>
+            </div>
+            <div class="row row-promotii-produs">
+                <div class="col-xs-12">
+                    {{#if afisarePromotie}}
+                          <div class="promotie">
+                            <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                          </div>
+                    {{/if}}                
+                    {{#ifCond priceProductDB ">" 0}}
+                        <div class="pret-produs pull-right">
+                            <a href="{{link}}">
+                            <span class="detalii-produs" ><text>{{priceProductDB}} LEI</text></span>
+                            </a>
+                        </div>
+                    {{/ifCond}}
+                </div>
+            </div>    
+         <div class="row">
+            <div class="col-xs-12">    
+              <h5 class="titlu-produs-lista news-title"><a href="{{link}}">{{name}}</a></h5>    
+            </div>
+          </div>    
+         <div class="row" style="min-height:40px;">
+         <div class="col-xs-12">
+                {{#ifCond manufacturer "!==" ""}}
+                  <div class="col-xs-4" >      
+                       <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                         <text>@Translate("manufacturer", "Producator"):</text>         
+                       </p>
+                  </div>    
+                    <div class="col-xs-8">
+                      <p class="simple-share manufacturer"  style="text-align:left; font-size: 12px; line-height: 1.2;">
+                       {{#ifCond manufacturerLink "!==" ""}}
+                        <a href="{{manufacturerLink}}"><span style="color:black;">{{manufacturer}}</span></a>
+                        {{/ifCond}}
+                        {{#ifCond manufacturerLink "===" ""}}
+                            <span style="color:black;">{{manufacturer}}</span>
+                            {{/ifCond}}
+                                
+                      </p>
+                     </div>
+                {{/ifCond}}
+           </div>
+        </div>    
+        <div class="row" style="min-height:30px;">
+          <div class="col-xs-12">
+              <div class="col-xs-3" style="text-align: center;">      
+                   <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                    <text>@Translate("Furnizor", "Furnizor"):</text>         
+                   </p>
+                </div>    
+                <div class="col-xs-9" style="text-align: center;">
+                  <p class="simple-share manufacturer" style="text-align:left; font-size: 12px; line-height: 1.2;">
+                 <text style="color:black;">{{dealerResult}}</text>
+                  </p>
+                </div>
+           </div>
+        </div>    
+        <div class="row">
+          <div class="col-xs-12 col-butoane-lista">                  
+              <div class="col-xs-6">
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                    <span class="detalii-produs">
+                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                    </span>
+                  </a>                     
+               </div> 
+               <div class="col-xs-6">
+                  <a href="{{link}}" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
+                </div>
+                @SnippetStart("ProductCarouselModal")
+                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                          <div class="modal-content" >
+                          <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:right!important;">X</button>
+                            @RenderParagraphContent(120)
+                          </div>
+                      
+                      <div class="modal-footer">
+                      </div>
+                      </div>
+                  </div>
+                  @SnippetEnd("ProductCarouselModal")
+           </div>
+         </div>
+      </div>   
+     </div>
+    }
+}
+ </div>
+{{/each}} 
+</script>
+
+@RenderSnippet("ProductCarouselModal")
 
 <script>
   $(function(){
