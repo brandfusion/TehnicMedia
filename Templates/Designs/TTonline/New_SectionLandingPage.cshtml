@@ -111,7 +111,7 @@ string filterValue8= "Item.Tip='Articole'";
                                 
           <h3 class="block-title"><span>Articole</span></h3>
           <div class="first-container" data-template="MainArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@mainArticleID">
-               <div class="loader"></div>
+             
           		@*Handlebars goes here*@
           </div>
        }
@@ -538,46 +538,7 @@ string filterValue8= "Item.Tip='Articole'";
 </script>
 
 @RenderSnippet("ProductCarouselModal")
-
-<script>
-  $(function(){
-    function getURL(url) {
-        name = url.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]').replace("&amp;" , "&").replace("&amp;" , "&");
-        return name;
-    }
-
-    // get URL value
-    var query = getURL("@activeURL");
-    var listOfLi =  $("ul.pagination.pagination-sm li a");
-
-    // fix link for go to first page
-   if($(".pagination").length){
-    $("ul.pagination.pagination-sm li a").first().attr("href" , $("ul.pagination.pagination-sm li a").first().attr("href").replace("PID=0&" , ""));
-	}
-
-    // remove PID=0 from each li url
-    $.each(listOfLi , function(index , element){
-      var replacement = $(element).attr("href").replace("&PID=0" , "");
-      $(element).attr("href" , replacement);
-    });
-
-
-    var firstTimeOnPage = _.includes(query , "page");
-
-    if(!firstTimeOnPage) {
-    	$("ul.pagination.pagination-sm li:first").addClass("active");
-    }
-
-    // check if URL value is equal to any of li's URL value
-    _.map(listOfLi , function(obj){
-      var liURL = $(obj).attr("href").replace("/" , "");
-
-      if(liURL == query) {
-        $(obj).parent().addClass("active");
-      }
-    }); 
-  });
-</script> 
+<div id="loader"><div class="loader-icon"></div></div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>       
         
