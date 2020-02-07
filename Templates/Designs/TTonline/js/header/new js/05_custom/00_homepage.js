@@ -35,11 +35,15 @@ document.addEventListener('DOMContentLoaded', function(event) {
 function loadFirstViewHomepage() {
     var homePageSliderWrapper = document.getElementById('HomePageSlider');
     var urlFeed = homePageSliderWrapper.getAttribute("data-json-feed");
+    var loader  = document.getElementById('loader');
     axios({
         method:'get',
         url:urlFeed
     })
     .then(function (response) {
+        //hide loader
+        loader.classList.add('hidden');
+        //compile data
         compileDataToHandlebars(response.data[0], homePageSliderWrapper);              
         //initialize homepage slider after handlebars template was compiled
         initializeHomepageSlider();
@@ -62,12 +66,19 @@ function loadFirstViewHomepage() {
 //On page load, make call for first container on page
 function loadFirstView(handlebarsWrapper) {
     var urlFeed = handlebarsWrapper.getAttribute("data-json-feed");
+    var loader  = document.getElementById('loader');
     axios({
         method:'get',
         url: urlFeed
     })
     .then(function (response) {
+        //hide loader
+        loader.classList.add('hidden');
+        
         compileDataToHandlebars(response.data[0], handlebarsWrapper);
+        
+    })
+    .then(function() {
         if(document.querySelector('.pagination') !== null) {
             loadOnChangePage();
         }
@@ -347,6 +358,49 @@ function initializeHomepageCarousel(){
             },
             1000: {
                 items: 1
+            }
+        }
+    })
+
+    $('.owl-redactori').owlCarousel({
+        loop: false,
+        margin: 10,
+        dots: false,
+        nav: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 3,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            1000: {
+                items: 3
+            }
+        }
+    })
+    $('.owl-parteneri').owlCarousel({
+        loop: true,
+        margin: 10,
+        dots: false,
+        nav: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 2,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            1000: {
+                items: 4
             }
         }
     })

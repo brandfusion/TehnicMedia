@@ -28,8 +28,15 @@
   <div class="col-md-12">
     <div class="flexslider">
       <div class="featured-slider" id="HomePageSlider" data-template="HomepageSliderTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesSlides">
- 			<div class="loader"></div>        
-            @*HANDLEBARS TEMPLATE GOES HERE*@
+        <div class="row">
+          <div class="col-md-9">
+            <div class="pre-render-element pre-render-element--xl"></div>
+          </div>
+          <div class="col-md-3">
+            <div class="pre-render-element pre-render-element--lg"></div>
+            <div class="pre-render-element pre-render-element--lg"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -50,7 +57,7 @@
           
           <div class="featured-href">
             <figure class="image-overlay2">
-              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=760&Height=510' alt="{{itemTitlu}}"/>
+              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=760&Height=510' alt="{{itemTitlu}}"/>
             </figure>
            
           <div class="featured-header">
@@ -78,7 +85,7 @@
         </div> 
           <div  class="featured-href">
             <figure class="image-overlay2">
-              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=365&Height=250' alt="{{itemTitlu}}"/>
+              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=365&Height=250' alt="{{itemTitlu}}"/>
             </figure>
           
             <div class="featured-header">
@@ -108,7 +115,7 @@
           </div> 
              <div class="featured-href">
                <figure class="image-overlay2">
-              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=365&Height=250' alt="{{itemTitlu}}"/>
+              <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=365&Height=250' alt="{{itemTitlu}}"/>
                </figure>
            
                <div class="featured-header">

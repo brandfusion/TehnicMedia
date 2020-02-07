@@ -44,57 +44,24 @@ string linkCompanii = Pageview.Area.Item["Link_Companii"].ToString();
 
 	 <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 sticky" ><!--aici incepe sidebar--> 
       @Include("Custom/New_Sidebar.cshtml")	
-    </div><!--se inchide divul pentru sidebar-->   
+    </div><!--se inchide divul pentru sidebar-->
 
-	
-	<div class="dwcontent" id="rowsigle" title="Row Sigle" data-settings="unwrap:true">
-      
+  <div class="dwcontent" id="rowsigle" title="Row Sigle" data-settings="unwrap:true">
     </div>
-
-      
 </div> 
 <!-- Google Analytics -->
-
+<div id="loader"><div class="loader-icon"></div></div>
 <script>
 
 window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-26068739-1', 'auto'); 
 
-ga('create', 'UA-26068739-1', 'auto');
-
- 
-
-// DIMENSIONS DECLARATION WHERE NEEDED
-
- 
+// DIMENSIONS DECLARATION WHERE NEEDED 
 
 ga('send', 'pageview');
 
 </script>
 
 <script async="" src='https://www.google-analytics.com/analytics.js'></script>
-
-
-<script type="text/javascript">
-$(function(){
-
-  	// fix magazine archive (arhiva revistei) links in Firefox
-	if(navigator.userAgent.includes("Firefox"))
-  	{
-      $(".bhoechie-tab-menu a").each(function(index,el){
-          $(el).on("click" , function(event){
-              event.preventDefault();
-
-              $(this).siblings("a").removeClass("current-active").removeClass("active");
-              $(this).addClass("current-active").addClass("active");
-
-              $(".bhoechie-tab-content").removeClass("active");
-              $(".bhoechie-tab-content").eq(index).addClass("active")
-
-          });
-      });
-  	}
-});
-
-</script>
 
 <!-- End Google Analytics -->
