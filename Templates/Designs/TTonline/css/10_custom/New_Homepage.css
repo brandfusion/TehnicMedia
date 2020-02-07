@@ -236,6 +236,10 @@
 .pagination li {
     cursor: pointer;
 }
+.pagination ul {
+    width:100%;
+    text-align: center;
+}
 .col-companie .small-block .news-details {
     position:absolute;
 }
