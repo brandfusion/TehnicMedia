@@ -257,7 +257,7 @@
 .pagination li {
     cursor: pointer;
 }
-.pagination ul {
+.pagination {
     width:100%;
     text-align: center;
 }
