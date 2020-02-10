@@ -1,5 +1,6 @@
 @Include("../Custom/GlobalVariables.cshtml")
 @Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
 <style>
   .owl-carousel .owl-item img {width:auto!important;}
 </style>
@@ -17,8 +18,7 @@
     <h4><span class="tipcompanie-homepage-tag" style="background-color: #996633;">@GetString("Item.Titlu")</span></h4>
      <div class="carousel-companii caruselMarginBottom">
          <div class="owl-carousel owl-companii-2 owl-theme handlebars-wrapper" data-template="CarouselCompanii2Template" data-slides-number="6" data-json-feed="/Default.aspx?ID=@pageId&CompanieID=@companiesIDs">
-             <div class="loader"></div>
-             @*HANDLEBARS TEMPLATE GOES HERE*@
+             @RenderPlaceholderCaruselText();
          </div> 
          </div>
 </div>
