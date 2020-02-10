@@ -6,6 +6,7 @@
 
 @Include("../Custom/GlobalVariables.cshtml")
 @Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
 @{
     var stiriPageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
     var sectionID = System.Web.HttpContext.Current.Request.Params["Sectiune"];
@@ -21,11 +22,11 @@
         <div class="col-xs-12">
             <div class="first-container" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="@url">
                 <ul class="widget-content">
-                    <li class="pre-render-element pre-render-element--md"></li>
-                    <li class="pre-render-element pre-render-element--md"></li>
-                    <li class="pre-render-element pre-render-element--md"></li>
-                    <li class="pre-render-element pre-render-element--md"></li>
-                    <li class="pre-render-element pre-render-element--md"></li>
+                    @RenderPlaceholderImageOnLeft()
+                    @RenderPlaceholderImageOnLeft()
+                    @RenderPlaceholderImageOnLeft()
+                    @RenderPlaceholderImageOnLeft()
+                    @RenderPlaceholderImageOnLeft()
                 </ul>
             </div>
         </div>

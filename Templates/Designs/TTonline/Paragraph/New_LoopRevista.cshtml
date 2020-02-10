@@ -10,6 +10,7 @@
 @Include("../Custom/GlobalVariables.cshtml")
 @Include("../Includes/ArticleHelper.cshtml")
 @Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
 @{
     var pageId = GetPageIdByNavigationTag("SectionsFeed");
     var urlFeed = "/Default.aspx?ID="+pageId;
@@ -19,10 +20,20 @@
     <h1 class="block-title">
         <span>@GetString("Item.ParagraphName")</span>
     </h1>
-    <div class="row first-container" id="SectiuniRevista" data-template="SectiuniRevistaTemplate" data-slides-number="4" data-json-feed="@urlFeed" >
-        <div class="loader"></div>
-        @*HANDLEBARS TEMPLATE GOES HERE*@
+<div class="row first-container" id="SectiuniRevista" data-template="SectiuniRevistaTemplate" data-slides-number="4" data-json-feed="@urlFeed" >
+    <div class="col-md-4">
+        @RenderPlaceholderImageTopNoText("pre-render-element--md")
+        @RenderPlaceholderImageTopNoText("pre-render-element--md")
     </div>
+    <div class="col-md-4">
+        @RenderPlaceholderImageTopNoText("pre-render-element--md")
+        @RenderPlaceholderImageTopNoText("pre-render-element--md")
+    </div>
+    <div class="col-md-4">
+        @RenderPlaceholderImageTopNoText("pre-render-element--md")
+        @RenderPlaceholderImageTopNoText("pre-render-element--md")
+     </div>
+</div>
 </div>
 
 <script id="SectiuniRevistaTemplate" type="text/x-handlebars-template">

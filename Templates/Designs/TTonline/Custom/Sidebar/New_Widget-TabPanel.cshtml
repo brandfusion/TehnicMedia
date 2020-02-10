@@ -10,6 +10,9 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active sidebar-handlebars-wrapper" id="tab-popular" data-template="CeleMaiNoiTemplate"  data-json-feed="/Default.aspx?ID=@feedPageID&PageSize=5&type=Articole">
             @*Handlebars Template goes here*@
+            @RenderPlaceholderImageOnLeft()
+            @RenderPlaceholderImageOnLeft()
+            @RenderPlaceholderImageOnLeft()
         </div><!-- Recent Posts -->
         <div role="tabpanel" class="tab-pane sidebar-handlebars-wrapper" id="tab-recent" data-template="CeleMaiCititeTemplate"  data-json-feed="/Default.aspx?ID=@feedCititePageID&PageSize=5&type=Articole">
             @*Handlebars Template goes here*@
@@ -53,3 +56,4 @@
     {{/each}}
 {{/ArticlesContainer}}    
 </script>
+

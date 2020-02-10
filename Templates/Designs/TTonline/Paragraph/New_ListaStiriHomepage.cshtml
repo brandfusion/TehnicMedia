@@ -10,6 +10,7 @@
 @Include("../Custom/GlobalVariables.cshtml")
 @Include("../Includes/ArticleHelper.cshtml")
 @Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
 @{
     int toateStirile = GetPageIdByNavigationTag("ToateStirile");
     var pageId = GetPageIdByNavigationTag("ArticlesFeed");
@@ -26,11 +27,10 @@
       
         @*if(GetBoolean("ItemPublisher:Items.Any")){*@
         <ul class="widget-content" id="UltimeleStiri" data-template="UltimeleStiriTemplate" data-json-feed="/Default.aspx?ID=@pageId&type=Stiri">
-            <li class="pre-render-element pre-render-element--md"></li>
-            <li class="pre-render-element pre-render-element--md"></li>
-            <li class="pre-render-element pre-render-element--md"></li>
-            <li class="pre-render-element pre-render-element--md"></li>
-            <li class="pre-render-element pre-render-element--md"></li>
+            @RenderPlaceholderNoImage()
+            @RenderPlaceholderNoImage()
+            @RenderPlaceholderNoImage()
+            @RenderPlaceholderNoImage()
         </ul>
     </div>  
 </div>

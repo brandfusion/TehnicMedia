@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
     //load content on homepage
     if (document.getElementById('HomePageSlider') !== null) {
         window.scrollTo(0, 0);
-        loadFirstViewHomepage();
+      //  loadFirstViewHomepage();
         if(!isIE11()) {
-            loadOnScroll();
+       //     loadOnScroll();
         } else {
             loadOnScrollForIE();
         }
@@ -246,14 +246,14 @@ function getDataForHandlebars(homePageSliderWrapper) {
             initializeHomepageCarousel();
         }
         if(document.querySelector('.bhoechie-tab-container') !== null) {
+            getEditionsByYear();
             var evt = new MouseEvent('click', {
                 bubbles: true,
                 cancelable: true,
                 view: window
             });
             var firstButton = document.querySelector('.bhoechie-tab-menu .list-group-item');
-            firstButton.dispatchEvent(evt);
-            getEditionsByYear();
+            firstButton.dispatchEvent(evt);           
         }
     })
     .catch(function (error) {

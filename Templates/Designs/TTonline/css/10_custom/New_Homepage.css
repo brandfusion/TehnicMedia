@@ -234,7 +234,7 @@
     position: relative;
     min-height: 2em;
 }
-#RecomandariTT, #UltimeleStiri, .first-container {
+#RecomandariTT, #UltimeleStiri, .first-container, #LoopStiri {
      clear: both;
 }
 #myCarousel .description {
@@ -274,13 +274,22 @@
     height: 50px;
 }
 .pre-render-element--md {
-    height: 120px;
+    height: 150px;
 }
 .pre-render-element--lg {
-    height: 250px;
+    height: 200px;
 }
 .pre-render-element--xl {
-    height: 500px;
+    height: 414px;
+}
+.pre-render-element--title {
+    height: 25px;
+}
+.pre-render-element--text {
+    height: 5px;
+}
+.homepage-scule {
+    margin-top: 25px !important;
 }
 /*PRE RENDER TEMPLATE ELEMENTS*/
 @media (max-width: 767px) {

@@ -1,0 +1,69 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+@using System.Linq;
+   
+@functions{
+
+    public class Redactori
+    {
+        public string nume { get; set; }
+        public string imagine { get; set; }
+        public string functie { get; set; }
+        public string descriere { get; set; }
+    }
+   
+    public class Root{
+        public string paginaRedactoriSiColaboratori { get; set; }
+        public List<Redactori> Redactori {get; set;}
+    }
+}
+@{
+    var results = GetLoop("QueryResultItem");
+    var counterRedactori = 1;
+    string idPaginaRedactoriSiColaboratori = GetPageIdByNavigationTag("PaginaAutori").ToString();
+    var urlPrefix = "/Default.aspx?ID=";
+    List<Root> feedObject = new List<Root>();
+    List<Redactori> RedactoriFeedObject = new List<Redactori>();
+    Root feedRoot = new Root();
+    feedRoot.Redactori = new List<Redactori>();
+    feedRoot.paginaRedactoriSiColaboratori = urlPrefix + idPaginaRedactoriSiColaboratori;
+    foreach (LoopItem result in results){
+        
+        Redactori Redactori = new Redactori();
+        Redactori.nume = result.GetString("Redactori_Nume");
+        Redactori.imagine =result.GetString("Redactori_Poza");
+        Redactori.functie = result.GetString("Redactori_Functia");
+        Redactori.descriere =result.GetString("Redactori_Descriere");
+        counterRedactori++;
+	    feedRoot.Redactori.Add(Redactori);
+    }
+   
+//Parameters
+//FacetGroups
+//Query.Parameters
+//QueryResultItem
+//DwPaging.LoopAllPages
+//DwPaging.LoopPageGroup
+
+
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = "";
+
+    if (results.Count == 0)
+    {
+        jsonFeed = "[]";
+    }
+    else
+    {
+        jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed
+
+

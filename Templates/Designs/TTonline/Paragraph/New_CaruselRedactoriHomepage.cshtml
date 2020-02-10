@@ -10,6 +10,7 @@
 @Include("../Custom/GlobalVariables.cshtml")
 @Include("../Includes/ArticleHelper.cshtml")
 @Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
 @{
 	var redactoriPageId = GetPageIdByNavigationTag("RedactoriFeed");;
    
@@ -19,9 +20,10 @@
 <div class="col-md-12 col-xs-12">
 	<h1 class="block-title"><span>@Translate("Redactori si Colaboratori")</span></h1>
 	<div class="owl-carousel owl-redactori owl-theme handlebars-wrapper" data-template="ColaboratoriRedactoriTemplate" data-json-feed="/Default.aspx?ID=@redactoriPageId">
-    	<div class="loader"></div>
-        @*HANDLEBARS TEMPLATE GOES HERE*@
-    </div>
+		@RenderPlaceholderCaruselImage()
+		@RenderPlaceholderCaruselImage()
+		@RenderPlaceholderCaruselImage()
+	</div>
 </div>
 
 
@@ -30,8 +32,8 @@
 <script id="ColaboratoriRedactoriTemplate" type="text/x-handlebars-template">
 {{#Redactori}}
 	 <div class="item">
-	     <a href='{{paginaRedactoriSiColaboratori}}'><img src='/Admin/Public/GetImage.ashx?Image={{itemImagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=90&Height=115' width="90" height="115" alt="" style="max-height:115px;max-width:90px;" /></a>
-	     <p><a href='{{paginaRedactoriSiColaboratori}}'>{{nume}} </a></p>  
+	     <a href='{{../paginaRedactoriSiColaboratori}}'><img src='/Admin/Public/GetImage.ashx?Image={{itemImagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=90&Height=115' width="90" height="115" alt="" style="max-height:115px;max-width:90px;" /></a>
+	     <p><a href='{{../paginaRedactoriSiColaboratori}}'>{{nume}} </a></p>  
       </div>  
 {{/Redactori}}
 </script>

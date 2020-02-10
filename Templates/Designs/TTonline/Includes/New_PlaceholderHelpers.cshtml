@@ -1,0 +1,59 @@
+@helper RenderPlaceholderImageOnLeft()
+{
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+            <div class="pre-render-element pre-render-element--md"></div>
+        </div>
+        <div class="col-md-8 col-xs-12">
+            <div class="pre-render-element pre-render-element--title"></div>
+            <div class="pre-render-element pre-render-element--title"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+        </div>
+    </div>
+   
+}
+@helper RenderPlaceholderImageOnly(string imageSize)
+{
+    <div class="pre-render-element @imageSize"></div>
+}
+
+@helper RenderPlaceholderImageTop(string imageSize)
+{
+    <div class="pre-render-element @imageSize"></div>
+    <div class="pre-render-element pre-render-element--title"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+}
+@helper RenderPlaceholderImageTopNoText(string imageSize)
+{
+    <div class="pre-render-element @imageSize"></div>
+    <div class="pre-render-element pre-render-element--title"></div>
+
+}
+@helper RenderPlaceholderNoImage()
+{
+    <div class="pre-render-element pre-render-element--title"></div>
+    <div class="pre-render-element pre-render-element--title"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+}
+
+@helper RenderPlaceholderCaruselText()
+{
+    <div class="item placeholder">
+            <div class="pre-render-element pre-render-element--md"></div>
+            <div class="pre-render-element pre-render-element--title"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+        </div>
+}
+@helper RenderPlaceholderCaruselImage()
+{
+    <div class="item">
+        <div class="pre-render-element pre-render-element--md"></div>
+    </div>
+}

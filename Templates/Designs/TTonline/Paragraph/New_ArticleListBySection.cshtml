@@ -51,8 +51,7 @@
 {
 	var templateName = paragraphName.Replace(" ", string.Empty) + "FeaturedTemplate";
 	<div class="handlebars-wrapper" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
-		<div class="loader"></div>
-		@*HANDLEBARS TEMPLATE GOES HERE*@
+		<div class="pre-render-element pre-render-element--lg"></div>
 	</div>
 
 	<script id="@templateName" type="text/x-handlebars-template">
@@ -100,7 +99,10 @@
 	int listSize = GetInteger("Item.ListSize") > 0 ? GetInteger("Item.ListSize") : 2;
 	
 	<div class="list-container handlebars-wrapper @listTemplate" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&Sections=@sectionID&pagesize=@listSize&Excluded=@exludedItems">
-		@*HANDLEBARS TEMPLATE GOES HERE*@
+		<div class="col-md-3">
+			<div class="pre-render-element pre-render-element--lg"></div>
+			<div class="pre-render-element pre-render-element--lg"></div>
+		</div>
 	</div>
 	<script id="@templateName" type="text/x-handlebars-template">
 	   {{#ArticlesContainer}}

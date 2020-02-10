@@ -10,6 +10,8 @@
 @Include("../Custom/GlobalVariables.cshtml")
 @Include("../Includes/ArticleHelper.cshtml")
 @Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
+
 @{
     var editiiFeedPage = GetPageIdByNavigationTag("EditiiFeed");
    
@@ -23,14 +25,29 @@
             <div class="bhoechie-tab-container">
     	        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 bhoechie-tab-menu">
     		        <div class="list-group handlebars-wrapper" data-template="LoopAniEditiiTemplate" data-json-feed="/Default.aspx?ID=@editiiFeedPage&PageSize=100" data-json-feed-reviste="/Default.aspx?ID=@editiiFeedPage&PageSize=100&An=">
-    			        <div class="loader"></div>
-                        @*HANDLEBARS TEMPLATE GOES HERE*@
+    			        @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
     		        </div>
     	        </div>
     	        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 bhoechie-tab">
     		        <div class="bhoechie-tab-content active" data-template="LoopEditiiTemplate">
-    			        <div class="loader"></div>
-                        @*HANDLEBARS TEMPLATE GOES HERE*@
+    			        <div class="col-md-4 col-md-6">
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                        </div>
+                        <div class="col-md-4 col-md-6">
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                        </div>
+                        <div class="col-md-4 col-md-6">
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                         </div>
     		        </div>
     		    </div>
             </div>
