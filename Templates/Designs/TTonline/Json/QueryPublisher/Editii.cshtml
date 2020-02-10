@@ -1,0 +1,95 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+@using System.Linq;
+   
+@functions{
+    
+
+    public class Editii
+    {
+        public string titlu { get; set; }
+        public string an { get; set; }
+        public string data { get; set; }
+        public string sumar { get; set; }
+        public string imagine { get; set; }
+        public string cod_Issuu { get; set; }
+        public string itemTypeId { get; set; }
+        public string link { get; set; }
+    }
+    public class Ani 
+    {
+        public string an { get; set; }
+      }
+	
+    public class Root
+    {
+        
+        public List<Editii> Editii {get; set;}
+        public List<Ani> Ani { get; set; }
+
+    }
+}
+@{
+    var results = GetLoop("QueryResultItem");
+    var counterEditii = 1;
+    var counterAni = 1;
+    List<Root> feedObject = new List<Root>();
+    List<Editii> editiiFeedObject = new List<Editii>();
+    List<Ani> aniFeedObject = new List<Ani>();
+    Root feedRoot = new Root();
+    feedRoot.Editii = new List<Editii>();
+    feedRoot.Ani = new List<Ani>();
+    
+    foreach (LoopItem result in results){
+        
+        Editii Editii = new Editii();
+        Editii.titlu = result.GetString("Editie_Titlu");
+        Editii.an = result.GetDate("Editie_Data").ToString("yyyy");
+        Editii.data = result.GetDate("Editie_Data").ToString("yyyy-MM-dd");
+        Editii.sumar = result.GetString("Editie_Sumar");
+        Editii.imagine = result.GetString("Editie_Imagine");
+        Editii.cod_Issuu = result.GetString("Editie_Cod_ISSUU");
+        Editii.itemTypeId = result.GetString("PageItemIdString");
+        var itemId = result.GetString("PageId");
+        var linkPrefix = "/Default.aspx?ID=";
+        Editii.link = linkPrefix + itemId;
+        counterEditii++;
+	    feedRoot.Editii.Add(Editii);
+    }
+    foreach (LoopItem an in results.GroupBy(x => x.GetDate("Editie_Data").ToString("yyyy")).Select(y => y.First())){
+       
+        Ani Ani = new Ani();
+        Ani.an = an.GetDate("Editie_Data").ToString("yyyy");
+        counterAni++;
+        feedRoot.Ani.Add(Ani);
+    }
+   
+//Parameters
+//FacetGroups
+//Query.Parameters
+//QueryResultItem
+//DwPaging.LoopAllPages
+//DwPaging.LoopPageGroup
+
+
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = "";
+
+    if (results.Count == 0)
+    {
+        jsonFeed = "[]";
+    }
+    else
+    {
+        jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed
+
+
