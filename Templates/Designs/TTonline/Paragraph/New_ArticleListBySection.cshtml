@@ -1,0 +1,163 @@
+﻿ @inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System
+@using System.Web;
+@using System.Collections;
+@using System.Collections.Generic
+@using System.Linq;
+@using Dynamicweb.Content.Items
+
+@Include("Layout.cshtml")
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+
+@{
+	var pageId = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+    var paragraphName = GetString("Item.ParagraphName");
+	var featuredArticles = GetLoop("Item.Featured_Article");
+	var articlesIDs = "";
+	var sectionID = GetString("Item.Section");
+	var excludedID = "";
+	foreach (LoopItem i in featuredArticles)
+	{
+		var slideId = i.GetString("Item.Featured_Article.Id");
+		excludedID += slideId;
+		var pageService = new Dynamicweb.Content.PageService();
+		articlesIDs += pageService.GetPageForItem("Dw_Page", slideId.ToString()).ID + ",";
+	}
+}
+
+@NewRow() 
+
+<div class="@ColumnClass() homepage-sectiune" style="margin-top: 25px; margin-bottom:0px">
+	<h3 class="block-title"><span>@paragraphName</span></h3>
+	@if(featuredArticles.Any()) {
+		<text>
+		@RenderFeaturedArticle(pageId, articlesIDs, paragraphName)
+		</text>
+	}
+	
+	@RenderArticleList(pageId, sectionID, paragraphName, excludedID)
+	@if(featuredArticles.Any()) {
+    	<text>
+		    @RenderMoreButton(sectionID) 
+    	</text>
+    }
+   
+	@RenderModule() 
+</div>
+
+@helper RenderFeaturedArticle(string pageId, string articlesIDs, string paragraphName)
+{
+	var templateName = paragraphName.Replace(" ", string.Empty) + "FeaturedTemplate";
+	<div class="handlebars-wrapper" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
+		<div class="loader"></div>
+		@*HANDLEBARS TEMPLATE GOES HERE*@
+	</div>
+
+	<script id="@templateName" type="text/x-handlebars-template">
+	{{#ArticlesContainer}}
+		{{#each Article}}
+			<article class="news-block">
+               <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                    <figure class=" ">	
+            			<img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive" />
+            		</figure>
+               <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+               </a>
+
+               {{#articleSections}}
+                     <a href="#" class="category bgcolor3">{{Name}}</a>
+               {{/articleSections}}
+            	<header class="news-details">
+            		<h3 class="news-title"> <a href='/Default.aspx?ID={{pagePageID}}' alt='{{itemTitlu}}'>{{itemTitlu}}</a></h3>
+            		<p>{{{itemSumar}}}</p>
+            	    <p class="simple-share">
+                         @Translate("articolde","de")  
+            	         {{#articleAutori}}
+                              <a href="{{Link}}"><b>{{Name}}</b></a>
+                         {{/articleAutori}}
+            	         - <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                         {{#if showItemVisits}}
+                              <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                          {{/if}}
+            		</p>
+            	</header>  
+            </article><!-- News block -->
+		{{/each}}
+	{{/ArticlesContainer}}
+	
+	</script>
+	
+}
+
+@helper RenderArticleList(string pageId, string sectionID, string paragraphName, string exludedItems)
+{
+	string listTemplate = GetString("Item.Display").Replace("1", "one").Replace("2", "two").Replace("3", "three");
+	var noSummary = listTemplate.Contains("nosummary");
+	var noImage = listTemplate.Contains("noimage");
+    var templateName = paragraphName.Replace(" ", string.Empty) + "ListTemplate";
+	int listSize = GetInteger("Item.ListSize") > 0 ? GetInteger("Item.ListSize") : 2;
+	
+	<div class="list-container handlebars-wrapper @listTemplate" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&Sections=@sectionID&pagesize=@listSize&Excluded=@exludedItems">
+		@*HANDLEBARS TEMPLATE GOES HERE*@
+	</div>
+	<script id="@templateName" type="text/x-handlebars-template">
+	   {{#ArticlesContainer}}
+	       {{#Article}}
+	          <article class="news-block small-block">
+		      @if (!noImage)
+          		{			
+					<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+				       <figure>
+					      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive"/>
+				       </figure>
+			        </a>
+		        }
+			  <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+			  <header class="news-details">
+				<h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3>
+				<p class="simple-share">
+					@Translate("articolde", "de")
+					{{#articleAutori}}
+					<a href="{{Link}}">{{Name}}</a>
+					{{/articleAutori}}
+					<br/>
+					<span><i class="fa fa-clock-o"></i> {{itemData}} </span>
+					@*TODO conditie de afisafe din feed *@
+					{{#if showItemVisits}}
+                        <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                    {{/if}}
+				</p>
+				
+				@if (!noSummary)
+				{
+					<div class="excerpt">
+                       {{{itemSumar}}}
+                    </div>
+				}
+			   </header>			
+		  </article>
+		{{/Article}}
+	   {{/ArticlesContainer}}
+	</script>
+
+}
+
+
+@helper RenderModule()
+{
+	@GetString("ParagraphModule")
+}
+
+@helper RenderMoreButton(string sectionID) 
+{
+	<div class="col-md-12 col-xs-12 load-more">
+      <a href="/Default.aspx?ID=@sectionID"><button type="button" class="btn btn-lg btn-block">@Translate("maimulte","Mai multe")</button></a>
+    </div>
+}
+
+
+
+
+                

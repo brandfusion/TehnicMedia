@@ -2308,20 +2308,6 @@ a.category:hover{
   outline: none;
   text-decoration: none;
 }
-.news-details{
-  color: #a9a9a9;
-  margin-top:-40px;
-  position: relative;
-  background-color: #fff;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
-  margin-right: 25px;
-  margin-left: 25px;
-  z-index: 10;
-  padding: 2em;
-  padding-top: 10px;
-}
 
 .col-companie .small-block .news-details{
   color: #a9a9a9;
@@ -2388,17 +2374,6 @@ a.category:hover{
   color: #000;
 }
 
-.small-block .news-details{
-  position: absolute;
-  background: #fff;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
-  z-index: 10;
-  bottom: -90px;
-  left: 1px;
-  right: 1px;
-}
 .big-block .news-title{
   /*font-size: 41px;
   line-height: 45px;*/

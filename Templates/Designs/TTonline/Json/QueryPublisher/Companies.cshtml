@@ -80,9 +80,11 @@
 @{
     var results = GetLoop("QueryResultItem");
     var counter = 1;
+    int paginaAutori = GetPageIdByNavigationTag("PaginaAutori");
+    int paginaTag = GetPageIdByNavigationTag("PaginaTag");
+	var counter = 1;
     List<Root> feedObject = new List<Root>();
     List<CompanyContainer> articleFeedObject = new List<CompanyContainer>();
-	
     Root feedRoot = new Root();
     feedRoot.CompanyContainer = new List<CompanyContainer>();
     feedRoot.currentPage= GetString("DwPaging.CurrentPage");

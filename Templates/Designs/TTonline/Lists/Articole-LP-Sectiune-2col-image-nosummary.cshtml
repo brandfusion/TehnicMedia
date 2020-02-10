@@ -1,6 +1,4 @@
 ﻿<div class="col-xs-12 col-sm-12 col-md-6">
-  
-   
   <article class="news-block small-block" style="margin-bottom: 110px;">
     <a href="@articleLink" class="overlay-link">
     <figure class="">
@@ -9,13 +7,10 @@
       }else{
       <img src="/Files/Images/NoImage/350x230.png" /> 
       }
-    <!--  <img src="/Admin/Public/GetImage.ashx?Image=@articleImage&altFmImage_path=/Files/Images/NoImage/255x168.png&Format=jpg&Width=250&Height=150&Crop=5" alt="@articleTitle" class="img-responsive" /> -->
     </figure>
     </a>
 
-  
     <header class="news-details">
-     
       <h3 class="news-title"><a href="@articleLink">@articleTitle</a></h3> 
       <p class="simple-share">
         @if(articleAutori.Any()){
@@ -35,10 +30,6 @@
           <span><i class="fa fa-eye"></i> @articleVisits vizualizari</span>
         } 
       </p>
-      
     </header>
-
-   
-
   </article><!-- News block --> 
 </div>

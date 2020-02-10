@@ -1,0 +1,93 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Linq;
+@using System.Web;
+@Include("../Includes/GetImage_new.cshtml")
+
+@{
+	var pageId = GetPageIdByNavigationTag("ArticlesFeed");
+	var articlesIDs = "";
+	foreach (LoopItem i in GetLoop("Item.Lista_Articole"))
+	{
+		var slideId = i.GetString("Item.Lista_Articole.Id");
+		var pageService = new Dynamicweb.Content.PageService();
+		articlesIDs += pageService.GetPageForItem("Dw_Page", slideId.ToString()).ID + ",";
+	}
+}
+
+<div class="col-md-9 col-xs-12 recomandari">
+	<h3 class="block-title">
+		<span>@Translate("recomandari","Recomandari") T&T</span>
+	</h3>
+    <div id="RecomandariTT" data-template="RecomandariTTTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
+         <div class="row">
+             <div class="pre-render-element pre-render-element--xl"></div>
+             <div class="col-md-6">
+                <div class="pre-render-element pre-render-element--lg"></div>
+             </div>
+             <div class="col-md-6">
+                 <div class="pre-render-element pre-render-element--lg"></div>
+              </div>
+        </div>
+    </div>
+</div>
+
+<script id="RecomandariTTTemplate"  type="text/x-handlebars-template">
+       
+    {{#ArticlesContainer}}
+       {{#each Article}}
+       {{#ifCond itemSort '===' 1}} 
+            <article class="news-block">
+                <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                    <figure class="image-overlay proportie-1">
+                        <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&format=jpg&width=540&height=355&bgcolor=white" class="img-responsive">
+                    </figure>
+                </a>
+                <a href="/Default.aspx?ID={{pageParentPageId}}" class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+                <header class="news-details">
+                    <h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{pageMenuText}}</a></h3>                     
+                    <p>{{{itemSumar}}}</p>
+                    <p class="simple-share"> 
+                    @Translate("articolde","de")  
+                       {{#articleAutori}}                         
+                          <a href="{{Link}}"><b>{{Name}}</b></a>
+                       {{/articleAutori}}
+                       <span style="margin: 0!important;">-</span>                       
+                       <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>                        
+                        {{#if showItemVisits}}    
+                            <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                         {{/if}}                           
+                    </p> 
+                </header>  
+            </article>
+        {{/ifCond}}
+        {{#ifCond itemSort '!==' 1}} 
+            <article class="simple-post clearfix">
+                <div class="simple-thumb">
+                    <a href="/Default.aspx?ID={{pagePageID}}">
+                        <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&format=jpg&Width=160&Height=120&bgcolor=white" class="img-responsive">
+                    </a>
+                </div>
+                <header>
+                    <h3><a href="/Default.aspx?ID={{pagePageID}}">{{pageMenuText}}</a></h3>
+                </header>
+                <p class="simple-share">
+                    <a href="/Default.aspx?ID={{itemSectiuneParinteId}}">{{itemSectiuneParinte}}</a>  
+                    
+                    @Translate("articolde","de")  
+                    {{#articleAutori}}                         
+                       <a href="{{Link}}"><b>{{Name}}</b></a>
+                    {{/articleAutori}}
+                    <span style="margin: 0!important;">-</span>                     
+                    <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                        
+                   {{#if showItemVisits}}    
+                       <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                   {{/if}}   
+                </p>
+            </article>
+        {{/ifCond}}
+        {{/each}}
+    {{/ArticlesContainer}}
+</script>

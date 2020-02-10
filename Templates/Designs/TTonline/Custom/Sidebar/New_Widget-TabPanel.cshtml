@@ -1,0 +1,55 @@
+@{
+    var feedCititePageID = GetPageIdByNavigationTag("ArticlesCititeFeed");
+}
+
+<div class="widget tabwidget">
+    <ul class="nav nav-tabs" role="tablist" id="widget-tab">
+        <li role="presentation" class="active"><a href="#tab-popular" aria-controls="tab-popular" role="tab" data-toggle="tab">@Translate("popular","Cele mai citite")</a></li>
+        <li role="presentation"><a href="#tab-recent" aria-controls="tab-recent" role="tab" data-toggle="tab">@Translate("recent","Cele mai noi")</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active sidebar-handlebars-wrapper" id="tab-popular" data-template="CeleMaiNoiTemplate"  data-json-feed="/Default.aspx?ID=@feedPageID&PageSize=5&type=Articole">
+            @*Handlebars Template goes here*@
+        </div><!-- Recent Posts -->
+        <div role="tabpanel" class="tab-pane sidebar-handlebars-wrapper" id="tab-recent" data-template="CeleMaiCititeTemplate"  data-json-feed="/Default.aspx?ID=@feedCititePageID&PageSize=5&type=Articole">
+            @*Handlebars Template goes here*@
+        </div><!-- Recent Posts -->         
+    </div>
+</div>
+
+<script id="CeleMaiNoiTemplate" type="text/x-handlebars-template"> 
+{{#ArticlesContainer}}
+   {{#each Article}}
+   <article class='widget-post clearfix'>
+       <div class="simple-thumb">  
+       <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=95&Height=90' alt="{{itemTitlu}}" />
+       </div>
+       <header>
+           <h3>
+               <a href='/Default.aspx?ID={{pagePageID}}'>{{itemTitlu}}</a>
+           </h3>
+       </header>
+   </article>
+   {{/each}}
+{{/ArticlesContainer}}   
+</script>
+
+<script id="CeleMaiCititeTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+   {{#each Article}}
+    <article class="widget-post clearfix">
+        <div class="simple-thumb">  
+            <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=95&Height=80' alt="{{itemTitlu}}" />
+        </div>
+        <header>
+            <h3>
+                <a href='/Default.aspx?ID={{pagePageID}}'>{{itemTitlu}}</a>
+            </h3>
+            <p class="simple-share">
+                <span><i class="fa fa-clock-o"></i>{{itemData}}</span>
+            </p>
+        </header>
+    </article>
+    {{/each}}
+{{/ArticlesContainer}}    
+</script>

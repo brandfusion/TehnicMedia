@@ -1,0 +1,20 @@
+@Include("../../Includes/GetImage_new.cshtml")
+
+@{
+    var articlesPageID = GetPageIdByNavigationTag("ArticlesFeed");
+    var parteneriPageID = GetPageIdByNavigationTag("ParteneriFeed");
+}
+<h3 class="block-title text-left"><span>@Translate("Parteneri","Parteneri") T&T</span></h3>
+<div class="owl-carousel owl-parteneri-1 owl-theme parteneri-list sidebar-handlebars-wrapper" data-template="ParteneriTemplate"  data-json-feed="/Default.aspx?ID=@articlesPageID&ParentPage=@parteneriPageID">
+</div>
+
+<script id="ParteneriTemplate"  type="text/x-handlebars-template">  
+{{#ArticlesContainer}}
+   {{#each Article}}
+       <div class="item">              
+             <a href="/Default.aspx?ID={{pagePageID}}"><img class="case1" src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=260&Height=100' alt="{{itemTitlu}}" style="max-height: 100px;" /></a>			
+       </div>
+    {{/each}}
+{{/ArticlesContainer}}
+</script>
+
