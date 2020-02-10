@@ -9,6 +9,7 @@
 		DateTime dataInceput = result.GetDate("Eveniment_Data_Inceput");
 		string startDay = dataInceput.ToString("dd");
 		string startMonth = dataInceput.ToString("MMMM"); 
+		string evenYear = dataInceput.ToString("yyyy");
 		DateTime dataFinal = result.GetDate("Eveniment_Data_Final");
 		string endDay = dataFinal.ToString("dd");
 		string endMonth = dataFinal.ToString("MMMM"); 
@@ -26,14 +27,17 @@
 		string perioada = result.GetString("Eveniment_Perioada");
 		string program = result.GetString("Eveniment_Program");
 		string pret = result.GetString("Eveniment_Pret_Bilet");
+		string descriere = result.GetString("Eveniment_Descriere");
 		string dateContactOrganizator = result.GetString("Eveniment_DateContactOrganizator");
-
+		string evenimentActiv = result.GetBoolean("PageActive").ToString();
+	
 		if (counter == loopCount) {
 			<text>
 			{
 				"title": "@title",
 				"startDay": "@startDay",
 				"startMonth": "@startMonth",
+              	"An" : "@evenYear",
 				"endDay": "@endDay",
 				"endMonth": "@endMonth",
 				"link": "@link",
@@ -49,8 +53,9 @@
               	"Perioada" : "@perioada",
               	"Program" : "@program",
               	"Pret" : "@pret",
-              	"Contact" : "@dateContactOrganizator"
-              
+              	"Contact" : "@dateContactOrganizator",
+              	"EvenimentActiv" : "@evenimentActiv",
+				"Descriere" : "@descriere"
 			}
 			</text>
 		}
@@ -60,6 +65,7 @@
 				"title": "@title",
 				"startDay": "@startDay",
 				"startMonth": "@startMonth",
+              	"An" : "@evenYear",
 				"endDay": "@endDay",
 				"endMonth": "@endMonth",
 				"link": "@link",
@@ -75,8 +81,8 @@
               	"Perioada" : "@perioada",
               	"Program" : "@program",
              	"Pret" : "@pret",
-              	"Contact" : "@dateContactOrganizator"
-            
+              	"Contact" : "@dateContactOrganizator",
+				"EvenimentActiv" : "@evenimentActiv"
 			},
 			</text>
 		}
