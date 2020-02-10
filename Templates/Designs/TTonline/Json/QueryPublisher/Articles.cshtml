@@ -155,7 +155,7 @@
 
 }
 @{
-    var results = GetLoop("QueryResultItem");
+	var results = GetLoop("QueryResultItem");
     int paginaAutori = GetPageIdByNavigationTag("PaginaAutori");
     int paginaTag = GetPageIdByNavigationTag("PaginaTag");
 	var counter = 1;
@@ -168,7 +168,7 @@
 	feedRoot.Pages = new List<Page>();
     feedRoot.currentPage= GetString("DwPaging.CurrentPage");
     feedRoot.currentSection="";
-    feedRoot.currentArticleType="";
+	feedRoot.currentArticleType="";
     feedRoot.totalPages=GetInteger("DwPaging.TotalItems");
     feedRoot.pagingFirstPageLink=GetString("DwPaging.FirstPageLink");
     feedRoot.pagingLastPageLink=GetString("DwPaging.LastPageLink");
