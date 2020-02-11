@@ -200,9 +200,9 @@ string filterValue8= "Item.Tip='Articole'";
 <script id="MainArticleTemplate" type="text/x-handlebars-template">   
    {{#ArticlesContainer}}
         {{#each Article}}       				
-             <article class="news-block big-block" style="margin-bottom:0px;">           
+             <article class="news-block big-block" style="margin-bottom:0px;">      
                <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
-                   <figure class="image-overlay proportie-1">
+                   <figure class="image-overlay proportie-1" style="height: 480.263px;">
                      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=870&Height=572" alt="{{itemTitlu}}" style="height: 100%;" /> 
                    </figure>
              </a>
@@ -263,7 +263,7 @@ string filterValue8= "Item.Tip='Articole'";
                      <span style="margin:0px!important;"><a href="{{Link}}">{{Name}}</a></span>
                  {{/articleAutori}}                          
                  <span style="margin: 0 !important;">-</span>                     
-                 <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                 <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
                  {{#if showItemVisits}}    
                      <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
                   {{/if}}                     
