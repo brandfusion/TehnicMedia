@@ -1,0 +1,63 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+@using System.Linq;
+   
+@functions{
+
+    public class Newsletter
+    {
+        public string titlu { get; set; }
+        public string imagine { get; set; }
+        public string link { get; set; }
+    }
+   
+    public class Root{
+        public List<Newsletter> Newsletter {get; set;}
+    }
+}
+@{
+    var results = GetLoop("QueryResultItem");
+    var counterNewsletter = 1;
+    List<Root> feedObject = new List<Root>();
+    List<Newsletter> NewsletterFeedObject = new List<Newsletter>();
+    Root feedRoot = new Root();
+    feedRoot.Newsletter = new List<Newsletter>();
+   foreach (LoopItem result in results){
+        
+        Newsletter Newsletter = new Newsletter();
+        Newsletter.titlu = result.GetString("NewsletterSingle_Titlu");
+        Newsletter.imagine = result.GetString("NewsletterSingle_Imagine");
+        Newsletter.link = result.GetString("PageShortCut");
+        counterNewsletter++;
+        feedRoot.Newsletter.Add(Newsletter);
+    }
+   
+    //Parameters
+    //FacetGroups
+    //Query.Parameters
+    //QueryResultItem
+    //DwPaging.LoopAllPages
+    //DwPaging.LoopPageGroup
+
+
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = "";
+
+    if (results.Count == 0)
+    {
+        jsonFeed = "[]";
+    }
+    else
+    {
+        jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed
+
+
