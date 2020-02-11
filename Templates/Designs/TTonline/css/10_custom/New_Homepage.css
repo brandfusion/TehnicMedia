@@ -288,6 +288,9 @@
 .pre-render-element--text {
     height: 5px;
 }
+.item.placeholder {
+    margin-bottom: 110px;
+}
 .homepage-scule {
     margin-top: 25px !important;
 }
