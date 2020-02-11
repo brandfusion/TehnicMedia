@@ -8,16 +8,10 @@
 @Include("../Includes/GetImage_new.cshtml")
 @Include("../Includes/New_PlaceholderHelpers.cshtml")
 @{
-    var stiriPageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
-    var sectionID = System.Web.HttpContext.Current.Request.Params["Sectiune"];
-    var url = "/Default.aspx?ID="+stiriPageID+"&pagesize=12&type=Stiri";
-    if (!string.IsNullOrEmpty(sectionID))
-    {
-        url += "&Sections="+ sectionID;
-    }
+    
 
 }
-<div>
+
     <div class="row">
         <div class="col-xs-12">
             <div class="first-container" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="@url">
@@ -31,7 +25,7 @@
             </div>
         </div>
     </div>
-</div>
+
 <script id="LoopStiriTemplate" type="text/x-handlebars-template">
 {{#ArticlesContainer}}
     {{#each Article}}
