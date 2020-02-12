@@ -288,8 +288,8 @@
 .pre-render-element--text {
     height: 5px;
 }
-.item.placeholder {
-    margin-bottom: 110px;
+.carousel-companii .owl-carousel .owl-stage-outer .owl-stage .owl-item.active .item.placeholder {
+    margin-bottom: 120px;
 }
 .homepage-scule {
     margin-top: 25px !important;
@@ -300,5 +300,11 @@
         margin: 0;
         padding: 10px 10px 0;
     }
+}
+.article-date {
+    display: block;
+}
+.news-details {
+    position: relative;
 }
     
