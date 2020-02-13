@@ -7,52 +7,47 @@
 @GetValue("Title(Article page)")
 @GetValue("Description(Pagina de articol)")
 @Include("Includes/ArticleHelper.cshtml")
+@Include("Includes/New_PlaceholderHelpers.cshtml")
 @{
   string queryAutor = HttpContext.Current.Request.QueryString["tag"];
-  var autori = GetTaguri(queryAutor);
-  var numeAutor = autori.FirstOrDefault().Name;
-
   string linkCatalog = Pageview.Area.Item["Link_Catalog"].ToString();
   string linkCompanii = Pageview.Area.Item["Link_Companii"].ToString();
+  var articlePageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+  var url = "/Default.aspx?ID="+articlePageID+"&pagesize=10";
+  var autori = GetTaguri(queryAutor);
+  var numeAutor = autori.FirstOrDefault().Name;
+  if (!string.IsNullOrEmpty(queryAutor))
+  {
+    url += "&Tags="+ queryAutor;
+  }
+
 }
 
-<div class="row blog-content">
-    <div class="col-md-8">
+<div class="row blog-content" data-stickyparent>
+    <div class="col-md-8" data-stickycolumn >
         <article class="post-wrapper clearfix">
-          @* <header class="post-header"> 
-            <h1 class="post-title">
-              @GetString("DwPageName"):
-              @if (numeAutor != null) {
-                @numeAutor
-              }
-
-            </h1><!-- .post-title --> 
-          </header><!-- .post-header --> *@
-
           <h3 class="block-title">
-            
-              @if (numeAutor != null) {
+            @if (numeAutor != null) {
               <span>#@numeAutor</span>
               }
-            
           </h3>
 
           <div class="post-content clearfix">
+              <div class="row">
+                  <div class="col-xs-12">
+                      <div class="first-container row" data-template="TaguriTemplate" data-json-feed="@url">
+                          @RenderPlaceholderImageOnLeft()
+                          @RenderPlaceholderImageOnLeft()
+                          @RenderPlaceholderImageOnLeft()
+                          @RenderPlaceholderImageOnLeft()
+                          @RenderPlaceholderImageOnLeft()
+                      </div>
+                  </div>
+              </div>
             <div class="dwcontent" id="maincontent" title="Main Content" settings="unwrap:true"></div>
           </div><!-- .post-content -->
         </article><!-- .post-wrapper -->
-                    
-        <!-- Mid ad -->
-        @* <div class="row">
-            <div class="col-md-12">
-              <div class="ad728-wrapper mid-wrapper">
-                <a href="#">
-                  <img src="http://placehold.it/728x90" alt=""/>
-                </a>
-              </div>
-            </div>
-        </div> *@
-        <!-- End Mid ad -->
+      
 
         <div class="row banners">
           <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href="@linkCatalog" alt='@Pageview.Area.Item["Link_Catalog.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"]' alt='@Pageview.Area.Item["Banner_Catalog.Name"]' /></a></div>
@@ -60,14 +55,75 @@
         </div>
     </div><!-- End Left big column -->
 
-    <div class="col-md-4">
-      @Include("Custom/Sidebar.cshtml")
+    <div class="col-md-4" data-stickycolumn>
+      @Include("Custom/New_Sidebar.cshtml")
     </div><!-- End last column -->        
 </div><!-- .blog-content -->
-
+<div id="loader"><div class="loader-icon"></div></div>
 <!-- Handlebars Template-->
 <script id="TaguriTemplate" type="text/x-handlebars-template">
-  
+{{#ArticlesContainer}}
+   {{#Article}}
+       <article class="simple-post simple-big clearfix col-md-12 separator-articole media">		
+     	    <div class="simple-thumb media-left media-top" style="width: 265px;">
+     		    <a href="/Default.aspx?ID={{pagePageID}}">
+     		      <figure class="image-overlay">
+     		        <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=240&Height=155&bgcolor=white"" alt="{{itemTitlu}}">
+     		      </figure>
+     		    </a> 
+     	    </div>       
+     	    <header class="media-body">
+           <p class="simple-share" style="color: #bbbbbb; font-weight: 400;">
+     	        <a href="/Default.aspx?ID={{itemSectiuneParinteId}}" class="link-autor" style="color: #999999 !important; font-weight: 400 !important;">{{itemSectiuneParinte}}</a> 
+     	        <span style="margin: 0;">/</span>
+     	        {{#each articleAutori}}
+     	            <a href="{{Link}}" class="link-autor" style="color: #999999 !important; font-weight: 400 !important;">{{Name}}</a>
+     	        {{/each}}
+                 <span>- <i class="fa fa-clock-o"></i> {{itemData}}</span>
+           </p>       
+           <h3>
+             <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
+           </h3>       
+           {{{itemSumar}}}
+     	    </header>
+       </article> 
+   {{/Article}}
+{{/ArticlesContainer}}
+{{#ifCond pagingPageCount '>' 1}}
+    <nav>
+        <ul class="pagination pagination-sm">
+            {{#ifCond currentPage "!==" "1"}}
+                 <li data-page-link="{{pagingFirstPageLink}}" data-container="TaguriTemplate">                			        
+                    <span style="margin-right: 0.2em"> « </span>                 
+                 </li>
+                 <li data-page-link="{{pagingPrevPageLink}}" data-container="TaguriTemplate">
+                    <span aria-label="@Translate("paginaAnterioara", "Pagina anterioara")"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></span>
+                 </li>
+            {{/ifCond}}
+            
+            {{#Pages}}
+                {{#if isCurrent}}
+                   <li class="active"><span data-page-link="{{pageLink}}">{{pageNumber}}</span></li>
+                {{else}}
+                   <li data-page-link="{{pageLink}}" data-container="TaguriTemplate"><span>{{pageNumber}}</span></li>
+                {{/if}}                
+            {{/Pages}}
+
+            {{#if isNotLastPage}}
+                <li data-page-link="{{pagingNextPageLink}}" data-container="TaguriTemplate">
+                    <span aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></span>                     
+                </li>
+                <li data-page-link="{{pagingLastPageLink}}" data-container="TaguriTemplate">
+                    <span> » </span>
+                </li>
+            {{/if}}
+        </ul>
+    </nav>
+{{/ifCond}}
 </script>
- 
+ <script>
+ window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date; 
+ ga('create', 'UA-26068739-1', 'auto');
+ ga('send', 'pageview');
+ </script>
    

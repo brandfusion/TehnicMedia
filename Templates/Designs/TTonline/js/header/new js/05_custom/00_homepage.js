@@ -142,7 +142,7 @@ function loadOnChangePage() {
             button.classList.add('active');
             window.scrollTo(0, 0);
             
-            if(button.textContent !== "1") {
+            if(button.textContent !== "1" && document.querySelector('.hideSecondPage') !== null) {
                 document.querySelectorAll('.hideSecondPage').forEach(function(elem) {elem.classList.add("hidden")})
             }
             var urlFeed = button.getAttribute('data-page-link');

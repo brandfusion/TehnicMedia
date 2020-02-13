@@ -307,4 +307,10 @@
 .news-details {
     position: relative;
 }
-    
+.author-box {
+    clear: both;
+}
+
+#myCarousel .item>span {
+    height: 50px;
+}
