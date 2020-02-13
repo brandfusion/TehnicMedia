@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
     //load content on homepage
     if (document.getElementById('HomePageSlider') !== null) {
         window.scrollTo(0, 0);
-      //  loadFirstViewHomepage();
+        loadFirstViewHomepage();
         if(!isIE11()) {
-       //     loadOnScroll();
+            loadOnScroll();
         } else {
             loadOnScrollForIE();
         }

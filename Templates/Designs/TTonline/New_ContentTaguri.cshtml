@@ -1,0 +1,73 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Linq;
+@using System.Web;
+@MasterPageFile("Master.cshtml")
+@GetValue("Title(Article page)")
+@GetValue("Description(Pagina de articol)")
+@Include("Includes/ArticleHelper.cshtml")
+@{
+  string queryAutor = HttpContext.Current.Request.QueryString["tag"];
+  var autori = GetTaguri(queryAutor);
+  var numeAutor = autori.FirstOrDefault().Name;
+
+  string linkCatalog = Pageview.Area.Item["Link_Catalog"].ToString();
+  string linkCompanii = Pageview.Area.Item["Link_Companii"].ToString();
+}
+
+<div class="row blog-content">
+    <div class="col-md-8">
+        <article class="post-wrapper clearfix">
+          @* <header class="post-header"> 
+            <h1 class="post-title">
+              @GetString("DwPageName"):
+              @if (numeAutor != null) {
+                @numeAutor
+              }
+
+            </h1><!-- .post-title --> 
+          </header><!-- .post-header --> *@
+
+          <h3 class="block-title">
+            
+              @if (numeAutor != null) {
+              <span>#@numeAutor</span>
+              }
+            
+          </h3>
+
+          <div class="post-content clearfix">
+            <div class="dwcontent" id="maincontent" title="Main Content" settings="unwrap:true"></div>
+          </div><!-- .post-content -->
+        </article><!-- .post-wrapper -->
+                    
+        <!-- Mid ad -->
+        @* <div class="row">
+            <div class="col-md-12">
+              <div class="ad728-wrapper mid-wrapper">
+                <a href="#">
+                  <img src="http://placehold.it/728x90" alt=""/>
+                </a>
+              </div>
+            </div>
+        </div> *@
+        <!-- End Mid ad -->
+
+        <div class="row banners">
+          <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href="@linkCatalog" alt='@Pageview.Area.Item["Link_Catalog.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"]' alt='@Pageview.Area.Item["Banner_Catalog.Name"]' /></a></div>
+          <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href="@linkCompanii" alt='@Pageview.Area.Item["Link_Companii.Name"]' target="blank"><img src='@Pageview.Area.Item["Banner_Companii"]' alt='@Pageview.Area.Item["Banner_Companii.Name"]' /></a></div>
+        </div>
+    </div><!-- End Left big column -->
+
+    <div class="col-md-4">
+      @Include("Custom/Sidebar.cshtml")
+    </div><!-- End last column -->        
+</div><!-- .blog-content -->
+
+<!-- Handlebars Template-->
+<script id="TaguriTemplate" type="text/x-handlebars-template">
+  
+</script>
+ 
+   
