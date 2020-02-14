@@ -159,9 +159,8 @@
     int paginaAutori = GetPageIdByNavigationTag("PaginaAutori");
     int paginaTag = GetPageIdByNavigationTag("PaginaTag");
 	var counter = 1;
-	var pageNumberParameterValue = System.Web.HttpContext.Current.Request.Params["PageNum"];
-	int pageNun= 0;
-	Int32.TryParse(pageNumberParameterValue.ToString(), out pageNun);
+	
+	
     List<Root> feedObject = new List<Root>();
     List<ArticlesContainer> articleFeedObject = new List<ArticlesContainer>();
 	List<SectionsContainer> sectionsFeedObject = new List<SectionsContainer>();
@@ -274,12 +273,6 @@
 //QueryResultItem
 //DwPaging.LoopAllPages
 	
-	@
-	{
-		var firstPage =;
-		var currentPage =;
-		var left1=
-	}
 	foreach (var page in GetLoop("DwPaging.LoopPageGroup"))
 	{
 		var pageObj = new Page();
