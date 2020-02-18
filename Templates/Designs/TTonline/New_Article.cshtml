@@ -22,7 +22,7 @@ string articleCompanySiDespre = GetString("Item.Si_Despre_Companie");
 string articleRelevantaGeografica = GetString("Item.RelevantaGeografica");
 string articleViews = GetString("Item.Visits");
 int articleSectiuneID = GetInteger("Item.SectiuneParinteId");
-string articleID = GetString("Item.Id.Value");
+  string articleID = GetString("Item.Id.Value");
 bool AdserverBanner = GetBoolean("Item.Adserver_Banner.Value");
 string linkBanner = GetString("Item.Link_Banner");
 string imagineBanner = GetString("Item.Imagine_Banner");
@@ -45,7 +45,14 @@ int counterAutorSecundar = articleAutoriList.Count();
 
 string nrEditie= GetString("Item.Editie.Value");
 
+  var pageId = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+  var autorPageID = GetPageIdByNavigationTag("AutoriFeed").ToString();
+  var pageService = new Dynamicweb.Content.PageService();
+  var articlesID = pageService.GetPageForItem("Dw_Page", articleID).ID;
+  var titluSectiune = GetString("Item.SectiuneParinteId.Value") == "25" ? Translate("De acelasi autor","De acelasi autor") : Translate("De aceeasi companie","De aceeasi companie");
+  var currentPageId = GetInteger("DWPageID");
 }
+
 
 @SnippetStart("OGMeta")
 @{
@@ -64,197 +71,12 @@ string nrEditie= GetString("Item.Editie.Value");
       <div class="row blog-content" data-stickyparent>      
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 ">
           <article class="post-wrapper clearfix">
-            <header class="post-header">
-              <h1 class="post-title">
-                @GetString("DwPageName")
-              </h1><!-- .post-title -->
-				
-              <a href='/Default.aspx?ID=@GetString("DwPageID_2")' class="category bg@(articleSectiuneID)">
-                @GetString("DwPageName_2")
-              </a>
-
-            
-              <p class="simple-share">
-                  @foreach (var articleAutor in articleAutoriList)
-            {        
-                if(counterAutor == 1){
-                <span style="margin:0px!important;">@Translate("articolde","de") <a href="@articleAutor.Link">@articleAutor.Name</a></span>
-            @SnippetStart("AutorName")
-            @articleAutor.Name
-            @SnippetEnd("AutorName")
-            } else {
-            <span style="margin:0px!important;">, <a href="@articleAutor.Link">@articleAutor.Name</a></span>
-             @SnippetStart("AutorName")
-            @articleAutor.Name
-            @SnippetEnd("AutorName")
-            } counterAutor++;
-            }
-          
-                <span><span class="article-date"><i class="fa fa-clock-o"></i> @GetDate("Item.Data.Value").ToString("dd/MM/yyyy")</span></span>
-               
-              @if (@GetBoolean("Item.Vizite")) {    
-              <span><i class="fa fa-eye"></i> @articleViews viualizari</span>
-              }
-             
-            </p>
-
-          
- @if(!string.IsNullOrEmpty(articleImage)){
-              <figure class="image-overlay">
-               
-                        <img src="@articleImage" alt="@articleTitle">
-        				
-
-              </figure>
-        } 
-            </header><!-- .post-header -->
-
-            <div class="post-content clearfix"> 
-              @GetString("Item.Continut.Value")
-              <hr/>
-
-              <!-- Banner articol -->
-              @if(!string.IsNullOrEmpty(GetString("Item.Pdf"))) {
-                <div class="row">
-                    <div class="col-xs-12 col-pdf">
-                        <a href='@GetString("Item.Pdf")'>PDF</a>
-                    </div>  
-                </div>
-              }
-              <!-- End Banner Articol -->
-              
-              	
-
-              <div class="row" style="text-align:center; margin-bottom: 20px;">
-                <!-- Large modal -->
-                  @if (@GetBoolean("Item.CereOferta")) {   
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#modalformularoferta" id="buton-modal-cere-detalii">@Translate("askForDetails","Cere detalii sau oferta")</button>
-                }
-                <div class="modal fade bd-example-modal-sm" id="modalformularoferta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="background-color:rgba(255,255,255, 0.7);">
-                  <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                      	<div data-nume="test" class="form-wrapper">
-                     		@RenderParagraphContent(120)
-                    	</div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Inchide Formularul</button>
-                  </div>  
-                </div>
-              </div>
-
-
-            </div><!-- .post-content -->
-          
-            <footer class="post-meta">
-              
-@SnippetStart("Tags")
-
-              <div class="tags-wrapper">
-                <ul class="tags-widget clearfix">
-                  <li class="trending">@Translate("TAGURI","TAGURI"):</li>
-                  @foreach (var tag in articleTaguri)
-                    {
-                      <li><a href="@tag.Link"><b>@tag.Name</b></a></li>
-                    }
-                </ul>
-              </div><!-- .tags-wrapper -->
-@SnippetEnd("Tags")
-
-
-              <div class=" clearfix">
-                <div class="share-buttons">                
-                  <!-- Go to www.addthis.com/dashboard to customize your tools --> 
-                  <div class="addthis_inline_share_toolbox"></div>              
-                </div>
-                  @if(AdserverBanner == false){  
-                    <div class="row row-butoane-articol">
-                      <div class="col-xs-12 col-sm-12"><a href="@linkAutor" class="btn btn-primary" style="background-color:#ffa700!important;">@Translate("VeziAlteArticoleAleCompanieiAutoare", "Alte articole ale companiei autoare")</a></div>
-                    </div>
-                  }
-              </div> 
-
-              <div class="row">
-                    <ul class="dwnavigation" id="blog-posts" data-settings="template:NextPrevious.xslt;expandmode:all;"></ul>
-              </div> 
-              
-    @foreach (var articleAutor in articleAutoriList)
-            {	articlePersoana = @articleAutor.Persoana;
-				linkAutor = @articleAutor.Link;
-
-
-			}        
-        
-          	
-		@if(articlePersoana == "Persoana" ){
-
-          <div class="author-box clearfix ">
-            @if(counterAutorSecundar != 1 ){
-            <div class="col-xs-12">
-            <h5>Autori</h5>   
+            <div class="first-container" data-template="ArticleBodyTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesID">
+              @RenderPlaceholderImageTop("pre-render-element--xl")
             </div>
-            }
-            
-            @foreach (var articleAutor in articleAutoriList)
-            {			
-            		
-            
-            		string mainImage = !string.IsNullOrEmpty(@articleAutor.Image) ? GetImage(@articleAutor.Image, 100, 150) + "&bgcolor=white"  : "/Files/Images/NoImage/100x150.png";
-                      if(counterAutorSecundar == 1 ){
-                          <div class="author-avatar">
+          </article><!-- .post-wrapper -->
 
-                              <img alt="" src="@mainImage" >
-
-                          </div>
-                          <div class="author-info">
-
-
-                            <h3><a href="@articleAutor.Link">@articleAutor.Name</a></h3>
-                              <p class="author-bio">@articleAutor.Description</p>
-
-
-                            <div class="author-contact">
-
-                            </div>
-                          </div>
-                      } else {
-                          <div class="col-xs-12 col-sm-12 col-md-6">
-                            <div class="col-xs-3">
-                              @if(!String.IsNullOrEmpty(articleAutor.Image)){
-
-                              <img alt="" src="@mainImage" >
-
-                              } else {
-                              <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                              }
-
-                            </div>
-                            <div class="col-xs-9">
-                              <p class="simple-share">
-                              <a href="@articleAutor.Link">@articleAutor.Name</a>
-                            </p>
-                            </div>         
-
-                          </div>
-
-                          } 
-            	
-             }
-
-              
-              </div>
-
-				}
-            </footer>
-            
-          </article><!-- .post-wrapper --> 
-                  
-             
-                
-           
-
-          <div class="related-posts clearfix">
+        <div class="related-posts clearfix">
   <!-- Mid ad -->
  @if(AdserverBanner == true){            
               
@@ -293,60 +115,17 @@ string nrEditie= GetString("Item.Editie.Value");
 <!-- End Mid ad -->
       
   <div class="row">
-    
-    @if(GetString("Item.SectiuneParinteId.Value") == "25"){
-    <div class="col-md-6">
-      <h3 class="block-title"><span>@Translate("De acelasi autor","De acelasi autor")</span></h3>
-        @RenderItemList(new { 
-                  ItemType = "Dw_Page",
-                  ListSourceType = "SelfArea",
-                  ItemFieldsList = "*",
-                  ListTemplate = "ItemPublisher/List/LoopRelatedArticleList.cshtml",
-                  ListShowFrom = 1,
-                  ListPageSize = 2,
-                  ListOrderBy = "Data",
-                  ListOrderByDirection = "Descending",
-                  Filter = filterValue4
-        })
 
-    </div>
-  }else{
-    
     <div class="col-md-6">
-      <h3 class="block-title"><span>@Translate("De aceeasi companie","De aceeasi companie")</span></h3>
-        @RenderItemList(new { 
-                  ItemType = "Dw_Page",
-                  ListSourceType = "SelfArea",
-                  ItemFieldsList = "*",
-                  ListTemplate = "ItemPublisher/List/LoopRelatedArticleList.cshtml",
-                  ListShowFrom = 1,
-                  ListPageSize = 2,
-                  ListOrderBy = "Data",
-                  ListOrderByDirection = "Descending",
-                  Filter = filterValue2
-        })
-
+      <h3 class="block-title"><span>@titluSectiune</span></h3>
+      <div class="row handlebars-wrapper" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&Excluded=&PageSize=3&Sectiune=@articleSectiuneID">
+      </div>
     </div>
-    
-    
-    }
-    
-    
     
     <div class="col-md-6">
       <h3 class="block-title"><span>@Translate("Din aceeasi sectiune","Din aceeasi sectiune")</span></h3>
-        @RenderItemList(new { 
-                  ItemType = "Dw_Page",
-                  ListSourceType = "SelfArea",
-                  ItemFieldsList = "*",
-                  ListTemplate = "ItemPublisher/List/LoopRelatedArticleList.cshtml",
-                  ListShowFrom = 1,
-                  ListPageSize = 2,
-                  ListOrderBy = "Data",
-                  ListOrderByDirection = "Descending",
-                  Filter = filterValue3
-        })
-
+      <div class="row handlebars-wrapper" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&Excluded=@currentPageId&PageSize=3&Sections=@articleSectiuneID">
+      </div>
     </div>
   </div>  
 
@@ -424,7 +203,175 @@ s.setAttribute('data-timestamp', +new Date());
 </div>
 <!-- end IBuy and IndustryDirectory -->
 
+<script id="ArticleBodyTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+		{{#each Article}}
+       <header class="post-header">
+          <h1 class="post-title">
+            {{itemTitlu}}
+          </h1><!-- .post-title -->    
+          <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="category bg{{itemSectiuneParinteId}}">
+           {{itemSectiuneParinte}}
+          </a>
+        
+          <p class="simple-share">
+            {{#articleAutori}}
+                   <span style="margin:0px!important;">@Translate("articolde","de") <a href="{{Link}}">{{Name}}</a></span>
+            {{/articleAutori}}      
+            <span><span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span></span>
+            {{#if showItemVisits}}
+                 <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+            {{/if}}
+          </p>
+          <figure class="image-overlay">                     
+            <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}">          
+          </figure>
+       </header><!-- .post-header -->
+        <div class="post-content clearfix"> 
+          {{itemContinut}}
+          <hr/>
 
+          <!-- Banner articol -->
+          {{#ifCond pdf "!==" "" }}
+          <div class="row">
+              <div class="col-xs-12 col-pdf">
+                  <a href='{{pdf}}'>PDF</a>
+              </div>  
+          </div>
+          {{/ifCond}}
+          <!-- End Banner Articol -->
+          <div class="row" style="text-align:center; margin-bottom: 20px;">
+            @RenderCereOfertaButton()
+          </div>
+        </div><!-- .post-content -->
+         <footer class="post-meta">
+                      
+            @SnippetStart("Tags")
+                <div class="tags-wrapper">
+                  <ul class="tags-widget clearfix">
+                    <li class="trending">@Translate("TAGURI","TAGURI"):</li>
+                      {{#articleTags}}
+                          <li><a href="{{Link}}"><b>{{Name}}</b></a></li>
+                      {{/articleTags}}
+
+                  </ul>
+                </div><!-- .tags-wrapper -->
+            @SnippetEnd("Tags")  
+  
+            <div class=" clearfix">
+              <div class="share-buttons">                
+                <!-- Go to www.addthis.com/dashboard to customize your tools --> 
+                <div class="addthis_inline_share_toolbox"></div>              
+              </div>
+                {{#ifCond adserverBanner "===" false}}
+                  {{#articleAutori}}
+                      <div class="row row-butoane-articol">
+                        <div class="col-xs-12 col-sm-12"><a href="{{Link}}" class="btn btn-primary" style="background-color:#ffa700!important;">@Translate("VeziAlteArticoleAleCompanieiAutoare", "Alte articole ale companiei autoare")</a></div>
+                      </div>
+                   {{/articleAutori}}
+                {{/ifCond}}                
+            </div> 
+            <div class="row">
+                  <ul class="dwnavigation" id="blog-posts" data-settings="template:NextPrevious.xslt;expandmode:all;"></ul>
+            </div>         
+            
+            <div class="author-box clearfix" data-template="AuthorsTemplate" data-json-feed="data-autor-feed="@autorPageID">
+            </div>              
+         
+          </footer>
+    {{/each}}
+{{/ArticlesContainer}}              
+</script>
+<script id="AuthorsTemplate" type="text/x-handlebars-template">
+ @if(articlePersoana == "Persoana" ){
+   <div class="author-box clearfix ">
+      {{#ifCond autoriCount "===" "1"}}
+      <div class="col-xs-12">
+      <h5>Autori</h5>   
+      </div>
+      {{/ifCond}}
+      {{#ifCond autoriCount "===" "1"}}
+          {{#articleAutori}}
+             <div class="author-avatar">                   
+                 <img alt="" src="/Admin/Public/GetImage.ashx?Image={{Image}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=100&Height=150&bgcolor=white" >
+             </div>
+             <div class="author-info">
+               <h3><a href="{{Link}}">{{Name}}</a></h3>
+                 <p class="author-bio">Description</p>
+             </div>
+          {{/articleAutori}}
+      {{/ifCond}}
+      {{#ifCond autoriCount "!==" "1"}}
+          {{#articleAutori}}
+              <div class="col-xs-12 col-sm-12 col-md-6">
+                  <div class="col-xs-3">
+                    <img alt="" src="/Admin/Public/GetImage.ashx?Image={{Image}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=100&Height=150&bgcolor=white" >
+                  </div>
+                  <div class="col-xs-9">
+                    <p class="simple-share">
+                    <a href="{{Link}}">{{Name}}</a>
+                  </p>
+                  </div>    
+                </div>
+           {{/articleAutori}}     
+      {{/ifCond}}
+        </div>
+
+ }
+</script>
+ 
+<script id="SectionTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+		{{#each Article}}
+       <div class="col-xs-12">
+        <article class="news-block small-block" style="margin-bottom: 20px;">
+          <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+          <figure class="image-overlay proportie-1">
+            <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=350&Height=230" alt="{{itemTitlu}}" class="img-responsive" />
+          </figure>
+          </a>
+
+         <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+          <header class="news-details">
+           
+            <h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3> 
+            <p class="simple-share">
+              <a href="#">{{itemSectiuneParinte}}</a>
+              @Translate("articolde","de")
+              {{#articleAutori}}
+                  <a href="{{Link}}">{{Name}}</a>
+              {{/articleAutori}}        
+      <br/>
+              <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+              {{#if showItemVisits}}   
+                <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+              {{/if}}
+            </p>          
+        </article><!-- News block --> <p>
+      </div>
+    {{/each}}
+{{/ArticlesContainer}}  
+</script>
+@helper RenderCereOfertaButton()
+{
+  <!-- Large modal -->
+  if (GetBoolean("Item.CereOferta")) {   
+    <button class="btn btn-primary" data-toggle="modal" data-target="#modalformularoferta" id="buton-modal-cere-detalii">@Translate("askForDetails","Cere detalii sau oferta")</button>
+  }
+  <div class="modal fade bd-example-modal-sm" id="modalformularoferta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="background-color:rgba(255,255,255, 0.7);">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div data-nume="test" class="form-wrapper">
+          @RenderParagraphContent(120)
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-dismiss="modal">Inchide Formularul</button>
+    </div>  
+  </div>
+}
+<div id="loader"><div class="loader-icon"></div></div>
 <!-- Google Analytics -->
 <script>
 window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;

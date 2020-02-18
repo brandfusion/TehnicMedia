@@ -9,6 +9,7 @@
 @Include("Layout.cshtml")
 @Include("../Custom/GlobalVariables.cshtml")
 @Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
 @Include("../Includes/GetImage_new.cshtml")
 
 @{
@@ -17,11 +18,9 @@
 	var featuredArticles = GetLoop("Item.Featured_Article");
 	var articlesIDs = "";
 	var sectionID = GetString("Item.Section");
-	var excludedID = "";
 	foreach (LoopItem i in featuredArticles)
 	{
 		var slideId = i.GetString("Item.Featured_Article.Id");
-		excludedID += slideId;
 		var pageService = new Dynamicweb.Content.PageService();
 		articlesIDs += pageService.GetPageForItem("Dw_Page", slideId.ToString()).ID + ",";
 	}
@@ -37,7 +36,7 @@
 		</text>
 	}
 	
-	@RenderArticleList(pageId, sectionID, paragraphName, excludedID)
+	@RenderArticleList(pageId, sectionID, paragraphName, articlesIDs)
 	@if(featuredArticles.Any()) {
     	<text>
 		    @RenderMoreButton(sectionID) 
@@ -99,50 +98,53 @@
 	int listSize = GetInteger("Item.ListSize") > 0 ? GetInteger("Item.ListSize") : 2;
 	
 	<div class="list-container handlebars-wrapper @listTemplate" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&Sections=@sectionID&pagesize=@listSize&Excluded=@exludedItems">
-		<div class="col-md-3">
-			<div class="pre-render-element pre-render-element--lg"></div>
-			<div class="pre-render-element pre-render-element--lg"></div>
+		<div style="padding-right: 5px">
+			@RenderPlaceholderImageTop("pre-render-element--md")
+		</div>
+		<div style="padding-left: 5px">
+			@RenderPlaceholderImageTop("pre-render-element--md")
 		</div>
 	</div>
-	<script id="@templateName" type="text/x-handlebars-template">
-	   {{#ArticlesContainer}}
-	       {{#Article}}
-	          <article class="news-block small-block">
-		      @if (!noImage)
-          		{			
-					<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
-				       <figure>
-					      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive"/>
-				       </figure>
-			        </a>
-		        }
-			  <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
-			  <header class="news-details">
-				<h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3>
-				<p class="simple-share">
-					@Translate("articolde", "de")
-					{{#articleAutori}}
-					<a href="{{Link}}">{{Name}}</a>
-					{{/articleAutori}}
-					<br/>
-					<span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}} </span>
-					@*TODO conditie de afisafe din feed *@
-					{{#if showItemVisits}}
-                        <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
-                    {{/if}}
-				</p>
-				
-				@if (!noSummary)
-				{
-					<div class="excerpt">
-                       {{{itemSumar}}}
-                    </div>
-				}
-			   </header>			
-		  </article>
-		{{/Article}}
-	   {{/ArticlesContainer}}
-	</script>
+	                                                                                          
+<script id="@templateName" type="text/x-handlebars-template">
+   {{#ArticlesContainer}}
+       {{#Article}}
+          <article class="news-block small-block">
+	      @if (!noImage)
+          	{			
+				<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+			       <figure>
+				      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive"/>
+			       </figure>
+		        </a>
+	        }
+		  <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+		  <header class="news-details">
+			<h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3>
+			<p class="simple-share">
+				@Translate("articolde", "de")
+				{{#articleAutori}}
+				<a href="{{Link}}">{{Name}}</a>
+				{{/articleAutori}}
+				<br/>
+				<span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}} </span>
+				@*TODO conditie de afisafe din feed *@
+				{{#if showItemVisits}}
+                    <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                {{/if}}
+			</p>
+			
+			@if (!noSummary)
+			{
+				<div class="excerpt">
+                   {{{itemSumar}}}
+                </div>
+			}
+		   </header>			
+	  </article>
+	{{/Article}}
+   {{/ArticlesContainer}}
+</script>
 
 }
 
