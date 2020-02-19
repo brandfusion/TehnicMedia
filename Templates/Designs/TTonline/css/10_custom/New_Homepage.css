@@ -160,6 +160,8 @@
 .twocol-image-nosummary .news-block  {
     margin-bottom: 110px
 }
+.section-template .small-block .news-details,
+.author-template .small-block .news-details,
 .twocol-image-nosummary .small-block .news-details {
     position: absolute;
     background: #fff;

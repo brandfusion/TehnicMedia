@@ -59,6 +59,7 @@
 	    public bool isLast { get; set; }
 		public string autoriCount { get; set; }
 		public bool adserverBanner { get; set; }
+        public bool cereOferta {get; set; }
         
 	    public List<Author> articleAutori {get; set;}
         public List<Section> articleSections {get; set;}
@@ -240,7 +241,8 @@
 	    articleObject.sliderCounter = counter % 3;
 	    articleObject.isLast = counter == results.Count;
 	    articleObject.autoriCount = articleObject.itemAutori.Count().ToString();
-	    articleObject.adserverBanner = article.GetBoolean("Item.Adserver_Banner");
+	    articleObject.adserverBanner = article.GetBoolean("ItemAdserver_Banner");
+        articleObject.cereOferta = article.GetBoolean("ItemCereOferta");
         articleObject.articleAutori = new List<Author>();
         var authorList = articleObject.itemAutori.Zip(articleObject.itemAutoriName, (s, i) => new { sv = s, iv = i }).ToList();
         if (authorList.Any()){

@@ -27,6 +27,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if(document.querySelector('.pagination') !== null) {
         loadOnChangePage();
     }
+    
+    //load article detail page
+    if(document.querySelector('.first-container-article')) {
+        loadArticle();        
+        loadOnScroll();
+    }
 });
 
 /*START HOMEPAGE HANDLEBARS AJAX CALLS*/
@@ -198,6 +204,76 @@ function getEditionsByYear() {
        }); 
     });
 }
+
+function loadArticle() {
+    var firstContainer = document.querySelector('.first-container-article');
+    var urlFeed = firstContainer.getAttribute("data-json-feed");
+    var loader  = document.getElementById('loader');
+    axios({
+        method:'get',
+        url: urlFeed
+    })
+    .then(function (response) {
+        //hide loader
+        loader.classList.add('hidden');
+        compileDataToHandlebars(response.data[0], firstContainer);
+
+        var authorsArray = response.data[0].ArticlesContainer[0].Article[0].articleAutori;
+        return authorsArray;
+    })
+    .then(function (response) {
+        
+        var authorsWrapper = document.querySelector('.author-box');
+        var url = authorsWrapper.getAttribute("data-json-feed");
+        response.map(function(o, i) {
+            url += response.length - 1 === i ? o.Id : o.Id + ",";
+        });
+        getDataForArticlePage(authorsWrapper, url);
+        
+        return response;
+    })   
+    .then(function(response) {
+        var authorIds = ""
+        response.map(function(o, i) {
+            authorIds +=  response.length - 1 === i ? o.Id : o.Id + ","
+        });
+        loadArticleSections(authorIds);
+    })    
+    .catch(function (error) {
+        // handle error
+        console.log(error, "error boo1");
+    })
+}
+
+function loadArticleSections(authorId) {
+    var sectionContainer = document.querySelector('.section-template');
+    var urlFeed = sectionContainer.getAttribute("data-json-feed");
+    axios({
+        method:'get',
+        url: urlFeed
+    })
+    .then(function (response) {
+        compileDataToHandlebars(response.data[0], sectionContainer);
+        var authorsArray = response.data[0].ArticlesContainer;
+        return authorsArray;
+    })
+    .then(function (response) {
+        var authorsContainter = document.querySelector('.author-template');
+        var url = authorsContainter.getAttribute("data-json-feed");
+        response.map(function(o, i) {
+            url += response.length - 1 === i ? o.Article[0].pagePageID : o.Article[0].pagePageID + ",";
+        });
+        var autoriIds = response[0].Article[0].itemAutori;
+        
+        url += "&Autori=" + authorId;
+console.log(url)
+        getDataForArticlePage(authorsContainter, url);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error, "error boo1");
+    })
+}
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 /*START ADDITIONAL FUNCTIONS*/
@@ -255,6 +331,19 @@ function getDataForHandlebars(homePageSliderWrapper) {
             var firstButton = document.querySelector('.bhoechie-tab-menu .list-group-item');
             firstButton.dispatchEvent(evt);           
         }
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error, "error boo2");
+    })
+}
+function getDataForArticlePage(wrapper, url) {
+    axios({
+        method:'get',
+        url: url
+    })
+    .then(function (response) {
+        compileDataToHandlebars(response.data[0], wrapper);
     })
     .catch(function (error) {
         // handle error
