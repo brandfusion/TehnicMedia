@@ -123,14 +123,14 @@ ga('send', 'pageview');
                         {{#each articleAutori}}
                             <a href="{{Link}}">{{Name}}</a>
                         {{/each}}
-                        <span style="margin: 0 !important;">-</span>
+                        <span class="m-0">-</span>
                     <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
                     {{#if showItemVisits}} 
                         <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
                      {{/if}}
 
                 </p>
-                <h3 style="font-size: 18px;  overflow: hidden;">
+                <h3>
                     <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
                 </h3>
                 <div class="excerpt" >{{{itemSumar}}}</div>
@@ -143,7 +143,7 @@ ga('send', 'pageview');
         <ul class="pagination pagination-sm">
             {{#ifCond currentPage "!==" "1"}}
                  <li data-page-link="{{pagingFirstPageLink}}" data-container="LoopStiriTemplate">                			        
-                    <span style="margin-right: 0.2em"> « </span>                 
+                    <span class="mr-02"> « </span>                 
                  </li>
                  <li data-page-link="{{pagingPrevPageLink}}" data-container="LoopStiriTemplate">
                     <span aria-label="@Translate("paginaAnterioara", "Pagina anterioara")"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></span>

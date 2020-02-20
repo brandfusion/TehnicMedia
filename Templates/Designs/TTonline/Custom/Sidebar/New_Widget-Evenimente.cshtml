@@ -1,7 +1,7 @@
 @{
 	var eventsPageID = GetPageIdByNavigationTag("EventsFeed");
 }
-<div class="widget evenimentewidget" style="margin-bottom:10px;">
+<div class="widget evenimentewidget">
 	<h3 class="block-title">
 		<span><a href="Default.aspx?ID=4258">@Translate("Evenimente","Evenimente") </a></span>
 	</h3>
@@ -12,11 +12,11 @@
 			@RenderPlaceholderImageTop("pre-render-element--md")
 		</div>
 		
-		<a class="carousel-control" href="#myCarousel" role="button" data-slide="prev" style="color: #ffa700;">
+		<a class="carousel-control previous" href="#myCarousel" role="button" data-slide="prev">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 			<span class="sr-only">Previous</span>
 		</a>
-		<a class="carousel-control" href="#myCarousel" role="button" data-slide="next" style="right: 0; left: auto; color: #ffa700;">
+		<a class="carousel-control next" href="#myCarousel" role="button" data-slide="next">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 			<span class="sr-only">Next</span>
 		</a>

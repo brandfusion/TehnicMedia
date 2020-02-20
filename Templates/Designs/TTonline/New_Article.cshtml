@@ -65,7 +65,7 @@
             <!-- Mid ad -->
                   @if(AdserverBanner == true){            
                         
-                      <div class="row" style="margin-bottom: 20px;">
+                      <div class="row mb-20">
                       <div class="mag-content clearfix">
                           <div class="row">
                               <div class="col-md-12">                     
@@ -78,7 +78,7 @@
                       </div>
                         }else if(	!string.IsNullOrEmpty(linkBanner) && !string.IsNullOrEmpty(imagineBanner) ){
                           
-                        <div class="row" style="margin-bottom: 20px;">
+                        <div class="row mb-20">
                       <div class="mag-content clearfix">
                           <div class="row">
                               <div class="col-md-12">                     
@@ -120,8 +120,8 @@
               </div>
             </div>          
             <div class="row row-butoane-articol">
-                <div class="col-xs-12 col-sm-6 "><a href="/revista" class="btn btn-primary" style="background-color:#ffa700!important;">@Translate("VeziSectiunileRevisteiT&T", "Sectiunile revistei T&T")</a></div>
-                <div class="col-xs-12 col-sm-6 "><a href="/revista/web-exclusive" class="btn btn-primary" style="background-color:#ffa700!important;">@Translate("VeziArticoleWebExclusive", "Articole web exclusive")</a></div>
+                <div class="col-xs-12 col-sm-6 "><a href="/revista" class="btn btn-primary btn-background">@Translate("VeziSectiunileRevisteiT&T", "Sectiunile revistei T&T")</a></div>
+                <div class="col-xs-12 col-sm-6 "><a href="/revista/web-exclusive" class="btn btn-primary btn-background">@Translate("VeziArticoleWebExclusive", "Articole web exclusive")</a></div>
             </div>
         
             @Include("/Files/Templates/Designs/TTonline/ProdusePeArticol.cshtml")          
@@ -155,22 +155,22 @@ s.setAttribute('data-timestamp', +new Date());
 
 @if(@GetInteger("DwAreaID") == 3){
 	<div class="row row-butoane-articol">
-      <div class="col-xs-12 col-sm-6 "><a href="/ibuysmart" class="btn btn-primary" style="background-color:#ffa700!important;">Go to I Buy Smart</a></div>
-      <div class="col-xs-12 col-sm-6 "><a href="/Default.aspx?ID=4218" class="btn btn-primary" style="background-color:#ffa700!important;">Go to Business Directory</a></div>
-      <div class="col-xs-12 col-sm-6 "><a href="@linkAutor" class="btn btn-primary" style="background-color:#ffa700!important;">See other articles from the same company</a></div>
-<div class="col-xs-12 col-sm-6 "><a href="/Default.aspx?ID=5676" class="btn btn-primary" style="background-color:#ffa700!important;">Go to the T&T</a></div>
-  <div class="col-xs-12 col-sm-6 "><a href="/Default.aspx?ID=6943" class="btn btn-primary" style="background-color:#ffa700!important;">Go to the Web Exclusive Section</a></div>
+      <div class="col-xs-12 col-sm-6 "><a href="/ibuysmart" class="btn btn-primary btn-background">Go to I Buy Smart</a></div>
+      <div class="col-xs-12 col-sm-6 "><a href="/Default.aspx?ID=4218" class="btn btn-primary btn-background">Go to Business Directory</a></div>
+      <div class="col-xs-12 col-sm-6 "><a href="@linkAutor" class="btn btn-primary btn-background" >See other articles from the same company</a></div>
+<div class="col-xs-12 col-sm-6 "><a href="/Default.aspx?ID=5676" class="btn btn-primary btn-background" >Go to the T&T</a></div>
+  <div class="col-xs-12 col-sm-6 "><a href="/Default.aspx?ID=6943" class="btn btn-primary btn-background">Go to the Web Exclusive Section</a></div>
       @if(!string.IsNullOrEmpty(GetString("Item.De_Companie"))){
-        <div class="col-xs-12 col-sm-6 "><a href='companie?companyID=@(GetString("Item.De_Companie"))' class="btn btn-primary" style="background-color:#ffa700!important;">Go to Company page</a></div>
+        <div class="col-xs-12 col-sm-6 "><a href='companie?companyID=@(GetString("Item.De_Companie"))' class="btn btn-primary btn-background">Go to Company page</a></div>
         }
 	</div>
 
 }else{
     <div class="row row-butoane-articol">
-      <div class="col-xs-12 col-sm-4"><a href="/ibuysmart" class="btn btn-primary" style="background-color:#ffa700!important;">@Translate("VeziCatalogulDeProduse", "Catalogul de produse")</a></div>
-      <div class="col-xs-12 col-sm-4"><a href="/Default.aspx?ID=4218" class="btn btn-primary" style="background-color:#ffa700!important;">@Translate("VeziGhidulCompaniilorDinIndustrie", "Ghidul companiilor din industrie")</a></div>
+      <div class="col-xs-12 col-sm-4"><a href="/ibuysmart" class="btn btn-primary btn-background">@Translate("VeziCatalogulDeProduse", "Catalogul de produse")</a></div>
+      <div class="col-xs-12 col-sm-4"><a href="/Default.aspx?ID=4218" class="btn btn-primary btn-background">@Translate("VeziGhidulCompaniilorDinIndustrie", "Ghidul companiilor din industrie")</a></div>
       @if(!string.IsNullOrEmpty(GetString("Item.De_Companie"))){
-        <div class="col-xs-12 col-sm-4"><a href='companie?companyID=@(GetString("Item.De_Companie"))' class="btn btn-primary" style="background-color:#ffa700!important;">@Translate("VeziPaginaCompanieiAutoare", "Pagina companiei autoare")</a></div>
+        <div class="col-xs-12 col-sm-4"><a href='companie?companyID=@(GetString("Item.De_Companie"))' class="btn btn-primary btn-background">@Translate("VeziPaginaCompanieiAutoare", "Pagina companiei autoare")</a></div>
       }
 	</div>
      }
@@ -204,7 +204,7 @@ s.setAttribute('data-timestamp', +new Date());
         
           <p class="simple-share">
             {{#articleAutori}}
-                   <span style="margin:0px!important;">@Translate("articolde","de") <a href="{{Link}}">{{Name}}</a></span>
+                   <span class="m-0">@Translate("articolde","de") <a href="{{Link}}">{{Name}}</a></span>
             {{/articleAutori}}      
             <span><span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span></span>
             {{#if showItemVisits}}
@@ -228,7 +228,7 @@ s.setAttribute('data-timestamp', +new Date());
           </div>
           {{/ifCond}}
           <!-- End Banner Articol -->
-          <div class="row" style="text-align:center; margin-bottom: 20px;">
+          <div class="row text-center mb-20">
            {{#if cereOferta}}
             @RenderCereOfertaButton()
            {{/if}} 
@@ -243,7 +243,7 @@ s.setAttribute('data-timestamp', +new Date());
                 {{#ifCond adserverBanner "===" false}}
                   {{#articleAutori}}
                       <div class="row row-butoane-articol">
-                        <div class="col-xs-12 col-sm-12"><a href="{{Link}}" class="btn btn-primary" style="background-color:#ffa700!important;">@Translate("VeziAlteArticoleAleCompanieiAutoare", "Alte articole ale companiei autoare")</a></div>
+                        <div class="col-xs-12 col-sm-12"><a href="{{Link}}" class="btn btn-primary btn-background">@Translate("VeziAlteArticoleAleCompanieiAutoare", "Alte articole ale companiei autoare")</a></div>
                       </div>
                    {{/articleAutori}}
                 {{/ifCond}}                
