@@ -15,19 +15,14 @@
 @{
     
     string queryAutor = HttpContext.Current.Request.QueryString["autor"];
+    queryAutor = !string.IsNullOrEmpty(queryAutor) ? queryAutor : "null";
     var articlePageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
     var url = "/Default.aspx?ID="+articlePageID+"&pagesize=10";
     var autorPageID = GetPageIdByNavigationTag("AutoriFeed").ToString();
     var urlAutor = "/Default.aspx?ID="+autorPageID;
-    if (!string.IsNullOrEmpty(queryAutor))
-    {
-        url += "&Autori="+ queryAutor;
-    }
-   
-    if (!string.IsNullOrEmpty(queryAutor))
-    {
-        urlAutor += "&autor="+ queryAutor;
-    }
+    url += "&Autori="+ queryAutor;
+    urlAutor += "&autor="+ queryAutor;
+    
 }
 
   <div class="row blog-content author" data-stickyparent>
@@ -144,7 +139,7 @@ ga('send', 'pageview');
 </script>
 
 <script id="LoopAutorTemplate" type="text/x-handlebars-template">
-    {{#Autori}}
+    {{#each Autori}}
         <h1 class="block-title">
          <span>Articole {{name}}</span>
          </h1><!-- .post-title -->
@@ -163,5 +158,7 @@ ga('send', 'pageview');
                 </div>
              </div>
          {{/ifCond}}
-    {{/Autori}}
+    {{else}}
+       <h4>@Translate("Niciun autor nu a fost selectat") </h4>     
+    {{/each}}
 </script>

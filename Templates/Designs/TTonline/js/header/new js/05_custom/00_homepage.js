@@ -66,7 +66,7 @@ function loadFirstViewHomepage() {
     })
     .catch(function (error) {
     // handle error
-    console.log(error, "error boo1");
+    console.log(error, "error first view hp");
     })
 }
 //On page load, make call for first container on page
@@ -91,7 +91,7 @@ function loadFirstView(handlebarsWrapper) {
     })
     .catch(function (error) {
         // handle error
-        console.log(error, "error boo1");
+        console.log(error, "error first view");
     })
 }
 function loadOnScroll() {
@@ -173,7 +173,7 @@ function getDataToChangePage(urlFeed, container) {
     })
     .catch(function (error) {
         // handle error
-        console.log(error, "error boo2");
+        console.log(error, "error chang page");
     })
 }
 function getEditionsByYear() {
@@ -199,7 +199,7 @@ function getEditionsByYear() {
            })
            .catch(function (error) {
                // handle error
-               console.log(error, "error boo2");
+               console.log(error, "error editions by year");
            })
        }); 
     });
@@ -223,7 +223,7 @@ function loadArticle() {
     })
     .then(function (response) {
         
-        var authorsWrapper = document.querySelector('.author-box');
+        var authorsWrapper = document.querySelector('.author-section');
         var url = authorsWrapper.getAttribute("data-json-feed");
         response.map(function(o, i) {
             url += response.length - 1 === i ? o.Id : o.Id + ",";
@@ -241,7 +241,7 @@ function loadArticle() {
     })    
     .catch(function (error) {
         // handle error
-        console.log(error, "error boo1");
+        console.log(error, "error load article");
     })
 }
 
@@ -266,12 +266,11 @@ function loadArticleSections(authorId) {
         var autoriIds = response[0].Article[0].itemAutori;
         
         url += "&Autori=" + authorId;
-console.log(url)
         getDataForArticlePage(authorsContainter, url);
     })
     .catch(function (error) {
         // handle error
-        console.log(error, "error boo1");
+        console.log(error, "error load article sections");
     })
 }
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
@@ -334,7 +333,7 @@ function getDataForHandlebars(homePageSliderWrapper) {
     })
     .catch(function (error) {
         // handle error
-        console.log(error, "error boo2");
+        console.log(error, "error data for hdb");
     })
 }
 function getDataForArticlePage(wrapper, url) {
@@ -347,7 +346,7 @@ function getDataForArticlePage(wrapper, url) {
     })
     .catch(function (error) {
         // handle error
-        console.log(error, "error boo2");
+        console.log(error, "error data for article");
     })
 }
 function initializeHomepageSlider() {

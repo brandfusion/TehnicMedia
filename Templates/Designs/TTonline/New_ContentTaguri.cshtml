@@ -10,16 +10,19 @@
 @Include("Includes/New_PlaceholderHelpers.cshtml")
 @{
   string queryAutor = HttpContext.Current.Request.QueryString["tag"];
+    queryAutor = !string.IsNullOrEmpty(queryAutor) ? queryAutor : "null";
   string linkCatalog = Pageview.Area.Item["Link_Catalog"].ToString();
   string linkCompanii = Pageview.Area.Item["Link_Companii"].ToString();
   var articlePageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
   var url = "/Default.aspx?ID="+articlePageID+"&pagesize=10";
-  var autori = GetTaguri(queryAutor);
-  var numeAutor = autori.FirstOrDefault().Name;
-  if (!string.IsNullOrEmpty(queryAutor))
+  url += "&Tags="+ queryAutor;
+  string numeAutor = "";
+  if (queryAutor != "null")
   {
-    url += "&Tags="+ queryAutor;
+      var autori = GetTaguri(queryAutor);
+      numeAutor = autori.FirstOrDefault().Name;
   }
+  
 
 }
 
@@ -27,7 +30,7 @@
     <div class="col-md-8" data-stickycolumn >
         <article class="post-wrapper clearfix">
           <h3 class="block-title">
-            @if (numeAutor != null) {
+            @if (!string.IsNullOrEmpty(numeAutor)) {
               <span>#@numeAutor</span>
               }
           </h3>
@@ -62,7 +65,7 @@
 <div id="loader"><div class="loader-icon"></div></div>
 <!-- Handlebars Template-->
 <script id="TaguriTemplate" type="text/x-handlebars-template">
-{{#ArticlesContainer}}
+{{#each ArticlesContainer}}
    {{#Article}}
        <article class="simple-post simple-big clearfix col-md-12 separator-articole media">		
      	    <div class="simple-thumb media-left media-top" style="width: 265px;">
@@ -88,7 +91,9 @@
      	    </header>
        </article> 
    {{/Article}}
-{{/ArticlesContainer}}
+   {{else}}
+   <h4>@Translate("Niciun tag nu a fost selectat") </h4>
+{{/each}}
 {{#ifCond pagingPageCount '>' 1}}
     <nav>
         <ul class="pagination pagination-sm">
