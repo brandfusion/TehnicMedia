@@ -160,6 +160,8 @@
 .twocol-image-nosummary .news-block  {
     margin-bottom: 110px
 }
+.section-template .small-block .news-details,
+.author-template .small-block .news-details,
 .twocol-image-nosummary .small-block .news-details {
     position: absolute;
     background: #fff;
@@ -288,7 +290,7 @@
 .pre-render-element--text {
     height: 5px;
 }
-.carousel-companii .owl-carousel .owl-stage-outer .owl-stage .owl-item.active .item.placeholder {
+.carousel-companii .item.placeholder {
     margin-bottom: 120px;
 }
 .homepage-scule {
@@ -313,4 +315,113 @@
 
 #myCarousel .item>span {
     height: 50px;
+}
+.homepage-shop{
+    margin-top:-20px!important; 
+    padding-bottom: 34px; 
+}
+.homepage-sectiune {
+    margin-top: 25px; 
+    margin-bottom:0px
+}
+.main-content-three {
+    margin-top:-12px!important;
+}
+.main-content-two {
+    margin-top: -25px;
+}
+.evenimentewidget {
+    margin-bottom:10px;
+}
+
+.evenimentewidget .previous {
+    color: #ffa700;
+}
+.evenimentewidget .next {
+    right: 0; 
+    left: auto; 
+    color: #ffa700;
+}
+.editorialwidget {
+    margin-bottom:0px;
+}
+.mt-0 {
+    margin-top: 0px;
+}
+.img-parteneri {
+    max-height: 100px;
+}
+.mb-20 {
+    margin-bottom:20px; 
+}
+.mb-0 {
+    margin-bottom: 0px;
+}
+.mt-20 {
+    margin-top:20px;
+}
+.margin-15 {
+    margin-bottom:15px;
+    margin-top:15px;
+}
+.m-0 {
+    margin: 0!important;
+}
+.mr-02 {
+    margin-right: 0.2em;
+}
+.produs-col-background .manufacturer {
+    text-align:left; 
+    font-size: 12px; 
+    line-height: 1.2;
+}
+.black-font {
+    color: black;
+}
+.white-font {
+    color: white;
+}
+.float-right {
+    float: right !important;
+}
+.float-right {
+    float: left !important;
+}
+.excerpt {
+    min-height:80px; 
+    max-height:80px; 
+    overflow:hidden;
+}
+.separator-articole h3 {
+    font-size: 18px; 
+    min-height:50px; 
+    max-height: 50px; 
+    overflow: hidden;
+}
+.tipcompanie4 {
+    background-color: #cc0033;
+}
+.tipcompanie6 {
+    background-color: #996633;
+}
+.companii-background  h3 span {
+    color: #ffa700;
+}
+.min-height-30 {
+    min-height:30px;
+}
+.min-height-40 {
+    min-height:40px;
+}
+#LoopStiri h3 {
+    font-size: 18px;  
+    overflow: hidden;
+}
+.sectiune-revista {
+    min-height:250px;
+    text-align:center;
+    dispay:block;
+}
+.btn-background {
+    background-color:#ffa700!important;
 }

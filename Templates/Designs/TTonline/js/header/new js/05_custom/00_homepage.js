@@ -27,6 +27,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if(document.querySelector('.pagination') !== null) {
         loadOnChangePage();
     }
+    
+    //load article detail page
+    if(document.querySelector('.first-container-article')) {
+        loadArticle();        
+        loadOnScroll();
+    }
 });
 
 /*START HOMEPAGE HANDLEBARS AJAX CALLS*/
@@ -60,7 +66,7 @@ function loadFirstViewHomepage() {
     })
     .catch(function (error) {
     // handle error
-    console.log(error, "error boo1");
+    console.log(error, "error first view hp");
     })
 }
 //On page load, make call for first container on page
@@ -85,7 +91,7 @@ function loadFirstView(handlebarsWrapper) {
     })
     .catch(function (error) {
         // handle error
-        console.log(error, "error boo1");
+        console.log(error, "error first view");
     })
 }
 function loadOnScroll() {
@@ -167,7 +173,7 @@ function getDataToChangePage(urlFeed, container) {
     })
     .catch(function (error) {
         // handle error
-        console.log(error, "error boo2");
+        console.log(error, "error chang page");
     })
 }
 function getEditionsByYear() {
@@ -193,10 +199,79 @@ function getEditionsByYear() {
            })
            .catch(function (error) {
                // handle error
-               console.log(error, "error boo2");
+               console.log(error, "error editions by year");
            })
        }); 
     });
+}
+
+function loadArticle() {
+    var firstContainer = document.querySelector('.first-container-article');
+    var urlFeed = firstContainer.getAttribute("data-json-feed");
+    var loader  = document.getElementById('loader');
+    axios({
+        method:'get',
+        url: urlFeed
+    })
+    .then(function (response) {
+        //hide loader
+        loader.classList.add('hidden');
+        compileDataToHandlebars(response.data[0], firstContainer);
+
+        var authorsArray = response.data[0].ArticlesContainer[0].Article[0].articleAutori;
+        return authorsArray;
+    })
+    .then(function (response) {
+        
+        var authorsWrapper = document.querySelector('.author-section');
+        var url = authorsWrapper.getAttribute("data-json-feed");
+        response.map(function(o, i) {
+            url += response.length - 1 === i ? o.Id : o.Id + ",";
+        });
+        getDataForArticlePage(authorsWrapper, url);
+        
+        return response;
+    })   
+    .then(function(response) {
+        var authorIds = ""
+        response.map(function(o, i) {
+            authorIds +=  response.length - 1 === i ? o.Id : o.Id + ","
+        });
+        loadArticleSections(authorIds);
+    })    
+    .catch(function (error) {
+        // handle error
+        console.log(error, "error load article");
+    })
+}
+
+function loadArticleSections(authorId) {
+    var sectionContainer = document.querySelector('.section-template');
+    var urlFeed = sectionContainer.getAttribute("data-json-feed");
+    axios({
+        method:'get',
+        url: urlFeed
+    })
+    .then(function (response) {
+        compileDataToHandlebars(response.data[0], sectionContainer);
+        var authorsArray = response.data[0].ArticlesContainer;
+        return authorsArray;
+    })
+    .then(function (response) {
+        var authorsContainter = document.querySelector('.author-template');
+        var url = authorsContainter.getAttribute("data-json-feed");
+        response.map(function(o, i) {
+            url += response.length - 1 === i ? o.Article[0].pagePageID : o.Article[0].pagePageID + ",";
+        });
+        var autoriIds = response[0].Article[0].itemAutori;
+        
+        url += "&Autori=" + authorId;
+        getDataForArticlePage(authorsContainter, url);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error, "error load article sections");
+    })
 }
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
@@ -258,7 +333,20 @@ function getDataForHandlebars(homePageSliderWrapper) {
     })
     .catch(function (error) {
         // handle error
-        console.log(error, "error boo2");
+        console.log(error, "error data for hdb");
+    })
+}
+function getDataForArticlePage(wrapper, url) {
+    axios({
+        method:'get',
+        url: url
+    })
+    .then(function (response) {
+        compileDataToHandlebars(response.data[0], wrapper);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error, "error data for article");
     })
 }
 function initializeHomepageSlider() {
