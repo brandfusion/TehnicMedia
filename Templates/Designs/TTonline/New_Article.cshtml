@@ -210,9 +210,11 @@ s.setAttribute('data-timestamp', +new Date());
                  <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
             {{/if}}
           </p>
+          {{#ifCond itemImaginePrincipala "!==" ""}}
           <figure class="image-overlay">                     
-            <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}">          
+            <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}">          
           </figure>
+          {{/ifCond}}
        </header><!-- .post-header -->
         <div class="post-content clearfix"> 
           {{{itemContinut}}}
