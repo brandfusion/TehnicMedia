@@ -1,0 +1,48 @@
+@{
+	var eventsPageID = GetPageIdByNavigationTag("EventsFeed");
+}
+<div class="widget evenimentewidget" style="margin-bottom:10px;">
+	<h3 class="block-title">
+		<span><a href="Default.aspx?ID=4258">@Translate("Evenimente","Evenimente") </a></span>
+	</h3>
+
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner sidebar-handlebars-wrapper" role="listbox" data-template="WidgetEvenimenteTemplate"  data-json-feed="/Default.aspx?ID=@eventsPageID">
+			@*Handlebars goes here*@
+			@RenderPlaceholderImageTop("pre-render-element--md")
+		</div>
+		
+		<a class="carousel-control" href="#myCarousel" role="button" data-slide="prev" style="color: #ffa700;">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control" href="#myCarousel" role="button" data-slide="next" style="right: 0; left: auto; color: #ffa700;">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+</div>
+
+<script id="WidgetEvenimenteTemplate"  type="text/x-handlebars-template">  
+{{#each EvenimenteContainer}}
+   <div class="item">
+        <figure class="image-overlay">
+			<img src="/Admin/Public/GetImage.ashx?Image={{Afis}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=350&Height=230" class="img-responsive">
+        </figure>
+        <span>{{title}}</span>                
+        <div class="description">{{{Descriere}}}</div>
+        @if(GetInteger("DwAreaID") == 1){
+              <a href="{{URLEveniment}}" style="z-index: 200;">Mai mult</a>
+          }else{
+              <a href="{{URLEveniment}}" style="z-index: 200;">Read More</a>
+          }
+	</div>
+{{/each}}	
+</script>
+
+
+<script type="text/javascript">
+	
+</script>
+
+

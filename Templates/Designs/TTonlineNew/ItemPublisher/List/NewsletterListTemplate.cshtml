@@ -1,0 +1,66 @@
+﻿@using Dynamicweb.Frontend
+
+@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/ArticleHelper.cshtml")
+@Include("../../Includes/Getimage.cshtml")
+
+@*<p>Total articole: @GetInteger("ItemPublisher:Items.TotalCount")</p>*@
+
+  @if(GetBoolean("ItemPublisher:Items.Any")){
+    	
+      foreach(var item in GetLoop("ItemPublisher:Items.List")){
+        
+
+        string titlu = item.GetString("ItemPublisher:Item.Titlu.Value");
+        var data = item.GetDate("ItemPublisher:Item.Data");
+        string newsletterUrl = item.GetString("ItemPublisher:Item.Field.PageId"); 
+        string imagineMare = item.GetString("ItemPublisher:Item.Imagine");
+        string imagine = GetImage(imagineMare, 255, 168);
+        string imageSrc = "http://" + GetGlobalValue("Global:Request.Host") + "/Files/Images/NoImage/255x168.png"; 
+     
+       <div class="col-md-4 col-sm-12 col-xs-12">  
+        <article class="news-block small-block" style="margin-bottom: 110px;">
+          <a href="Default.aspx?ID=@newsletterUrl" class="overlay-link">
+             <figure class="image-overlay proportie-1">
+               @*  <img src="@imageSrc" alt="@titlu" class="img-responsive" /> *@
+               <img src="@imagine" alt="@titlu" class="img-responsive" /> 
+            </figure>
+          </a>
+
+          <header class="news-details">        
+            <h3 class="news-title" style="font-size:14px!important;"><a href="Default.aspx?ID=@newsletterUrl">@titlu</a></h3> 
+            <p class="simple-share">              
+          </header> 
+        </article>
+      </div>
+
+
+
+            
+
+
+  	} 
+  } @* end of getBoolean *@
+
+
+
+
+              @*  <div class="col-md-4">
+                <article class="featured-small box-news">
+                  <a href="Default.aspx?ID=@newsletterUrl" class="overlay-link">
+                    <figure class="image-overlay proportie-1">
+                      <img src="@imageSrc" alt="@titlu"/>
+                    </figure>
+                  </a>
+                 
+                  <header class="featured-header">
+                                       
+                    <p class="news-title-mouseenter">
+                     
+                       <p><a href="Default.aspx?ID=@newsletterUrl" class="overlay-link"><strong>Citeste mai mult</strong></p>
+                     </p>
+                  </header>
+                  
+                </article>
+            </div> 
+ *@

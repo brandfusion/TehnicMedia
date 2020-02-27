@@ -1,0 +1,76 @@
+﻿@using Dynamicweb.Frontend
+@Include("../../Custom/GlobalVariables.cshtml")
+<section class="admag-block">
+        
+@if(GetBoolean("ItemPublisher:Items.Any")){
+  	foreach(var item in GetLoop("ItemPublisher:Items.List")){
+      string itemTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+      string defaultImage = areaLayoutPath + "/assets/img/demo/255x180.png";
+      string itemAuthor = "";
+      var itemDate = item.GetDate("ItemPublisher:Item.Data");
+      string itemLink = Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(item.GetString("ItemPublisher:Item.Url"));
+      string itemImage = item.GetString("ItemPublisher:Item.ImaginePrincipala.Value");
+      string image = !string.IsNullOrEmpty(itemImage) ? itemImage : defaultImage;
+      string itemExcerpt = item.GetString("ItemPublisher:Item.Sumar");
+      string itemVisits = item.GetString("ItemPublisher:Item.Visits.Value");
+
+
+
+   
+          
+          <div class="col-md-6">
+            <article class="featured-small box-news">
+              <a href="@itemLink" alt="@itemTitle">
+                <img  src="/Admin/Public/GetImage.ashx?Image=@itemImage&altFmImage_path=@areaLayoutPath/assets/img/demo/730x320.png&Format=jpg&Width=730&Height=320&Crop=6&DoNotUpscale=True" alt="@itemTitle" />
+              </a>
+              <header class="featured-header">
+                <a class="category bgcolor2" href="#"></a>
+                <h2><a href="@itemLink">@itemTitle</a></h2>
+                <p class="simple-share">
+                  @Translate("articolde","de") <a href="#"><b>@itemAuthor</b></a> -  
+                  <span class="article-date">@itemDate</span> 
+                  
+                </p>
+              </header>
+            </article>
+          </div>
+
+        
+
+      
+	}
+}
+ 
+         
+        </section>
+
+<!-- .admag-block -->
+		                       
+
+
+<!--@If(ItemPublisher:Items.Paging.TotalPages>1)-->
+    <ul class="items-list-paging items-clear">
+        <!--@If(ItemPublisher:Items.Paging.CurrentPage>1)-->
+			<li class="items-list-page">
+			    <a href="@GetValue("ItemPublisher:Items.Paging.PrevPage")"><!--@Translate(PreviousPage, "Previous page")--></a>
+			</li>
+		<!--@EndIf-->
+
+        @foreach (LoopItem i in GetLoop("ItemPublisher:Items.Paging.Pages5")){
+            <li class="items-list-page">
+                <!--@If(ItemPublisher:Items.Paging.Pages5.Page.IsCurrent=True)-->
+                <strong>@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.Number")</strong>
+                <!--@EndIf-->
+                <!--@If(ItemPublisher:Items.Paging.Pages5.Page.IsCurrent<>True)-->
+                <a href="@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.UrlHtmlEncoded")">@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.Number")</a>
+                <!--@EndIf-->
+            </li>
+        }
+        
+        <!--@If(ItemPublisher:Items.Paging.TotalPages>ItemPublisher:Items.Paging.CurrentPage)-->
+            <li class="items-list-page">
+                <a href="@GetValue("ItemPublisher:Items.Paging.NextPage")"><!--@Translate(NextPage, "Next page")--></a>
+            </li>
+        <!--@EndIf-->
+    </ul>
+    <!--@EndIf-->

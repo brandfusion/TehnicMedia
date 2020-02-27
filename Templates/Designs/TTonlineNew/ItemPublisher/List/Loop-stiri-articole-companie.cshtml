@@ -1,0 +1,79 @@
+﻿@using Dynamicweb.Frontend
+@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/ArticleHelper.cshtml")
+
+
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+
+<div class="row space-10">
+        @{
+  	 string De_companie = ""; 
+  	string Despre_companie = "";
+  }  
+		<div class="col-xs-12"><h3 class="block-title"><span class="primary-color-border-bottom">Ultimele Stiri</span></h3> </div>
+  
+    @foreach(var item in GetLoop("ItemPublisher:Items.List")){
+      string articleTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+      string itemAuthor = "";
+       var articleDate = item.GetDate("ItemPublisher:Item.Data");
+      string articleLink = item.GetString("ItemPublisher:Item.Url");
+      string articleImage = item.GetString("ItemPublisher:Item.ImaginePrincipala.Value");
+      string articleExcerpt = item.GetString("ItemPublisher:Item.Sumar").Replace("<p>","").Replace("</p>","");
+		De_companie = item.GetString("ItemPublisher:Item.De_Companie");
+		Despre_companie = item.GetString("ItemPublisher:Item.Despre_Companie");
+      string articleVisits = item.GetString("ItemPublisher:Item.Visits.Value");
+      bool itemConditionVisits = item.GetBoolean("ItemPublisher:Item.Vizite");
+      string itemAutori = item.GetString("ItemPublisher:Item.Autori.Value");
+      string articleSectiune = item.GetString("ItemPublisher:Item.SectiuneParinte");
+      int articleSectiuneID = item.GetInteger("ItemPublisher:Item.SectiuneParinteId");
+      string itemSections = "";
+      List<Autor> articleAutori = GetAutori(itemAutori);
+      List<Sectiune> articleSections = GetSectiuni(itemSections);
+
+ <div class="col-lg-3 col-xs-6 col-sm-4">
+  <article class="news-block small-block" style="margin-bottom: 110px;">
+    <a href="@articleLink" class="overlay-link">
+    <figure class="image-overlay proportie-1 text-center">
+  <img src="/Admin/Public/GetImage.ashx?Image=@articleImage&altFmImage_path=/Files/Images/NoImage/350x230.png&Format=jpg&Width=350&Height=230&Crop=5" alt="@articleTitle"/>
+    
+    </figure>
+    </a>
+
+   <a href='/Default.aspx?ID=@articleSectiuneID' class="bg@(articleSectiuneID) category">@articleSectiune</a>
+    <header class="news-details">
+     
+      <h3 class="news-title"><a href="@articleLink">@articleTitle</a></h3> 
+      <p class="simple-share">
+        @foreach (var articleSection in articleSections)
+        {
+            <a href="#">@articleSectiune</a>
+        }
+
+        @Translate("articolde","de")
+
+        @foreach (var articleAutor in articleAutori)
+        {
+            <a href="@articleAutor.Link">@* <span style="color: #bbbbbb; font-size: 13px; font-weight: 400;">@Translate("articolde","de")</span> *@ @articleAutor.Name</a>
+        }
+<br/>
+        <span><i class="fa fa-clock-o"></i> @articleDate.ToString("D")</span>
+        @if (itemConditionVisits) {    
+          <span><i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+        } 
+      </p>
+      
+    </header>
+
+   
+
+  </article>
+</div>
+
+
+
+  }
+	<div class="col-xs-12"><a href="/stiri?companie=@De_companie" class="btn btn-primary buton-formular">Toate Stirile</a></div>
+
+</div>
+} 

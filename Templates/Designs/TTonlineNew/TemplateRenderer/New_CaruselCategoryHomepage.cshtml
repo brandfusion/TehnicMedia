@@ -1,0 +1,22 @@
+@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+<div id="Sectiuni" class="owl-carousel owl-theme">
+   
+    @{
+        var pageId = GetPageIdByNavigationTag("SectionsFeed");
+        var urlFeed = "/Default.aspx?ID="+pageId;
+    }
+
+ <div id="SectiuniCarusel" class="handlebars-wrapper" data-template="SectiuniCaruselTemplate" data-json-feed=@urlFeed>
+        <div class="loader"></div>
+        @*HANDLEBARS TEMPLATE GOES HERE*@
+    </div>
+</div>
+<script id="SectiuniCaruselTemplate" type="text/x-handlebars-template">
+{{#each SectionsContainer}}
+    <div class="item" style="width:100%!important">
+            <a href="/Default.aspx?ID={{pageId}}"><img src='/Admin/Public/GetImage.ashx?Image={{itemImagine}}&Crop=0&Format=jpg&Width=230&Height=172' alt="" style="width:100%!important;"/></a>
+        @*<h4><!--<a href="@itemURL">@item.GetString("ItemPublisher:Item.Title.Value")</a>  --></h4>S*@
+    </div>
+{{/each}}
+</script>

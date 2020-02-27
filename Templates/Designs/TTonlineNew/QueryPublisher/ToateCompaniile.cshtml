@@ -1,0 +1,179 @@
+﻿<!--Premium Companies Start-->
+	@if(String.IsNullOrEmpty(queryTip) || queryTip == "4"){
+ 		<h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Premium @queryTip</span></h1>
+		}
+
+   		<div class="result-query">
+				<!--Promovate Start-->
+          
+     			<div class="row">
+ 				 	@Include("QueryLoopCompanii.cshtml") 
+       
+            	 	if(tipClient =="4" && CompaniePromovata ){
+      
+         				@Include("CompanieLoopBox.cshtml")
+         			}
+
+						} 
+
+   							<!--Premium Promovate END-->
+				</div>
+							<!-- Premium Nepromovate Start-->
+
+
+				<div class="row">
+        			@Include("QueryLoopCompanii.cshtml") 
+          		
+
+       
+          			if(tipClient =="4" && CompaniePromovata == false ){
+        
+             				@Include("CompanieLoopBox.cshtml")
+						}
+							}
+
+   																	<!--Premium Neromovate END-->
+				
+			    
+	 			</div>
+    </div>
+   <!--Premium  END-->
+ <!--Proffesional Start-->
+				
+				@if(String.IsNullOrEmpty(queryTip) || queryTip == "3"){
+  					<h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Profesional</span></h1>
+					}
+				
+            <div class="result-query">
+
+                    <div class="row">
+
+                        @Include("QueryLoopCompanii.cshtml") 
+
+
+                        if(tipClient =="3" && CompaniePromovata ){
+                      
+                      			
+                      
+                                @Include("CompanieLoopBox.cshtml")
+                           }
+
+
+                        }  
+
+
+                    </div>
+
+                    <div class="row">
+
+                         @Include("QueryLoopCompanii.cshtml") 
+
+
+
+                        if(tipClient =="3" && CompaniePromovata == false ){
+                      
+                      	
+                      		
+                      
+                          @Include("CompanieLoopBox.cshtml")
+                        }
+
+
+                    }
+
+
+
+                     </div>
+      </div>
+
+
+
+<!--Proffesional End-->
+<!--Standard Start-->
+@if(String.IsNullOrEmpty(queryTip) || queryTip == "2"){
+  <h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Standard</span></h1>
+}
+   	<div class="result-query">
+   
+     	<div class="row">
+          
+	    @Include("QueryLoopCompanii.cshtml") 
+          		
+
+       
+          if(tipClient =="2" && CompaniePromovata ){
+        @Include("CompanieLoopBox.cshtml")
+}
+
+
+}
+
+   
+				
+			    
+	 	</div>
+
+<div class="row">
+          
+	      @Include("QueryLoopCompanii.cshtml") 
+          		
+
+       
+          if(tipClient =="2" && CompaniePromovata == false ){
+      @Include("CompanieLoopBox.cshtml")
+}
+
+
+}
+
+				
+			    
+	 	</div>
+
+
+    </div>
+
+
+
+<!--Standard End-->
+<!--Starter Start-->
+@if(String.IsNullOrEmpty(queryTip) || queryTip == "1"){
+  <h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Starter</span></h1>
+}
+   	<div class="result-query">
+   
+     	<div class="row">
+          
+	       @Include("QueryLoopCompanii.cshtml") 
+          		
+
+       
+          if(tipClient =="1" && CompaniePromovata ){
+        @Include("CompanieLoopBox.cshtml")
+}
+
+
+}
+
+   
+				
+			    
+	 	</div>
+
+<div class="row">
+          
+	     @Include("QueryLoopCompanii.cshtml")       
+          if(tipClient =="1" && CompaniePromovata == false ){
+     		   @Include("CompanieLoopBox.cshtml")
+  }
+
+
+} 
+      </div>
+
+
+    </div>
+
+
+
+<!--Starter End-->

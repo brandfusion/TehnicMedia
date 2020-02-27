@@ -1,0 +1,138 @@
+﻿@using Dynamicweb.Frontend
+@using System.Linq
+@using System.Web
+
+@Include("/Files/Templates/Designs/TTonline/Custom/GlobalVariables.cshtml")
+@Include("/Files/Templates/Designs/TTonline/Includes/Getimage_new.cshtml")
+@{
+
+
+  string verificareTara = System.Web.HttpContext.Current.Request.Params["Tara"];
+  string verificareOras = System.Web.HttpContext.Current.Request.Params["Oras"];
+  string verificareLocatie = System.Web.HttpContext.Current.Request.Params["Locatie"];
+  string verificarePerioada = System.Web.HttpContext.Current.Request.Params["Perioada"];
+  string verificareAn = System.Web.HttpContext.Current.Request.Params["An"];	
+  string verificareOrganizator = System.Web.HttpContext.Current.Request.Params["Organizator"];
+
+string pageId = System.Web.HttpContext.Current.Request.Params["ID"];
+  string pagelink = GetString("DwPaging.FirstPageLink");
+  int globalPageID = 0;
+
+}
+
+@{
+  List <LoopItem> Tari = new List<LoopItem>();
+  List <LoopItem> Orase = new List<LoopItem>(); 
+  List <LoopItem> Locatii = new List<LoopItem>();
+  List <LoopItem> Perioade = new List<LoopItem>();
+  List <LoopItem> Ani = new List<LoopItem>();
+  List <LoopItem> Organizatori = new List<LoopItem>();
+	
+
+  foreach (LoopItem parameter in GetLoop("FacetGroups"))
+      {   
+        foreach (LoopItem facet in parameter.GetLoop("Facets")) {
+
+			
+            if (facet.GetString("Facet.Name") == "Tara") {
+            Tari = facet.GetLoop("FacetOptions");
+            }
+    
+          if (facet.GetString("Facet.Name") == "Oras") {
+            Orase = facet.GetLoop("FacetOptions");
+          }
+          
+		 if (facet.GetString("Facet.Name") == "Locatie") {
+            Locatii = facet.GetLoop("FacetOptions");
+          }
+
+		 if (facet.GetString("Facet.Name") == "Perioada") {
+            Perioade = facet.GetLoop("FacetOptions");
+          }
+
+		 if (facet.GetString("Facet.Name") == "An") {
+            Ani = facet.GetLoop("FacetOptions");
+          }
+
+		 if (facet.GetString("Facet.Name") == "Organizator") {
+            Organizatori = facet.GetLoop("FacetOptions");
+          }
+
+        }      
+      }
+
+}
+<div class="col-xs-12">
+
+@Include("/Files/Templates/Designs/TTonline/QueryPublisher/Filtre Evenimente.cshtml")
+</div>
+
+	@foreach (var result in GetLoop("QueryResultItem")) {
+		string title = result.GetString("Eveniment_Titlu");
+		DateTime dataInceput = result.GetDate("Eveniment_Data_Inceput");
+		string startDay = dataInceput.ToString("dd");
+		string startMonth = dataInceput.ToString("MMMM"); 
+		DateTime dataFinal = result.GetDate("Eveniment_Data_Final");
+		string endDay = dataFinal.ToString("dd");
+		string endMonth = dataFinal.ToString("MMMM"); 
+		string link = result.GetString("Eveniment_Link");
+		int counter = result.GetInteger("QueryResultItem.LoopCounter");
+		string autorEveniment =result.GetString("Eveniment_Autor");
+		string tara =result.GetString("Eveniment_Tara");
+		string EvenimentPageId = result.GetString("PageIdString");
+		string oras = result.GetString("Eveniment_Oras");
+		string orasClean = result.GetString("Eveniment_Oras").Replace(" ", "_");
+		string taraClean =result.GetString("Eveniment_Tara").Replace(" ", "_");
+		string locatieClean =result.GetString("Eveniment_Locatie").Replace(" ", "_");
+		string locatie =result.GetString("Eveniment_Locatie");
+		string perioada = result.GetString("Eveniment_Perioada");
+		string program = result.GetString("Eveniment_Program");
+		string pret = result.GetString("Eveniment_Pret_Bilet");
+		string dateContactOrganizator = result.GetString("Eveniment_DateContactOrganizator");
+		string afisRaw = result.GetString("Eveniment_Afis");
+		string afis = !string.IsNullOrEmpty(afisRaw) ? GetImage(afisRaw, 350, 230) : ""; 
+ 		afis = afis + "&bgcolor=white";
+
+ <!--Filtre-->
+	
+
+    <div class="col-md-6 col-sm-6 col-xs-12" id="EvenimenteNI">
+      <article class="news-block small-block articole-calendar">
+	       <a href="/Default.aspx?ID=@(EvenimentPageId)" target="_blank" class="overlay-link image-overlay">
+        	  <img src="@afis" alt="@title"/>
+       	   </a>
+           
+        <header class="">
+          <h3 class="news-title"><a href="/Default.aspx?ID=@(EvenimentPageId)" target="_blank">@title</a></h3> 
+         	 <p class="simple-share">
+            	<span><i class="fa fa-clock-o"></i> @perioada </span>
+             </p>
+        </header>
+
+      </article>
+    </div>
+
+
+
+
+
+}
+<!--Pagination -->
+<div id="productlistnavigation">
+    <span id="pagecount">
+        Page @GetValue("DwPaging.CurrentPage") of @GetValue("DwPaging.PageCount")
+    </span>
+    <span id="pagenavigation">
+	    @if(GetInteger("DwPaging.PageCount") > 1)
+	    {
+	    	if(GetInteger("DwPaging.CurrentPage") > 1)
+		    {
+		    	<a href="@GetValue("DwPaging.PreviousPageLink")">Previous</a>
+		    }
+		    if(GetInteger("DwPaging.CurrentPage") < GetInteger("DwPaging.PageCount"))
+		    {
+		    	<a href="@GetValue("DwPaging.NextPageLink")">Next</a>
+		    }
+	    }
+    </span>
+</div>

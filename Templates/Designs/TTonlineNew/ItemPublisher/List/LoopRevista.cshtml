@@ -1,0 +1,34 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+<div class="row">
+  
+@if(GetBoolean("ItemPublisher:Items.Any")){
+  	
+  	foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+	string itemImage = item.GetString("ItemPublisher:Item.ImagineSectiune.Value");
+ 
+  	string mainImageRaw = item.GetString("ItemPublisher:Item.ImagineSectiune.Value");
+    string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 300, 250) + "&bgcolor=white"  : "/Files/Images/NoImage/300x250.png";   		
+  
+  	string itemURL = item.GetString("ItemPublisher:Item.Url");
+  	string itemTitle = item.GetString("ItemPublisher:Item.Title.Value"); 
+
+
+			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="min-height:250px;text-align:center;dispay:block">
+              
+                @if(!string.IsNullOrEmpty(item.GetString("ItemPublisher:Item.ImagineSectiune.Value"))){
+
+                <a href="@itemURL"><img src='@mainImage' alt="@itemTitle" /></a>
+                }else{
+                <a href="@itemURL"><img src="@areaLayoutPath/assets/img/demo/300x250.png" alt="@itemTitle" /></a>
+                }
+	        	<header>
+	            	<p><a href="@itemURL">@itemTitle</a></p>
+	            </header>
+								
+			</div>
+      
+	}
+}
+</div>
+

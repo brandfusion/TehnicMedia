@@ -1,0 +1,37 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+<h3 class="block-title text-left"><span>@Translate("Parteneri","Parteneri") T&T</span></h3>
+<div class="owl-carousel owl-parteneri-1 owl-theme parteneri-list">
+ 
+@if(GetBoolean("ItemPublisher:Items.Any")){
+  	foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+		string mainImageRaw = item.GetString("ItemPublisher:Item.Image.Value");
+		string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 260, 100) + "&bgcolor=white"  : "/Files/Images/NoImage/190x80.png";   		
+		string itemLink1 = item.GetString("ItemPublisher:Item.Link").Replace("&Purge=True", "");
+		string itemTitlu1 = item.GetString("ItemPublisher:Item.Titlu.Value");
+		string requestUrl = "http://" + GetGlobalValue("Global:Request.Host"); 
+  
+
+			<div class="item">
+              
+		        @if(!string.IsNullOrEmpty(item.GetString("ItemPublisher:Item.Image.Value"))){
+					if(!string.IsNullOrEmpty(itemLink1)){
+						<a href="@itemLink1"><img class="case1" src='@mainImage' alt="@itemTitlu1" style="max-height: 100px;" /></a>
+											
+					}else{
+  						<a href="@requestUrl/parteneri"><img class="case2"  src='@mainImage' alt="@itemTitlu1" style="max-height: 100px;" /></a>
+					}
+
+									
+
+
+
+				}else{
+					<a href="@itemLink1"><img class="case3"  src="@areaLayoutPath/assets/img/demo/300x250.png" alt="@itemTitlu1" /></a>
+		        }				
+			</div>
+	}
+}
+
+</div>
+

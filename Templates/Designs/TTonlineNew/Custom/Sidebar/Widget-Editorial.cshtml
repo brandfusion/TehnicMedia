@@ -1,0 +1,35 @@
+﻿@{
+string editorialFilterValue = "\"@\"" + "Item.Tip =='Editorial'";
+editorialFilterValue = editorialFilterValue + "\"\"";
+}
+
+
+ @{
+    	int pageID = @GetInteger("DWPageID");
+    	string tip = @GetString("Item.Tip");
+    }
+    
+
+
+    @if( (@pageID != 25)  && (@tip != "Editorial")){
+
+
+<div class="widget editorialwidget" style="margin-bottom:0px;">
+	
+	<div class="content">
+    
+        @RenderItemList(new
+            {
+                ItemType = "DW_Page",
+                ListSourceType = "SelfArea",
+                ItemFieldsList = "*",
+                ListTemplate = "ItemPublisher/List/Sidebar-Editorial.cshtml",
+                ListPageSize = 1,
+                ListOrderBy = "Data",
+                ListOrderByDirection = "Descending",
+                Filter = editorialFilterValue
+            })
+      </div>
+</div>
+
+}

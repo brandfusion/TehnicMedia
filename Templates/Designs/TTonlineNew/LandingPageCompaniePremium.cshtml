@@ -1,0 +1,181 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using BrandFusion.Dw.eCommerce
+@using Dynamicweb.Ecommerce.Products
+@using BrandFusion.Dw.TTOnline;
+@MasterPageFile("MasterCompaniiPremium.cshtml")
+@GetValue("Title(Article page)")
+@GetValue("Description(Pagina de articol)")
+@Include("Includes/ArticleHelper.cshtml")
+@Include("Includes/GetImage_new.cshtml")
+@Include("Includes/VerifyImage.cshtml")
+
+
+ <div class="dwcontent" id="maincontent-1" title="Main Content Full Width" data-settings="unwrap=true"></div>
+
+
+
+<link rel="stylesheet" href="/Files/Templates/ItemPublisher/ItemPublisher.css" />
+
+
+@{
+    var idCompanie = GetString("Item.Companie.Value");
+    Dynamicweb.Content.Items.Item companie = null;
+
+    if (!string.IsNullOrEmpty(idCompanie)){
+        companie = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Companii", idCompanie);
+                    
+
+    if(companie != null){
+            //begin content
+
+            var MissingFoto = "http://placehold.it/100x100";
+            var MissingBanner = "http://placehold.it/1170x250";
+      
+            var Name = companie["Name"];  
+			string NameCompanie = Name.ToString();
+            var ID = companie["Id"]; 
+			string IDCompanie = ID.ToString();
+            string LogoS = companie["Logo"] != null ? companie["Logo"].ToString(): "";
+            var Logo = !string.IsNullOrEmpty(LogoS) ? LogoS : MissingFoto;
+            string BannerS = companie["Banner"] !=null ? companie["Banner"].ToString():"";
+
+        	 var BannerRaw = !string.IsNullOrEmpty(BannerS) ? BannerS : "";
+			
+			string Banner = !string.IsNullOrEmpty(BannerRaw) ? GetImage(BannerRaw, 1140, 400) + "&bgcolor=white"  : ""; 
+
+            string ImgProfilS = companie["ImgProfil"] != null ? companie["ImgProfil"].ToString(): "";
+            var ImgProfil = !string.IsNullOrEmpty(ImgProfilS) ? ImgProfilS : MissingFoto;  
+            string SummaryS = companie["Summary"] !=null ? companie["Summary"].ToString(): "";
+            var Summary = !string.IsNullOrEmpty(SummaryS) ? SummaryS : "Missing text";
+            string OldTidS = companie["OldTid"] !=null ? companie["OldTid"].ToString(): "";
+            var OldTid = !string.IsNullOrEmpty(OldTidS) ? OldTidS: "Missing OldTid";
+            string DateContactS = companie["DateContact"] !=null ? companie["DateContact"].ToString(): "";
+            var DateContact = !string.IsNullOrEmpty(DateContactS) ? DateContactS: "Missing DateContact";
+      bool AfiseazaJobs = companie["Afiseaza_Jobs"] != null ? (bool)companie["Afiseaza_Jobs"]: false;
+      bool AfiseazaArticole = companie["Afiseaza_Articole"] != null ? (bool)companie["Afiseaza_Articole"]: false;
+      bool AfiseazaStiri = companie["Afiseaza_Stiri"] != null ? (bool)companie["Afiseaza_Stiri"]: false;
+            var DescriptionS = companie["Description"] !=null ? companie["Description"].ToString(): "";
+      string Description = !string.IsNullOrEmpty(DescriptionS) ? DescriptionS:"Missing Description";
+      var MapContactS = companie["MapContact"] !=null ? companie["MapContact"].ToString(): "";
+      string MapContact = !string.IsNullOrEmpty(MapContactS) ? MapContactS:"Missing MapContact";
+      var EnvelopeContactS = companie["EnvelopeContact"] !=null ? companie["EnvelopeContact"].ToString(): "";
+      string EnvelopeContact = !string.IsNullOrEmpty(EnvelopeContactS) ? EnvelopeContactS:"Missing EnvelopeContact";
+      var PhoneContactS = companie["PhoneContact"] !=null ? companie["PhoneContact"].ToString(): "";
+      string PhoneContact = !string.IsNullOrEmpty(PhoneContactS) ? PhoneContactS:"Missing PhoneContact";
+      var GlobeContactS = companie["GlobeContact"] !=null ? companie["GlobeContact"].ToString(): "";
+      string GlobeContact = !string.IsNullOrEmpty(GlobeContactS) ? GlobeContactS:"Missing GlobeContact";
+            string Tara = companie["Tara"] !=null ? companie["Tara"].ToString(): "";
+            string Oras = companie["Oras"] !=null ? companie["Oras"].ToString(): "";
+      string Strada = companie["Strada"] !=null ? companie["Strada"].ToString(): "";
+      string CodPostal = companie["Cod_Postal"] !=null ? companie["Cod_Postal"].ToString(): "";
+      string LinkCatreSiteS = companie["LinkCatreSite"] !=null ? companie["LinkCatreSite"].ToString(): "";
+      string LinkCatreSite = !string.IsNullOrEmpty(LinkCatreSiteS) ? LinkCatreSiteS:"#";
+      string FacebookLink = companie["SocialMediaFacebook"] !=null ? companie["SocialMediaFacebook"].ToString(): "";
+      string TwitterLink = companie["SocialMediaTwitter"] !=null ? companie["SocialMediaTwitter"].ToString(): "";
+      string LinkedinLink = companie["SocialMediaLinkedin"] !=null ? companie["SocialMediaLinkedin"].ToString(): "";
+      string DeclaratieManager = companie["DeclaratieManager"] !=null ? companie["DeclaratieManager"].ToString(): ""; 
+      string ImagineProfilS = companie["ImgProfil"] !=null ? companie["ImgProfil"].ToString(): "";
+      var ImagineProfil = !string.IsNullOrEmpty(ImagineProfilS) ? ImagineProfilS : "";
+      string DescriereCompanie = companie["Description"] !=null ? companie["Description"].ToString(): "";
+      string Email = companie["Email"] !=null ? companie["Email"].ToString(): "";
+      string TipClient = companie["TipClient"] !=null ? companie["TipClient"].ToString(): "";
+      bool Contactform = companie["Contacteaza_ne"] != null ? (bool)companie["Contacteaza_ne"]: false;
+      string Geolocatie = companie["Geolocation"] != null ? companie["Geolocation"].ToString() : "";
+      string Character = "@";	
+		bool AfiseazaBandaSubBranduri = companie["BandaSubbranduri"] != null ? (bool)companie["BandaSubbranduri"]: false;
+        int BandaSubBranduri = companie["Banda_Sub_Branduri"] != null ? (int)companie["Banda_Sub_Branduri"] : 0 ;
+		string URLPaginaDealerProducator = companie["URLPagina_Dealer_Producator"] !=null ? companie["URLPagina_Dealer_Producator"].ToString(): "";
+
+      var ProduseReprezentative = ProductFacade.GetItemTypeProducts(companie["RepresentativeProducts"]);
+ string linkToateArticole =TTOnlineUrlFacade.GenerateLinkForCompanii2(IDCompanie, NameCompanie); 
+string CATEGORIE_PARTENER = companie["Sectiune"] !=null ? companie["Sectiune"].ToString(): "";
+           
+           @* var RepresentativeProducts = GetLoop("Item.RepresentativeProducts.Value");
+            var SecondaryProducts = GetLoop("Item.SecondaryProducts.Value");
+            var ProduseAll = RepresentativeProducts.ToList();
+            ProduseAll.AddRange(SecondaryProducts);
+            *@
+
+           
+
+
+
+@Include("/Files/Templates/Designs/TTonline/Companie Starter.cshtml");
+
+
+@Include("/Files/Templates/Designs/TTonline/Companie Profesional.cshtml");
+
+@Include("/Files/Templates/Designs/TTonline/Companie Premium Default.cshtml");
+
+
+if(Contactform == true){
+<!-- Harta Start-->
+<div class="row row-companie mb-40  background-white">
+	<div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-globe fa-2x" aria-hidden="true"></i><span>Localizare</span></h3></div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 pbt-20">
+        <div class="maps">                      
+            <div id="map-canvas" class="premium-map-canvas" data-lat="" data-lng=""  data-geolocation='@Geolocatie' data-zoom="14"></div>                
+            <div class="addresses-block">
+              <a class="premium-map-marker" data-lat="" data-lng="" data-string='@Strada @Oras @Tara'></a>
+            </div>                        
+        </div> 
+    </div>
+<!-- Harta End-->
+
+<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pbt-20">
+  
+    <h5>Contacteaza @Name</h5>
+      <div data-nume="@Name" class="form-wrapper">
+    @RenderParagraphContent(120)
+      </div>
+    </div> 
+</div>
+}else{
+
+	<!-- Harta Start-->
+<div class="row row-companie mb-40  background-white">
+<div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-globe fa-2x" aria-hidden="true"></i> <span>Localizare</span></h3></div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pbt-20">
+        <div class="maps">                      
+            <div id="map-canvas" class="premium-map-canvas" data-lat="" data-lng=""  data-geolocation='@Geolocatie' data-zoom="14"></div>                
+            <div class="addresses-block">
+              <a class="premium-map-marker" data-lat="" data-lng="" data-string='@Strada @Oras @Tara'></a>
+            </div>                        
+        </div> 
+    </div>
+</div>
+	<!-- Harta End-->
+
+}
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-26068739-1', 'auto');
+
+
+// START DIMENSIUNI
+
+// DIMENSIUNI PENTRU Business Directory
+var dw_bd_tip = 'Premium'; // Standard/Starter/Profesional/Premium
+var dw_bd_categorie = '@CATEGORIE_PARTENER';
+
+ga('set', 'dimension7', dw_bd_tip);
+ga('set', 'dimension8', dw_bd_categorie);
+
+// END DIMENSIUNI
+
+
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+}
+}
+
+
+}
+

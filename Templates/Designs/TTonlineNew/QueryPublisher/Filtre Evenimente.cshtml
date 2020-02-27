@@ -1,0 +1,212 @@
+﻿
+
+<div class="row row-filtre-sectiune"  data-page-link="@pagelink">
+ <h4 class="block-title"><span>Filtreaza</span></h4>
+
+  <!-- Filtru de Tara-->
+ <div class="col-xs-4" style="margin-bottom: 10px;">
+ <select class="select-test" name="Tara" >
+    <option value="ValoareaDefault" selected data-groupid="AutorDefault">Tara</option>
+              @foreach(LoopItem tara in Tari) {
+
+                
+                                string facetValue = tara.GetString("FacetOption.Value");
+   								 string facetName = tara.GetString("FacetOption.Name");
+                                 string facetCount = tara.GetString("FacetOption.Count");
+                                bool isSelected = facetValue == verificareTara ? true : false;
+
+                            
+
+                                if (String.IsNullOrEmpty(facetName)) {
+                                    facetName = "Tari";
+                                }
+   
+  
+   
+   
+                          if (isSelected == true ) {
+                                  
+                                        <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount)</option>
+
+                                    }   
+
+                                else {
+                                    <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                }
+                                   
+  
+                   
+                            }
+  
+
+ </select>
+ </div>
+  <!-- End Filtru Tara-->
+
+ <!-- Filtru de Oras-->
+    <div class="col-xs-4" style="margin-bottom: 10px;">
+        <select class="select-test" name="Oras">
+    <option value="ValoareaDefault" selected data-groupid="OrasDefault">Oras</option>
+    @foreach(LoopItem oras in Orase) {
+                               
+                                string facetValue = oras.GetString("FacetOption.Value");
+               					string facetName = oras.GetString("FacetOption.Value");
+                                string facetCount = oras.GetString("FacetOption.Count");
+                                bool isSelected = facetValue == verificareOras ? true : false;
+
+                                if (facetValue == "Oras") {
+                                    facetValue = "Orase";
+                                }
+
+  
+                if (isSelected == true ) {
+                                  
+                                        <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount) </option>
+
+                                    }   
+
+                                else {
+                                    <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                }
+                            }
+
+
+        </select>
+     </div>
+  <!-- End Filtru Oras-->
+<!-- Filtru de Locatie-->
+    <div class="col-xs-4" style="margin-bottom: 10px;">
+        <select class="select-test" name="Locatie">
+    <option value="ValoareaDefault" selected data-groupid="LocatieDefault">Locatie</option>
+    @foreach(LoopItem locatie in Locatii) {
+                               
+                                string facetValue = locatie.GetString("FacetOption.Value");
+               					string facetName = locatie.GetString("FacetOption.Value");
+                                string facetCount = locatie.GetString("FacetOption.Count");
+                                bool isSelected = facetValue == verificareLocatie ? true : false;
+
+                                if (facetValue == "Locatie") {
+                                    facetValue = "Locatii";
+                                }
+
+  
+                if (isSelected == true ) {
+                                  
+                                        <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount) </option>
+
+                                    }   
+
+                                else {
+                                    <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                }
+                            }
+
+
+        </select>
+     </div>
+  <!-- End Filtru Locatie-->
+
+<!-- Filtru de Perioada-->
+    <div class="col-xs-4" style="margin-bottom: 10px;">
+        <select class="select-test" name="Perioada">
+    <option value="ValoareaDefault" selected data-groupid="PerioadaDefault">Perioada</option>
+    @foreach(LoopItem perioada in Perioade) {
+                               
+                                string facetValue = perioada.GetString("FacetOption.Value");
+               					string facetName = perioada.GetString("FacetOption.Value");
+                                string facetCount = perioada.GetString("FacetOption.Count");
+                                bool isSelected = facetValue == verificarePerioada ? true : false;
+
+                                if (facetValue == "Perioada") {
+                                    facetValue = "Perioade";
+                                }
+
+  
+                if (isSelected == true ) {
+                                  
+                                        <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount) </option>
+
+                                    }   
+
+                                else {
+                                    <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                }
+                            }
+
+
+        </select>
+     </div>
+  <!-- End Filtru Perioade-->
+<!-- Filtru de An-->
+    <div class="col-xs-4" style="margin-bottom: 10px;">
+        <select class="select-test" name="An">
+    <option value="ValoareaDefault" selected data-groupid="AnDefault">An</option>
+    @foreach(LoopItem an in Ani) {
+                               
+                                string facetValue = an.GetString("FacetOption.Value");
+               					string facetName = an.GetString("FacetOption.Value");
+                                string facetCount = an.GetString("FacetOption.Count");
+                                bool isSelected = facetValue == verificareAn ? true : false;
+
+                                if (facetValue == "An") {
+                                    facetValue = "Ani";
+                                }
+
+  
+                if (isSelected == true ) {
+                                  
+                                        <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount) </option>
+
+                                    }   
+
+                                else {
+                                    <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                }
+                            }
+
+
+        </select>
+     </div>
+  <!-- End Filtru Ani-->
+<!-- Filtru de Organizator-->
+    <div class="col-xs-4" style="margin-bottom: 10px;">
+        <select class="select-test" name="Organizator">
+    <option value="ValoareaDefault" selected data-groupid="OrganizatorDefault">Organizator</option>
+    @foreach(LoopItem organizator in Organizatori) {
+                               
+                                string facetValue = organizator.GetString("FacetOption.Value");
+               					string facetName = organizator.GetString("FacetOption.Value");
+                                string facetCount = organizator.GetString("FacetOption.Count");
+                                bool isSelected = facetValue == verificareOrganizator ? true : false;
+
+                                if (facetValue == "Organizator") {
+                                    facetValue = "Organizatori";
+                                }
+
+  
+                if (isSelected == true ) {
+                                  
+                                        <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount) </option>
+
+                                    }   
+
+                                else {
+                                    <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                }
+                            }
+
+
+        </select>
+     </div>
+  <!-- End Filtru Organizator-->
+
+   
+		<!-- Resetare filtre -->
+        <div class="col-xs-6">
+          <a class="btn btn-primary" href="/Default.aspx?ID=@pageId">Resetare Filtre</a>  
+        </div> 
+		<!--Resetare filtre end --> 
+
+
+</div> 
+

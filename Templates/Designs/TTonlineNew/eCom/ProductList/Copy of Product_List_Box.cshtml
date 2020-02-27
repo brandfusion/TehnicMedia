@@ -1,0 +1,153 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@Include("/Files/Templates/Designs/TTonline/Includes/Getimage_new.cshtml")
+@* @SnippetStart("bottomJS")
+<script src="@areaLayoutPath/assets/js/productList.js"></script>
+@SnippetEnd("bottomJS") *@
+
+
+@{
+var sortOption = "";
+var sortBy = System.Web.HttpContext.Current.Request["SortBy"];
+var sortOrder = System.Web.HttpContext.Current.Request["SortOrder"];
+
+string ParametruGrup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System.Web.HttpContext.Current.Request["GroupID"].ToString(): "";
+string ParametruProducator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
+string ParametruDealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
+
+int nrProduse = GetInteger("Ecom:ProductList.PageProdCnt");
+sortOption = sortBy + ","+sortOrder;
+
+}
+
+<script>
+ 
+  function sortOrderByTwo(arg){ 
+    var string = arg.value;
+    var SortBy = string.split(",")[0];
+    var SortOrder = string.split(",")[1];
+    var currentLink = window.location.href;
+   
+    if(currentLink.indexOf("eComQuery") >=0) {
+    
+      var urlSplit = window.location.href;
+      var urlSplitFinal = urlSplit.split("&")[0];
+     
+      var link = urlSplitFinal + "&SortBy=" + SortBy + "&SortOrder=" + SortOrder;
+    } else {
+     
+      if((window.location.href).indexOf("?") >= 0) {
+          var link = (window.location.href).split("?")[0] + "?SortBy=" + SortBy + "&SortOrder=" + SortOrder;
+        } else {
+          var link = window.location.href + "?SortBy=" + SortBy + "&SortOrder=" + SortOrder;
+        }
+  
+    }
+   
+    
+    window.location.href = link;
+  }
+  
+
+
+</script> 
+
+@if(ParametruProducator=="" && ParametruDealer == "" ){
+
+<div class="row" style="margin-top: -69px;">
+<div class="col-xs-12 col-sm-12 col-md-3 pull-left" style="background-color:rgba(0, 0, 0, 0.5);">@Include("/Files/Templates/Designs/TTonline/Custom/Product Filters.cshtml")</div>
+<div class="col-xs-12 col-sm-12 col-md-9"  data-group='@GetValue("Ecom:Group.ID")'> 
+  <div class="row">
+   @Include("/Files/Templates/Designs/TTonline/eCom/ProductList/BreadcrumbsShop.cshtml")
+  </div>
+  
+  @RenderSnippet("ShopFront")
+</div>
+</div>
+
+
+}else { if((ParametruProducator != "" || ParametruDealer != "" ) ||(ParametruProducator != "" && ParametruDealer != "" ) ) {
+	
+<div class="row">
+<div class="col-xs-12 col-sm-12 col-md-12"> 
+ @Include("/Files/Templates/Designs/TTonline/Custom/FiltreProdDealer.cshtml")
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-xs-12 col-sm-12 col-md-12"  data-group='@GetValue("Ecom:Group.ID")'> 
+ @RenderSnippet("ShopFront")
+   
+  
+</div>
+</div>
+}
+
+}
+
+	 @SnippetStart("SearchProduse")
+      <div class="product-search">
+       <input type="text" name="search-products" placeholder="Cautare produse"></input>
+        <button><i class="fa fa-search" aria-hidden="true"></i></button> 
+      </div>
+     @SnippetEnd("SearchProduse")
+
+
+  @SnippetStart("ShopFront") 
+
+@Include("ShopFront.cshtml")
+
+@Include("../../Custom/Pagination.cshtml")
+
+<script>
+    // ViewContent
+    // Track key page views (ex: product page, landing page or article)
+    fbq('track', 'ViewContent');
+</script> 
+
+<script type="text/javascript">
+    $('#productsOnPage').html($('.col-sm-6.product').length+' @Translate("products from", "produse din") '+@GetValue("Ecom:ProductList.PageProdCnt"));
+    $('#productsOnPageFooter').html($('.col-sm-6.product').length+' @Translate("products from", "produse din") '+@GetValue("Ecom:ProductList.PageProdCnt"));
+</script>
+
+
+<div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="background-color:rgba(255,255,255, 0.7);">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content" >
+        @RenderParagraphContent(120)
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
+   </div>
+</div>
+  
+@SnippetEnd("ShopFront")
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-26068739-1', 'auto');
+
+
+// START DIMENSIUNI
+
+// DIMENSIUNI PENTRU I Buy Smart
+var dw_ibs_categorie = '@GetValue("Ecom:Group.Name")';
+var dw_ibs_producator = '@ParametruProducator';
+var dw_ibs_dealer = '@ParametruDealer';
+  //var dw_ibs_promovat = 'DA_NU';
+
+ga('set', 'dimension4', dw_ibs_categorie);
+ga('set', 'dimension5', dw_ibs_producator);
+ga('set', 'dimension6', dw_ibs_dealer);
+  //ga('set', 'dimension10', dw_ibs_promovat);
+
+// END DIMENSIUNI
+
+
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+

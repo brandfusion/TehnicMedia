@@ -1,0 +1,23 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+
+
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+	foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+	  string itemImage = item.GetString("ItemPublisher:Item.ImaginePrincipala.Value");
+   	string itemTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+    string itemURL = item.GetString("ItemPublisher:Item.Url");
+   	string itemVisits = item.GetString("ItemPublisher:Item.Visits.Value");
+	  string itemSummary = item.GetString("ItemPublisher:Item.Sumar");
+    string urlEditorial = "/Default.aspx?ID=25";
+                      
+    <h3 class="block-title"><span><a href="@urlEditorial">@Translate("Editorial","Editorial")</a></span></h3>
+    <article class="widget-post clearfix">
+      <h3><a href='@itemURL'>@itemTitle</a></h3>
+      <p>@itemSummary</p>
+      <p class="text-right"><a href="@itemURL" id="editorialLink">@Translate("citeste","Mai mult")</a></p>  
+      @* <a class="btn btn-primary" href="@itemURL" type="button" style="width: 100%; margin-bottom: 10px;">@Translate("citeste","Citeste") </a> *@
+      @* <a class="btn btn-primary" href="@urlEditorial" type="button" style="width: 100%;">@Translate("Toate_editorialele","Toate editorialele")</a> *@
+    </article>
+  }
+}

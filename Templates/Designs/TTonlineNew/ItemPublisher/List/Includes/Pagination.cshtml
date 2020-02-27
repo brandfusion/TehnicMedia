@@ -1,0 +1,36 @@
+@if(GetInteger("ItemPublisher:Items.Paging.TotalPages") >1)
+{
+<nav>
+    <ul class="pagination pagination-sm">
+        @if(GetInteger("ItemPublisher:Items.Paging.CurrentPage") >1)
+      	{
+			<li>
+			    
+          <a style="margin-right: 0.2em" href="Default.aspx?ID=@globalPageID&PID=0&page=1">«  </a>
+          <a href='@GetValue("ItemPublisher:Items.Paging.PrevPage")' aria-label='@Translate("paginaAnterioara", "Pagina anterioara")'><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></a>
+          
+        
+
+        
+			</li>
+		}
+
+        @foreach (LoopItem i in GetLoop("ItemPublisher:Items.Paging.Pages5")){
+            
+               if(i.GetBoolean("ItemPublisher:Items.Paging.Pages5.Page.IsCurrent")){
+                <li class="active"><a href='@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.UrlHtmlEncoded")'>@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.Number")</a></li>
+                }else{
+  				<li><a href='@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.UrlHtmlEncoded")'>@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.Number")</a></li>
+                }
+        }
+        
+        @if(GetInteger("ItemPublisher:Items.Paging.TotalPages") > GetInteger("ItemPublisher:Items.Paging.CurrentPage"))
+		{
+            <li>
+                <a href='@GetValue("ItemPublisher:Items.Paging.NextPage")' aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></a>
+                <a href="Default.aspx?ID=@globalPageID&page=@lastPage">» </a>
+            </li>
+        }
+    </ul>
+</nav>
+}

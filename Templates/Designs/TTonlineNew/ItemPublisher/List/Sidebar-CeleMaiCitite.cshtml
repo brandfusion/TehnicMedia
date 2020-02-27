@@ -1,0 +1,43 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@Include("/Files/Templates/Designs/TTonline/Includes/GetImage_new.cshtml")
+@{
+int counterarticole =1;
+}
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+	DateTime thresholdDate = DateTime.Now.AddMonths(-6);
+
+  	foreach(LoopItem item in GetLoop("ItemPublisher:Items.List").OrderByDescending(i => i.GetInteger("ItemPublisher:Item.Visits.Value"))){
+
+	    string mainImageRaw = item.GetString("ItemPublisher:Item.ImaginePrincipala.Value");
+        string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 95, 80) + "&bgcolor=white"  : "/Files/Images/NoImage/95x80.png";   		
+			
+
+        string itemTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+        string itemURL = item.GetString("ItemPublisher:Item.Url");
+        string itemVisits = item.GetString("ItemPublisher:Item.Visits.Value");
+        
+        var itemDateRaw = item.GetValue("ItemPublisher:Item.Data"); 
+        DateTime itemDate = itemDateRaw is DateTime ? (DateTime)itemDateRaw : DateTime.MinValue;
+
+        if(itemDate > thresholdDate){
+            if(counterarticole <6){
+                <article class='widget-post clearfix'>
+                    <div class="simple-thumb">  
+                    <img src='@mainImage' alt="@itemTitle" />
+                    </div>
+                    <header>
+                        <h3>
+                            <a href='@itemURL'>@itemTitle</a>
+                        </h3>
+                        <p class="simple-share">
+                        @* <span><i class="fa fa-eye"></i> @itemVisits @Translate("vizualizari","vizualizari")</span> *@
+                        </p>
+                    </header>
+                </article>
+            }
+            counterarticole++;
+        }
+
+    }
+}

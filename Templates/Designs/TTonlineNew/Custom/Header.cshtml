@@ -1,0 +1,136 @@
+﻿@{
+	bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
+    string logo = GetString("Item.Area.Logo");
+} 
+<header class="header-wrapper clearfix">
+
+    <div class="header" id="header">
+        <div class="container-fluid header-first-container">
+              <div class="mag-content">
+                <div class="container">
+                        <div class="row header-first-row">
+                            <div class="col-md-9 visible-lg visible-md" id="motto">
+                                    <a class="logo" href="/Defaul.aspx?ID=@firstPageId" title="" rel="home">
+                                        <img src="@logo"> 
+                                   </a><!-- .logo -->
+                                   <h4 >Industry – Business Opportunities</h4>
+                            </div><!--End of col-md-9 visible-lg visible-md-->
+                            
+                            <div class="col-md-2 visible-lg visible-md text-right username">                 
+
+                              @if (userIsLoggedIn) {
+                                string userName = !string.IsNullOrWhiteSpace(Pageview.User.Name) ? Pageview.User.Name : string.Format("{0}{1}", Pageview.User.FirstName, Pageview.User.LastName);
+
+                                <div class="welcomeBack hidden-print text-left">
+                                  @Translate("welcome", "Welcome"), <span> @(!string.IsNullOrWhiteSpace(userName) ? userName : Pageview.User.UserName)</span>
+                                </div>
+                              }
+
+                            </div> 
+                            <div id="social-icon" class="social-icon">
+                                <a class="facebook" href='@Pageview.Area.Item["FacebookLink"]' target="_blank"> <i class="fa fa-facebook fa-2x padding" aria-hidden="true"></i> </a>
+                                <a class="twitter" href='@Pageview.Area.Item["TwitterLink"]' target="_blank">  <i class="fa fa-twitter fa-2x  padding" aria-hidden="true"></i>  </a>
+                            </div>
+
+                         </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="container-fluid header-second-container">
+                    <div class="mag-content">
+
+                        <div class="container">
+                            <div class="row header-second-row"> 
+                                <div class="col-md-12">
+                                    
+                                    <!-- Mobile Menu Button -->
+                                    <a class="navbar-toggle collapsed" id="nav-button" href="#mobile-nav">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </a><!-- .navbar-toggle -->
+                                    <!-- Main Nav Wrapper -->
+                                    <nav class="navbar mega-menu">
+                                            <a class="logo hidden-lg hidden-md" href="/Default.aspx?ID=@firstPageId" title="" rel="home" >
+                                                <img src="@logo">
+                                           </a><!-- .logo -->
+                                        <!-- Navigation Menu -->
+                                        <div class="navbar-collapse collapse">
+                                            @RenderNavigation(new {
+                                              template = "MainNavigation.xslt",
+                                              expandmode = "all",
+                                              id = "header-nav",
+                                              startlevel = 1,
+                                              listStyle = "top-navigation",
+                                              endlevel = 2
+                                            })                              
+                                        </div><!-- .navbar-collapse -->              
+                                        <!-- End Navigation Menu -->
+                                          
+
+
+                                    <div class="btn-group dropdown-login">
+              <button class="btn btn-default btn-sm dropdown-toggle dropdown-login" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user fa-1x" aria-hidden="true">&nbsp; &nbsp;</i><span class=""></span>
+              </button>
+              <ul class="dropdown-menu">
+                  <!-- Button trigger modal -->
+                  
+                  @if (userIsLoggedIn)
+                  {
+                      <li><a href="/Admin/Public/ExtranetLogoff.aspx?ID=1">Logout</a></li>	
+                  } else {
+                      <li><a href="/Default.aspx?ID=4256">Log in</a></li>
+                  	  <li><a href="/Default.aspx?ID=4255">@Translate("Inregistrare","Inregistrare")</a></li>
+                  } 
+              </ul>
+            </div>
+                                   <!-- Single button -->
+                                     
+                                        <div class="header-right galaxy-s5 nexus-5x iphone-6">
+                                            <div class="social-icons">
+
+                                                @{
+                                                   var languageSwitcherValue = "";
+                                                   foreach (var language in GetLoop("Languages")) {
+                                                        if (language.GetBoolean("IsCurrent")) {
+                                                         languageSwitcherValue = language.GetString("Culture");
+                                                        }
+                                                   }
+                                                }
+                                                @if (languageSwitcherValue == "ro-RO") { 
+                                                    <a href="/" class="selected">RO</a> <span>|</span> <a href="/Default.aspx?ID=5557">EN</a> 
+                                                }
+                                                @if (languageSwitcherValue == "en-US") { 
+                                              <a href="/">RO</a> <span>|</span> <a href="Default.aspx?ID=5557" class="selected">EN</a>  
+                                                }                                                   
+                                              
+                                                @* <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook fa-lg"></i></a>
+                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter fa-lg"></i></a>
+                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i class="fa fa-google-plus fa-lg"></i></a>
+                                                <!-- Only for Fixed Sidebar Layout -->
+                                                <a href="#" class="fixed-button navbar-toggle" id="fixed-button">
+                                                    <i></i>
+                                                    <i></i>
+                                                    <i></i>
+                                                    <i></i>
+                                                </a><!-- .fixed-button -->*@
+                                            </div><!-- .social-icons -->
+                                        </div><!-- .header-right -->
+
+                                        @Include("../eCom/Search/Search.cshtml")    
+                                    </nav><!-- .navbar -->
+
+                                                         
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                </div><!--.container -->
+            </div><!-- .mag-content -->
+        </div><!-- .container -->
+    </div><!-- .header -->
+
+</header><!-- .header-wrapper -->

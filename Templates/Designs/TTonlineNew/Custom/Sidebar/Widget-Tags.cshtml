@@ -1,0 +1,14 @@
+﻿<div class="widget tagwidget">
+	<h3 class="block-title"><span>@Translate("Tags","Tags")</span></h3>
+
+  @RenderItemList(new
+            {
+                ItemType = "Taxonomie_Taguri",
+                ListSourceType = "ItemEntries",
+                ItemFieldsList = "*",
+                ListTemplate = "ItemPublisher/List/Sidebar-Taguri.cshtml",
+                ListPageSize = 10,
+                ListOrderBy = "Usage",
+                ListOrderByDirection = "Descending"
+            })
+</div>

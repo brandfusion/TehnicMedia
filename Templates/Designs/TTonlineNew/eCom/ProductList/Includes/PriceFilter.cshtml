@@ -1,0 +1,17 @@
+﻿@{
+string priceFilterMin = "0";
+string priceFilterMax = "0";
+
+	@*foreach (LoopItem facetGroup in GetLoop("FacetGroups")) {
+		foreach (LoopItem facet in facetGroup.GetLoop("Facets").Where(f => f.GetString("Facet.Name").StartsWith("Ignore_ProductPrice"))) {
+			
+			List<LoopItem> facetOptionsList = facet.GetLoop("FacetOptions");
+
+			double priceRaw;
+			var prices = facetOptionsList.Where(o => o.GetInteger("FacetOption.Count") > 0).Select(o => double.TryParse(o.GetString("FacetOption.Value"), out priceRaw) ? priceRaw : 0).ToList();
+				
+			priceFilterMin = prices.Min().ToString();
+			priceFilterMax = prices.Max().ToString();
+		}
+	}*@
+}

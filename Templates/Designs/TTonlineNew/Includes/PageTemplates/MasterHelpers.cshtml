@@ -1,0 +1,219 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@using System.Text.RegularExpressions
+
+@helper OgMeta(string designName)
+{
+if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductID"]))
+{
+      @SnippetStart("OGMeta")<meta property="og:title" content='@GetString("Title")' />
+        @* <meta property="og:image" content='@Pageview.GlobalTags.GetTagByName("Global:Request.Scheme").Value.ToString()://@Pageview.GlobalTags.GetTagByName("Global:Request.Host").Value.ToString()/Files/Templates/Designs/@designName/images/logo.png' /> *@
+        <meta property="og:site_name" content='@Pageview.Area.Name' />
+        <meta property="og:url" content='@Pageview.GlobalTags.GetTagByName("Global:Request.Scheme").Value.ToString()://@Pageview.GlobalTags.GetTagByName("Global:Request.Host").Value.ToString()@Pageview.GlobalTags.GetTagByName("Global:Pageview.Url").Value.ToString()' />
+        <meta property="og:description" content='@StripHtml(GetString("Meta.Description"))' />
+        <meta property="og:type" content="article" />
+        <meta property="og:locale" content='@Pageview.GlobalTags.GetTagByName("Global:Area.LongLang").Value.ToString().Replace("-", "_")' />
+        @SnippetEnd("OGMeta")
+  }
+}
+@helper HtmlHead(string designName)
+{
+  string designFolder = GetString("Template:DesignBaseUrl");
+  string robots = "";
+  string ipCountry = "RO";//Dna.IP.Frontend.GetCountryCode();
+  string countryCodeModule = !string.IsNullOrEmpty(ipCountry) ? ipCountry : "RO";
+  string userCountryCode = (Pageview.User != null && !string.IsNullOrEmpty(Pageview.User.Country)) ? Pageview.User.Country : ipCountry;
+  string userState = Pageview.User != null ? Pageview.User.State : string.Empty;
+  string userAccountsNumber = (System.Web.HttpContext.Current.Session["AccountsNumber"] ?? "").ToString();
+  robots = (GetBoolean("Item.Area.DemoBanner") || GetBoolean("Item.Area.NoIndex")) ? CommaSplittedString(robots, "noindex") : "";
+  robots = (GetBoolean("Item.Area.DemoBanner") || GetBoolean("Item.Area.NoFollow")) ? CommaSplittedString(robots, "nofollow") : "";
+
+  <head data-settings="disableparsing:true;">
+    <title>@GetString("Title")</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="@(designFolder)images/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@(designFolder)images/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@(designFolder)images/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@(designFolder)images/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="@(designFolder)images/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="@(designFolder)images/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="@(designFolder)images/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="@(designFolder)images/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-128.png" sizes="128x128" />
+    <meta name="application-name" content="&nbsp;"/>
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="@(designFolder)images/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="@(designFolder)images/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="@(designFolder)images/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="@(designFolder)images/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="@(designFolder)images/mstile-310x310.png" />
+
+    @if (!string.IsNullOrEmpty(robots))
+    {
+      <meta name="robots" content="@robots">
+    }
+    @OgMeta(designName)
+    @RenderSnippet("OGMeta")
+    @GetString("MetaTags")
+    @GetString("CopyRightNotice")
+    @GetString("Stylesheets")
+
+    @* <link rel="shortcut icon" href="@(designFolder)images/favicon.ico" type="image/x-icon" /> *@
+
+    <!-- Icon Font -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    @{
+      var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
+      var styleBundle = Dna.Optimizer.Renderer.RenderStyles(string.Format("{0}css", designFolder), minify, true, "-main-styles", new[] { "exceptions" });
+      var scriptBundleHeader = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/header", designFolder), minify, true, "-main-scripts-header", new[] { "exceptions" });
+      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+    }
+    <link rel="stylesheet" href="@styleBundle" />
+    <script src="@scriptBundleHeader"></script>
+    @GetString("Javascripts")
+    @RenderSnippet("externalScripts")
+    @SnippetStart("externalScripts") @SnippetEnd("externalScripts")
+    <!--[if lte IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+    <![endif]-->
+    <script>
+      @RenderSnippet("jsVariables")
+      @SnippetStart("jsVariables") @SnippetEnd("jsVariables")
+
+      var obj_pages = {
+        str_miniCart: '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.MiniCart"))',
+        str_login: '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.Login"))',
+        str_globalTranslates: '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.GlobalTranslates"))',
+        str_contactPopup : '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.ContactUs_Popup"))',
+        str_cartInformation: '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.Cart_Information"))',
+        str_typeAhead : '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.TypeAhead"))'
+      },
+      obj_user = {
+        str_country: '@userCountryCode',
+        str_state: '@userState',
+        str_accountsNumber:'@userAccountsNumber'
+      },
+      obj_settings = {
+        str_contactTimeout: '@GetString("Item.Area.Time")',
+        str_cartQty: '@GetString("Ecom:Order.OrderLines.TotalProductQuantity")'
+      },
+      obj_translates = {
+        str_seeAll: '@Translate("seeAllThe", "See all the")',
+        str_results: '@Translate("results", "results")'
+      };
+      $(function () {
+        @UserDoesNotExist()
+        @RenderSnippet("jsOnLoadVariables")
+        @SnippetStart("jsOnLoadVariables") @SnippetEnd("jsOnLoadVariables")
+        @RenderSnippet("jsOnLoad")
+        @SnippetStart("jsOnLoad") @SnippetEnd("jsOnLoad")
+      });
+      
+      @if(!string.IsNullOrWhiteSpace(GetString("Item.Area.GoogleAnalytics")))
+      {
+          <text>
+          (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+              (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+          })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+          ga('create', '@GetString("Item.Area.GoogleAnalytics")', 'auto');
+          ga('send', 'pageview');
+          </text>
+      }
+      @SnippetStart("eCommerceTracking")@SnippetEnd("eCommerceTracking")
+      @RenderSnippet("eCommerceTracking")
+      </script>
+
+      <!-- Global site tag (gtag.js) - Google Ads: 970361168 --> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-970361168"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-970361168'); </script>
+
+      <!-- Hotjar Tracking Code for https://ttonline.ro -->
+    <script>
+      (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1231893,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Global site tag (gtag.js) - Google Ads: 1010029401 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-1010029401"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-1010029401');
+    </script>
+
+  </head>
+}
+@helper UserDoesNotExist()
+{
+  if (Dynamicweb.Environment.ExecutingContext.IsFrontEnd() && !Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn())
+  {
+    if (!string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Password"]) && !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Username"]))
+    {
+        @SnippetStart("jsOnLoad")
+        @:var showLogin = true;
+        @:alert("@Translate("yourUserNameOrPasswordDidntMatch", "Your user name or password didn't match. Please try again.")");
+        @SnippetEnd("jsOnLoad")
+    }
+  }
+}
+@helper Logo(string cssclass, string companyName, string fileName)
+{
+  if (!string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["print"]))
+  {
+    <div class="@cssclass">
+      <a href="/">
+        <img class="img-responsive hidden-print" src="images/@(fileName)" alt="@companyName" title="@companyName" />
+        <img class="img-responsive visible-print" src="/Files/Images/logo_TT.png" alt="@companyName" title="@companyName" />
+      </a>
+    </div>
+  }
+  else
+  {
+    <div class="@cssclass">
+      <a href="/">
+        <img class="img-responsive" src="images/@(fileName)" alt="@companyName" title="@companyName" />
+      </a>
+    </div>
+  }
+}
+
+@helper Copyright()
+{
+  <div class="copyright">&copy; @DateTime.Now.Year @GetString("Item.Area.CompanyName") - @GetString("Item.Area.Copyright")</div>
+}
+@functions {
+  private string CommaSplittedString(string CommaSplittedString, string NewString)
+  {
+
+    if (!string.IsNullOrEmpty(CommaSplittedString))
+    {
+      CommaSplittedString += ", ";
+    }
+    CommaSplittedString += NewString;
+
+    return CommaSplittedString;
+  }
+  public static string StripHtml(string source)
+  {
+    return Regex.Replace(source, "<.*?>", string.Empty);
+  }
+}

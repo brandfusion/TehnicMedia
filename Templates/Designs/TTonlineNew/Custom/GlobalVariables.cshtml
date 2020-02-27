@@ -1,0 +1,13 @@
+﻿@{
+		    
+	string areaLayoutPath = "/Files/Templates/Designs/TTonline/";		
+	areaLayoutPath = areaLayoutPath.Substring(0, areaLayoutPath.LastIndexOf("/"));
+
+	string Layout_Style = GetString("Item.Area.Layout_Style.Value"),
+    Template_Style = GetString("Item.Area.Template_Style.Value"),
+    Sticky_Header = GetString("Item.Area.Sticky_Header.Value"),
+    Template_Color = GetString("Item.Area.Template_Color.Value"),
+	bodyStyle = Layout_Style + " " + Template_Style + " " + Sticky_Header + " " + Template_Color;
+
+}
+

@@ -1,0 +1,214 @@
+﻿@functions {
+
+//public class Session
+//{
+//public string Id;
+//public string Title;
+//public DateTime StartTime;
+//public DateTime EndTime;
+//public bool IsBreak;
+//public string Description;
+//public string Type;
+//public string Url;
+//public string AllowedGroups;
+//public string Location;
+//public string Level;
+//public int NumberOfSeats;
+//public int NumberOfReservedSeats;
+//public List<Speaker>
+    //Speakers;
+    //public List<Speaker>
+        //Moderatori;
+        //public LoopItem Item;
+        //}
+
+        public class Autor
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+		public string Description;
+		public string Image;
+		public string Persoana;
+        }
+
+        public class Companie
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        public string Logo;
+        }
+
+        public class RelevantaGeografica
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+        public class Tag
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+        public class Sectiune
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+        public class Editie
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+
+
+		public static string StripHtmlTagByCharArray(string htmlString)
+        {
+            char[] array = new char[htmlString.Length];
+            int arrayIndex = 0;
+            bool inside = false;
+        
+            for (int i = 0; i < htmlString.Length; i++)
+            {
+                char let = htmlString[i];
+                if (let == '<')
+                {
+                    inside = true;
+                    continue;
+                }
+                if (let == '>')
+                {
+                    inside = false;
+                    continue;
+                }
+                if (!inside)
+                {
+                    array[arrayIndex] = let;
+                    arrayIndex++;
+                }
+            }
+            return new string(array, 0, arrayIndex);
+        }
+
+
+        private List<Autor> GetAutori(string autoriList)
+            {
+            var autori = new List<Autor> ();
+
+            if(!string.IsNullOrEmpty(autoriList)){
+                string[] itemIdList = autoriList.Split(',');
+                foreach (string itemId in itemIdList)
+                {
+                    var autor = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Autori", itemId);
+                    if (autor != null)
+                    {
+                        autori.Add(new Autor
+                        {
+                        Id = itemId,
+                        Name = autor["Name"] != null ? autor["Name"].ToString() : "",
+						Image = autor["Image"] != null ? autor["Image"].ToString() : "",
+						Description = autor["Description"] != null ? autor["Description"].ToString() : "",
+						Link = "/Default.aspx?ID=4250&autor="+itemId,
+						Persoana = autor["Persoana_Companie"] != null ? autor["Persoana_Companie"].ToString() : ""
+                        });
+                    }
+                }
+            }   
+
+            return autori;
+        }
+
+    private List<RelevantaGeografica> GetRelevanta(string relevantaList)
+    {
+        var relevante = new List<RelevantaGeografica> ();
+
+        if(!string.IsNullOrEmpty(relevantaList)){
+            string[] itemIdList = relevantaList.Split(',');
+            foreach (string itemId in itemIdList)
+            {
+                var relevanta = Dynamicweb.Content.Items.Item.GetItemById("RelevantaGeografica", itemId);
+                if (relevanta != null)
+                {
+                    relevante.Add(new RelevantaGeografica
+                    {
+                    Id = itemId,
+                    Name = relevanta["Name"] != null ? relevanta["Name"].ToString() : "",
+                    Link = ""
+                    });
+                }
+            }
+        }
+
+        return relevante;
+    }
+
+
+    private List<Sectiune> GetSectiuni(string sectiuniList)
+    {
+        var sectiuni = new List<Sectiune> ();
+
+         return sectiuni;
+
+    }
+
+    private List<Tag> GetTaguri(string taguriList)
+    {
+        var taguri = new List<Tag>();
+        if(!string.IsNullOrEmpty(taguriList)){
+            string[] itemIdList = taguriList.Split(',');
+            foreach (string itemId in itemIdList)
+                {
+                var tag = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Taguri", itemId);
+                if (tag != null)
+                {
+                taguri.Add(new Tag
+                    {
+                        Id = itemId,
+                        Name = tag["Name"] != null ? tag["Name"].ToString() : "",
+                        Link = "Default.aspx?ID=4252&tag="+itemId
+                    });
+                }
+                }
+        }
+            return taguri;
+
+    }
+
+
+    private List<Companie> GetCompany(string companyList)
+    {
+        var companies = new List<Companie> ();
+        if(!string.IsNullOrEmpty(companyList)){
+            string[] itemIdList = companyList.Split(',');
+            foreach (string itemId in itemIdList)
+                {
+                var companie = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Companii", itemId);
+                if (companie != null)
+                {
+                companies.Add(new Companie
+                    {
+                    Id = itemId,
+                    Name = companie["Name"] != null ? companie["Name"].ToString() : "",
+                    Logo = companie["Logo"] != null ? companie["Logo"].ToString() : "",
+                    Link = "/Default.aspx?ID=4271&companie="+itemId
+                    });
+                }
+            }
+        }
+        return companies;
+
+    }
+
+    
+
+
+
+}

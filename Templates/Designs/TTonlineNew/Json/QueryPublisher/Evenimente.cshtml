@@ -1,0 +1,107 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+   
+@functions{
+    
+
+    public class EvenimenteContainer
+    {
+        public string title { get; set; }
+        public string startDay { get; set; }
+        public string startMonth { get; set; }
+        public string An { get; set; }
+        public string endDay {get; set;}
+        public string endMonth {get; set;}
+        public string link {get; set;}
+        public string Organizator {get; set;}
+        public string Tara {get; set;}
+        public string Oras {get; set;}
+        public string URLEveniment {get; set;}
+        public string Afis {get; set;}
+        public string Locatie {get; set;}
+        public string LocatieClean {get; set;}
+        public string TaraClean {get; set;}
+        public string OrasClean {get; set;}
+        public string Perioada {get; set;}
+        public string Program {get; set;}
+        public string Pret {get; set;}
+        public string Contact {get; set;}
+        public string Descriere { get; set;}
+     }
+	
+    public class Root
+    {
+        
+        public List<EvenimenteContainer> EvenimenteContainer {get; set;}
+        
+	}
+}
+@{
+    var results = GetLoop("QueryResultItem");
+    var counterEvenimente = 1;
+    List<Root> feedObject = new List<Root>();
+    List<EvenimenteContainer> articleFeedObject = new List<EvenimenteContainer>();
+    Root feedRoot = new Root();
+    feedRoot.EvenimenteContainer = new List<EvenimenteContainer>();
+    
+    foreach (LoopItem result in results){
+        EvenimenteContainer EvenimentContainerObject = new EvenimenteContainer();
+        EvenimentContainerObject.title = result.GetString("Eveniment_Titlu");
+        DateTime dataInceput = result.GetDate("Eveniment_Data_Inceput");
+        EvenimentContainerObject.startDay = dataInceput.ToString("dd");
+        EvenimentContainerObject.startMonth = dataInceput.ToString("MMMM"); 
+        EvenimentContainerObject.An = dataInceput.ToString("yyyy");
+        DateTime dataFinal = result.GetDate("Eveniment_Data_Final");
+        EvenimentContainerObject.endDay = dataFinal.ToString("dd");
+        EvenimentContainerObject.endMonth = dataFinal.ToString("MMMM"); 
+        EvenimentContainerObject.URLEveniment = result.GetString("Eveniment_Link");
+        int counter = result.GetInteger("QueryResultItem.LoopCounter");
+        EvenimentContainerObject.Organizator =result.GetString("Eveniment_Autor");
+        EvenimentContainerObject.Tara =result.GetString("Eveniment_Tara");
+        string pageId = result.GetString("PageIdString");
+        EvenimentContainerObject.link = "/Default.aspx?ID=" + pageId;
+        EvenimentContainerObject.Afis = result.GetString("Eveniment_Afis");
+        EvenimentContainerObject.Oras = result.GetString("Eveniment_Oras");
+        EvenimentContainerObject.OrasClean = result.GetString("Eveniment_Oras").Replace(" ", "_");
+        EvenimentContainerObject.TaraClean =result.GetString("Eveniment_Tara").Replace(" ", "_");
+        EvenimentContainerObject.LocatieClean =result.GetString("Eveniment_Locatie").Replace(" ", "_");
+        EvenimentContainerObject.Locatie =result.GetString("Eveniment_Locatie");
+        EvenimentContainerObject.Perioada = result.GetString("Eveniment_Perioada");
+        EvenimentContainerObject.Program = result.GetString("Eveniment_Program");
+        EvenimentContainerObject.Pret = result.GetString("Eveniment_Pret_Bilet");
+        EvenimentContainerObject.Descriere = result.GetString("Eveniment_Descriere");
+        EvenimentContainerObject.Contact = result.GetString("Eveniment_DateContactOrganizator");
+        
+        counterEvenimente++;
+	    feedRoot.EvenimenteContainer.Add(EvenimentContainerObject);
+    }
+
+//Parameters
+//FacetGroups
+//Query.Parameters
+//QueryResultItem
+//DwPaging.LoopAllPages
+//DwPaging.LoopPageGroup
+
+
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = "";
+
+    if (results.Count == 0)
+    {
+        jsonFeed = "[]";
+    }
+    else
+    {
+        jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed
+
+

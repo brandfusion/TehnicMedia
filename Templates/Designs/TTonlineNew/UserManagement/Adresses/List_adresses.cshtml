@@ -1,0 +1,142 @@
+﻿@{
+	var user = Dynamicweb.Modules.UserManagement.User.GetCurrentUser();
+	System.Collections.Generic.Dictionary<string,string> userCustomFields = new System.Collections.Generic.Dictionary<string,string>();
+	foreach (var field in user.CustomFieldValues){
+	      userCustomFields[field.CustomField.SystemName] = field.Value.ToString();
+	}
+	System.Collections.Generic.Dictionary<string, object> root = new System.Collections.Generic.Dictionary<string,object>();
+	foreach (LoopItem i in GetLoop("UserManagement:User.UserAddresses"))
+	{
+        System.Collections.Generic.Dictionary<string, string> address = new System.Collections.Generic.Dictionary<string,string>();
+        address["description"] = i.GetString("UserManagement:User.UserAddress.Description");
+		address["address"] = i.GetString("UserManagement:User.UserAddress.Address");
+        address["state"] = i.GetString("UserManagement:User.UserAddress.State");
+        address["city"] = i.GetString("UserManagement:User.UserAddress.City");
+        address["default"] = i.GetString("UserManagement:User.UserAddress.Default");
+        address["addresses"] = i.GetString("UserManagement:User.UserAddress.Address2");
+        root.Add(i.GetString("UserManagement:User.UserAddress.ID"), address);
+	}   
+	System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    string serialized = serializer.Serialize(root);   
+}
+<script>
+	var addresses = @serialized;
+</script>
+
+<div id="account-page">      
+  <div class="container">
+    <div class="row">
+    
+      <!--@Include(../../Custom/Profile_menu.cshtml)-->
+      
+      <div class="col-xs-9">
+        <div class="row">
+          <div class="col-xs-12 profile">
+               
+            <h1 class="pull-left">@Translate("myAccount", "Contul meu")</h1>
+            <p class="pull-left">@Translate("welcome", "Welcome") @userCustomFields["AccessUser_Prenume"] @user.Name!</p>
+           
+          </div>
+          <div class="col-xs-12 content">
+          	<div class="account-content add">
+	          	@if ( GetLoop("UserManagement:User.UserAddresses").Count == 1 ){
+	              <text>@Translate("noAddressDefined", "No address defined")<br /></text>
+	            }
+	            <a href="#" id="creati" class="btn-main">@Translate("addAddress", "Add an address")</a>
+            </div>
+	         
+            <div class="address">
+              <div class="row">
+	            @{bool first = true;}
+				@foreach (LoopItem i in GetLoop("UserManagement:User.UserAddresses")){
+				if (first){ first = false;}
+					else{
+						<div class="col-xs-4">
+                          <div class="box-address">
+							<strong>@i.GetValue("UserManagement:User.UserAddress.Description")</strong><br />
+							<div class="txt-address">
+							     @i.GetValue("UserManagement:User.UserAddress.Address")<br />
+							     @i.GetValue("UserManagement:User.UserAddress.State")<br />
+							     @i.GetValue("UserManagement:User.UserAddress.City")<br />
+							  <input type="submit" value='@Translate("edit", "EDIT")' name="update" address_id="@i.GetValue("UserManagement:User.UserAddress.ID")" />
+							  <a href="#" class="delete" address_id="@i.GetValue("UserManagement:User.UserAddress.ID")">@Translate("deleteAddress", "Delete address")</a>
+							  @if (i.GetString("UserManagement:User.UserAddress.Default") == "True"){
+							  	<p class="default" address_id="@i.GetValue("UserManagement:User.UserAddress.ID")"><strong>@Translate("defaultAddress", "Default address")</strong></p>
+							  } else {
+							  	<a href="#" class="default" name="update" address_id="@i.GetValue("UserManagement:User.UserAddress.ID")">@Translate("makeDefault", "Make Default")</a>
+							  }
+							</div>
+                          </div>
+						</div>
+					}
+				}
+	            <div class="clearfix"></div>
+              </div>
+            </div>
+            <div id="addresses">
+	            <div class="account-header">
+	              <h2>@Translate("addAddress", "Add address and billing info")</h2>
+	            </div>
+	            <div class="account-content form-account"> 
+	              <p>@Translate("mandatory", "*Fields are mandatory")</p>
+	              <!--!Add address-->
+	              <form name="AddressForm" id="AddressForm" action="/Default.aspx?ID=@Pageview.Page.ID&ObjectID=@user.ID&Action=ManageAddresses" method="post">
+	              	<input type="hidden" id="ManageAddressesFormAction" name="ManageAddressesFormAction" />
+		            <input type="hidden" id="AddAddressesForm" name="AddAddressesForm" value="1" />
+		            <input type="hidden" id="UserId" name="UserId" value="@user.ID" />
+		            <input type="hidden" name="Address2" />
+		            <div>
+		              <label>@Translate("description", "Description"):</label>
+		              <input type="text" id="Description" name="Description" />
+		            </div>
+		            <div>
+		              <label>@Translate("company", "Company name"):</label>
+		              <input type="text" id="Company" name="Company" />
+		            </div>
+		            <div>
+		              <label>@Translate("cui", "CUI"):</label>
+		              <input type="text" id="Cui" name="Cui" />
+		            </div>
+		            <div>
+		              <label>@Translate("registration", "Reg.com"):</label>
+		              <input type="text" id="Registru" name="Registru" />
+		            </div>
+		            <div>
+		              <label>@Translate("bank", "Bank"):</label>
+		              <input type="text" id="Bank" name="Bank" />
+		            </div>
+		            <div>
+		              <label>@Translate("account", "Account"):</label>
+		              <input type="text" id="Account" name="Account" />
+		            </div>
+		            <div>
+		              <label>@Translate("default", "Is Default"):</label>
+					  <input type="checkbox" id="IsDefault" name="Default">
+		            </div>
+		            <div>
+		              <label>@Translate("address", "Address"):</label>
+					  <input type="text" id="Address" name="Address">
+		            </div>
+		            <div>
+		              <label>@Translate("state", "State"):</label>  
+		              <input type="text" id="State" name="State" />
+		            </div>
+		            <div>
+		              <label>@Translate("city", "City"):</label>  
+		              <input type="text" id="City" name="City" />
+		            </div>
+		            <div class="clearfix">                  
+		              <input type="submit" value='@Translate("save", "Save")' id="submitter" class="pull-right" />
+		              <input type="button" value='@Translate("cancel", "Cancel")' id="cancel" class="btn-gray pull-right"  />		             
+		            </div>
+		          </form>
+		          <!--!End add address-->
+	            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>                        
+  </div>
+</div>

@@ -1,0 +1,148 @@
+﻿@Include("../Custom/GlobalVariables.cshtml")
+
+@{
+  var months = new List<string> {"ianuarie", "februarie", "martie", "aprilie", "mai", "iunie", "iulie", "august", "septembrie", "octombrie", "noiembrie", "decembrie"};
+
+  var start = new List<int> {7, 3, 3, 6, 1, 4 , 6, 2, 5, 7, 3, 5}; 
+  var end = new List<int> {31, 28, 31, 30, 31, 30, 31, 31 , 30, 31, 30, 31};
+
+  var weekdays = new List<string> {"L", "M", "Mi", "J", "V", "S", "D"};
+  var weekdaysModal = new List<string> {"Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata", "Duminica"};
+
+  string titluModal = "Calendar de Evenimente";
+
+  string titluEveniment = "Titlu Eveniment";
+  int dataInceput = 30;
+  int dataFinal = 3;
+  string lunaInceput = "octombrie";
+  string lunaFinal = "noiembrie";
+  string link = "http://google.ro";
+}
+
+<div>
+  <span style="font-weight: bold; color: #000; font-size: 28px;" >2017</span>
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" style="float: right;">Fullscreen Calendar</button>
+</div>
+
+@for(var i = 0; i < 12; i++) {  
+  <div class="side-month side-month-@months[i]">
+    <div class="modal-body">
+      <div class="row">
+          <span class="month ">@months[i]</span>
+          <ul class="weekdays">
+            @foreach(var weekday in weekdaysModal) {
+              <li>@weekday</li>
+            }
+          </ul>
+          <ul class="days">  
+            @for(var j = 1; j < start[i]; j++) {
+              <li style="background-color: #fff;"></li>
+            }
+
+            @for(var k=1; k<= end[i]; k++) {
+              if (k<=9) {
+                var zero = "0";
+                <li class="day-@months[i]-@zero@k">
+                  <span>@k</span>
+                  <a href="" target="_blank" class="link-eveniment-@months[i]-@zero@k"></a>
+                </li>  
+                
+              }
+              else {
+                <li class="day-@months[i]-@k">
+                  <span>@k</span>
+                  <a href="" target="_blank" class="link-eveniment-@months[i]-@k"></a>
+                </li>
+              }
+            }
+          </ul>
+      </div>
+    </div>
+  </div>
+}
+
+<div class="side-calendar">
+  <div class="row"  >
+    @for(var i = 0; i < 12; i++) {
+      <div class="col-lg-4 col-md-4 col-sm-3 col-xs-4 side-calendar-@months[i]">       
+        <span class="month" >@months[i]</span>
+        <ul class="weekdays">
+          @foreach(var weekday in weekdays) {
+            <li>@weekday</li>
+          }
+        </ul>
+        <ul class="days">  
+          @for(var j = 1; j < start[i]; j++) {
+            <li style="background-color: #fff;"></li>
+          }
+
+          @for(var k=1; k<= end[i]; k++) {
+            if (k<=9) {
+              var zero = "0";
+              <li class="day-@months[i]-@zero@k">
+                <span>@k</span>
+              </li>  
+              
+            }
+            else {
+              <li class="day-@months[i]-@k">
+                <span>@k</span>
+              </li>
+            }
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content" style="width: 1200px; position: relative; right: 50%;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">@titluModal</h4>
+        </div>
+        <div class="modal-body">  
+           @for(var i = 0; i < 12; i++) {
+            <div class="col-md-6">
+              <span class="month">@months[i]</span>
+              <ul class="weekdays">
+                @foreach(var weekday in weekdaysModal) {
+                  <li>@weekday</li>
+                }
+              </ul>
+              <ul class="days">  
+                @for(var j = 1; j < start[i]; j++) {
+                  <li style="background-color: #fff;"></li>
+                }
+
+                @for(var k=1; k<= end[i]; k++) {
+                  if (k<=9) {
+                    var zero = "0";
+                    <li class="day-@months[i]-@zero@k">
+                      <span>@k</span>
+                      <a href="" target="_blank" class="link-eveniment-@months[i]-@zero@k"></a>
+                    </li>  
+                    
+                  }
+                  else {
+                    <li class="day-@months[i]-@k">
+                      <span>@k</span>
+                      <a href="" target="_blank" class="link-eveniment-@months[i]-@k"></a>
+                    </li>
+                  }
+                }
+              </ul>
+            </div>
+          }
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>  
+</div>

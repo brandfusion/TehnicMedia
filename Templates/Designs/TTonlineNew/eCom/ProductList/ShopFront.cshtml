@@ -1,0 +1,109 @@
+﻿@{
+string ParametruProducator1 = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
+string ParametruDealer1 = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
+string SubgrupNameRaw1 = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Subcategorie"]) ? System.Web.HttpContext.Current.Request.Params["Subcategorie"] : "";
+string SubgrupName1 = SubgrupNameRaw1 =="Metale" ?  "Metale: (table, sarma, bare, tevi, pulberi etc.)": SubgrupNameRaw1 =="Fluide" ? "Fluide si gaze industriale": SubgrupNameRaw1 =="Emulsii" ? "Emulsii si lichide de racire": SubgrupNameRaw1 =="Protectie" ? "Echipamente de protectie": SubgrupNameRaw1 =="Subcontractare" ? "Productie (Subcontractare)" : SubgrupNameRaw1 =="Cercetare" ?  "Cercetare, dezvoltare": SubgrupNameRaw1 =="Mentenanta" ? "Mentenanta, reparatii, retrofit": SubgrupNameRaw1 =="Proprietate" ? "Proprietate intelectuala": SubgrupNameRaw1 =="Parcuri" ? "Parcuri Industriale" : SubgrupNameRaw1 =="Medicina" ? "Medicina muncii" : SubgrupNameRaw1 =="UtilajeConstructii" ? "Echipamente si utilaje pentru constructii": SubgrupNameRaw1 =="ChimicPetrolier" ? "Utilaj chimic, petrolier": SubgrupNameRaw1 =="ChimicPetrolier" ? "Utilaj chimic, petrolier" : SubgrupNameRaw1 =="Reciclare" ? "Tehnologii si utilaje pentru protectia mediului si reciclare" :  SubgrupNameRaw1 =="Birouri" ? "Dotari spatii industriale si birouri, spatii de lucru, curatenie industriala" : SubgrupNameRaw1; 
+int countermanufacturer = 1;
+var producator = new Dynamicweb.Ecommerce.Products.Manufacturer(ParametruProducator1);
+string NumeProducator = producator.Name;
+string NumarProduse = GetInteger("Ecom:ProductList.PageProdCnt") !=null ? GetInteger("Ecom:ProductList.PageProdCnt").ToString() : "";
+string ProdusePePagina = GetInteger("Ecom:ProductList.PageSize") !=null ? GetInteger("Ecom:ProductList.PageSize").ToString(): "";
+string NumarulPaginiiCurente = GetInteger("Ecom:ProductList.CurrentPage") != null ? GetInteger("Ecom:ProductList.CurrentPage").ToString():"";
+string NumarulTotalPagini = GetInteger("Ecom:ProductList.TotalPages") != null ? GetInteger("Ecom:ProductList.TotalPages").ToString():"";
+
+	int CurrentPage = GetInteger("Ecom:ProductList.CurrentPage");
+	int PageSize = GetInteger("Ecom:ProductList.PageSize");
+	int NumarTotalProduse = GetInteger("Ecom:ProductList.PageProdCnt");
+	int NumarStartPrimaPagina = 1 ;
+	int NumarStartPrimaPaginaAlternativ = (((CurrentPage - 1 ) * PageSize ) + 1 );
+	int NumarEndPrimaPagina = NumarTotalProduse > PageSize ? PageSize : NumarTotalProduse;
+	int NumarEndAtlePaginiRaw = ((NumarStartPrimaPaginaAlternativ + PageSize)-1);
+	int NumarEndAltePagini = NumarEndAtlePaginiRaw < NumarTotalProduse ? NumarEndAtlePaginiRaw : NumarTotalProduse;
+	int NumarStart = CurrentPage != 1 ? NumarStartPrimaPaginaAlternativ : NumarStartPrimaPagina;
+	int NumarEnd = CurrentPage == 1 ? NumarEndPrimaPagina : NumarEndAltePagini ;
+
+ }
+
+@if((!string.IsNullOrEmpty(ParametruProducator1) && string.IsNullOrEmpty(ParametruDealer1)) || (string.IsNullOrEmpty(ParametruProducator1) && !string.IsNullOrEmpty(ParametruDealer1)) || (!string.IsNullOrEmpty(ParametruProducator1) && !string.IsNullOrEmpty(ParametruDealer1)) ){
+
+}else{
+<div class="category-header">        
+         @if(GetValue("Ecom:Group.Name") != null) {
+            <h1 class="block-title top-title"><span><text>@GetValue("Ecom:Group.Name") @(SubgrupName1 != ""? "-": "")  @SubgrupName1 </text></span></h1>
+            <p>@GetValue("Ecom:Group.Description")</p>
+         } else {
+            <h1 class="block-title top-title"><span><text>Produse  (@NumarTotalProduse) </text></span></h1>
+            <p>@GetGlobalValue("Global:Page.Meta.Description")</p>
+         }           
+      </div>
+
+      <div style='float: left; display: flex; flex-direction: column; align-items: flex-start; padding-bottom: 0.5em' id='ascending-descending'>
+            <label for='sort-by-asc-desc'>Sorteaza alfabetic</label>
+          <select class='form-control' id='sort-by-asc-desc'>
+              <option selected disabled value='ASC'>Selecteaza o optiune...</option>
+              <option name='SortOrder' value='ASC'>1 - Ordoneaza dupa nume A-Z</option>
+              <option name='SortOrder' value='DESC'>2 - Ordoneaza dupa nume Z-A</option>
+          </select>
+      </div>
+              }
+     
+
+      <div class="sort-content">          
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sortBy">
+          <div class="row">
+            <!--Afisare numar de produse in pagina-->
+              <ul class="pagination pagination-custom pull-left">
+               <span style="color:white">@NumarStart - @NumarEnd din @NumarTotalProduse Produse</span>
+              </ul>     
+          
+          </div>   
+        </div>
+      </div>
+    
+      <div class="row product-list clearfix"    data-maxcompare='@Translate("maxCompare", "Maximum to compare: 3")'>          
+        @{
+            
+          string listaProduse = "" ;
+          foreach (LoopItem i in GetLoop("Products"))
+                {
+                
+            if (String.IsNullOrEmpty(listaProduse))
+            {
+                listaProduse += i.GetString("Ecom:Product.ID");
+            }
+            else
+            {
+                listaProduse += ","+i.GetString("Ecom:Product.ID");
+            }
+            @Include("../../Custom/Products_loop_box.cshtml")
+                
+              }  
+            }
+      </div>  
+
+       <div class="modal fade bd-example-modal-sm" id="modalformularoferta3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                          <div class="modal-content" >
+                            @RenderParagraphContent(120)
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" style="float:left!important;">Inchide Formularul</button>
+                      </div>
+          </div>
+        
+      <div class="gray-border">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+           <span style="color:white">@NumarStart - @NumarEnd din @NumarTotalProduse Produse</span>
+          </div>
+          <div class="col-md-6 col-sm-12">          
+            <ul class="pagination pagination-custom pull-left">
+              <!--Include("../../Custom/Pagination_Bottom.cshtml")-->
+            </ul>
+          </div>
+          </div>
+      </div>
+                
+
+

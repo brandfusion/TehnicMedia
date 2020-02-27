@@ -1,0 +1,29 @@
+﻿@*@foreach(LoopItem slide in GetLoop("Item.Slides")){
+						
+						@**@
+      					
+
+						<div class="col-md-4 omega">
+                            <div class="featured-big">
+                                <a href="#" class="featured-href">
+									
+                                  
+                                  @if(!string.IsNullOrEmpty(slide.GetString("Item.Slides.ImaginePrincipala.Value"))){
+									<img src='@slide.GetString("Item.Slides.ImaginePrincipala.Value")' alt="" />
+									}else{
+                                    <img src="@areaLayoutPath/assets/img/demo/870x500.png" alt="" />
+									}
+                                    <div class="featured-header">
+                                        <span class="category bgcolor2">Gadget</span>
+                                        <h2>@slide.GetString("Item.Slides.PageName")</h2>
+                                        <p class="simple-share">
+                                            by John Doe -
+                                            <span class="article-date">4 hours ago</span>
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+    					}
+
+*@

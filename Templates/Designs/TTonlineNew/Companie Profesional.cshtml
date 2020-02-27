@@ -1,0 +1,343 @@
+﻿<!--Profesional Start -->
+
+
+<!-- Brandurile Vandute Start -->
+
+if(TipClient == "4"){
+          if(AfiseazaBandaSubBranduri == true){
+          
+
+            
+              int BandaSubBranduriID = companie["Banda_Sub_Branduri"] != null ? (int)companie["Banda_Sub_Branduri"] : 0 ;
+           
+
+
+            if(BandaSubBranduriID != 0){
+
+
+
+                  var ListaBranduri = Dynamicweb.Content.Items.ItemList.GetItemListById(BandaSubBranduriID);
+
+            if(ListaBranduri.Relations.Any()){
+            
+            
+                      if(ListaBranduri != null){
+                      <div class="row row-companie mb-40  background-white row-branduri">
+                        <div class="col-xs-12 col-titlu-companie"><h3><i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i><span>Branduri vandute de @Name</span></h3></div>
+                          <div class="col-xs-12 pbt-20">
+                              <div class="owl-carousel owl-theme owl-custom"> 
+                                @foreach( var BrandID in ListaBranduri.Relations){
+
+                                    var Brand = new Dynamicweb.Content.Items.Item(BrandID);
+                                    string Titlu = Brand["Titlu"] != null ? Brand["Titlu"].ToString() : "";
+                                    string Poza = Brand["Logo_Brand"] != null ? Brand["Logo_Brand"].ToString() : "";
+                                    string Link = Brand["Link"] != null ? Brand["Link"].ToString() : "";
+                                    <div class="item">	
+
+                                           <a href="@Link"><img src="@Poza"></a>
+
+                                          <p><a href="@Link">@Titlu</a></p>
+
+
+
+
+                                    </div>
+
+                                }
+
+                              </div>
+
+                          </div>	
+                        </div> 
+                      }
+
+                      
+                }
+            }
+
+          
+
+      }
+}
+<!-- Brandurile Vandute End-->
+
+
+
+<!--Articole Start -->
+if(AfiseazaArticole){
+  <div class="row row-companie mb-40  background-white">
+      <div class="js-articole-companie col-xs-12" data-id-companie="@idCompanie">
+          <div class="js-titlu-articole row"></div>
+          <div class="js-content-articole row pbt-20"></div>
+          <div class="row pbt-20">
+            <a class="btn btn-primary btn-companie-albastru" style="margin-left:30px; margin-bottom:30px;" href="/Default.aspx?ID=6822&Companie=@ID">Toate Articolele</a>
+          </div>
+          <!-- <div class="js-buton-articole pbt-20 row"></div>-->
+      </div>
+  </div>
+}
+<!--Articole End -->
+
+<!--Stiri Start -->
+if(AfiseazaStiri){
+    <div class="row  row-companie mb-40  background-white">
+        <div class="js-stiri-companie col-xs-12" data-id-companie="@idCompanie">
+            <div class="js-titlu-stiri row"></div>
+            <div class="js-content-stiri row pbt-20"></div>
+            @*<div class="js-buton-stiri pbt-20 row"></div>*@
+            <a class="btn btn-primary btn-companie-albastru" style="margin-left:30px; margin-bottom:30px;" href="/Default.aspx?ID=6821&Companie=@ID">Toate Stirile</a>
+        </div>
+    </div>
+}
+<!--Stiri End -->
+
+<!--Standard start -->
+if(ProduseReprezentative.Any()){
+<div class="row row-companie mb-40  background-white">
+  <div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-cube fa-2x" aria-hidden="true"></i><span>Produse @Name</span></h3></div>
+<div class="product reset-padding-right item-scope animated col-xs-12 pbt-20">
+@{
+  int count = 0;
+  }
+  
+ 
+@foreach (var produsReprezentativ in ProduseReprezentative) {
+  
+  
+  string mainImage = !string.IsNullOrEmpty(@produsReprezentativ.ImageLarge) ? GetImage(@produsReprezentativ.ImageLarge, 255, 168) + "&bgcolor=white"  : "/Files/Images/NoImage/255x168.png";  
+  
+ var grupuri = produsReprezentativ.Groups;
+  if(count < 8){
+<div class="product-item standard-item col-sm-6 col-xs-12 col-md-3">
+  <div class="product-border">
+    <div class="product-image">
+      <a href="/Default.aspx?ID=4228&ProductID=@(produsReprezentativ.Id)" class="overlay-link">
+        <figure class=" text-center test">
+          @if(!String.IsNullOrEmpty(@produsReprezentativ.ImageLarge)) {
+          <img src="/Files@(mainImage)" alt="@produsReprezentativ.Name" class="">
+          } else {
+              <img src="http://placehold.it/350x150" alt="@produsReprezentativ.Name" class="img-responsive">
+          }
+        </figure>
+      </a>
+    </div>
+
+    <div class="product-title">
+      <h2>
+        @produsReprezentativ.Name 
+        
+      </h2>      
+    </div>
+  
+
+
+
+
+   
+    <div class="product-buttons">    
+        <a class="btn-companie-albastru"  href="/Default.aspx?ID=4228&ProductID=@(produsReprezentativ.Id)"><span class="detalii-produs">Detalii produs</span></a>    
+    </div>
+
+
+  </div>
+  </div>
+	}
+
+	count++;
+}
+
+<div class="col-xs-12"><a href="@URLPaginaDealerProducator" class="btn btn-primary btn-companie-albastru">Toate Produsele</a></div>
+</div>
+</div>
+
+}
+<!--Standard end -->
+
+
+<!-- Cataloage de Produse Start-->
+
+
+ 
+int CatalogID = companie["Cataloage_Produse"] != null ? (int)companie["Cataloage_Produse"] : 0;
+
+
+
+
+      
+if(CatalogID != 0){
+
+
+
+	
+    
+     var ListaCatalog = Dynamicweb.Content.Items.ItemList.GetItemListById(CatalogID);
+
+       if(ListaCatalog != null) {
+  		if(ListaCatalog.Relations.Any()){
+  		<div class="row row-companie mb-40  background-white cataloage-produse">
+         <div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-book fa-2x" aria-hidden="true"></i><span>Cataloage de Produse</span></h3></div>
+ 
+            @foreach( var ElementID in ListaCatalog.Relations){
+              var Element = new Dynamicweb.Content.Items.Item(ElementID);
+          string Thumbnail = Element["Thumbnail"]!=null ? Element["Thumbnail"].ToString(): "";
+
+            <div class="col-md-4 col-xs-12 col-sm-12 pbt-20" >
+              <article class="news-block small-block testProfesional" style="">
+
+                @if(userIsLoggedIn == true){
+                  
+                  
+                                 if(!string.IsNullOrEmpty(@Thumbnail)){
+                                                      <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
+                                                                                              }
+                                                                                                  else
+                                                                                              {
+
+                                                     <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
+                                                                                              }
+                  
+                  
+                
+  
+                                      <header class="news-details">
+
+                                        <h3 class="news-title"><a href='@Element["Fisier"]' target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
+
+
+                                      </header>
+				}else{
+
+
+	 								if(!string.IsNullOrEmpty(@Thumbnail)){
+                                                      <a class=" overlay-link catalog-link-js" data-loggedin="@userIsLoggedIn" target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
+                                                                                              }
+                                                                                                  else
+                                                                                              {
+
+                                                     <a class=" overlay-link catalog-link-js" data-loggedin="@userIsLoggedIn" target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
+                                                                                              }
+                  
+                  
+                
+
+                                        <header class="news-details">
+
+                                          <h3 class="news-title"><a  target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
+
+
+                                        </header>
+
+}
+   
+
+  </article>
+</div>
+
+        	 	} 
+  			</div>
+      		} 
+       }
+} 
+
+
+<!-- Cataloage de Produse End-->
+
+<!-- Fise tehnice Start --> 
+
+int FiseTehniceID = companie["Fise_Tehnice"] != null ? (int)companie["Fise_Tehnice"] : 0;
+
+
+  
+  		if(FiseTehniceID != 0){
+
+  		
+
+	
+			
+             var ListaFiseTehnice = Dynamicweb.Content.Items.ItemList.GetItemListById(FiseTehniceID);
+			
+					
+  
+  			if(ListaFiseTehnice != null) {
+
+  			
+
+  					if(ListaFiseTehnice.Relations.Any()){
+  					<div class="row row-companie mb-40  background-white">
+        				 <div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-book fa-2x" aria-hidden="true"></i><span>Fise Tehnice</span></h3></div>
+ 					
+  
+  						@foreach( var ElementID in ListaFiseTehnice.Relations){
+          					    var Element = new Dynamicweb.Content.Items.Item(ElementID);
+        					  string Thumbnail = Element["Thumbnail"]!=null ? Element["Thumbnail"].ToString(): "";
+  
+  								<div class="col-md-4 col-xs-12 col-sm-12 pbt-20" >
+           							   <article class="news-block small-block" style="">
+
+                                                @if(userIsLoggedIn == true){
+
+
+                                                                 if(!string.IsNullOrEmpty(@Thumbnail)){
+                                                                                      <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay proportie-1 text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
+                                                                                                                              }
+                                                                                                                                  else
+                                                                                                                              {
+
+                                                                                     <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay proportie-1 text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
+                                                                                                                              }
+
+
+
+
+                                                                      <header class="news-details">
+
+                                                                        <h3 class="news-title"><a href='@Element["Fisier"]' target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
+
+
+                                                                      </header>
+                                                  }else{
+
+
+                                                                    if(!string.IsNullOrEmpty(@Thumbnail)){
+                                                                                      <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe"  target="_blank"><figure class="image-overlay proportie-1 text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
+                                                                                                                              }
+                                                                                                                                  else
+                                                                                                                              {
+
+                                                                                     <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe"  target="_blank"><figure class="image-overlay proportie-1 text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
+                                                                                                                              }
+
+
+
+
+                                                                        <header class="news-details">
+
+                                                                          <h3 class="news-title"><a  target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
+
+
+                                                                        </header>
+
+                                                      }
+
+
+                                            </article>
+                                          </div>							
+  
+  
+  
+  
+  						}
+              </div> 
+               }
+        } 
+  	
+ }
+  
+
+
+
+<!-- Fise tehnice End -->
+
+
+
+<!--Profesional End -->

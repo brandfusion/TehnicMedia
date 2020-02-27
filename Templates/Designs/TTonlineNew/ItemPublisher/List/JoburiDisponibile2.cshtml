@@ -1,0 +1,35 @@
+﻿@* @using Dynamicweb.Frontend *@
+@* @Include("GlobalVariables.cshtml") *@
+@*Include("../Includes/ArticleHelper.cshtml")*@
+@*<p>Total articole: @GetInteger("Items.TotalCount")</p>*@
+
+
+
+
+@if(AfiseazaJobs){
+
+int JobsID = companie["Jobs"] != null ? (int)companie["Jobs"] : 0;
+
+		if(JobsID != 0){
+		 var JobsLista = Dynamicweb.Content.Items.ItemList.GetItemListById(JobsID);
+
+			 if(JobsLista != null) {
+			        
+			      foreach( var ElementID in JobsLista.Relations){
+			        var Element = new Dynamicweb.Content.Items.Item(ElementID);
+
+								<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+			                      <div class="col-xs-12">@Element["Titlu"]</div>
+			                      <div class="col-md-12">@Element["Descriere"]</div>
+			                      <div class="col-xs-12">@Element["Locaton"]</div>
+			                    </div>
+
+
+			 		} <!--foreachElementID-->
+			 }  <!--JobsLista-->
+		}  <!--JobsID-->
+
+}<!--AfiseazaJobs-->
+
+
+

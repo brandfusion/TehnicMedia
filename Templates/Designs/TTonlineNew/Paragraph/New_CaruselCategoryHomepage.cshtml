@@ -1,0 +1,34 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System
+@using System.Web;
+@using System.Collections;
+@using System.Collections.Generic
+@using System.Linq;
+@using Dynamicweb.Content.Items
+
+@Include("Layout.cshtml")
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+@{
+        var pageId = GetPageIdByNavigationTag("SectionsFeed");
+        var urlFeed = "/Default.aspx?ID="+pageId;
+}
+
+<div class="col-md-12 col-xs-12 recomandari">
+	<h1 class="block-title">
+		<span>@GetString("Item.ParagraphName")</span>
+	</h1>
+	<div class="owl-carousel owl-theme handlebars-wrapper" id="SectiuniCarusel" data-template="SectiuniCaruselTemplate" data-slides-number="4" data-json-feed="@urlFeed" >
+		<div class="loader"></div>
+			@*HANDLEBARS TEMPLATE GOES HERE*@
+	</div>
+</div>
+
+<script id="SectiuniCaruselTemplate" type="text/x-handlebars-template">
+    {{#each SectionsContainer}}
+        <div class="item" style="width:100%!important">
+                <a href="/Default.aspx?ID={{pageId}}"><img src='/Admin/Public/GetImage.ashx?Image={{itemImagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=230&Height=172' alt="" style="width:100%!important;"/></a>
+        </div>
+    {{/each}}
+</script>

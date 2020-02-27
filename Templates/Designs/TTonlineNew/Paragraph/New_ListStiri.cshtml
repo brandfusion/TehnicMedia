@@ -1,0 +1,92 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Linq;
+@using System.Web;
+
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
+@{
+    
+
+}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="first-container" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="@url">
+                <ul class="widget-content">
+                    @RenderPlaceholderImageOnLeft()
+                    @RenderPlaceholderImageOnLeft()
+                    @RenderPlaceholderImageOnLeft()
+                    @RenderPlaceholderImageOnLeft()
+                    @RenderPlaceholderImageOnLeft()
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<script id="LoopStiriTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}
+        <article class="simple-post simple-big clearfix col-md-12 separator-articole">
+            <div class="simple-thumb" style="width: 250px!important;">
+                <a href="aa">
+                    <figure class="">
+                        <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168"/> 
+                    </figure>
+                </a>
+            </div>
+            <header>
+                <p class="simple-share">
+                        @Translate("articolde", "de")
+                        {{#each articleAutori}}
+                            <a href="{{Link}}">{{Name}}</a>
+                        {{/each}}
+                        <span class="m-0">-</span>
+                    <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                    {{#if showItemVisits}} 
+                        <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                     {{/if}}
+
+                </p>
+                <h3>
+                    <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
+                </h3>
+                <div class="excerpt" >{{{itemSumar}}}</div>
+            </header>
+        </article>
+    {{/each}}
+{{/ArticlesContainer}}
+{{#ifCond pagingPageCount '>' 1}}
+    <nav>
+        <ul class="pagination pagination-sm">
+            {{#ifCond currentPage "!==" "1"}}
+                 <li data-page-link="{{pagingFirstPageLink}}" data-container="LoopStiriTemplate">                			        
+                    <span class="mr-02"> « </span>                 
+                 </li>
+                 <li data-page-link="{{pagingPrevPageLink}}" data-container="LoopStiriTemplate">
+                    <span aria-label="@Translate("paginaAnterioara", "Pagina anterioara")"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></span>
+                 </li>
+            {{/ifCond}}
+            
+            {{#Pages}}
+                {{#if isCurrent}}
+                   <li class="active"><span data-page-link="{{pageLink}}">{{pageNumber}}</span></li>
+                {{else}}
+                   <li data-page-link="{{pageLink}}" data-container="LoopStiriTemplate"><span>{{pageNumber}}</span></li>
+                {{/if}}                
+            {{/Pages}}
+
+            {{#if isNotLastPage}}
+                <li data-page-link="{{pagingNextPageLink}}" data-container="LoopStiriTemplate">
+                    <span aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></span>                     
+                </li>
+                <li data-page-link="{{pagingLastPageLink}}" data-container="LoopStiriTemplate">
+                    <span> » </span>
+                </li>
+            {{/if}}
+        </ul>
+    </nav>
+ {{/ifCond}}
+</script>

@@ -1,0 +1,66 @@
+﻿@using Dynamicweb.Frontend
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/VerifyImage.cshtml")
+@{
+ int globalPageID = 0;
+}
+ @if (GetLoop("QueryResultItem").Any()) { 
+<div class="col-xs-12 col-titlu-companie"><h3 class="block-title-js"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i><span>Stiri</span></h3></div>
+}
+<div id="ajax-content-stiri">
+          
+             @if (GetLoop("QueryResultItem").Any()) { 
+              foreach (var item in GetLoop("QueryResultItem"))
+              {
+
+                string tip = item.GetString("Dw_Page_Tip");
+                  string description = item.GetString("Dw_Page_Sumar");
+                  string url = "/Default.aspx?ID=" + item.GetInteger("PageId");
+                int idArticole = item.GetInteger("PageId");
+                  DateTime date = item.GetDate("Dw_Page_Data");
+                 globalPageID = item.GetInteger("PageParentPageId");
+                  string articleTitle = item.GetString("Dw_Page_Titlu");
+                  string itemAuthor = "";
+                  var articleDate = date;
+                  string articleLink = url;
+  
+                  string articleImageRaw = item.GetString("Dw_Page_ImaginePrincipala");
+                   string articleImage = !string.IsNullOrEmpty(articleImageRaw)  ? GetImage(articleImageRaw, 350, 230) + "&bgcolor=white" : "/Files/Images/NoImage/350x230.png"; 
+ 	 			 
+  
+  
+                  string articleExcerpt = item.GetString("Dw_Page_Sumar");
+                  string articleVisits = item.GetString("Dw_Page_Visits");
+                  bool itemConditionVisits = false; // item.GetBoolean("Dw_Page_Vizite");
+                  string itemAutori = item.GetString("Dw_Page_Autori");
+                  string articleSectiune = item.GetString("Dw_Page_SectiuneParinte");
+                  int articleSectiuneID = item.GetInteger("Dw_Page_SectiuneParinteId");
+                  string itemSections = "";
+                  List<Autor> articleAutori = GetAutori(itemAutori);
+                  List<Sectiune> articleSections = GetSectiuni(itemSections);
+
+ 
+
+                @Include("../Lists/Articole-LP-Sectiune-4col-image-nosummary.cshtml")
+
+
+
+                 }
+  
+  
+  				
+  
+             } else
+             {
+                 
+             }
+  
+  		
+      </div>
+  
+  
+ @if (GetLoop("QueryResultItem").Any()) { 
+           	<div class="col-xs-12"><a href="" class="btn btn-primary btn-companie-albastru">Toate Stirile</a></div>
+          } 

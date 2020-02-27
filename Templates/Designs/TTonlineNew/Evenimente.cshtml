@@ -1,0 +1,39 @@
+﻿@MasterPageFile("Master.cshtml")
+<div class="col-md-8 col-xs-12">
+  <div class="row">
+    <h1>@GetString("Item.Titlu")</h1>
+  </div>
+  <div class="row"> 
+ 
+    <div class="dwcontent " id="main-content" title="Main Content"></div> 
+  </div>
+</div>
+<div class="col-md-4 col-xs-12">
+  <div class="row"> 
+    @Include("/Files/Templates/Designs/TTonline/Custom/Sidebar.cshtml")
+    @*<div class="dwcontent" id="sidebar1" title="Sidebar"></div> *@
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+<!-- Google Analytics -->
+
+<script>
+
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+ga('create', 'UA-26068739-1', 'auto');
+
+ 
+
+// DIMENSIONS DECLARATION WHERE NEEDED
+
+ 
+
+ga('send', 'pageview');
+
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+
+<!-- End Google Analytics -->

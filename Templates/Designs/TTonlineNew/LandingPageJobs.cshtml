@@ -1,0 +1,58 @@
+﻿@MasterPageFile("Master.cshtml")
+
+<div class="row main-body" data-stickyparent>
+
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    	@{
+    
+    string Email = "";
+    }
+    
+    	@foreach(LoopItem i in GetLoop("Item.ListaJoburi")){
+    		
+    		string Name = i.GetString("Item.ListaJoburi.Nume");
+   				
+    		Email = i.GetString("Item.ListaJoburi.Email");
+ 	   <div class="col-xs-12"><h3 class="block-title"><span class="primary-color-border-bottom">@Name</span></h3></div>
+    		
+    
+    		foreach(LoopItem j in i.GetLoop("Item.ListaJoburi.Joburi")){
+    
+    		
+    		string titlu = j.GetString("Item.ListaJoburi.Joburi.Titlu");
+            string descriere =j.GetString("Item.ListaJoburi.Joburi.Descriere");
+            string data = j.GetString("Item.ListaJoburi.Joburi.Data");
+     		string locatie = j.GetString("Item.ListaJoburi.Joburi.Location");
+    
+    		<div class="col-md-6 col-sm-6 col-xs-12 col-jobs">
+                  <div class="job-box">
+                      <div class="col-xs-12">
+                           <p>Titlu - @titlu</p>
+                           <p>Descriere : @descriere</p>
+                      </div>
+
+                      <div class="col-xs-6">
+                          <p>Data: @data </p>
+                          <p>Locatie : @locatie</p>
+                      </div>
+
+                      <div class="col-xs-12">
+                       <a href="mailto:@(Email)?Subject=Job%20Aplication%20from%20TTOnline%20@(titlu)" target="_top" class="buton-formular">Trimite Cv-ul</a>
+                      </div>
+                  </div>
+              </div>
+    
+    		}
+    }
+    
+  </div>
+  
+  
+  <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 sticky" >
+
+    @Include("Custom/Sidebar.cshtml")
+ 
+	</div>
+  
+</div>
+

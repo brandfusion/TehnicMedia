@@ -1,0 +1,84 @@
+﻿@{
+  int counter = 0;
+  var Produse = GetLoop("Item.Produse.Value");
+  
+    if(Produse.Any()){  
+        <h3 class="block-title"><span>Produse</span></h3> 
+        <div class="row">
+            <div class="col-md-12">
+            <div class="owl-carousel owl-theme">                          
+                @foreach(LoopItem i in Produse){
+                    string mainImageRaw = i.GetString("Ecom:Product.ImageLarge.Default.Clean"); 
+                    string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 160, 120) + "&bgcolor=white"  : "/Files/Images/NoImage/160x120.png";
+                    string mainTitle = i.GetString("Ecom:Product.Name");
+                    string mainURL = i.GetString("Ecom:Product.Link.Clean");
+
+                    <div class="item">
+                        @if(!string.IsNullOrEmpty(i.GetString("Ecom:Product.ImageLarge.Default.Clean"))){
+                            <a href="@mainURL"><img src="@mainImage" width="160" height="100" alt="" /></a>
+                        }else{
+                            <a href="@mainURL"><img src="@areaLayoutPath/assets/img/demo/160x120.png" height="100" alt="" /></a>
+                        }
+                            <h4><a href="@mainURL">@mainTitle</a></h4>  
+                    </div>              
+                            
+                }
+            </div>
+            </div>    
+        </div>    
+    }else {
+        string idCompanie =  GetString("Item.De_Companie");
+        Dynamicweb.Content.Items.Item companie = null;
+        if (!string.IsNullOrEmpty(idCompanie)){
+            companie = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Companii", idCompanie);  
+            string representativeProductsArray =  companie["RepresentativeProducts"] != null ? companie["RepresentativeProducts"].ToString() : "";
+            if(companie != null &&  representativeProductsArray != ""){
+                var ProduseReprezentative = ProductFacade.GetItemTypeProducts(representativeProductsArray);
+                <!--Standard start -->
+                if(ProduseReprezentative.Any()){
+                <div class="row space-10">
+                
+                <div class="col-xs-12"><h3 class="block-title"><span class="primary-color-border-bottom">Produse</span></h3></div>
+                
+                <div class="col-xs-12">
+                    <div class="carousel-produse">
+                        <div class="owl-carousel owl-theme owl-redactori">
+                        @foreach (var produsReprezentativ in ProduseReprezentative) {
+                            string mainImage = !string.IsNullOrEmpty(produsReprezentativ.ImageLarge) ? GetImage(produsReprezentativ.ImageLarge, 160, 120) + "&bgcolor=white"  : "/Files/Images/NoImage/160x120.png";
+                            var produsReprezentativManufacturer = produsReprezentativ.Manufacturer;
+                            if (counter <= 8 ) {
+                            <div class="item">
+                                <figure class="image-overlay proportie-1 text-center">
+                                    <a href="/ibuysmart?ProductID=@(produsReprezentativ.Id)">
+                                        @if(!String.IsNullOrEmpty(@produsReprezentativ.ImageLarge)) {
+                                            <img src="/Files/@(mainImage)" alt="@produsReprezentativ.Name" width="160" height="105" class="">
+                                        } else {
+                                            <img src="http://placehold.it/350x150" alt="@produsReprezentativ.Name" class="img-responsive">
+                                        }
+
+                                    </a>
+                                </figure>
+                                <header class="featured-header">
+                                    <h2><a href="/ibuysmart?ProductID=@(produsReprezentativ.Id)"> @produsReprezentativ.Name @counter </a></h2> 
+                                    @if(produsReprezentativManufacturer != null){
+                                    <p class="manufacturer">Producator:  <span>@produsReprezentativ.Manufacturer.Name</span></p>
+                                    }
+                                </header>
+                            </div>
+                            } 
+                        counter++;
+                        }
+
+                        </div>
+                    </div>
+                </div>
+                
+
+                </div>
+                }
+            } 
+            
+        }
+    <!--End of idCompanie-->    
+    } <!--End of else-->
+} 

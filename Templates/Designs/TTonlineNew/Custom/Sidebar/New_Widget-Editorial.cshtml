@@ -1,0 +1,23 @@
+@{
+    var urlEditorial = "/Default.aspx?ID=" + GetPageIdByNavigationTag("ArticoleEditorial");
+    var feedPageID = GetPageIdByNavigationTag("ArticlesFeed");
+}
+<div class="widget editorialwidget">
+    <div class="content sidebar-handlebars-wrapper" role="listbox" data-template="WidgetEditorialTemplate"  data-json-feed="/Default.aspx?ID=@feedPageID&type=Editorial&PageSize=1">
+        @RenderPlaceholderNoImage()
+    </div>
+</div>
+
+<script id="WidgetEditorialTemplate"  type="text/x-handlebars-template">  
+{{#ArticlesContainer}}
+   {{#each Article}}
+   <h3 class="block-title"><span><a href="@urlEditorial">@Translate("Editorial","Editorial")</a></span></h3>
+   <article class="widget-post clearfix">
+       <h3><a href='/Default.aspx?ID={{pagePageID}}'>{{itemTitlu}}</a></h3>
+        {{{itemSumar}}}
+       <p class="text-right"><a href="/Default.aspx?ID={{pagePageID}}" id="editorialLink">@Translate("citeste","Mai mult")</a></p>         
+   </article>
+   {{/each}}
+{{/ArticlesContainer}}
+   
+</script>

@@ -1,0 +1,40 @@
+﻿@helper FormatPhone(string phone)
+{
+  if (!string.IsNullOrEmpty(phone))
+  {
+      string phoneOriginal = phone.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
+      var length = phoneOriginal.Length;
+      string formattedPhone = "(" + phoneOriginal.Substring(0, 3) + ") " + phoneOriginal.Substring(3, 3) + "-" + phoneOriginal.Substring(6, 4);
+      if (length < 10)
+      {
+          formattedPhone = phoneOriginal;
+      }
+      <text>@formattedPhone</text>
+  }
+}
+
+@helper FormatShipToMyOwnAccount(string shipCode)
+{
+  string formattedShipCode = "",
+         accType = "N/A",
+		 accNumber = "";
+		 //accShipToCode = "";
+
+  if (!string.IsNullOrEmpty(shipCode))
+  {
+    var words = shipCode.Split(new[] {','});
+	int wordsValues = words.Length;
+    
+      accType = wordsValues >= 5 && words[4] != "" ? words[4] : "N/A";
+      accNumber = wordsValues >= 1 && words[0] != "" ? words[0] : "";
+      bool hasShipToCode =  wordsValues >= 2 && words[1] == "" ? true : false;
+      
+      if(hasShipToCode) {
+          formattedShipCode = accType +" Account:" + accNumber;
+      } else {
+          formattedShipCode = accType +" Account:" + accNumber + " <span>Ship-to Code:" + (words.Length > 1 ? words[1] : null);
+      }
+	
+   <text>@formattedShipCode</text>
+  }
+}

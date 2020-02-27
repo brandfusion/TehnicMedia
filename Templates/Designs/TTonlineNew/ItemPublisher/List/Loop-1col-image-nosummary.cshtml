@@ -1,0 +1,28 @@
+﻿@using Dynamicweb.Frontend
+@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/ArticleHelper.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+
+
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+  	foreach(var item in GetLoop("ItemPublisher:Items.List")){
+      string articleTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+      string itemAuthor = "";
+      var articleDate = item.GetDate("ItemPublisher:Item.Data");
+      string articleLink = item.GetString("ItemPublisher:Item.Url");
+	string articleImageRaw = item.GetString("ItemPublisher:Item.ImaginePrincipala.Value");	 
+      string articleImage = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 255, 180) + "&bgcolor=white" : "/Files/Images/NoImage/255x180.png";
+      string articleExcerpt = item.GetString("ItemPublisher:Item.Sumar");
+      string articleVisits = item.GetString("ItemPublisher:Item.Visits.Value");
+      bool itemConditionVisits = item.GetBoolean("ItemPublisher:Item.Vizite");
+      string itemAutori = item.GetString("ItemPublisher:Item.Autori.Value");
+      string articleSectiune = item.GetString("ItemPublisher:Item.SectiuneParinte");
+      string itemSections = "";
+      List<Autor> articleAutori = GetAutori(itemAutori);
+      List<Sectiune> articleSections = GetSectiuni(itemSections);
+
+      @Include("../../Lists/1col-image-nosummary.cshtml")
+
+	}
+}

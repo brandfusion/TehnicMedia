@@ -1,0 +1,373 @@
+
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using Dynamicweb.Indexing.Querying
+@using System.Text.RegularExpressions
+@Include("Layout.cshtml")
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+@{
+
+	int listSize = GetInteger("Item.ListSize") > 0 ? GetInteger("Item.ListSize") : 10;
+	var section = GetString("Item.Section");
+	var featuredList = GetLoop("Item.Featured_Article");
+	var itemDisplay= GetString("Item.Display");
+	string customStyle = GetString("Item.CustomStyle");
+	var featuredArticle = GetString("Item.Featured_Article");
+
+    var queryService = Dynamicweb.Extensibility.ServiceLocator.Current.GetInstance<Dynamicweb.Indexing.Querying.IQueryService>();
+    Dynamicweb.Indexing.Querying.QuerySettings querySettings = new Dynamicweb.Indexing.Querying.QuerySettings();
+
+	List<string> includedArticles = new List<string>();
+	List<string> excludedArticles = new List<string>();
+	if(featuredList.Any()){	
+	
+		foreach(LoopItem article in featuredList){
+			
+			includedArticles.Add(article.GetString("Item.Featured_Article.Id"));
+			
+		}
+
+		//var myArray = myList.ToArray();
+	
+	}
+
+
+    System.Collections.Generic.Dictionary<string, object> parameters = new System.Collections.Generic.Dictionary<string, object>();
+    parameters.Add("Sections", section);
+
+    querySettings.Parameters = parameters;
+	querySettings.Take = listSize;
+	
+    Dynamicweb.Indexing.Querying.IQueryResult result = queryService.Query(queryService.LoadQuery("SQLIndexes", "ArticoleSQL.query"), querySettings);
+
+    IEnumerable<object> articleList = result.QueryResult;
+}
+
+@functions{
+
+	public class Article
+    {
+        public string articleTitle { get; set; }
+		public List<Section> articleSections {get; set;}
+		public string articleImage {get; set;}
+		public string articleExcerpt {get; set;}
+		public List<Author> articleAutori {get; set;}
+		public DateTime articleDate {get; set;}
+		public string articleLink {get; set;}
+		public string articleVisits {get; set;}
+		public string articleSectionName {get; set;}
+		public string articleSectionId {get; set;}
+    }
+
+	public class Section
+	{
+		public string Name { get; set; }
+		public string Link { get; set; }
+		public string Id { get; set; }
+	}
+
+	public class Author
+	{
+		public string Name { get; set; }
+		public string Link { get; set; }
+		public string Id { get; set; }
+	}
+
+
+}
+
+
+
+
+
+@NewRow() 
+
+<div class="@ColumnClass() homepage-sectiune" style="margin-top: 25px; margin-bottom:0px">
+	<h3 class="block-title"><span>@GetString("Item.ParagraphName")</span></h3>
+	@RenderFeaturedArticle()
+	@RenderArticleList(articleList,itemDisplay)
+</div>
+
+@helper RenderFeaturedArticle()
+{
+//int featuredArticle = GetInteger("Item.Featured_Article");
+var featuredArticles = GetLoop("Item.Featured_Article");
+	if(featuredArticles.Any()){	
+  		foreach(LoopItem i in featuredArticles){
+
+				
+
+				string mainImageRaw = i.GetString("Item.Featured_Article.ImaginePrincipala.Value"); 
+        		string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 730, 355) + "&bgcolor=white" : "/Files/Images/NoImage/540x355.png"; 
+							   		
+							
+
+
+				 string mainTitle = i.GetString("Item.Featured_Article.Titlu.Value");
+          		 var mainDate = i.GetDate("Item.Featured_Article.Data");
+          		 string mainSummary = StripHtmlTagByCharArray(i.GetString("Item.Featured_Article.Sumar"));
+          		 string mainURL = i.GetString("Item.Featured_Article.Url");
+          		 string mainAutori = i.GetString("Item.Featured_Article.Autori");
+				 string articleSectiune = i.GetString("Item.Featured_Article.SectiuneParinte");
+				 bool itemConditionVisits = i.GetBoolean("Item.Featured_Article.Vizite");
+				 string articleVisits = i.GetString("Item.Featured_Article.Visits.Value");
+                 int articleSectiuneID = i.GetInteger("Item.Featured_Article.SectiuneParinteId");
+      			 string mainSections = "";
+				
+				
+                List<Autor> articleAutori = GetAutori(mainAutori);
+      			List<Sectiune> articleSections = GetSectiuni(mainSections);
+
+				<article class="news-block">
+					 <a href="@mainURL" class="overlay-link">
+                  
+                
+						<figure class=" ">
+							@if(!string.IsNullOrEmpty(i.GetString("Item.Featured_Article.ImaginePrincipala.Value"))){
+							<img src="@mainImage" alt="@mainTitle" class="img-responsive" />
+							}else{
+							<img src="/Files/Images/NoImage/540x355.png" alt="@mainTitle" />
+                          	}
+						</figure>
+                   <a href='/Default.aspx?ID=@articleSectiuneID' class="bg@(articleSectiuneID) category">@articleSectiune</a>
+					</a>
+              
+
+					@foreach (var articleSection in articleSections)
+		            {
+		                <a href="#" class="category bgcolor3">@articleSectiune</a>
+		            }
+					<header class="news-details">
+						<h3 class="news-title"> <a href='@mainURL' alt='@mainTitle'>@mainTitle</a></h3>
+					    	<p>@mainSummary</p>
+					        <p class="simple-share">@Translate("articolde","de")  
+					        @foreach (var articleAutor in articleAutori)
+				            {
+				                <a href="@articleAutor.Link"><b>@articleAutor.Name</b></a>
+				            }
+					        - <span class="article-date"><i class="fa fa-clock-o"></i> @mainDate.ToString("dd/MM/yyyy")</span>
+                              @if (itemConditionVisits) {    
+                                            <span>  -  <i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+              				  }
+							</p>
+					</header>  
+				</article><!-- News block -->	
+
+				
+
+        }
+	}
+}
+
+@helper RenderArticleList(IEnumerable<object> articleList, string display)
+{
+	//string listTemplate = "ItemPublisher/List/Loop-" + GetString("Item.Display") + ".cshtml";
+	//ListOrderBy = "Data",
+	//ListOrderByDirection = "Descending"
+	//1col-image-nosummary
+	//1col-image-nosummary-small
+	//1col-image-summary
+	//2col-image-nosummary
+	//2col-noimage-nosummary
+	//3col-image-nosummary
+	//Slider-Articole
+	int paginaAutori = GetPageIdByNavigationTag("PaginaAutori");
+
+
+	if(articleList != null && articleList.Any()){
+
+		foreach(var resultObject in articleList){
+			Article article = new Article();
+			string[] autoriIDs = "".Split(',');
+			string[] autoriNames = "".Split(',');
+			List<string> sectionIDs = new List<string>();
+			List<string> sectionNames = new List<string>();
+			article.articleAutori = new List<Author>();
+			article.articleSections = new List<Section>();
+
+			IDictionary<string, object> dictionary = resultObject as IDictionary<string, object>;
+			if (dictionary != null) {
+				foreach (object key in dictionary.Keys) {
+					if ((key != null)) {
+						// something 
+						//PageUrlName
+						
+						if(key.ToString() == "PageMenuText"){
+						article.articleTitle = dictionary["PageMenuText"].ToString(); 
+						}
+						if(key.ToString() == "ItemImaginePrincipala"){
+						article.articleImage = dictionary["ItemImaginePrincipala"].ToString();
+						}
+						if(key.ToString() == "ItemSumar"){
+						article.articleExcerpt = dictionary["ItemSumar"].ToString();
+						}
+						if(key.ToString() == "ItemData"){
+						article.articleDate = (DateTime)dictionary["ItemData"];
+						}
+						if(key.ToString() == "PagePageID"){
+						article.articleLink = Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl("Default.aspx?ID=" + dictionary["PagePageID"].ToString());
+						}
+						if(key.ToString() == "ItemVisits"){
+						article.articleVisits = dictionary["ItemVisits"].ToString();
+						}
+						if(key.ToString() == "ItemAutori"){
+						autoriIDs = (string[])dictionary["ItemAutori"];
+						}
+						if(key.ToString() == "ItemAutoriName"){
+						autoriNames = (string[])dictionary["ItemAutoriName"];
+						}
+						if(key.ToString() == "ItemSectiuneParinte"){
+						//sectionNames.Add(dictionary["ItemSectiuneParinte"].ToString());
+						article.articleSectionName = dictionary["ItemSectiuneParinte"].ToString();
+						}
+						if(key.ToString() == "ItemSectiuneParinteId"){
+						//sectionIDs.Add(dictionary["ItemSectiuneParinteId"].ToString());
+						article.articleSectionId = dictionary["ItemSectiuneParinteId"].ToString();
+						}
+
+						//public List<Author> articleAutori {get; set;}
+						//public List<Section> articleSections {get; set;}
+						
+
+						
+					}
+				}
+			}
+
+			var authorList = autoriIDs.Zip(autoriNames, (s, i) => new { sv = s, iv = i }).ToList();
+			foreach (var x in authorList)
+			{
+				article.articleAutori.Add(new Author{
+					Name = x.iv.ToString(),
+					Link = "/Default.aspx?ID="+paginaAutori+"&autor="+x.sv,
+					Id = x.sv,
+				});
+				
+			}
+			
+			if(display.Contains("1col-"))
+			{
+				@RenderOneCol(article,display);
+			} 
+			else if (display.Contains("2col-"))
+			{
+				@RenderTwoCol(article,display);
+			}
+			else if (display.Contains("3col-"))
+			{
+				@RenderThreeCol(article,display);
+			}
+			else if (display.Contains("Slider-"))
+			{
+				@RenderSliderArticle(article,display);
+			}	
+
+		}
+	}
+
+
+}
+
+
+@foreach(LoopItem j in GetLoop("Item.Featured_Article")){
+
+	string articleSectiune = j.GetString("Item.Featured_Article.SectiuneParinte");
+ 	int articleSectiuneID = j.GetInteger("Item.Featured_Article.SectiuneParinteId");
+
+ 	<div class="col-md-12 col-xs-12 load-more">
+      <a href="/Default.aspx?ID=@articleSectiuneID"><button type="button" class="btn btn-lg btn-block">@Translate("maimulte","Mai multe")</button></a>
+    </div>
+
+}
+
+@helper RenderOneCol(Article article, string display)
+{
+	//1col-image-nosummary
+	//1col-image-nosummary-small
+	//1col-image-summary
+	string imageWidth= "350";
+	string imageHeight= "230";
+	string imageCrop = "5";
+	string fillCanvasString = "&amp;FillCanvas=true";
+
+	string articleTitle = article.articleTitle;
+	var articleDate = article.articleDate;
+	string articleLink = article.articleLink;
+	string articleImage = "/Admin/Public/GetImage.ashx?width=" + imageWidth + "&amp;height=" + imageHeight + "&amp;crop=" + imageCrop + "&amp;Compression=75" + fillCanvasString+ "&amp;DoNotUpscale=true&amp;image=" + article.articleImage ;
+	string articleExcerpt = article.articleExcerpt != null ? article.articleExcerpt : "";
+	articleExcerpt = articleExcerpt != "" ? Regex.Replace(articleExcerpt, @"<[^>]*>", String.Empty) : articleExcerpt;
+	string articleVisits = article.articleVisits;
+	bool itemConditionVisits = true;//item.GetBoolean("ItemPublisher:Item.Vizite");
+	string articleSectiune = article.articleSectionName;
+	string articleSectiuneID = article.articleSectionId;
+	// string smallImage = "/Admin/Public/GetImage.ashx?width=" + imageWidth + "&amp;height=" + imageHeight + "&amp;crop=" + imgCrop + "&amp;Compression=75" + fillCanvasString+ "&amp;DoNotUpscale=true&amp;image=" + image + imageFocalPointParameters;
+	List<Autor> articleAutori = new List<Autor>(); //article.articleAutori;
+	List<Sectiune> articleSections = new List<Sectiune>(); //article.articleSections;
+	if(article.articleAutori != null && article.articleAutori.Any() ){
+		foreach(var autor in article.articleAutori){
+			articleAutori.Add(new Autor{
+				Id = autor.Id,
+				Name = autor.Name,
+				Link = autor.Link
+			});
+		}
+	}
+	@Include("../Lists/1col-image-nosummary.cshtml")
+}
+
+@helper RenderTwoCol(Article article, string display)
+{
+	//2col-image-nosummary
+	//2col-noimage-nosummary
+	string imageWidth= "350";
+	string imageHeight= "230";
+	string imageCrop = "5";
+	string fillCanvasString = "&amp;FillCanvas=true";
+
+	string articleTitle = article.articleTitle;
+	var articleDate = article.articleDate;
+	string articleLink = article.articleLink;
+	string articleImage = "/Admin/Public/GetImage.ashx?width=" + imageWidth + "&amp;height=" + imageHeight + "&amp;crop=" + imageCrop + "&amp;Compression=75" + fillCanvasString+ "&amp;DoNotUpscale=true&amp;image=" + article.articleImage ;
+	string articleExcerpt = article.articleExcerpt != null ? article.articleExcerpt : "";
+	articleExcerpt = articleExcerpt != "" ? Regex.Replace(articleExcerpt, @"<[^>]*>", String.Empty) : articleExcerpt;
+	string articleVisits = article.articleVisits;
+	bool itemConditionVisits = true;//item.GetBoolean("ItemPublisher:Item.Vizite");
+	string articleSectiune = article.articleSectionName;
+	string articleSectiuneID = article.articleSectionId;
+	// string smallImage = "/Admin/Public/GetImage.ashx?width=" + imageWidth + "&amp;height=" + imageHeight + "&amp;crop=" + imgCrop + "&amp;Compression=75" + fillCanvasString+ "&amp;DoNotUpscale=true&amp;image=" + image + imageFocalPointParameters;
+	List<Autor> articleAutori = new List<Autor>(); //article.articleAutori;
+	List<Sectiune> articleSections = new List<Sectiune>(); //article.articleSections;
+	if(article.articleAutori != null && article.articleAutori.Any() ){
+		foreach(var autor in article.articleAutori){
+			articleAutori.Add(new Autor{
+				Id = autor.Id,
+				Name = autor.Name,
+				Link = autor.Link
+			});
+		}
+	}
+	
+	@Include("../Lists/2col-image-nosummary.cshtml")
+	 
+	
+	
+	
+}
+
+@helper RenderThreeCol(Article article, string display)
+{
+	//3col-image-nosummary
+	//@Include("../../Lists/1col-image-nosummary.cshtml")
+}
+
+@helper RenderSliderArticle (Article article, string display)
+{
+	//@Include("../../Lists/1col-image-nosummary.cshtml")
+	//Slider-Articole
+}
+
+	
+
+
+                

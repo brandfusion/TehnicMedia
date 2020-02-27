@@ -1,0 +1,191 @@
+﻿@using Dynamicweb.Frontend
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage.cshtml")
+@Include("../Includes/VerifyImage.cshtml")
+
+@{
+  string verificare = System.Web.HttpContext.Current.Request.Params["Tip"];
+  string verificare2 = System.Web.HttpContext.Current.Request.Params["Companie"];
+  string verificare3 = System.Web.HttpContext.Current.Request.Params["Autor"];
+	string pageId = System.Web.HttpContext.Current.Request.Params["ID"];
+	string sectiuneId = System.Web.HttpContext.Current.Request.Params["Sectiune"];
+  string pagelink = GetString("DwPaging.FirstPageLink");
+  int globalPageID = 0;
+  List <LoopItem> Autori = new List<LoopItem>();
+  List <LoopItem> Companii = new List<LoopItem>();  
+
+  foreach (LoopItem parameter in GetLoop("FacetGroups"))
+      {   
+        foreach (LoopItem facet in parameter.GetLoop("Facets")) {
+            if (facet.GetString("Facet.Name") == "Autori") {
+            Autori = facet.GetLoop("FacetOptions");
+            }
+    
+          if (facet.GetString("Facet.Name") == "Companii") {
+            Companii = facet.GetLoop("FacetOptions");
+          }
+          
+
+        }      
+      }
+
+
+
+}
+
+
+<div class="row row-filtre-sectiune" style="background-color:#f5f5f5; padding:10px 10px 10px;" data-page-link="@pagelink">
+                   <h3 class="block-title"><span>Filtreaza:</span></h3>
+
+
+
+                    <!-- Filtru de Autori-->
+                   <div class="col-xs-6">
+                   <select class="select-test" name="AutoriSectiune" >
+                      <option value="ValoareaDefault" selected data-groupid="AutorDefault">Autor</option>
+                            @foreach(LoopItem autor in Autori) {
+
+
+                                                  string facetValue = autor.GetString("FacetOption.Value");
+                                  var facetObject = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Autori", facetValue);
+                                  object facetNameRaw = facetObject != null ? facetObject["Name"] : null;
+                                  string facetName = facetNameRaw != null ? facetNameRaw.ToString() : "";  
+                                  var facetGroup = Dynamicweb.Ecommerce.Products.Group.GetGroupById(facetValue);
+                                                  string facetGroupName = facetGroup != null ? facetGroup.Name : "Autori";
+                                                  string facetCount = autor.GetString("FacetOption.Count");
+                                                  bool isSelected = facetValue == verificare3 ? true : false;
+
+
+
+                                                  if (String.IsNullOrEmpty(facetName)) {
+                                                      facetName = "Autori";
+                                                  }
+
+                                if (isSelected == true ) {
+
+                                                <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount)</option>
+
+                                                }   
+
+                                            else {
+                                                <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                            }
+                                                  
+								}
+
+
+                   </select>
+                   </div>
+                    <!-- End Filtru autori-->
+                   <!-- Filtru de companii-->
+                      <div class="col-xs-6">
+                          <select class="select-test" name="Companie">
+                      <option value="ValoareaDefault" selected data-groupid="CompanieDefault">Companie</option>
+                      @foreach(LoopItem companie in Companii) {
+
+                                                  string facetValue = companie.GetString("FacetOption.Value");
+                                  var facetObject = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Companii", facetValue);
+                                  object facetNameRaw = facetObject != null ? facetObject["Name"] : null;
+                                  string facetName = facetNameRaw != null ? facetNameRaw.ToString() : "";   
+
+                                                  var facetGroup = Dynamicweb.Ecommerce.Products.Group.GetGroupById(facetValue);
+                                                  string facetGroupName = facetGroup != null ? facetGroup.Name : "Companii";
+                                                  string facetCount = companie.GetString("FacetOption.Count");
+                                                  bool isSelected = facetValue == verificare2 ? true : false;
+
+                                                  if (facetValue == "") {
+                                                      facetValue = "Companii";
+                                                  }
+
+                                          if (isSelected == true ) {
+
+                                                              <option value="@facetValue" selected data-groupid="@facetValue"> @facetName (@facetCount)</option>
+
+                                                          }   
+
+                                                      else {
+                                                          <option value="@facetValue" data-groupid="@facetValue">@facetName (@facetCount)</option>
+                                                      }
+                                              }
+
+
+                          </select>
+                       </div>
+                    <!-- End Filtru companii-->
+
+                          <!-- Resetare filtre -->
+                          <div class="col-xs-6">
+                            <a class="btn btn-primary" href="/stiri?Sectiune=@sectiuneId">Resetare Filtre</a>  
+                          </div> 
+                          <!--Resetare filtre end --> 
+
+
+</div> 
+
+
+
+
+<div>		
+    <div class="row">
+        @if (GetLoop("QueryResultItem").Any())
+        {
+            foreach (var item in GetLoop("QueryResultItem"))
+            {
+
+                string description = item.GetString("Dw_Page_Sumar");
+                string url = "/Default.aspx?ID=" + item.GetInteger("PageId");
+
+                DateTime date = item.GetDate("Dw_Page_Data");
+
+                string articleTitle = item.GetString("Dw_Page_Titlu");
+                string itemAuthor = "";
+                var articleDate = date;
+                string articleLink = url;
+                string articleImageRaw = item.GetString("Dw_Page_ImaginePrincipala");
+      			string articleImage= GetImage(articleImageRaw, 255, 168);
+                string articleExcerpt = item.GetString("Dw_Page_Sumar");
+                string articleVisits = item.GetString("Dw_Page_Visits");
+                bool itemConditionVisits = false; // item.GetBoolean("Dw_Page_Vizite");
+                string itemAutori = item.GetString("Dw_Page_Autori");
+                string articleSectiune = item.GetString("Dw_Page_SectiuneParinte");
+                int articleSectiuneID = item.GetInteger("Dw_Page_SectiuneParinteId");
+                string itemSections = "";
+                List<Autor> articleAutori = GetAutori(itemAutori);
+                List<Sectiune> articleSections = GetSectiuni(itemSections);
+
+              @Include("../Lists/Stiri-LP-Sectiune-3col-image-nosummary-small.cshtml")
+
+            }
+        }
+        else
+        {
+            <h4>Nu exista stiri</h4>
+        }
+	  </div>
+
+
+</div>
+@if (GetInteger("DwPaging.PageCount") > 1) { 
+<div id="productlistnavigation">
+    <div class="row" id="pagenavigation">
+    	<div class="col-sm-4">
+		    @if(GetInteger("DwPaging.CurrentPage") > 1)
+			    {
+			    	<a href='@GetValue("DwPaging.PreviousPageLink")' class="prev">Previous</a>
+			    }
+			  
+		  </div>
+		  <div class="col-sm-4 text-center" id="pagecount">
+	        Page @GetValue("DwPaging.CurrentPage") of @GetValue("DwPaging.PageCount")
+	    </div>
+	    <div class="col-sm-4 text-right">
+			    @if(GetInteger("DwPaging.CurrentPage") < GetInteger("DwPaging.PageCount"))
+			    {
+			    	<a href='@GetValue("DwPaging.NextPageLink")' class="next">Next</a>
+			    }
+
+		  </div>
+    </div>
+</div>
+}

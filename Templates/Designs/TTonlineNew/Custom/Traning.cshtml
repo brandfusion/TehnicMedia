@@ -1,0 +1,122 @@
+﻿@using Dynamicweb.Frontend
+@* @Include("GlobalVariables.cshtml") *@
+@Include("../Includes/ArticleHelper.cshtml")
+@*<p>Total articole: @GetInteger("Items.TotalCount")</p>*@
+
+
+
+@{
+var Traninguri = GetLoop("Item.Traninguri"); 
+if(Traninguri.Any()){
+
+        
+            	foreach(LoopItem item in Traninguri){
+                string TraningTitle = item.GetString("Item.Traninguri.Title.Value");
+                var TraningDate = item.GetDate("Item.Traninguri.Data");  
+                string VimeoCode = item.GetString("Item.Traninguri.VimeoCode.Value");
+                string YouTubeCode = item.GetString("Item.Traninguri.YouTubeCode.Value");
+                string TraningThumbnail = item.GetString("Item.Traninguri.Thumbnail.Value");
+                string ThumbnailPDF = item.GetString("Item.Traninguri.Pdf.Value");
+                string articleExcerpt = item.GetString("Item.Traninguri.Sumar");
+                
+
+
+          if(!string.IsNullOrEmpty(VimeoCode)){
+
+
+                <div class="col-md-4">
+                  <article class="featured-small box-news">
+                    <a href="@VimeoCode" class="overlay-link">
+                      <figure class="image-overlay">
+                        <img src="/Admin/Public/GetImage.ashx?Image=@TraningThumbnail&altFmImage_path=/Files/Images/NoImage/350x230.png&Format=jpg&Width=350&Height=320&Crop=5" alt="@TraningTitle"/>
+                      </figure>
+                    </a>
+                   
+                    <header class="featured-header">
+                      
+                      <h2><a href="@VimeoCode">@TraningTitle</a></h2>
+                      <p class="simple-share">
+                           <p>@articleExcerpt</p>
+                             <p><a href="" class="overlay-link"><strong>Citeste mai mult</strong></p>
+                       </p>
+                    </header>
+                  </article>
+
+                </div>
+
+          }
+          else if(!string.IsNullOrEmpty(YouTubeCode)){
+            
+              <div class="col-md-4">
+                      <article class="featured-small box-news">
+                        <a href="@YouTubeCode" class="overlay-link">
+                          <figure class="image-overlay">
+                            <img src="/Admin/Public/GetImage.ashx?Image=@TraningThumbnail&altFmImage_path=/Files/Images/NoImage/350x230.png&Format=jpg&Width=350&Height=320&Crop=5" alt="@TraningTitle"/>
+                          </figure>
+                        </a>
+                       
+                        <header class="featured-header">
+                          
+                          <h2><a href="@YouTubeCode">@TraningTitle</a></h2>
+                          <p class="simple-share">
+                               <p>@articleExcerpt</p>
+                             <p><a href="" class="overlay-link"><strong>Citeste mai mult</strong></p>
+                           </p>
+                        </header>
+                      </article>
+                    </div>
+
+          }
+          else if(!string.IsNullOrEmpty(ThumbnailPDF)){
+            
+              <div class="col-md-4">
+                      <article class="featured-small box-news">
+                        <a href="@ThumbnailPDF" class="overlay-link">
+                          <figure class="image-overlay">
+                            <img src="/Admin/Public/GetImage.ashx?Image=@TraningThumbnail&altFmImage_path=/Files/Images/NoImage/350x230.png&Format=jpg&Width=350&Height=320&Crop=5" alt="@TraningTitle"/>
+                          </figure>
+                        </a>
+                       
+                        <header class="featured-header">
+                          
+                          <h2><a href="@ThumbnailPDF">@TraningTitle</a></h2>
+                          <p class="simple-share">
+                               <p>@articleExcerpt</p>
+                             <p><a href="" class="overlay-link"><strong>Citeste mai mult</strong></p>
+                           </p>
+                        </header>
+                      </article>
+                    </div>
+
+
+          }
+          else{
+            
+                  <div class="col-md-4">
+                      <article class="featured-small box-news">
+                        <a href="@ThumbnailPDF" class="overlay-link">
+                          <figure class="image-overlay">
+                           <img src="/Admin/Public/GetImage.ashx?Image=@TraningThumbnail&altFmImage_path=/Files/Images/NoImage/350x230.png&Format=jpg&Width=350&Height=320&Crop=5" alt="@TraningTitle"/> 
+                          </figure>
+                        </a>
+                       
+                        <header class="featured-header">
+                          
+                          <h2><a href="@ThumbnailPDF">@TraningTitle</a></h2>
+                          <p class="simple-share">
+                             <p>@articleExcerpt</p>
+                             <p><a href="" class="overlay-link"><strong>Citeste mai mult</strong></p>
+                           </p>
+                        </header>
+                        
+                      </article>
+                    </div>
+
+
+          }
+
+
+          	} @* End of foreach *@
+          } @* end of getBoolean *@
+
+} @* End of first brackett *@

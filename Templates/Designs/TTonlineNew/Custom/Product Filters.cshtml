@@ -1,0 +1,350 @@
+﻿@using System.Linq
+
+@{	bool noResults = false;
+    var parametersList = GetLoop("Query.Parameters");
+    string groupId = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["GroupID"]) ? System.Web.HttpContext.Current.Request.Params["GroupID"].ToString() : "";
+    string Producator = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Producator"]) ? System.Web.HttpContext.Current.Request.Params["Producator"] : "";
+    string pageSizeNum = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["PageSize"]) ? System.Web.HttpContext.Current.Request.Params["PageSize"] : "";
+
+}
+<div class="headerBox filtersHead col-xs-12 row">
+    <h3 class="block-title top-title"><span><!--@Translate("filterYourResults", "Filter your results")--> Filtreaza</span></h3>
+</div>
+
+<!-- REMOVE FILTERS -->
+
+
+<form id="filtersForm" class="col-xs-12 noPadding" action="/Default.aspx" data-page-id="4228">
+    <input type="hidden" name="ID" value="@Pageview.Page.ID"/>
+    <input type="hidden" name="GroupID" value="@groupId" />
+  
+    @*<input type="hidden" name="sortby" value="@sortBy"/>
+    <input type="hidden" name="SortOrder" value="@sortOrder"/>
+    <input type="hidden" name="PageSize" value="@pageSizeNum"/>
+    <input type="hidden" name="q" value="@qString"/>*@
+
+   
+    @foreach (LoopItem facetGroup in GetLoop("FacetGroups"))
+    {
+        foreach (LoopItem facet in facetGroup.GetLoop("Facets"))
+        {
+            string parameterType = parametersList.First(x => x.GetString("Parameter.Name") == facet.GetString("Facet.QueryParameter")).GetString("Parameter.Type");
+            string templateOutput = "string";
+
+            if (parameterType.Contains("[]"))
+            {
+                switch (facet.GetString("Facet.Name"))
+                {
+                    case "Producator":
+                        templateOutput = "checkboxes";
+                        break;
+                    case "GroupID":
+                        templateOutput = "checkboxes";
+                        break;
+                    default:
+                        templateOutput = "checkboxes";
+                        break;
+                }
+            }
+            else if (parameterType.Contains("Boolean"))
+            {
+                switch (facet.GetString("Facet.Name"))
+                {
+                   case "Producator":
+                        templateOutput = "checkboxes";
+                        break;
+                    case "GroupID":
+                        templateOutput = "checkboxes";
+                        break;
+                    default:
+                        templateOutput = "checkboxes";
+                        break;
+                }
+            }
+            else if (!string.IsNullOrWhiteSpace(facet.GetString("Facet.OptionCount")))
+            {
+                switch (facet.GetString("Facet.Name"))
+                {
+                     case "Producator":
+                        templateOutput = "checkboxes";
+                        break;
+                    case "GroupID":
+                        templateOutput = "checkboxes";
+                        break;
+                    default:
+                        templateOutput = "checkboxes";
+                        break;
+                }
+            }
+            else
+            {
+                switch (facet.GetString("Facet.Name"))
+                {
+                    case "Producator":
+                        templateOutput = "checkboxes";
+                        break;
+                    case "GroupID":
+                        templateOutput = "checkboxes";
+                        break;
+                    default:
+                        templateOutput = "checkboxes";
+                        break;
+                }
+            }
+            @RenderField(facet, parameterType, templateOutput, noResults)
+        }
+    }
+</form>
+
+@helper RenderField(LoopItem loopItem, string parameterType, string templateOutput, bool noResults)
+{
+    string parameter = loopItem.GetString("Facet.QueryParameter");
+    string name = loopItem.GetString("Facet.Name");
+    List<LoopItem> facetOptionsList = loopItem.GetLoop("FacetOptions");
+    var facetOptions = noResults ? facetOptionsList.OrderByDescending(o => o.GetInteger("FacetOption.Count")).ThenBy(or => or.GetString("FacetOption.Label")) : loopItem.GetLoop("FacetOptions").Where(f => f.GetInteger("FacetOption.Count") != 0).OrderByDescending(o => o.GetInteger("FacetOption.Count")).ThenBy(or => or.GetString("FacetOption.Label"));
+
+    if (name == "EcomGroups")
+    {
+        @RenderEcomNavigation(null)
+    }
+    else{
+        switch (templateOutput)
+        {
+            case "multiselect":
+                if (loopItem.GetLoop("FacetOptions").Any())
+                {
+                    <fieldset>
+                        <legend>@name</legend>
+                        <select data-selected-text-format="count" data-live-search="true" data-size="8" name="@parameter" multiple>
+                            @foreach (LoopItem option in facetOptionsList.OrderByDescending(o => o.GetInteger("FacetOption.Label")))
+                            {
+                                bool facetOptionChecked = option.GetBoolean("FacetOption.Selected");
+                                string value = option.GetString("FacetOption.Value");
+                                string nameOption = option.GetString("FacetOption.Name");
+
+                                <option selected="@facetOptionChecked" value="@value" >@option.GetString("FacetOption.Label")</option>
+                            }
+                        </select>
+                    </fieldset>
+                }
+
+                break;
+            case "checkboxes":
+
+                if (loopItem.GetLoop("FacetOptions").Any())
+                {
+                    int count = 0;
+
+                    <fieldset data-type="@parameterType">
+                        <legend class="filterTitle">
+                        @if(name == "Producator"){
+                          <span>Producator/Brand</span>
+                          }else if(name == "Furnizor"){
+                          <span>Reprezentant/Dealer</span>
+                          }else if(name == "Sectiune"){
+                          <span>Domeniu</span>
+                          }else if(name == "Subcategorie"){
+                          <span>Produse si servicii</span>
+                          }else{
+                          	@name
+                          }
+						</legend>
+@if(name != "Sectiune"){
+                        <div id="@name" class="filtersContainer hide">
+                            @foreach (LoopItem option in facetOptionsList.OrderBy (p => p.GetString("FacetOption.Label")))
+                            {
+                                bool facetOptionChecked = option.GetBoolean("FacetOption.Selected");
+                                string value = option.GetString("FacetOption.Value") != "" ? System.Web.HttpUtility.UrlEncode(option.GetString("FacetOption.Value")) : "";
+                                string nameOption = option.GetString("FacetOption.Name");
+								string selectat = facetOptionChecked == false ? "color:white!important": "color:#ffa700!important";
+
+                                count++;
+                                string classString = count > 5 ? "hide" : "";
+
+                                <label class="checkBoxContainer @classString col-xs-12">
+                                    <input checked="@facetOptionChecked" type="checkbox" value="@value" name="@parameter">
+                                    <span style="@selectat;">
+                                        @option.GetString("FacetOption.Label")
+                                       @* @if (option.GetInteger("FacetOption.Count") > 0)
+                                        {
+                                            string.Format("({0})", option.GetString("FacetOption.Count"));
+                                        }*@
+                                    </span>
+                                </label>
+                            }
+			
+                            @if (loopItem.GetLoop("FacetOptions").Where(f => f.GetInteger("FacetOption.Count") != 0).Count() >= 1 && @name == "Producator")
+                            {
+                                <span class="seeMore" data-more='@Translate("seeMore", "See more")' data-hide='@Translate("only5", "Show only 5")'>Vezi Producator/Brand</span>
+                            }
+
+                             @if (loopItem.GetLoop("FacetOptions").Where(f => f.GetInteger("FacetOption.Count") != 0).Count() >= 1 && @name == "Furnizor")
+                            {
+                                <span class="seeMoreFurnizori" data-more='@Translate("seeMore", "See more")' data-hide='@Translate("only5", "Show only 5")'>Vezi Reprezentant/Dealer</span>
+                            }
+
+							
+								@if (loopItem.GetLoop("FacetOptions").Where(f => f.GetInteger("FacetOption.Count") != 0).Count() >= 1 && @name == "Subcategorie")
+                                {
+                                    <span class="seeMoreSubcategorie" data-more='@Translate("seeMore", "See more")' data-hide='@Translate("only5", "Show only 5")'>Vezi Produse si servicii</span>
+                                }
+							
+			
+                        </div>
+}else{
+<div id="@name" class="filtersContainer hide">
+                            @foreach (LoopItem option in facetOptions)
+                            {
+                                bool facetOptionChecked = option.GetBoolean("FacetOption.Selected");
+                                string value = option.GetString("FacetOption.Value");
+                                string nameOption = option.GetString("FacetOption.Name");
+								string selectat = facetOptionChecked == false ? "color:white!important": "color:#ffa700!important";
+
+                                count++;
+                                string classString = count > 5 ? "hide" : "";
+
+                                <label class="checkBoxContainer @classString col-xs-12">
+                                    <input checked="@facetOptionChecked" type="checkbox" value="@value" name="@parameter">
+                                    <span style="@selectat;">
+	                                 @option.GetString("FacetOption.Label")
+                                        @if (option.GetInteger("FacetOption.Count") > 0)
+                                        {
+                                            string.Format("({0})", option.GetString("FacetOption.Count"));
+                                        }
+                                    </span>
+                                </label>
+                            }
+			
+                          
+			
+                        </div>
+}
+                    </fieldset>
+                }
+
+                break;
+            case "select":
+
+                break;
+            case "checkbox":
+
+                if (loopItem.GetLoop("FacetOptions").Any())
+                {
+                    <fieldset data-type="@parameterType">
+                        @foreach (LoopItem option in facetOptionsList.Where(f => f.GetInteger("FacetOption.Count") != 0).OrderByDescending(o => o.GetInteger("FacetOption.Count")).ThenBy(or => or.GetString("FacetOption.Label")))
+                        {
+                            bool facetOptionChecked = option.GetBoolean("FacetOption.Selected");
+                            string value = option.GetString("FacetOption.Value") == "True" ? "True" : "";
+                            string nameOption = option.GetString("FacetOption.Name");
+
+                            if (value == "True")
+                            {
+                                <legend class="filterTitle">@name</legend>
+                                <div class="filtersContainer hide">
+                                    <label class="checkBoxContainer">
+                                        <input checked="@facetOptionChecked" type="checkbox" value="@value" name="@parameter"> <span>@name (@option.GetString("FacetOption.Count"))</span>
+                                    </label>
+                                </div>
+                            }
+                        }
+                    </fieldset>
+                }
+
+                break;
+            case "radio":
+
+                break;
+            case "radios":
+
+                break;
+            case "autocomplete":
+
+                break;
+            case "range":
+                break;
+            default:
+                <fieldset data-type="@parameterType">
+                    <legend class="filterTitle">@name</legend>
+                    <div class="filtersContainer">
+                        <input type="text" name="@parameter" value=""/>
+                    </div>
+                </fieldset>
+                break;
+        }
+    }
+}
+
+
+@helper RenderEcomNavigation(Dynamicweb.Ecommerce.Products.GroupCollection groupCollection)
+{
+    groupCollection = groupCollection ?? new Dynamicweb.Ecommerce.Shops.Shop((string) Dynamicweb.Frontend.PageView.Current()
+        .Area.EcomShopId)
+        .get_TopLevelGroups((string) Dynamicweb.Frontend.PageView.Current()
+            .Area.EcomLanguageId);
+
+    foreach (var group in groupCollection)
+    {
+        string groupName = group.Name;
+        string groupId = group.Id;
+
+        if (group.Subgroups.Any())
+        {
+            int numberOfParentGroups = group.ParentGroups.Count;
+            string hideSubgroups = numberOfParentGroups == 0 ? "hide" : "";
+
+            <fieldset class="groupFieldset level_@numberOfParentGroups">
+                <legend class="filterTitle deep_@numberOfParentGroups">
+
+                    @* IF SUB-GROUPS SHOULD NOT HAVE A CHECKBOX
+                    @if ((bool) Pageview.Area.Item["ParentGroupsWithCheckbox"])
+                    *@
+                    @if (numberOfParentGroups > 0 || ((bool)Pageview.Area.Item["ParentGroupsWithCheckbox"] && numberOfParentGroups == 0) )
+                    {
+                        <label class="checkBoxContainer ">
+                            <input type="checkbox" value="@groupId" name="group">
+                            <span>
+                                @groupName
+                            </span>
+                        </label>
+                    }
+                    else
+                    {
+                        <input class="hidden" type="checkbox" value="@groupId" name="group">
+                        @groupName
+                    }
+                </legend>
+
+                <div class="filtersContainer containerDeep_@numberOfParentGroups @hideSubgroups">
+                    @RenderEcomNavigation(group.Subgroups)
+                </div>
+            </fieldset>
+        }
+        else
+        {
+            <label class="checkBoxContainer ">
+                <input type="checkbox" value="@groupId" name="group">
+                <span>
+                    @groupName
+                </span>
+            </label>
+        }
+
+    }
+}
+<div class="col-xs-12 removeFiltersContainer">
+  @foreach (LoopItem facetGroup in GetLoop("FacetGroups"))
+  {
+    foreach (LoopItem facet in facetGroup.GetLoop("Facets"))
+    {
+      if (facet.GetLoop("FacetOptions").Any(r => r.GetBoolean("FacetOption.Selected")))
+      {
+        <a data-queryname="@(facet.GetString("Facet.QueryParameter"))" class="btn btn-bg hidden-lg hidden-md hidden-sm hidden-xs" href="#">@facet.GetString("Facet.Name") <i class="fa fa-times"></i></a>
+      }
+    }
+  }
+<a class="btn default-btn removeAll" href="#"><!--@Translate("removeallFilters", "Clear All")--> Reseteaza filtrele</a>
+<div class="row">
+  <div class="col-xs-12 mesaj-ecomm"><strong>@Translate("NOTA","NOTA: ")</strong> @Translate("TextClientiCustom","Noi ramuri si subramuri vor fi adaugate in urma solicitarilor companiilor doritoare, pentru extinderea ofertei catalogului pana la nivelul solicitat de oferta pietei de tehnologie.")
+  </div>
+</div>
+</div>

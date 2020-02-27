@@ -1,0 +1,71 @@
+﻿
+@using Dynamicweb.Frontend
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+
+<div>		
+    <div class="row">
+        @if (GetLoop("QueryResultItem").Any())
+        {
+
+
+foreach (var item in GetLoop("QueryResultItem"))
+            {
+
+               
+                string description = item.GetString("Dw_Page_Sumar");
+                string url = "/Default.aspx?ID=" + item.GetInteger("PageId");
+                DateTime date = item.GetDate("Dw_Page_Data");
+                string articleTitle = item.GetString("Dw_Page_Titlu");
+                string itemAuthor = "";
+                var articleDate = date;
+               
+                string articleImage = item.GetString("Dw_Page_ImaginePrincipala");
+                string articleExcerpt = item.GetString("Dw_Page_Sumar");
+                string articleVisits = item.GetString("Dw_Page_Visits");
+                bool itemConditionVisits = false; // item.GetBoolean("Dw_Page_Vizite");
+                string itemAutori = item.GetString("Dw_Page_Autori");
+                string articleSectiune = item.GetString("Dw_Page_SectiuneParinte");
+                int articleSectiuneID = item.GetInteger("Dw_Page_SectiuneParinteId");
+                string itemSections = "";
+                List<Autor> articleAutori = GetAutori(itemAutori);
+                List<Sectiune> articleSections = GetSectiuni(itemSections);
+
+       
+              @Include("../Lists/Newsletters3col-image-NOsummary.cshtml")
+
+            }
+        }
+        else
+        {
+            <h4>Nu exista articole</h4>
+        }
+	  </div>
+
+
+</div>
+
+
+@if (GetInteger("DwPaging.PageCount") > 1) { 
+<div id="productlistnavigation">
+    <div class="row" id="pagenavigation">
+    	<div class="col-sm-4">
+		    @if(GetInteger("DwPaging.CurrentPage") > 1)
+			    {
+			    	<a href='@GetValue("DwPaging.PreviousPageLink")' class="prev">Previous</a>
+			    }
+			  
+		  </div>
+		  <div class="col-sm-4 text-center" id="pagecount">
+	        Page @GetValue("DwPaging.CurrentPage") of @GetValue("DwPaging.PageCount")
+	    </div>
+	    <div class="col-sm-4 text-right">
+			    @if(GetInteger("DwPaging.CurrentPage") < GetInteger("DwPaging.PageCount"))
+			    {
+			    	<a href='@GetValue("DwPaging.NextPageLink")' class="next">Next</a>
+			    }
+
+		  </div>
+    </div>
+</div>
+}

@@ -1,0 +1,15 @@
+﻿<div class="col-sm-3 col-grup reset-padding-right item-scope">
+  <div class="category-item clearfix">
+		
+     <div class="category-image">
+        @if (!string.IsNullOrEmpty(i.GetString("Ecom:Group.LargeImage")) ){
+            <img src="@i.GetValue("Ecom:Group.LargeImage")" class="img-responsive" />
+        } else {
+            <img src="/Files/Images/Ecom/no-image-size-1.png" class="img-responsive" />
+        }
+      </div>
+      <a href="@i.GetValue("Ecom:Group.Link.Clean")" class="category-name">@i.GetValue("Ecom:Group.Name")</a>
+     @* <span class="product-price">DE LA: 3,80 LEI </span>*@
+ 
+  </div>
+</div>

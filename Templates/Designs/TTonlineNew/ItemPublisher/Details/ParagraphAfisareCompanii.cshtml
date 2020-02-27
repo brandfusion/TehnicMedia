@@ -1,0 +1,234 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+
+<link rel="stylesheet" href="/Files/Templates/ItemPublisher/ItemPublisher.css" />
+@{
+	string Logo = !string.IsNullOrEmpty(GetString("ItemPublisher:Item.Logo.Value")) ? GetString("ItemPublisher:Item.Logo.Value") : GetString("ItemPublisher:Item.Logo.Image");
+	string ImgProfil = !string.IsNullOrEmpty(GetString("ItemPublisher:Item.ImgProfil.Value")) ? GetString("ItemPublisher:Item.ImgProfil.Value") : GetString("ItemPublisher:Item.ImgProfil.Image");	
+	string Summary = GetString("ItemPublisher:Item.Summary.Value");
+	
+
+	string OldTid = GetString("ItemPublisher:Item.OldTid.Value");
+	string DateContact = GetString("ItemPublisher:Item.DateContact.Value");
+	var RepresentativeProducts = GetLoop("ItemPublisher:Item.RepresentativeProducts.Value");
+	var SecondaryProducts = GetLoop("ItemPublisher:Item.SecondaryProducts.Value");
+	var ProduseAll = RepresentativeProducts.ToList();
+	ProduseAll.AddRange(SecondaryProducts);
+
+
+	bool Afiseaza_Articole = GetBoolean("ItemPublisher:Item.Afiseaza_Articole.Value");
+	bool Afiseaza_Stiri = GetBoolean("ItemPublisher:Item.Afiseaza_Stiri.Value");
+	string CataloageProduse = GetString("ItemPublisher:Item.CataloageProduse.Value");
+	string FiseTehnice = GetString("ItemPublisher:Item.FiseTehnice.Value");
+	string HartaAcces = GetString("ItemPublisher:Item.HartaAcces.Value");
+	string LinkCatreSite = GetString("ItemPublisher:Item.LinkCatreSite.Value");
+	string DeclaratieManager = GetString("ItemPublisher:Item.DeclaratieManager.Value");
+	string SocialMedia = GetString("ItemPublisher:Item.SocialMedia.Value");
+	string Description = GetString("ItemPublisher:Item.Description.Value");
+	string GalerieFoto_video = GetString("ItemPublisher:Item.GalerieFoto_video.Value");
+	string Traininguri = GetString("ItemPublisher:Item.Traininguri.Value");
+	string Joburi = GetString("ItemPublisher:Item.Joburi.Value");
+	string TestimonialeClienti = GetString("ItemPublisher:Item.TestimonialeClienti.Value");
+	bool Contacteaza_ne = GetBoolean("ItemPublisher:Item.Contacteaza_ne.Value"); 
+	string Echipa = GetString("ItemPublisher:Item.Echipa.Value");
+	bool BandaSubbranduri = GetBoolean("ItemPublisher:Item.BandaSubbranduri.Value");
+
+	
+	@* string image = !string.IsNullOrEmpty(pageImage) ? pageImage : genericImage; *@
+
+
+}
+
+
+
+
+
+<div class="col-md-12">
+	
+	<div class="row">
+	
+	<div class="col-md-4">
+
+
+							@if(!string.IsNullOrEmpty(Logo)) {
+								 <img src="@Logo" alt="">
+							}									 								
+
+	</div>
+				
+				<div class="col-md-4">
+									<div class="items">
+									  <div class="item-details">
+									    <div class="item-details-fields-outer">
+									         
+
+									          <div class="item-details-field">
+									              <div class="item-details-field-value">
+
+
+													@if(!string.IsNullOrEmpty(Summary)) {
+				 										<p>@Summary</p>
+				 									}
+									 								
+
+
+									              </div>
+									          </div>
+									                   
+									    </div>
+
+									    @*<div class="item-details-controls">
+									        <input type="button" value='<!--@Translate(ItemPublisher:Details.GoBack, "Go back")-->' onclick="javascript:window.history.go(-1);" />
+									    </div>*@
+
+									    <div class="items-clear"></div>
+									  </div>
+									</div>
+
+				</div>@* End of col md 4 *@
+		
+				<div class="col-md-4">
+
+								@if(!string.IsNullOrEmpty(Logo)) {
+									 <img src="@ImgProfil" alt="">
+									 }									 								
+
+				</div>
+
+		</div>@* End of row *@
+
+
+
+<div class="row">	
+
+<h3>Subranduri</h3>
+
+	<div class="col-md-12">
+		
+            
+  			@if (BandaSubbranduri) {
+            
+  				var manufacturerLogos = ProduseAll
+  					.Select(i => i.GetString("Ecom:Manufacturer.Logo"))
+  					.Distinct();
+
+  				foreach (var manufacturerLogo in manufacturerLogos) {
+  					string imgUrl = "/Files" + manufacturerLogo;
+  					<img src="@imgUrl" width="160" height="100" alt=""/>
+  					
+  					
+  				}
+            
+            }
+
+	</div>@* End of col-md-12*@
+</div>@* End of row *@
+
+
+
+
+
+<div class="row">
+
+<h3>Galerie Foto Video</h3> 
+
+	@* <div class="col-md-12">
+
+
+
+	   <div class="owl-carousel owl-theme"> 
+
+	     @{ 
+	                               
+	                                if(ProduseAll.Any()){	
+	                                            foreach(LoopItem i in ProduseAll){
+	   
+	 
+	                                             string mainImage = i.GetString("Ecom:Product.ImageLarge.Default.Clean"); 
+	                                             string mainTitle = i.GetString("Ecom:Product.Name");
+	                                            string mainURL = i.GetString("Ecom:Product.Link.Clean");
+	                                   
+	          <div class="item">
+
+	             @if(!string.IsNullOrEmpty(i.GetString("Ecom:Product.ImageLarge.Default.Clean"))){
+	                 <a href="@mainURL"><img src="@mainImage" width="160" height="100" alt="" /></a>
+	              }
+	  
+	  else{
+	                 <a href="@mainURL"><img src="@areaLayoutPath/assets/img/demo/160x120.png" height="100" alt="" /></a>
+	              }
+
+	              <h4><a href="@mainURL">@mainTitle </a></h4>  
+	            
+	         </div>              
+	         
+
+	       
+	       }}
+	}
+	</div> 
+	</div>  *@
+
+
+
+</div>@* End row owl containing *@ 
+
+
+
+
+
+
+
+
+<div class="row">
+
+<h3>Produse</h3> 
+
+<div class="col-md-12">
+
+
+
+   <div class="owl-carousel owl-theme"> 
+
+     @{ 
+                               
+                                if(ProduseAll.Any()){	
+                                            foreach(LoopItem i in ProduseAll){
+   
+ 
+                                             string mainImage = i.GetString("Ecom:Product.ImageLarge.Default.Clean"); 
+                                             string mainTitle = i.GetString("Ecom:Product.Name");
+                                             string mainURL = i.GetString("Ecom:Product.Link.Clean");
+                                             //string imgUrl = "" + @mainImage;
+				                                   
+<p>@mainImage</p>
+
+
+									          <div class="item">
+
+									             @if(!string.IsNullOrEmpty(i.GetString("Ecom:Product.ImageLarge.Default.Clean"))){
+									                 <a href="@mainURL"><img src="/@mainImage" width="160" height="100" alt="" /></a>
+									              }
+									  
+									  			 else{
+									                 <a href="@mainURL"><img src="/@mainImage" height="100" alt="" /></a> 
+									              }
+
+									              <h4><a href="@mainURL">@mainTitle </a></h4>  
+									            
+									         </div>              
+							         
+
+					       
+					            }}
+	}
+</div> 
+</div> 
+
+
+
+</div>@* End row owl containing *@ 
+
+
+
+
+</div>@* End of col-md-12 *@

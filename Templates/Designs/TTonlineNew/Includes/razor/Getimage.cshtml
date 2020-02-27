@@ -1,0 +1,87 @@
+@using Dna.ImageProcessor;
+@using Dynamicweb.Frontend.Devices;
+
+@{
+  string designName = GetString("Template:DesignBaseUrl").Replace("/Files/Templates/Designs/", "").Replace("/", "");
+}
+
+@functions{
+  /// <summary>
+  /// Returns the URL for the given ImageSettings.
+  /// </summary>
+  /// <param name="settings">The ImageSettings used to generate the URL.</param>
+  private static string GetImage(ImageSettings settings)
+  {
+    return settings.ToUrl();
+  }
+
+  /// <summary>
+  /// Returns the URL for the given ImageSettings.
+  /// </summary>
+  /// <param name="url">The URL to the image.</param>
+  /// <param name="settings">The ImageSettings used to generate the URL.</param>
+  public static string GetImage(string url, ImageSettings settings = null)
+  {
+    if (settings == null)
+    {
+      settings = new ImageSettings();
+    }
+    settings.ImageUrl = url;
+    return GetImage(settings);
+  }
+
+  /// <summary>
+  /// Returns the URL for the given ImageSettings.
+  /// </summary>
+  /// <param name="url">The URL to the image.</param>
+  /// <param name="width">The requested width of the image.</param>
+  /// <param name="height">The requested height of the image.</param>
+  /// <param name="settings">The ImageSettings used to generate the URL.</param>
+  public static string GetImage(string url, int width, int height, ImageSettings settings = null)
+  {
+    if (settings == null)
+    {
+      settings = new ImageSettings();
+    }
+    settings.Width = width;
+    settings.Height = height;
+    return GetImage(url, settings);
+  }
+
+  /// <summary>
+  /// Returns the URL for the given ImageSettings.
+  /// </summary>
+  /// <param name="url">The URL to the image.</param>
+  /// <param name="width">The requested width of the image.</param>
+  /// <param name="height">The requested height of the image.</param>
+  /// <param name="widthTablet">The requested width of the image for a tablet device.</param>
+  /// <param name="heightTablet">The requested height of the image for a tablet device.</param>
+  /// <param name="widthMobile">The requested width of the image for a mobile device.</param>
+  /// <param name="heightMobile">The requested height of the image for a mobile device.</param>
+  /// <param name="settings">The ImageSettings used to generate the URL.</param>
+  public static string GetImage(string url, int width, int height, int widthTablet, int heightTablet, int widthMobile, int heightMobile, ImageSettings settings = null)
+  {
+    var currentDevice = Dynamicweb.Frontend.PageView.Current().Device;
+
+    switch (currentDevice)
+    {
+      case DeviceType.Tablet:
+        width = widthTablet != 0 ? widthTablet : width;
+        height = heightTablet != 0 ? heightTablet : height;
+        break;
+      case DeviceType.Mobile:
+        width = widthMobile != 0 ? widthMobile : width;
+        height = heightMobile != 0 ? heightMobile : height;
+        break;
+        // default: Skip; just use existing width and height
+    }
+    if (settings == null)
+    {
+      settings = new ImageSettings();
+    }
+    settings.ImageUrl = url;
+    settings.Width = width;
+    settings.Height = height;
+    return GetImage(settings);
+  }
+}

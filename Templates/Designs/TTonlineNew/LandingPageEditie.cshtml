@@ -1,0 +1,45 @@
+﻿@MasterPageFile("Master.cshtml")
+
+<div class="col-md-8">
+  <!--divul pentru articole-->  
+
+
+@*@{
+string filter = "ID is not " + mainArticleID;
+}*@
+		@RenderItemList(new { 
+					ItemType = "Dw_Page",
+					ListSourceType = "SelfArea",
+					ItemFieldsList = "*",
+					ListTemplate = "ItemPublisher/List/LoopUltimaEditie.cshtml",
+					ListPageSize = 1,
+					ListOrderBy = "Data",
+					ListOrderByDirection = "Descending",
+					Filter = ""
+})
+
+
+@*@{
+string filter = "ID is not " + mainArticleID;
+}*@
+		@RenderItemList(new { 
+					ItemType = "Dw_Page",
+					ListSourceType = "SelfArea",
+					ItemFieldsList = "*",
+					ListTemplate = "ItemPublisher/List/LoopEditiipdf.cshtml",
+					ListShowFrom = 2,
+  					ListPageSize = 20,
+					ListOrderBy = "Sort",
+					ListOrderByDirection = "Descending",
+					Filter = ""
+})
+
+
+</div><!--se inchide divul pentru cu col-md-8-->
+
+
+<div class="col-md-4" data-stickycolumn=""><!--aici incepe sidebar-->
+  
+			@Include("Custom/Sidebar.cshtml")
+			                        	               
+</div><!--se inchide divul pentru sidebar-->                      

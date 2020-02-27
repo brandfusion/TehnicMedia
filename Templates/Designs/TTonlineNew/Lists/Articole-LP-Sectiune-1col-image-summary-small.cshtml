@@ -1,0 +1,45 @@
+﻿<article class="simple-post simple-big clearfix col-md-12 separator-articole">
+    <div class="simple-thumb" style="width: 250px!important;">
+        <a href="/Default.aspx?ID=@(idArticole)">
+            @{
+                string noImage = "/Files/Images/no-image.png";
+            }
+            <figure class="">
+                @if(!string.IsNullOrEmpty(articleImageRaw)){
+                    <img src="@articleImage" alt="@articleTitle" class="img-responsive" />
+                }
+                else{
+                    <img src="@GetImage(noImage, 350, 230)" /> 
+                }
+            </figure>
+        </a>
+    </div>
+    <header>
+        <p class="simple-share">
+            @foreach (var articleSection in articleSections)
+            {
+                <a href="@articleSection.Link">@articleSection.Name</a>
+            }
+
+            @if(articleAutori.Any()){
+                @Translate("articolde","de") 
+
+                foreach (var articleAutor in articleAutori)
+                {
+                    <a href="@articleAutor.Link">@articleAutor.Name</a>
+                } 
+                <span style="margin: 0 !important;">-</span>
+            }
+            <span><i class="fa fa-clock-o"></i> @articleDate.ToString("D")</span>
+
+            @if (itemConditionVisits) {    
+              <span><i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+            } 
+
+        </p>
+        <h3 style="font-size: 18px;  overflow: hidden;">
+            <a href="/Default.aspx?ID=@(idArticole)">@articleTitle</a>
+        </h3>
+        <div class="excerpt" >@articleExcerpt</div>
+    </header>
+</article>

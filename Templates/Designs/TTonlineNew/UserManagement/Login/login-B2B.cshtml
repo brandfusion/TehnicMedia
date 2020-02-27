@@ -1,0 +1,30 @@
+﻿<h2>Am cont</h2>
+<div class="account-content">
+    <!--@If(DW_extranet_error_uk<defined>)-->
+    <div class="info-pane error">@GetValue("DW_extranet_error_uk")</div>
+    <!--@EndIf-->
+    <form method="post" id="login" name="ExtUserForm" action='/Default.aspx?id=@GetValue("Global:Page.ID")'>
+        <input type="hidden" name="ID" value='@GetValue("Global:Page.ID")' />
+  		<input type="hidden" name="DWExtranetUsernameRemember" value="True">
+    	<input type="hidden" name="DWExtranetPasswordRemember" value="True">
+        @if(GetValue("UserManagement:User.Login.SuccessRedirectToPage")){
+        <input type="hidden" name="Redirect" value='@GetValue("UserManagement:User.Login.SuccessRedirectToPage")' />
+        }
+        <label class="title" for="login-username">Utilizator:</label>
+        <br>
+        <input type="text" id="login-username" name="username" value="<!--@If(Server:Request.username<defined>)-->@GetValue("Server:Request.username")<!--@EndIf-->" />
+        <label class="title" for="login-password">Parola:</label>
+        <br>
+        <input type="password" id="login-password" name="password" value="<!--@If(Server:Request.password<defined>)-->@GetValue("Server:Request.password")<!--@EndIf-->" />
+        <input type="submit" class="btn-login" value='Autentifica-te'><br>
+        <a href="/Default.aspx?id=@GetValue("Global:Page.ID")&amp;LoginAction=Recovery">Ai uitat parola?</a>
+    </form>
+</div>    
+      
+<h2>Conectare cu alte conturi</h2>            
+<div class="account-content new-cont social-login">        
+  <div class="social clearfix">
+    <a href='/Default.aspx?ID=47&returnUrl=/autentificare' class="facebook-login" rel="nofollow">Facebook</a>
+    <a href='/Default.aspx?ID=48&returnUrl=/autentificare' class="google-login" rel="nofollow">Google+</a>
+  </div>        
+</div>  

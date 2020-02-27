@@ -1,0 +1,46 @@
+﻿@* @using Dynamicweb.Frontend *@
+@* @Include("GlobalVariables.cshtml") *@
+@*Include("../Includes/ArticleHelper.cshtml")*@
+@*<p>Total articole: @GetInteger("Items.TotalCount")</p>*@
+
+
+
+int TestimonialeID = companie["Testimoniale"] != null ? (int)companie["Testimoniale"] : 0;
+
+if(TestimonialeID != 0){
+    var TestimonialeLista = Dynamicweb.Content.Items.ItemList.GetItemListById(TestimonialeID);
+
+    if(TestimonialeLista != null) {
+        
+      foreach( var ElementID in TestimonialeLista.Relations){
+        var Element = new Dynamicweb.Content.Items.Item(ElementID);
+
+
+<div class="col-xs-12 col-md-4 col-sm-4 col-lg-4">
+                <div class="color1">
+                    <div class="col-xs-12 col-md-5 col-sm-5 col-lg-5 reset-padding-right">
+                     
+
+                        @if(!string.IsNullOrEmpty(Element["Image"] as string)){
+                                     <img class="img-responsive" src='@Element["Image"]' width="210" height="230" alt="" style="max-height:230px;" />
+                                  }  else{
+                                     <img class="img-responsive" src="http://placehold.it/300/300" height="100" alt="" />
+                                  }                    
+                        <h2>@Element["Name"]</h2>
+                    </div>
+                    <div class="col-xs-12 col-md-7 col-sm-7 col-lg-7">
+                        <p style="font-size:12px;">@Element["Sumar"]</p>
+                    </div>
+                </div>
+            </div>
+    
+
+      }
+
+    } <!--End of TestimonialeLista -->
+
+  } <!--End of TestimonialeID -->
+
+
+
+

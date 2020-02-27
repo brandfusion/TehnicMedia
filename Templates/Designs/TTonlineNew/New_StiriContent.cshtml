@@ -1,0 +1,173 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using Dynamicweb.Content.Items;
+@MasterPageFile("Master.cshtml")
+@GetValue("Title(Article page)")
+@GetValue("Description(Pagina de articol)")
+@Include("Includes/ArticleHelper.cshtml")
+@Include("Includes/New_PlaceholderHelpers.cshtml")
+@{
+	string IdCompanie = System.Web.HttpContext.Current.Request["Companie"] != null ? System.Web.HttpContext.Current.Request["Companie"].ToString(): "";
+	string IdAutor = System.Web.HttpContext.Current.Request["Autor"] != null ? System.Web.HttpContext.Current.Request["Autor"].ToString(): "";
+
+	string name = "";
+	string link = "";
+
+
+	if(!string.IsNullOrEmpty(IdAutor)){
+		var item = ItemManager.Storage.Open("Taxonomie_Autori").SelectById(IdAutor);
+   		name = "- " + (string) item["Name"];
+		link = (string) item["Companiae_Asociata"];
+	}
+
+	if(!string.IsNullOrEmpty(IdCompanie)){
+		var item2 = ItemManager.Storage.Open("Taxonomie_Companii").SelectById(IdCompanie);
+   		name = "- " + (string) item2["Name"];
+		link = IdCompanie;
+	}
+    
+    var stiriPageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+    var sectionID = System.Web.HttpContext.Current.Request.Params["Sectiune"];
+    var url = "/Default.aspx?ID="+stiriPageID+"&pagesize=12&type=Stiri";
+    if (!string.IsNullOrEmpty(sectionID))
+    {
+        url += "&Sections="+ sectionID;
+    }
+}
+	
+
+      <div class="row blog-content">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+          <article class="post-wrapper clearfix">
+            @if(GetString("DwPageName") != "Cautare" ){
+            <header class="post-header clearfix">
+              <div class="row">
+                <div class="col-xs-9">
+                  <h1 class="block-title">
+                    <span> @GetString("DwPageName")  @name</span>
+                  </h1><!-- .post-title -->
+                </div>
+                @if(!string.IsNullOrEmpty(IdAutor) || !string.IsNullOrEmpty(IdCompanie)){
+                  if(!string.IsNullOrEmpty(link)){
+                    <div class="col-xs-3">
+                      <a class="btn btn-primary" href="/companie?companyID=@(link)">Vezi Compania</a>    
+                    </div>
+                  }
+                }
+              </div>
+            
+            </header><!-- .post-header -->}
+            
+            <div class="post-content clearfix">
+                <!-- Lista Stiri -->
+                 <div class="row">
+                        <div class="col-xs-12">
+                            <div class="first-container" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="@url">
+                                <ul class="widget-content">
+                                    @RenderPlaceholderImageOnLeft()
+                                    @RenderPlaceholderImageOnLeft()
+                                    @RenderPlaceholderImageOnLeft()
+                                    @RenderPlaceholderImageOnLeft()
+                                    @RenderPlaceholderImageOnLeft()
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <!-- END Lista Stiri -->
+                
+                 <!-- Content Paragraf -->
+                <div class="dwcontent" id="maincontent" title="Main Content" settings="unwrap:true"></div>
+                <!-- END Content Paragraf -->
+            </div><!-- .post-content -->
+          </article><!-- .post-wrapper -->
+
+                    
+          
+</div><!-- End Left big column -->
+
+<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+  @Include("Custom/New_Sidebar.cshtml")
+</div><!-- End last column -->        
+</div><!-- .blog-content -->
+
+<!-- Page Loader -->
+<div id="loader"><div class="loader-icon"></div></div>
+
+ <!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-26068739-1', 'auto');
+// DIMENSIONS DECLARATION WHERE NEEDED
+ga('send', 'pageview');
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+<!-- Handlebars Template-->
+<script id="LoopStiriTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}
+        <article class="simple-post simple-big clearfix col-md-12 separator-articole">
+            <div class="simple-thumb" style="width: 250px!important;">
+                <a href="/Default.aspx?ID={{pagePageID}}">
+                    <figure class="">
+                        <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168"/> 
+                    </figure>
+                </a>
+            </div>
+            <header>
+                <p class="simple-share">
+                        @Translate("articolde", "de")
+                        {{#each articleAutori}}
+                            <a href="{{Link}}">{{Name}}</a>
+                        {{/each}}
+                        <span class="m-0">-</span>
+                    <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                    {{#if showItemVisits}} 
+                        <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                     {{/if}}
+
+                </p>
+                <h3>
+                    <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
+                </h3>
+                <div class="excerpt" >{{{itemSumar}}}</div>
+            </header>
+        </article>
+    {{/each}}
+{{/ArticlesContainer}}
+{{#ifCond pagingPageCount '>' 1}}
+    <nav>
+        <ul class="pagination pagination-sm">
+            {{#ifCond currentPage "!==" "1"}}
+                 <li data-page-link="{{pagingFirstPageLink}}" data-container="LoopStiriTemplate">                			        
+                    <span class="mr-02"> « </span>                 
+                 </li>
+                 <li data-page-link="{{pagingPrevPageLink}}" data-container="LoopStiriTemplate">
+                    <span aria-label="@Translate("paginaAnterioara", "Pagina anterioara")"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></span>
+                 </li>
+            {{/ifCond}}
+            
+            {{#Pages}}
+                {{#if isCurrent}}
+                   <li class="active"><span data-page-link="{{pageLink}}">{{pageNumber}}</span></li>
+                {{else}}
+                   <li data-page-link="{{pageLink}}" data-container="LoopStiriTemplate"><span>{{pageNumber}}</span></li>
+                {{/if}}                
+            {{/Pages}}
+
+            {{#if isNotLastPage}}
+                <li data-page-link="{{pagingNextPageLink}}" data-container="LoopStiriTemplate">
+                    <span aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></span>                     
+                </li>
+                <li data-page-link="{{pagingLastPageLink}}" data-container="LoopStiriTemplate">
+                    <span> » </span>
+                </li>
+            {{/if}}
+        </ul>
+    </nav>
+ {{/ifCond}}
+</script>
+   

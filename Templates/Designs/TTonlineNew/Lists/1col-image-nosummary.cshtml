@@ -1,0 +1,31 @@
+﻿<article class="simple-post clearfix simple-post-2">
+  <div class="simple-thumb">
+    <a href="@articleLink">
+      <div class=" ">
+        <img src="@articleImage" alt="@articleTitle" class="img-responsive" />
+      </div>
+    </a>
+  </div>
+
+  <header>
+    <p class="simple-share">
+      <span>@articleSectiune / </span>
+        @foreach (var articleSection in articleSections)
+        {
+          <a href="@articleSection.Link">@articleSection.Name</a>
+        }
+      @Translate("articolde","de") 
+      @foreach (var articleAutor in articleAutori)
+      {
+        <a  href="@articleAutor.Link"> @articleAutor.Name</a>
+      }
+      <span>- <i class="fa fa-clock-o"></i> @articleDate.ToString("D")</span>
+      @if (itemConditionVisits) {    
+        <span><i class="fa fa-eye"></i> @articleVisits vizualizari</span>
+      } 
+    </p>
+    <h3>
+      <a href="@articleLink">@articleTitle</a>
+    </h3>
+  </header>
+</article>

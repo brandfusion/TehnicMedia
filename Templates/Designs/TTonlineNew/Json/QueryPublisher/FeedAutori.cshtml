@@ -1,0 +1,79 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+@functions{
+
+    public class Autori
+    {   
+        public string name { get; set; }
+        public string categorie { get; set; }
+        public string companie_asociata { get; set; }
+        public string description { get; set; }
+        public string echivalentaCompanie { get; set; }
+        public string autorId { get; set; }
+        public string imagine { get; set; }
+        public string paginaDeCompanieAsociata { get; set; }
+        public string persoana_companie { get; set; }
+    }
+   
+    public class Root {
+        public string counterAutori { get; set; }
+        public List<Autori> Autori {get; set;}
+    }
+}
+@{
+    
+    var results = GetLoop("QueryResultItem");
+    var counterAutori = 1;
+    List<Root> feedObject = new List<Root>();
+    List<Autori> AutoriFeedObject = new List<Autori>();
+    Root feedRoot = new Root();
+    feedRoot.counterAutori = results.Count().ToString();
+    feedRoot.Autori = new List<Autori>();
+
+
+    foreach (var result in results)
+    {
+        var category = result.GetString("AutorCategory");
+        var companie_asociata = result.GetString("AutorCompanieAsociata");
+        var description = result.GetString("AutorDescriere");
+        var echivalentaCompanie = result.GetString("AutorEchivalentaCompanie");
+        var autorId = result.GetString("AutorID");
+        var imagine = result.GetString("AutorImage");
+        var paginaDeCompanieAsociata = result.GetString("AutorLinkPaginaCompanieAsociata");
+        var name = result.GetString("AutorName");
+        var persoana_companie = result.GetString("Autor_Persoana_Companie");
+        
+        Autori Autori = new Autori();
+        Autori.categorie = category;
+        Autori.companie_asociata = companie_asociata;
+        Autori.description = description;
+        Autori.echivalentaCompanie = echivalentaCompanie;
+        Autori.autorId = autorId;
+        Autori.imagine = imagine;
+        Autori.paginaDeCompanieAsociata = paginaDeCompanieAsociata;
+        Autori.name = name;
+        Autori.persoana_companie = persoana_companie;
+        counterAutori++;
+        feedRoot.Autori.Add(Autori);
+
+    }
+    feedObject.Add(feedRoot);
+    
+    string jsonFeed = "";
+    
+    if (results.Count == 0)
+    {
+    jsonFeed = "[]";
+    }
+    else
+    {
+    jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed

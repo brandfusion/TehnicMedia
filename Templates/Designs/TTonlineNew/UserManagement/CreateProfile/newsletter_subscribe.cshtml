@@ -1,0 +1,28 @@
+﻿@foreach (LoopItem i in GetLoop("FormValidationErrors")){
+	@i.GetValue("HeaderStart")
+    <div id="errormessages">
+      <ul>
+    	@i.GetValue("HeaderEnd")
+    	<li>Error in the input field "@i.GetValue("UserManagement:User.FormValidationError.FieldNiceName")": <a href="javascript:document.getElementById('@i.GetValue("UserManagement:User.FormValidationError.FieldName")').focus();">@i.GetValue("UserManagement:User.FormValidationError.Message")</a></li>
+    	@i.GetValue("FooterStart")
+      </ul>
+    </div>
+	@i.GetValue("FooterEnd")
+}
+
+@GetValue("UserManagement:User.FormStart")		
+	<input name="UserManagement_Form_Email" type="text" class="form-control"  id="UserManagement_Form_Email" placeholder='@Translate("AdresaEmail","Adresa de email")'>
+		
+	<input type="text" id="Nume" name="Nume" class="form-control" placeholder='@Translate("Nume","Nume")' required />
+		
+	<p>@Translate("Sunt de acord cu","Sunt de acord cu termenii si conditiile ttonline.ro")</p>
+	<input class="subscribe-checkbox" type="checkbox" id="Suntdeacordcutermeniisiconditiilettonlinero" name="Suntdeacordcutermeniisiconditiilettonlinero" required checked="checked"/>
+
+
+	<input type="submit" id="submitter" value='@Translate("Subscribe", "Abonează-te la newsletter")' class="btn btn-primary">	
+
+	<div style="display:none;">
+      <input name='@GetValue("UserManagement:User.EmailAllowed.InputName")' type="checkbox" id='@GetValue("UserManagement:User.EmailAllowed.InputName")' value="True" checked="checked" />
+	  @GetValue("UserManagement:User.EmailAllowed.Hidden.Input")
+	</div>
+@GetValue("UserManagement:User.FormEnd")

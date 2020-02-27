@@ -1,0 +1,95 @@
+@using System.Text
+@using System.Web
+
+@{
+    int currentPage = GetInteger("Ecom:ProductList.CurrentPage");
+    int pageSize = GetInteger("Ecom:ProductList.PageSize");
+    int totalPages = GetInteger("Ecom:ProductList.TotalPages");
+    int pageId = GetInteger("Ecom:ProductList:Page.ID");
+    
+    
+    StringBuilder querySb = new StringBuilder();
+    string pageIdFromQuery = "";
+    
+    foreach (string key in HttpContext.Current.Request.QueryString.AllKeys)
+    {
+        if (key != null)
+        {
+            if (!key.ToUpper().Equals("ID") && !key.ToUpper().Equals("GROUPID") && !key.ToUpper().Equals("PAGENUM"))
+            {
+                string value = HttpContext.Current.Request.QueryString[key].ToString();
+                querySb.Append("&");
+                querySb.Append(String.Format("{0}={1}", key, HttpUtility.UrlEncode(value)));
+            }
+            if (key.Equals("ID"))
+            {
+                try
+                {
+                    pageIdFromQuery = HttpContext.Current.Request.QueryString[key].ToString();
+                }
+                catch { }
+            }
+        }
+    }
+    
+    if (string.IsNullOrEmpty(pageIdFromQuery)) 
+    {
+        pageIdFromQuery = pageId.ToString();
+    }
+    string groupValue = HttpContext.Current.Request.QueryString.Get("GroupID");
+    if (!string.IsNullOrEmpty(groupValue))
+    {
+        groupValue = "&GROUPID=" + groupValue;
+    }
+}
+<div class="pagination-navigation">                         
+    <ul class="pagination pagination-custom pull-right">
+@if (currentPage > 1)
+{
+    <li><a href="Default.aspx?ID=@pageIdFromQuery&PageNum=1@(groupValue)@(querySb.ToString())"><i class="fa fa-angle-double-left"></i></a></li>
+    <li><a href="Default.aspx?ID=@pageIdFromQuery&PageNum=@(currentPage - 1)@(groupValue)@(querySb.ToString())"><i class="fa fa-angle-left"></i></a></li>
+}
+
+@{
+    int firstPage = currentPage - 2;
+    if (firstPage < 1) 
+    {
+        firstPage = 1;
+    }
+    if (firstPage > 1) 
+    {
+        <li class="disabled"><a href="javascript:void(0);">...</a></li>
+    }
+    int lastPage = currentPage + 2;
+    if (lastPage > totalPages) 
+    {
+        lastPage = totalPages;
+    }
+    for (int i = firstPage; i <= lastPage; i++)
+    {
+        if (i == currentPage)
+        {
+            <li class="active disabled"><a href="javascript:void(0);">@i</a></li>
+        }
+        else
+        {
+            <li><a href="Default.aspx?ID=@pageIdFromQuery&PageNum=@(i)@(groupValue)@(querySb.ToString())">@i</a></li>
+        }
+    }
+    if (lastPage < totalPages) 
+    {
+        <li class="disabled"><a href="javascript:void(0);">...</a></li>
+    }
+    if (currentPage < totalPages)
+    {
+        <li><a href="Default.aspx?ID=@pageIdFromQuery&PageNum=@(currentPage + 1)@(groupValue)@(querySb.ToString())"><i class="fa fa-angle-right"></i></a></li>
+        <li><a href="Default.aspx?ID=@pageIdFromQuery&PageNum=@(totalPages)@(groupValue)@(querySb.ToString())"><i class="fa fa-angle-double-right"></i></a></li>
+    }
+}
+
+
+
+
+
+    </ul>
+</div>

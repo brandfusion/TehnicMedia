@@ -1,0 +1,82 @@
+﻿@using Dynamicweb.Frontend
+@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/ArticleHelper.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+<div>
+
+  <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#foto" aria-controls="foto" role="tab" data-toggle="tab">Foto</a></li>
+        <li role="presentation"><a href="#video" aria-controls="video" role="tab" data-toggle="tab">Video</a></li>
+        <li role="presentation"><a href="#prezentari" aria-controls="slideshow" role="tab" data-toggle="tab">
+@Translate("Prezentari","Presentations")</a></li>
+    </ul>
+
+  <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active clearfix" id="foto"> 
+            @foreach (LoopItem item in GetLoop("ItemPublisher:Items.List")) {
+                string url = item.GetString("ItemPublisher:Item.Url");
+                foreach(LoopItem imagine in item.GetLoop("ItemPublisher:Item.FotoGalleryRelation")) {
+
+                    string titlu = imagine.GetString("ItemPublisher:Item.FotoGalleryRelation.Title");
+                    string sursaImagineRaw = imagine.GetString("ItemPublisher:Item.FotoGalleryRelation.Image");
+          			
+  		 
+    			     string sursaImagine = !string.IsNullOrEmpty(sursaImagineRaw) ? GetImage(sursaImagineRaw, 350, 240) + "&bgcolor=white" : "/Files/Images/NoImage/300x200.png";			
+          
+                    int loopCounter = imagine.GetInteger("ItemPublisher:Item.FotoGalleryRelation.LoopCounter");
+
+                    if (loopCounter == 1) {
+                        <h3>@titlu</h3>
+                        <img src="@sursaImagine" class="img-responsive">
+                        <a href="@url#foto" class="btn btn-primary">@Translate("toategaleriilefoto","Vezi toate galeriile foto")</a>
+                    }
+                }
+            }
+        </div>
+
+        <div role="tabpanel" class="tab-pane clearfix" id="video">
+           @foreach (LoopItem item in GetLoop("ItemPublisher:Items.List")) {
+                string url = item.GetString("ItemPublisher:Item.Url");
+                foreach(LoopItem imagine in item.GetLoop("ItemPublisher:Item.VideoGalleryRelation")) {
+
+                    string titlu = imagine.GetString("ItemPublisher:Item.VideoGalleryRelation.Title");
+                    string sursaImagineRaw = imagine.GetString("ItemPublisher:Item.VideoGalleryRelation.Thumbnail");
+                    string sursaImagine = !string.IsNullOrEmpty(sursaImagineRaw) ? GetImage(sursaImagineRaw, 350, 240) + "&bgcolor=white" : "/Files/Images/NoImage/300x200.png";
+                    string codYoutube = imagine.GetString("ItemPublisher:Item.VideoGalleryRelation.YouTubeCode");
+                    int loopCounter = imagine.GetInteger("ItemPublisher:Item.VideoGalleryRelation.LoopCounter");
+
+                    if (loopCounter == 1) {
+                        <h3>@titlu</h3>
+                        <a href="https://www.youtube.com/embed/@codYoutube" class="videoGallery"><img src="@sursaImagine" class="img-responsive"></a>
+                        <a href="@url#video" class="btn btn-primary">@Translate("toateclipurile","Vezi toate clipurile")</a>
+                    }
+                }
+            } 
+        </div>
+
+        <div role="tabpanel" class="tab-pane clearfix" id="prezentari">
+             @foreach (LoopItem item in GetLoop("ItemPublisher:Items.List")) {
+                string url = item.GetString("ItemPublisher:Item.Url");
+                foreach(LoopItem imagine in item.GetLoop("ItemPublisher:Item.Prezentari")) {
+
+                    string titlu = imagine.GetString("ItemPublisher:Item.Prezentari.Title");
+                   
+          
+					string sursaImagineRaw = imagine.GetString("ItemPublisher:Item.Prezentari.Thumbnail");
+          			string sursaImagine = !string.IsNullOrEmpty(sursaImagineRaw) ? GetImage(sursaImagineRaw, 350, 240) + "&bgcolor=white" : "/Files/Images/NoImage/300x200.png";		
+          
+          			int loopCounter = imagine.GetInteger("ItemPublisher:Item.Prezentari.LoopCounter");
+
+                    if (loopCounter == 1) {
+                        <h3>@titlu</h3>
+                        <img src="@sursaImagine" class="img-responsive">
+                        <a href="@url#prezentari" class="btn btn-primary">@Translate("toateprezentarile","Vezi toate prezentarile")</a>
+                    }
+                }
+            }
+        </div>
+    </div>
+
+</div>

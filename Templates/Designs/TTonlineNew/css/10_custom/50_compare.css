@@ -1,0 +1,120 @@
+﻿.product-detail--compare {
+ width: 100%;
+ position: relative; }
+
+.product-detail--compare .control-label {
+ margin: 0; }
+
+.product-detail--compare p {
+ font-size: 0.8em;
+ color: #adadad;
+ text-align: right; }
+
+.product-detail--compare #compare_results {
+ position: absolute;
+ right: 1.2em;
+ top: 3em;
+ z-index: 99;
+ max-width: 100%;
+ left: 1.2em; }
+
+.product-detail--compare #compare_results ul {
+ margin: 0;
+ padding: 0;
+ -webkit-box-shadow: 0px 0px 7px #464646;
+         box-shadow: 0px 0px 7px #464646;
+ border: 1px solid #000000;
+ background: #ffffff;
+ overflow-x: hidden;
+ overflow-y: scroll;
+ width: 100%;
+ max-height: 300px; }
+
+.product-detail--compare #compare_results li {
+ display: block;
+ margin: 0;
+ padding: 0.5em;
+ border-bottom: 1px solid #ddd; }
+
+.product-detail--compare #compare_results a {
+ color: #000; }
+
+.product-detail--compare #compare_results a:hover {
+ text-decoration: none; }
+
+.product-detail--compare #compare_results img {
+ max-width: 45px;
+ float: left;
+ margin: 0 0.5em 0 0; }
+#compare_results .results {
+ background-color: #fff;
+ border: 1px solid #000;
+ padding: 0.5em;
+ box-shadow: 0px 0px 7px #c1c1c1;
+}
+#compare_results {
+ overflow: visible;
+}
+#compare_results .compare-item {
+ border-bottom: 1px solid #eee;
+ padding: 0.2em 0;
+ cursor: pointer;
+}
+/* #compare_results .compare-item:hover {
+  background-color: #eee;
+}*/
+#compare_results .compare-item:last-child {
+ border: none;
+}
+#compare_results .compare-item .media-object {
+ height: 45px;
+ width: 45px;
+}
+#compare_results .compare-item .media-body {
+ vertical-align: middle;
+}
+
+
+#compare-render-content .delete-item {
+ position: absolute;
+ right: 0;
+ top: 0;
+ background: transparent;
+ color: red;
+ border: none;
+}
+#compare-render-content .item {
+ position: relative;
+ border-bottom: 2px solid #eaeaea;
+ padding-bottom: 0.5em;
+ margin: 0.5em;
+}
+
+#compare-render-content .item img {
+ margin: 0 auto;
+ width: auto !important;
+}
+#compare-render-content .item:last-child {
+ border: none;
+}
+.wrapper-compare-box { 
+ border: 1px solid #000;
+  padding: 5px;
+}
+#compare-block {
+ background-color: #fff;
+ position: fixed;
+ top: 2rem;
+ right: 2rem;
+ width: 100px;
+ z-index: 9999;
+ opacity: 0;
+ transition: all 0.3s ease-out;
+}
+#compare-block.open {
+ opacity: 1;
+}
+.btn-compara {
+	text-align: center;
+  display: block;
+}

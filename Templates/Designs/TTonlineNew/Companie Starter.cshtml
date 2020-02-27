@@ -1,0 +1,127 @@
+﻿<!--Starter start -->
+if(TipClient == "4" && !string.IsNullOrEmpty(Banner)) {
+  <div class="row space-10 background-white row-companie row-companie-banner">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <img src="@Banner">
+      </div>
+  </div>
+}
+
+<div class="row row-companie mb-40 row-contact-companie pbt-20 background-white">  
+  <!-- Contact Info Start-->
+  @if(TipClient != "1"){
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 HartaAdresaHartaAdresa-center">
+                @if(Logo != "http://placehold.it/100x100"){
+                    <img  class="img-responsive text-center" src="@Logo" alt="">
+                }else{
+                    <h3 class="block-title"><span class="nume-companie-js" style="font-size:40px;">@Name</span></h3>
+                    }
+            </div> 
+    </div>
+  }
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+      <div class="contactinfo">
+         <div class="row space-10">
+                 
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+            <h3 class="block-title" ><span class="nume-companie-js" style="font-size:40px;">@Name</span></h3>
+            
+            @if(TipClient == "3" || TipClient == "4"){
+            
+                    if(!String.IsNullOrEmpty(Oras)){
+                                  <p><i class="fa fa-envelope" aria-hidden="true"></i>  <b>Adresa:</b> <span>@Strada</span>, <span>@Oras</span>, <span>@Tara</span>, <span> Cod Postal: @CodPostal </span></p>
+                    }
+                     if(PhoneContact !="Missing PhoneContact") {
+                    <p><i class="fa fa-phone " aria-hidden="true"></i>   <b>Telefon:</b> @PhoneContact</p>
+                                                             }
+                    if(!String.IsNullOrEmpty(@LinkCatreSite)){
+                        <p><i class="fa fa-globe r" aria-hidden="true"></i>  <b>Website:</b> <a href="@LinkCatreSite" alt="Website @Name" target="_blank">Vezi website</a></p>
+                      }
+
+
+
+				 if(TipClient == "4"){
+                      <div class="socialmedia">
+                      @if(!String.IsNullOrEmpty(@FacebookLink) ||!String.IsNullOrEmpty(@TwitterLink) || !String.IsNullOrEmpty(@LinkedinLink) ){
+                      <p><b>@Name pe retele sociale</b></p>
+
+
+                      }
+                      @if(!String.IsNullOrEmpty(@FacebookLink)){ <a href="@FacebookLink" ><span class="social"> <i class="fa fa-facebook" aria-hidden="true"> </i></span></a>}
+                      @if(!String.IsNullOrEmpty(@TwitterLink)){  <a href="@TwitterLink" ><span class="social"> <i class="fa fa-twitter" aria-hidden="true"> </i></span></a>}
+                      @if(!String.IsNullOrEmpty(@LinkedinLink)){ <a href="@LinkedinLink" ><span class="social"> <i class="fa fa-linkedin" aria-hidden="true"> </i></span></a>}
+                        </div>
+           }
+           }
+           
+           	@if(!String.IsNullOrEmpty(@Email)){
+           		<a href="mailto:@Email"> @Character </a>
+           
+           }
+          </div>
+
+      
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+            <hr/>
+            <div style="display:-webkit-box;"><i class="fa fa-share-alt" aria-hidden="true"></i>  <b>Share:</b>  <div class="addthis_inline_share_toolbox_islb"></div></div>
+          </div>
+      
+      	
+      
+        </div> 
+      </div> 
+    </div>
+<!-- Contact Info End-->
+
+</div>
+
+
+<!--Declaratie Manager Start-->
+
+  if(!String.IsNullOrEmpty(@ImagineProfil) && !String.IsNullOrEmpty(@DeclaratieManager)){
+    <div class="row  row-companie background-white mb-40 despre-companie">
+     <div class="col-xs-12 col-titlu-companie"><h3 class=""><i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i> <span class="">Declaratia Managerului @Name</span></h3> </div> 
+      
+  
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pbt-20">
+
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    
+      <div class="declaratiemanager">@DeclaratieManager</div>
+    
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+      <p><img src="@ImagineProfil" alt="@Name Manager" align="left"/></p>
+    </div>
+    </div>
+
+    
+  
+    </div>
+  } 
+
+
+<!--Declaratie Manager End-->
+
+
+ if(Summary != "Missing text"){
+<div class="row row-companie background-white mb-40">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-titlu-companie">
+    
+    <h3><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span >Despre @Name</span></h3> 
+  </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pbt-20">
+    <p>@Summary</p>
+    @if(@Description != "Missing Description"){
+    <p>@Description</p>
+    }
+  </div>
+  
+</div>
+}
+
+
+
+<!--Starter end -->

@@ -1,0 +1,89 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+<div class="row arhiva-editii">
+@{
+	List<string> date = new List<string>();  
+}
+  
+  @if(GetBoolean("ItemPublisher:Items.Any")){
+	foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+		string data = Translate("Editii") + " " + item.GetDate("ItemPublisher:Item.Data").ToString("yyyy");
+    date.Add(data);
+  }}
+  
+  @{
+		string revista = Translate("Revista");
+  		date = date.Distinct().ToList();
+  		date.Add(revista);
+		string[] dateArray = date.ToArray();
+		int countTabs = 1;
+		var clasaTabs = "active current-active";
+
+		int count = 1;
+		var clasa = "active";
+  }
+  
+  <div class="col-xs-12">
+		<div class="bhoechie-tab-container">
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 bhoechie-tab-menu">
+				<div class="list-group">
+					@foreach(string i in dateArray) {
+			
+						if(@countTabs != 1) {
+							clasaTabs = "";
+						}
+				
+						if(@i == revista){
+							<a href='/Default.aspx?ID=@Pageview.Area.Item["Revista_ID"]' class="list-group-item text-center" id="eng">
+									@i
+							</a>
+						} else {
+							<a href="#" class="list-group-item @clasaTabs text-center">
+									@i
+							</a>
+						}
+						countTabs++;
+					}
+				</div>
+			</div>
+			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 bhoechie-tab">
+				@foreach(string j in dateArray) {
+					if(@count != 1) {
+						clasa = "";
+					}		
+					
+					<div class="bhoechie-tab-content @clasa">
+						@if(GetBoolean("ItemPublisher:Items.Any")){
+							foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+									
+								string itemURL = item.GetString("ItemPublisher:Item.Url");
+								string mainImageRaw = item.GetString("ItemPublisher:Item.Imagine.Value");
+								string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 223, 326) + "&bgcolor=white"  : "/Files/Images/NoImage/216x326.png";  
+				
+								string itemTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+								string data = Translate("Editii") + " " + item.GetDate("ItemPublisher:Item.Data").ToString("yyyy");
+				
+								if(@data == @j){
+										<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-lista-editii">
+											<article class="lista-editii">
+												<a href="@itemURL" class="overlay-link" target="_blank">
+													<figure class="image-overlay">
+														<img src="@mainImage" class="content-image" alt="@itemTitle">
+													</figure>
+												</a> 
+												<header class="featured-header">
+													<h4><a href="@itemURL">@itemTitle</a></h4>
+												</header>
+											</article>
+										</div>
+									}
+								}
+							}
+						</div>
+						count++;
+					}
+			</div>
+		</div>  
+	</div>  
+  
+</div>

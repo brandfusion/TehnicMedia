@@ -1,0 +1,151 @@
+﻿@using System.Text.RegularExpressions
+@Include("../../Custom/GlobalVariables.cshtml")
+
+@{  
+int NumarElemente = 0;
+}
+
+                  @if(GetBoolean("ItemPublisher:Items.Any")){
+                      foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+
+                          string itemTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+                          string itemImage = item.GetString("ItemPublisher:Item.ImaginePrincipala");
+                          string itemImageURLBig = "/Admin/Public/GetImage.ashx?Image=" + itemImage+ "&Format=jpg&Width=230&Height=150&Compression=80&Crop=5";
+                          string itemImageURLSmall = "/Admin/Public/GetImage.ashx?Image=" + itemImage+ "&Format=jpg&Width=160&Height=105&Compression=80&Crop=5";
+                          string itemSumar = item.GetString("ItemPublisher:Item.Sumar");
+                          @*itemSumar = Regex.Replace(itemSumar, @"<[^>]*>", String.Empty);*@
+                          string itemLink = Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(item.GetString("ItemPublisher:Item.Url"));
+                          string defaultImage = areaLayoutPath + "/assets/img/demo/160x105.png";
+                          int Count = GetLoop("ItemPublisher:Items.List").Count;
+
+
+
+        if(Count <= 2){
+  
+                      <div class="space-10"> 
+                                  <div class="">                            
+                                      <div class="col-xs-12 col-md-6">
+                                            @if(!string.IsNullOrEmpty(itemImage)){     
+                                              <a href='@itemLink'><img class="img-responsive" src='@itemImageURLBig' width="230" height="230" alt="@itemTitle" style="max-height:150px;" /></a>
+                                            }  else{
+                                              <a href='@itemLink'><img class="img-responsive" src='@defaultImage' width="230" height="230" alt="@itemTitle" style="max-height:150px;" /></a>                      
+                                            }
+                                      </div>
+                                                                   
+                                      <div class=" col-xs-12 col-md-6">
+                                      <div class="space-10">
+                                          <div class="div-articol1" style="min-height:321px!important">
+                                              <div class="col-xs-12 title-articol1"><a href='@itemLink'>@itemTitle</a></div>
+                                              <div class="col-xs-12">
+                                                  <p class="text-articol1">@itemSumar</p>
+                                              </div>
+                                              <div class="col-xs-12 subtext-articol1"><a href='@itemLink'>Afla mai multe</a></div> 
+                                          </div>
+                                        
+                                       </div>
+                                      </div> @* end of col-md-6 *@            
+                                           
+                          </div> @*end of row*@
+                          </div>  @*End of space 10*@
+              }else{
+
+
+        
+        if(NumarElemente == 0){
+                                      
+                      <div class="space-10"> 
+                            <div class="">                            
+                                <div class="col-xs-12 col-md-6">
+                                      @if(!string.IsNullOrEmpty(itemImage)){     
+                                        <a href='@itemLink'><img class="img-responsive" src='@itemImageURLBig' width="230" height="230" alt="@itemTitle" style="max-height:150px;" /></a>
+                                      }  else{
+                                        <a href='@itemLink'><img class="img-responsive" src='@defaultImage' width="230" height="230" alt="@itemTitle" style="max-height:150px;" /></a>                      
+                                      }
+                                </div>
+                                                             
+                                <div class=" col-xs-12 col-md-6">
+                                <div class="space-10">
+                                    <div class="div-articol1">
+                                        <div class="col-xs-12 title-articol1"><a href='@itemLink'>@itemTitle</a></div>
+                                  <div class="col-xs-12">
+                                           <p class="text-articol1">@itemSumar</p><br>
+                                        </div> 
+                                       
+                                        <div class="col-xs-12 subtext-articol1"><a href='@itemLink'>Afla mai multe</a></div>
+                                  
+                                    </div>
+                                 </div>
+                                </div> @* end of col-md-6 *@            
+                                     
+                    </div> @*end of row*@
+                    </div>  @*End of space 10*@
+
+                    }
+                    else{
+                <div class="">
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div class="row" >
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+
+                                                   
+                                                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                                            <div class="">
+                                                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                                                  <div class="row"> @* push 15 px  *@
+                                                                    <div class="row"> @* push 15 px *@
+
+
+                                                      @if(!string.IsNullOrEmpty(itemImage)){
+                                                         <figure class="image-overlay">
+                                                           <a href='@itemLink'><img src='@itemImageURLSmall' class="img-responsive img-height" width="736" height="200" alt="@itemTitle" style="max-height:150px;" /></a>
+                                                          </figure>
+                                                      }  else{
+                                                          <figure class="image-overlay">
+                                                            <a href='@itemLink'><img src="@defaultImage" height="200" alt="NoImage" /></a>
+                                                              </figure>
+                                                      }
+
+                                                              </div>
+                                                          </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+
+                                                        <div class="row">
+                                                            <div class="div-articol2">
+                                                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 title-articol2"><a href='@itemLink'>@itemTitle</a></div>
+                                                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 coltext-articol2">
+                                                                    <p class="text-articol2"> @itemSumar </p><br>
+                                                                </div><br>
+                                                                <div class="col-xs-12 subtext-articol2"><a href='@itemLink'> test Afla mai multe</a></div>
+                                                            </div>
+                                                        </div>
+
+                                                        </div> @* end of col - xs-6 *@
+                                                   
+                                       </div> 
+                                   </div> 
+                    </div> 
+             </div> @* end of space 10 *@
+                    }
+                        NumarElemente++;
+
+
+
+              } <!--End of Count-->
+         
+
+
+
+
+
+
+
+         
+
+
+                       } @*  End of ItemPublisher:Items.List  *@
+                       } @* End of ItemPublisher:Items.Any *@
+

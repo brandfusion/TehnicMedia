@@ -1,0 +1,51 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System
+@using System.Web;
+@using System.Collections;
+@using System.Collections.Generic
+@using System.Linq;
+@using Dynamicweb.Content.Items
+
+@Include("Layout.cshtml")
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
+@{
+    int toateStirile = GetPageIdByNavigationTag("ToateStirile");
+    var pageId = GetPageIdByNavigationTag("ArticlesFeed");
+    var articlesIDs = "";
+    foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
+    {
+        articlesIDs += item.GetString("ItemPublisher:Item.Field.PageId") + ",";
+    }
+}
+
+<div class="col-md-3 col-xs-12 recomandari">
+    <div class="news-feed">  
+        <h3 class="block-title"><span>@Translate("ultimelestiri", "ULTIMELE STIRI")</span></h3>
+      
+        @*if(GetBoolean("ItemPublisher:Items.Any")){*@
+        <ul class="widget-content" id="UltimeleStiri" data-template="UltimeleStiriTemplate" data-json-feed="/Default.aspx?ID=@pageId&type=Stiri">
+            @RenderPlaceholderNoImage()
+            @RenderPlaceholderNoImage()
+            @RenderPlaceholderNoImage()
+            @RenderPlaceholderNoImage()
+        </ul>
+    </div>  
+</div>
+
+<script id="UltimeleStiriTemplate" type="text/x-handlebars-template">
+  {{#ArticlesContainer}}
+   {{#each Article}}
+       <li>
+           <article>
+               <h3><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3>
+               <p><span><i class="fa fa-clock-o"></i> {{itemData}}</span></p>
+           </article>
+       </li>
+   {{/each}}
+  {{/ArticlesContainer}}
+   <a href="/Default.aspx?ID=@toateStirile" class="read-more">@Translate("Toate stirile", "Toate stirile")</a>
+</script>
+    

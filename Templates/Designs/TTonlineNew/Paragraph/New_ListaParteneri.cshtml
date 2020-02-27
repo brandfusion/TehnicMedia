@@ -1,0 +1,44 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System
+@using System.Web;
+@using System.Collections;
+@using System.Collections.Generic
+@using System.Linq;
+@using Dynamicweb.Content.Items
+
+@Include("Layout.cshtml")
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
+@{
+    var articlesPageID = GetPageIdByNavigationTag("ArticlesFeed");
+    var parteneriPageID = GetPageIdByNavigationTag("ParteneriFeed");
+    string requestUrl = "http://" + GetGlobalValue("Global:Request.Host"); 
+}
+
+<div class="col-md-12 col-xs-12">
+    <h1 class="block-title"><span>@GetString("Item.ParagraphName")</span></h1>
+    <div class="owl-carousel owl-parteneri owl-theme parteneri-list handlebars-wrapper" data-template="ParteneriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageID&ParentPage=@parteneriPageID">
+        @RenderPlaceholderCaruselImage()
+        @RenderPlaceholderCaruselImage()
+        @RenderPlaceholderCaruselImage()
+    </div>
+</div>
+
+
+
+<script id="ParteneriTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}
+    <div class="item">
+           {{#ifCond pagePageID '!==' ""}}
+               <a href='/Default.aspx?ID={{pagePageID}}'><img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=180&Height=80&Compression=90&DoNotUpscale=1&fillcanvas=1&Background=FFFFFF' alt="{{itemTitlu}}" /></a>	
+           {{/ifCond}}    
+           {{#ifCond pagePageID '===' ""}}
+              <a href='@requestUrl/parteneri'><img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=180&Height=80&Compression=90&DoNotUpscale=1&fillcanvas=1&Background=FFFFFF' alt="{{itemTitlu}}" /></a>	
+           {{/ifCond}}    	 
+       </div>     							
+    {{/each}}	 
+{{/ArticlesContainer}}
+</script>

@@ -1,0 +1,90 @@
+﻿[	
+	@{
+		int loopCount =  GetLoop("QueryResultItem").Count();
+
+	}
+
+	@foreach (var result in GetLoop("QueryResultItem")) {
+		string title = result.GetString("Eveniment_Titlu");
+		DateTime dataInceput = result.GetDate("Eveniment_Data_Inceput");
+		string startDay = dataInceput.ToString("dd");
+		string startMonth = dataInceput.ToString("MMMM"); 
+		string evenYear = dataInceput.ToString("yyyy");
+		DateTime dataFinal = result.GetDate("Eveniment_Data_Final");
+		string endDay = dataFinal.ToString("dd");
+		string endMonth = dataFinal.ToString("MMMM"); 
+		string link = result.GetString("Eveniment_Link");
+		int counter = result.GetInteger("QueryResultItem.LoopCounter");
+		string autor =result.GetString("Eveniment_Autor");
+		string tara =result.GetString("Eveniment_Tara");
+		string pageId = result.GetString("PageIdString");
+		string afis = result.GetString("Eveniment_Afis");
+		string oras = result.GetString("Eveniment_Oras");
+		string orasClean = result.GetString("Eveniment_Oras").Replace(" ", "_");
+		string taraClean =result.GetString("Eveniment_Tara").Replace(" ", "_");
+		string locatieClean =result.GetString("Eveniment_Locatie").Replace(" ", "_");
+		string locatie =result.GetString("Eveniment_Locatie");
+		string perioada = result.GetString("Eveniment_Perioada");
+		string program = result.GetString("Eveniment_Program");
+		string pret = result.GetString("Eveniment_Pret_Bilet");
+		string descriere = result.GetString("Eveniment_Descriere");
+		string dateContactOrganizator = result.GetString("Eveniment_DateContactOrganizator");
+		string evenimentActiv = result.GetBoolean("PageActive").ToString();
+	
+		if (counter == loopCount) {
+			<text>
+			{
+				"title": "@title",
+				"startDay": "@startDay",
+				"startMonth": "@startMonth",
+              	"An" : "@evenYear",
+				"endDay": "@endDay",
+				"endMonth": "@endMonth",
+				"link": "@link",
+              	"Organizator": "@autor",
+              	"Tara" : "@tara",
+              	"Oras" : "@oras",
+                "URLEveniment" : "/Default.aspx?ID=@(pageId)",
+                "Afis" : "@afis",
+              	"Locatie" : "@locatie",
+              	"LocatieClean" : "@locatieClean",
+              	"TaraClean" : "@taraClean",
+              	"OrasClean" : "@orasClean",
+              	"Perioada" : "@perioada",
+              	"Program" : "@program",
+              	"Pret" : "@pret",
+              	"Contact" : "@dateContactOrganizator",
+              	"EvenimentActiv" : "@evenimentActiv",
+				"Descriere" : "@descriere"
+			}
+			</text>
+		}
+		else {
+			<text>
+			{
+				"title": "@title",
+				"startDay": "@startDay",
+				"startMonth": "@startMonth",
+              	"An" : "@evenYear",
+				"endDay": "@endDay",
+				"endMonth": "@endMonth",
+				"link": "@link",
+               	"Organizator": "@autor",
+              	"Tara" : "@tara",
+              	"Oras" : "@oras",
+              	"URLEveniment" : "/Default.aspx?ID=@(pageId)",
+                "Afis" : "@afis",
+              	"Locatie" : "@locatie",
+              	"LocatieClean" : "@locatieClean",
+              	"TaraClean" : "@taraClean",
+              	"OrasClean" : "@orasClean",
+              	"Perioada" : "@perioada",
+              	"Program" : "@program",
+             	"Pret" : "@pret",
+              	"Contact" : "@dateContactOrganizator",
+				"EvenimentActiv" : "@evenimentActiv"
+			},
+			</text>
+		}
+	}
+]

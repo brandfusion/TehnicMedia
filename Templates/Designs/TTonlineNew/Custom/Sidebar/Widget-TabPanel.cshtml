@@ -1,0 +1,78 @@
+﻿@{
+
+string filterArticles = "\"@\"" + "Item.Tip='Articole'"+ "\"\"";;
+
+
+}
+@if(GetInteger("DwAreaID") == 1){
+<div class="widget tabwidget">
+	<ul class="nav nav-tabs" role="tablist" id="widget-tab">
+		<li role="presentation" class="active"><a href="#tab-popular" aria-controls="tab-popular" role="tab" data-toggle="tab">@Translate("popular","Cele mai citite")</a></li>
+        <li role="presentation"><a href="#tab-recent" aria-controls="tab-recent" role="tab" data-toggle="tab">@Translate("recent","Cele mai noi")</a></li>
+    </ul>
+    <div class="tab-content">
+    	<div role="tabpanel" class="tab-pane active" id="tab-popular">
+            @RenderItemList(new
+            {
+                ItemType = "DW_Page",
+                ListSourceType = "SelfArea",
+                ItemFieldsList = "*",
+          		ListTemplate = "ItemPublisher/List/Sidebar-CeleMaiCitite.cshtml",
+                ListPageSize = 5000,
+              
+                @*Filter = @filterArticles*@
+            })
+          </div><!-- Recent Posts -->
+          <div role="tabpanel" class="tab-pane" id="tab-recent">
+            @RenderItemList(new
+            {
+                ItemType = "DW_Page",
+                ListSourceType = "SelfArea",
+                ItemFieldsList = "*",
+                ListTemplate = "ItemPublisher/List/Sidebar-CeleMaiNoi.cshtml",
+                ListPageSize = 5,
+                ListOrderBy = "Data",
+                ListOrderByDirection = "Descending",
+                Filter = @filterArticles
+            })
+       		</div><!-- Recent Posts -->         
+      </div>
+ </div>
+}else{
+
+<div class="widget tabwidget">
+	<ul class="nav nav-tabs" role="tablist" id="widget-tab">
+		<li role="presentation" class="active"><a href="#tab-popular" aria-controls="tab-popular" role="tab" data-toggle="tab">@Translate("popular","Cele mai citite")</a></li>
+        <li role="presentation"><a href="#tab-recent" aria-controls="tab-recent" role="tab" data-toggle="tab">@Translate("recent","Cele mai noi")</a></li>
+    </ul>
+    <div class="tab-content">
+    	<div role="tabpanel" class="tab-pane active" id="tab-popular">
+            @RenderItemList(new
+            {
+                ItemType = "DW_Page",
+                ListSourceType = "SelfArea",
+                //ListSourceArea= 3,
+                ItemFieldsList = "*",
+          		ListTemplate = "ItemPublisher/List/Sidebar-CeleMaiCitite.cshtml",
+                ListPageSize = 5000,
+                Filter = @filterArticles
+            })
+        </div><!-- Recent Posts -->
+        <div role="tabpanel" class="tab-pane" id="tab-recent">
+            @RenderItemList(new
+            {
+                ItemType = "DW_Page",
+                ListSourceType = "Area",
+                ListSourceArea= 3,
+                ItemFieldsList = "*",
+                ListTemplate = "ItemPublisher/List/Sidebar-CeleMaiNoi.cshtml",
+                ListPageSize = 5,
+                ListOrderBy = "Data",
+                ListOrderByDirection = "Descending",
+                Filter = @filterArticles
+            })
+    	</div><!-- Recent Posts -->         
+      </div>
+ </div>
+
+}

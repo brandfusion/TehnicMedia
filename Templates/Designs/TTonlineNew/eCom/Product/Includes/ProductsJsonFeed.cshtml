@@ -1,0 +1,80 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+   
+@functions{
+    
+
+    public class ProductsContainer
+    {
+        public string name { get; set; }
+        public string id { get; set; }
+        public string number { get; set; }
+        public string price { get; set; }
+        public string stock {get; set;}
+        public string smallImage { get; set; }
+        public string productIsFavorite { get; set; }
+        public string addToList { get; set; }
+        public string removeFromList { get; set; }
+    }
+	
+    public class Root
+    {
+        public List<ProductsContainer> ProductsContainer {get; set;}     
+        
+	}
+}
+@{
+    var results = GetLoop("QueryResultItem");
+   var counter = 1;
+    List<Root> feedObject = new List<Root>();
+    List<ProductsContainer> productFeedObject = new List<ProductsContainer>();
+	
+    Root feedRoot = new Root();
+    feedRoot.CompanyContainer = new List<ProductsContainer>();
+    
+
+    foreach (LoopItem product in loopVariantCombinations){
+        
+        ProductsContainer ProductsContainerObject = new CompanyContainer();
+        ProductsContainerObject.variantHref = "/" + product.GetString("Ecom:VariantCombination.Link.Clean") + "?PID=" + Dynamicweb.Frontend.PageView.Current().CurrentParagraph.ID.ToString();
+        ProductsContainerObject.productNumberVariant = product.GetString("Ecom:Product.Number");
+        ProductsContainerObject.price = product.GetString("Ecom:Product.Price");
+        ProductsContainerObject.stock = product.GetString("Ecom:Product.AvailableAmount");
+        ProductsContainerObject.smallImage = product.GetString("Ecom:Product.ImageSmall.Clean");
+        ProductsContainerObject.id = product.GetString("Ecom:VariantCombination.VariantID");
+        ProductsContainerObject.variantName = product.GetString("Ecom:VariantCombination.VariantText");
+        ProductsContainerObject.variantShortDescription = product.GetString("Ecom:VariantCombination.VariantText");
+        
+        counter++;
+	    feedRoot.CompanyContainer.Add(ProductsContainerObject);
+    }
+
+//Parameters
+//FacetGroups
+//Query.Parameters
+//QueryResultItem
+//DwPaging.LoopAllPages
+//DwPaging.LoopPageGroup
+
+
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = "";
+
+    if (results.Count == 0)
+    {
+        jsonFeed = "[]";
+    }
+    else
+    {
+        jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed
+
+

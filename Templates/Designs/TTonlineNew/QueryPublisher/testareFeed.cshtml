@@ -1,0 +1,11 @@
+﻿@{
+    var results = GetLoop("QueryResultItem");
+}
+
+@foreach (LoopItem result in results){ 
+@result.TemplateTags()
+@*foreach(LoopItem property in result.GetLoop("Properties")){
+@property.TemplateTags()
+}*@
+
+}

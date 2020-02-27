@@ -1,0 +1,112 @@
+﻿@MasterPageFile("Master.cshtml")
+@Include("Includes/GetImage_new.cshtml")
+@{
+	int evenimentID = GetInteger("ItemPublisher:Global.PageId");
+	string titlu = GetString("Item.Titlu.Value");
+	string autor = GetString("Item.Autor.Value");
+
+	string afisRaw = GetString("Item.Afis.Value");
+  
+  	string afis = !string.IsNullOrEmpty(afisRaw) ? GetImage(afisRaw, 350, 230) + "&bgcolor=white"  : "/Files/Images/NoImage/350x230.png";  
+  
+
+
+	string locatie = GetString("Item.Locatie.Value");
+	string oras = GetString("Item.Oras.Value");
+	DateTime dataInceput = GetDate("Item.Data_Inceput.Value");
+	DateTime dataFinal = GetDate("Item.Data_Final.Value");
+	string descriere = GetString("Item.Descriere.Value");
+	string link = GetString("Item.Link.Value");
+	DateTime dataAdaugareArticol = GetDate("DwPageCreatedDate");
+	string tara = GetString("Item.Tara.Value");
+	string program = GetString("Item.Program.Value");
+	string pretBilet = GetString("Item.Pret_Bilet.Value");
+	string contactOrganizator = GetString("Item.DateContactOrganizator.Value");
+}
+
+
+<div class="row data-stickyparent">
+	<div class="col-md-8 eveniment">
+		<section class="admag-block">
+			<div class="titlu">@titlu</div>
+					<div class="row">
+				<div class="afis col-md-6">
+					<img src="@afis"/>
+				</div>
+				<div class="locatie-oras-perioada col-md-6">
+					<ul>
+						<li>Locatie: <span>@locatie</span></li>
+						<li>Oras: <span>@oras</span> </li>
+                      <li>Tara: <span>@tara</span></li>	
+                      	<li>Program: <span>@program</span></li>
+						<li>Pret bilet: <span>@pretBilet</span></li>
+						<li>Organizator: <span>@autor</span></li>
+						<li>Date de contact organizator: <span>@contactOrganizator</span></li>
+                      <li>Perioada: 
+                        <div class="event-date">
+                            <div class="date-box">
+                              <div class="date-title"><span>Data inceput</span></div>
+                              <div class="date-perioada"><span>@dataInceput.ToString("D")</span></div>
+                             </div> 
+                          
+                         	<div class="date-box">
+                              <div class="date-title"><span>Data terminare</span></div>
+                              <div class="date-perioada"><span>@dataFinal.ToString("D")</span></div>
+                      		</div> 
+                      	</div>
+                      </li>
+					</ul>
+				</div>
+			</div>
+			<div class="descriere">@descriere</div>
+			<div class="link"><a href="@link">@link</a></div>
+			
+			<div class="share-buttons">
+				<div class="addthis_inline_share_toolbox"></div>
+			</div>
+			<div>
+				@RenderParagraphContent(165)
+			</div>
+			
+			<span id="indicatie-alegere-calendar"></span>
+
+            <span class="addtocalendar buton-formular">
+	        	<var class="atc_event">
+		            <var class="atc_date_start">@dataInceput</var>
+		            <var class="atc_date_end">@dataFinal</var>
+		            <var class="atc_timezone">Europe/Bucharest</var>
+		            <var class="atc_title">@titlu</var>
+		            <var class="atc_location">@locatie</var>
+	        	</var>
+			</span>
+
+		</section>
+	</div>
+	<div class="col-md-4  data-stickycolumn">
+		<aside class="sidebar clearfix">
+     		@Include("Custom/Sidebar-TopPart.cshtml")
+     		@Include("Custom/Sidebar-BottomPart.cshtml")
+   		</aside>
+	</div>
+</div>
+<!-- Google Analytics -->
+
+<script>
+
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+ga('create', 'UA-26068739-1', 'auto');
+
+ 
+
+// DIMENSIONS DECLARATION WHERE NEEDED
+
+ 
+
+ga('send', 'pageview');
+
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+
+<!-- End Google Analytics -->

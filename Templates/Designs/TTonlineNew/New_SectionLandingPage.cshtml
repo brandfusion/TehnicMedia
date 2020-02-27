@@ -1,0 +1,578 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@MasterPageFile("Master.cshtml")
+@using Dynamicweb.Content;
+@using Dynamicweb.Rendering
+@Include("Includes/GetImage_new.cshtml")
+@Include("Includes/VerifyImage.cshtml")
+@Include("Includes/New_PlaceholderHelpers.cshtml")
+
+@functions {
+  string returnPageID(string itemID) {
+    var pageService = new Dynamicweb.Content.PageService();
+    var pageID = pageService.GetPageForItem("Dw_Page", itemID).ID + ",";
+ 
+    return pageID;
+  }
+
+}
+
+@{
+  
+  
+  string itemDescription = GetString("Item.Description");
+  var mainArticle = GetLoop("Item.MainArticle");
+  var secondaryArticle1 = GetLoop("Item.Secundar1");
+  var secondaryArticle2 = GetLoop("Item.Secundar2");
+    var ProduseLoop = GetLoop("Item.ShowroomProducs.Value");
+  string pageName = GetString("DwPageName");
+  string parentPage = GetString("DwPageName_2");
+  string parentPageID = GetString("DwPageID_2");
+string numarPagina = System.Web.HttpContext.Current.Request.Params["page"];
+string imagine = GetString("Item.ImagineSectiune");
+string activeURL = GetString("DWExtranetAction"); 
+string filterValue8= "Item.Tip='Articole'";
+
+    string Producator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
+    string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
+    var articlesPageId = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+    var productsPageId = GetPageIdByNavigationTag("ProductsFeed").ToString();
+    var sectionID = GetString("DwPageID");
+    var mainArticleID = "";
+    string secondaryArticleID = "";
+    string thirdArticleID = "";
+    string excludedArticles = "";
+    string productsIDs = "";
+    foreach(LoopItem i in mainArticle)
+   {
+     mainArticleID += returnPageID(i.GetString("Item.MainArticle.Id"));
+     excludedArticles += returnPageID(i.GetString("Item.MainArticle.Id"));
+   }
+  foreach (LoopItem i in secondaryArticle1)
+  {
+    secondaryArticleID += returnPageID(i.GetString("Item.Secundar1.Id"));
+    excludedArticles += returnPageID(i.GetString("Item.Secundar1.Id"));
+  }
+    foreach (LoopItem i in secondaryArticle2)
+    {
+        thirdArticleID += returnPageID(i.GetString("Item.Secundar2.Id"));
+        excludedArticles += returnPageID(i.GetString("Item.Secundar2.Id"));
+    }
+    
+    foreach (LoopItem i in ProduseLoop)
+    {
+        productsIDs += i.GetString("Ecom:Product.ID")+',';
+    }
+
+}
+
+@Include("Includes/ArticleHelper.cshtml")
+
+
+<div class="row main-body mt-0" data-stickyparent>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <ul class="breadcrumb breadcrumb-sectiune" id="breadCrumbsMenu">
+          <ul id="breadCrumbsMenu2" class="dwnavigation" settings="startlevel:1;endlevel:1;template:Breadcrumb.xslt;expandmode:Pathonly;includemode:all;id:breadCrumbsMenu2;"></ul>
+          @if (!string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ID"]))
+          {
+              <li>
+                @pageName                
+              </li>
+          }
+      </ul>
+  </div>
+
+<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+   
+    <!--divul pentru articole-->  
+
+    <div class="row">
+      <div class="col-md-12 hideSecondPage">
+        <h1 class="block-title"><span>@pageName</span></h1>
+        <div class="row">
+          @if(!string.IsNullOrEmpty(imagine)){
+          <div class="col-xs-4">
+             <img src="@imagine"/>
+          </div>
+          <div class="col-xs-8">
+              @if(!string.IsNullOrEmpty(itemDescription)){
+              @itemDescription
+            }
+          </div>
+          } else {
+          <div class="col-xs-12">
+              @if(!string.IsNullOrEmpty(itemDescription)){
+              @itemDescription
+            }
+          </div>
+          }        
+        </div>
+        
+      <div class="dwcontent" id="mainContent1" title="Main Content" data-settings="unwrap:true"></div>
+      @if(mainArticle.Any()){
+                                
+          <h3 class="block-title"><span>Articole</span></h3>
+          <div class="first-container" data-template="MainArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@mainArticleID">
+              @*Handlebars goes here*@
+              @RenderPlaceholderImageTop("pre-render-element--xl")
+          </div>
+       }
+       </div>
+    </div>     
+
+    <div class="row hideSecondPage"><!-- row-ul pentru Articole secundar 1 si secundar 2-->
+        @if(secondaryArticle1.Any()){
+            <div class="handlebars-wrapper display-title-up col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@secondaryArticleID">
+                @*Handlebars goes here*@
+               @RenderPlaceholderImageTop("pre-render-element--md")
+            </div>
+        }
+        @if(secondaryArticle2.Any()){     
+            <div class="handlebars-wrapper display-title-up col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@thirdArticleID">
+                @*Handlebars goes here*@ 
+               @RenderPlaceholderImageTop("pre-render-element--md")
+            </div>
+        }
+    </div><!--se inchide row-ul pentru Articole-->
+
+
+    @*ARTICOLE SI STIRI*@	
+ 
+    <div class="col-xs-12">
+        <div class="row handlebars-wrapper display-title-up" id="LoopArticoleStiri" data-template="LoopArticoleStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&pagesize=8&Sections=@sectionID&Excluded=@excludedArticles">
+            @*Handlebars goes here*@ 
+            <div class="col-md-6 col-xs-12" style="padding-left: 0px">
+                @RenderPlaceholderImageTop("pre-render-element--md")
+            </div>
+            <div class="col-md-6 col-xs-12" style="padding-right: 0px">
+                @RenderPlaceholderImageTop("pre-render-element--md")
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="block-title main-content-two"><span>@Translate("Stiri","Stiri")</span></h3>
+            <div class="row handlebars-wrapper display-title-up" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&Sections=@sectionID&pagesize=5&type=Stiri">
+                @*Handlebars goes here*@ 
+                @RenderPlaceholderImageOnLeft()
+                @RenderPlaceholderImageOnLeft()
+                @RenderPlaceholderImageOnLeft()
+                @RenderPlaceholderImageOnLeft()
+            </div>
+            <div class="row load-more">
+                <a href='/stiri?Sectiune=@sectionID'><button type="button" class="btn btn-lg btn-block">@Translate("MaiMulteStiri","Mai multe stiri")</button></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    @*SIDEBAR*@
+<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 sticky" >
+
+    @Include("Custom/New_Sidebar.cshtml")
+ 
+</div>
+
+</div>
+<div>
+    @*CAROUSEL PRODUSE*@
+<style>
+  .owl-carousel .owl-item img {width:auto!important;}
+</style>
+
+<h3 class="block-title"><span>Produse din categoria: @pageName</span></h3>
+    <div class="carousel-produse">
+        <div class="owl-carousel owl-theme handlebars-wrapper display-title-up" data-template="LoopProduseTemplate" data-json-feed="/Default.aspx?ID=@productsPageId&Promoted=@productsIDs">
+                @*Handlebars goes here*@ 
+                @RenderPlaceholderCaruselText()
+                @RenderPlaceholderCaruselText()
+        </div>
+     </div>
+</div>
+
+<div class="row mb-20 mt-20">
+        <div class="col-xs-12 col-sm-12 col-md-6 text-center mb-20 mt-20" ><a href='@Pageview.Area.Item["Link_Catalog"]' alt='@Pageview.Area.Item["Link_Catalog.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Catalog"]'alt='@Pageview.Area.Item["Banner_Catalog.Name"]' /></a></div>
+         <div class="col-xs-12 col-sm-12 col-md-6 text-center mb-20 mt-20"><a href='@Pageview.Area.Item["Link_Companii"]' alt='@Pageview.Area.Item["Link_Companii.Name"]' target="blank"><img src='@Pageview.Area.Item["Banner_Companii"]'alt='@Pageview.Area.Item["Banner_Companii.Name"]' /></a></div>
+ </div>
+       
+@*MAIN ARTICLE CONTAINER*@       
+<script id="MainArticleTemplate" type="text/x-handlebars-template">   
+   {{#ArticlesContainer}}
+        {{#each Article}}       				
+             <article class="news-block big-block mb-0">      
+               <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                   <figure class="image-overlay proportie-1" style="height: 480.263px;">
+                     <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=870&Height=572" alt="{{itemTitlu}}" style="height: 100%;" /> 
+                   </figure>
+             </a>
+                 <header class="news-details">
+                 <h3 class="news-title"> <a href='/Default.aspx?ID={{pagePageID}}' alt='{{itemTitlu}}'>{{itemTitlu}}</a></h3>
+                 <div class="main-summary">{{{itemSumar}}}</div>
+                 <p class="simple-share">@Translate("articolde","de")
+                 {{#articleAutori}}
+                      <span><a href="{{Link}}">{{Name}}</a></span>
+                 {{/articleAutori}}       
+                 - <span class="article-date"><i class="fa fa-clock-o"></i>{{itemData}}</span></p>
+                 {{#if showItemVisits}}    
+                     <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                 {{/if}} 
+               </header>              
+             </article><!-- News block -->
+        {{/each}}
+    {{/ArticlesContainer}}
+</script>
+@*SECONDARY ARTICLES CONTAINER*@ 
+<script id="SecondaryArticleTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}        
+          <article class="news-block small-block">
+              <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                  <figure class="image-overlay proportie-1">
+                   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230" alt="{{itemTitlu}}" />
+                </figure>
+              </a>
+              <header class="news-details">
+                  <h3 class="news-title"><a href='/Default.aspx?ID={{pagePageID}}' alt='{{itemTitlu}}'>{{itemTitlu}}</a></h3>
+                      <p class="simple-share">
+                      {{#articleAutori}}
+                            <span><a href="{{Link}}">{{Name}}</a></span>
+                       {{/articleAutori}}                 -
+                      <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                      {{#if showItemVisits}}    
+                           <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                        {{/if}} 
+                    </p>
+              </header>
+          </article><!-- News block -->
+    {{/each}}
+{{/ArticlesContainer}}     
+
+</script>
+@*ARTICOLE SI STIRI*@
+<script id="LoopArticoleStiriTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}  
+         <div class="col-xs-12 col-sm-12 col-md-6">
+           <article class="news-block small-block">
+             <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+             <figure class="">
+                <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230&bgcolor=white" />                   
+             </figure>
+             </a>             
+             <header class="news-details">
+               <h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3> 
+               <p class="simple-share">                  
+                 @Translate("articolde","de")
+                 {{#articleAutori}}
+                     <span class="m-0"><a href="{{Link}}">{{Name}}</a></span>
+                 {{/articleAutori}}                          
+                 <span class="m-0">-</span>                     
+                 <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                 {{#if showItemVisits}}    
+                     <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                  {{/if}}                     
+               </p>
+             </header>
+           </article><!-- News block --> 
+         </div>
+    {{/each}}
+{{/ArticlesContainer}}
+{{#ifCond pagingPageCount '>' 1}}
+    <nav>
+        <ul class="pagination pagination-sm">
+            {{#ifCond currentPage "!==" "1"}}
+                 <li data-page-link="{{pagingFirstPageLink}}" data-container="LoopArticoleStiriTemplate">                			        
+                    <span class="mr-02"> « </span>                 
+                 </li>
+                 <li data-page-link="{{pagingPrevPageLink}}" data-container="LoopArticoleStiriTemplate">
+                    <span aria-label="@Translate("paginaAnterioara", "Pagina anterioara")"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></span>
+                 </li>
+            {{/ifCond}}
+            
+            {{#Pages}}
+                {{#if isCurrent}}
+                   <li class="active"><span data-page-link="{{pageLink}}">{{pageNumber}}</span></li>
+                {{else}}
+                   <li data-page-link="{{pageLink}}" data-container="LoopArticoleStiriTemplate"><span>{{pageNumber}}</span></li>
+                {{/if}}                
+            {{/Pages}}
+
+            {{#if isNotLastPage}}
+                <li data-page-link="{{pagingNextPageLink}}" data-container="LoopArticoleStiriTemplate">
+                    <span aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></span>                     
+                </li>
+                <li data-page-link="{{pagingLastPageLink}}" data-container="LoopArticoleStiriTemplate">
+                    <span> » </span>
+                </li>
+            {{/if}}
+        </ul>
+    </nav>
+ {{/ifCond}}
+</script>
+@*STIRI*@
+<script id="LoopStiriTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}
+        <article class="simple-post simple-big clearfix col-md-12 separator-articole">
+            <div class="simple-thumb" style="width:255px" >
+                <a href="/Default.aspx?ID={{pagePageID}}">
+                  <figure class="">
+    				   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168"/> 
+                  </figure>
+                </a>
+            </div>
+            <header>
+                <p class="simple-share">                  
+                    @Translate("articolde","de") 
+                    {{#each articleAutori}}
+                        <a href="{{Link}}">{{Name}}</a>
+                    {{/each}}
+                    <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                    {{#if showItemVisits}} 
+                      <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                    {{/if}}
+                </p>
+                <h3>
+                    <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
+                </h3>
+                <div class="excerpt" >{{{itemSumar}}}</div>
+             <br/>
+            </header>
+        </article>        
+    {{/each}}
+{{/ArticlesContainer}}
+</script>
+
+<script id="LoopProduseTemplate" type="text/x-handlebars-template">
+{{#each Product}}
+   <div class="item"> 
+    @if (Dealer == "" && Producator == "")
+    {
+        <div class="col-xs-12 margin-15">
+      <div class="produs-col-background">      
+            <div class="row" >
+              <div class="col-xs-12">
+                 <div class="product-image">
+                      <a href="{{link}}" class="overlay-link">
+                          <figure class=""> 
+                            <img src="/Admin/Public/GetImage.ashx?Image={{image}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=350&Height=230" class="img-responsive"/>             
+                          </figure>
+                      </a>
+                 </div>
+               </div>
+            </div>
+            <div class="row row-promotii-produs">
+                <div class="col-xs-12">
+                    {{#if afisarePromotie}}
+                          <div class="promotie">
+                            <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                          </div>
+                    {{/if}}
+                    {{#ifCond priceProductDB ">" 0}}
+                        <div class="pret-produs pull-right">
+                            <a href="{{link}}">
+                            <span class="detalii-produs" ><text>{{priceProductDB}} LEI</text></span>
+                            </a>
+                        </div>
+                    {{/ifCond}}
+                </div>
+            </div>    
+         <div class="row">
+            <div class="col-xs-12">    
+              <h5 class="titlu-produs-lista news-title" ><a href="{{link}}">{{name}}</a></h5>    
+            </div>
+          </div>    
+        <div class="row" style="min-height:40px;">
+         <div class="col-xs-12">
+                {{#ifCond manufacturer "!==" ""}}
+                  <div class="col-xs-6" >      
+                       <p class="simple-share manufacturer">
+                         <text class="trim-text trim-lines-2">@Translate("manufacturer", "Producator"):</text>         
+                       </p>
+                  </div>    
+                    <div class="col-xs-6">
+                      <p class="simple-share manufacturer">
+                       {{#ifCond manufacturerLink "!==" ""}}
+                        <a href="{{manufacturerLink}}"><span class="black-font">{{manufacturer}}</span></a>
+                        {{/ifCond}}   
+                        {{#ifCond manufacturerLink "===" ""}}   
+                            <span class="black-font">{{manufacturer}}</span>
+                        {{/ifCond}}
+                      </p>
+                    </div>
+                {{/ifCond}}
+           </div>
+        </div>         
+    
+        <div class="row" style="min-height:30px;">
+          <div class="col-xs-12">
+              <div class="col-xs-6 text-center">      
+                   <p class="simple-share manufacturer">
+                    <text>@Translate("Furnizor", "Furnizor"):</text>         
+                   </p>
+                </div>
+                <div class="col-xs-6 text-center">
+                  <p class="simple-share manufacturer">
+                 <text class="trim-text trim-lines-2 black-font">{{dealerResult}}</text>
+                  </p>
+                </div>
+           </div>
+        </div>
+    
+          <div class="row">
+              <div class="col-xs-12 col-butoane-lista">                             
+                  <div class="col-xs-6">    
+                      <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                        <span class="detalii-produs">
+                          <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                        </span>
+                      </a>                         
+                   </div> 
+                   <div class="col-xs-6">    
+                      <a href="{{link}}" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>    
+                   </div>
+                 @SnippetStart("ProductCarouselModal")
+                    <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                          <div class="modal-content" >
+                          <button type="button" class="btn btn-primary float-right" data-dismiss="modal">X</button>
+                            @RenderParagraphContent(120)
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                       </div>
+                    </div>
+                 @SnippetEnd("ProductCarouselModal")
+              </div>
+           </div>
+       </div>    
+       </div>
+
+    }
+    
+    @if(Dealer != "" || Producator != ""){
+    
+        <div class="col-xs-12 col-sm-3 col-md-3 margin-15">
+      <div class="produs-col-background">      
+            <div class="row" >
+              <div class="col-xs-12">
+                 <div class="product-image">
+                      <a href="{{link}}" class="overlay-link">
+                          <figure class=""> 
+                            <img src="/Admin/Public/GetImage.ashx?Image={{image}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=350&Height=230" class="img-responsive"/>    
+                          </figure>
+                      </a>
+                 </div>
+               </div>
+            </div>
+            <div class="row row-promotii-produs">
+                <div class="col-xs-12">
+                    {{#if afisarePromotie}}
+                          <div class="promotie">
+                            <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
+                          </div>
+                    {{/if}}                
+                    {{#ifCond priceProductDB ">" 0}}
+                        <div class="pret-produs pull-right">
+                            <a href="{{link}}">
+                            <span class="detalii-produs" ><text>{{priceProductDB}} LEI</text></span>
+                            </a>
+                        </div>
+                    {{/ifCond}}
+                </div>
+            </div>    
+         <div class="row">
+            <div class="col-xs-12">    
+              <h5 class="titlu-produs-lista news-title"><a href="{{link}}">{{name}}</a></h5>    
+            </div>
+          </div>    
+         <div class="row" style="min-height:40px;">
+         <div class="col-xs-12">
+                {{#ifCond manufacturer "!==" ""}}
+                  <div class="col-xs-4" >      
+                       <p class="simple-share manufacturer">
+                         <text>@Translate("manufacturer", "Producator"):</text>         
+                       </p>
+                  </div>    
+                    <div class="col-xs-8">
+                      <p class="simple-share manufacturer " >
+                       {{#ifCond manufacturerLink "!==" ""}}
+                        <a href="{{manufacturerLink}}"><span class="black-font">{{manufacturer}}</span></a>
+                        {{/ifCond}}
+                        {{#ifCond manufacturerLink "===" ""}}
+                            <span class="black-font">{{manufacturer}}</span>
+                            {{/ifCond}}
+                                
+                      </p>
+                     </div>
+                {{/ifCond}}
+           </div>
+        </div>    
+        <div class="row" style="min-height:30px;">
+          <div class="col-xs-12">
+              <div class="col-xs-3 text-center">      
+                   <p class="simple-share manufacturer">
+                    <text>@Translate("Furnizor", "Furnizor"):</text>         
+                   </p>
+                </div>    
+                <div class="col-xs-9 text-center">
+                  <p class="simple-share manufacturer">
+                 <text class="black-font">{{dealerResult}}</text>
+                  </p>
+                </div>
+           </div>
+        </div>    
+        <div class="row">
+          <div class="col-xs-12 col-butoane-lista">                  
+              <div class="col-xs-6">
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                    <span class="detalii-produs">
+                      <text>@Translate("Cere Oferta", "Cere Oferta")</text>
+                    </span>
+                  </a>                     
+               </div> 
+               <div class="col-xs-6">
+                  <a href="{{link}}" class="buton-detalii-lista"><span><text>@Translate("Vezi detalii", "Vezi detalii")</text></span></a>
+                </div>
+                @SnippetStart("ProductCarouselModal")
+                  <div class="modal fade bd-example-modal-sm" id="modalformularoferta1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                          <div class="modal-content" >
+                          <button type="button" class="btn btn-primary float-right" data-dismiss="modal">X</button>
+                            @RenderParagraphContent(120)
+                          </div>
+                      
+                      <div class="modal-footer">
+                      </div>
+                      </div>
+                  </div>
+                  @SnippetEnd("ProductCarouselModal")
+           </div>
+         </div>
+      </div>   
+      </div>
+
+    }
+
+ </div>
+{{/each}} 
+</script>
+
+@RenderSnippet("ProductCarouselModal")
+<div id="loader"><div class="loader-icon"></div></div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>       
+        
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-26068739-1', 'auto'); 
+
+// DIMENSIONS DECLARATION WHERE NEEDED
+ga('send', 'pageview');
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+
+<!-- End Google Analytics -->

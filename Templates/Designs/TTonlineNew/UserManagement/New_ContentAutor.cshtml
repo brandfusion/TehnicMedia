@@ -1,0 +1,151 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Linq;
+@using System.Web;
+@using Dynamicweb.Content.Items;
+@MasterPageFile("Master.cshtml")
+@GetValue("Title(Pagina Autor)")
+@GetValue("Description(Pagina de Autor)")
+@Include("Includes/ArticleHelper.cshtml")
+@Include("Includes/GetImage_new.cshtml")
+@using System.Web
+
+@{
+
+	string IdAutor = System.Web.HttpContext.Current.Request["Autor"] != null ? System.Web.HttpContext.Current.Request["Autor"].ToString(): "";
+
+	string name = "";
+	string link = "";
+
+
+	if(!string.IsNullOrEmpty(IdAutor)){
+		var item = ItemManager.Storage.Open("Taxonomie_Autori").SelectById(IdAutor);
+   		name = "- " + (string) item["Name"];
+		link = (string) item["Companiae_Asociata"];
+	}
+
+}
+
+
+  
+
+
+  <div class="row blog-content author" data-stickyparent>
+  	<div class="col-md-8" data-stickycolumn>
+    	<article class="post-wrapper clearfix">
+
+          <header class="post-header clearfix">
+              <div class="row">
+                <div class="col-xs-12">
+                  <h1 class="block-title">
+                    <span>Articole @name</span>
+                  </h1><!-- .post-title -->
+                </div>
+                @if(!string.IsNullOrEmpty(IdAutor)){
+                    if(!string.IsNullOrEmpty(link)){
+                        <a class="btn btn-primary view-company" href="/companie?companyID=@(link)">@Translate("Vezi Compania", "Vezi Compania")</a>
+                    }
+                  }
+              </div>
+            </header>
+      
+          @{
+            if(HttpContext.Current.Request.QueryString["autor"] != null) {
+          
+			string queryAutor = HttpContext.Current.Request.QueryString["autor"];
+  
+            var autori = GetAutori(queryAutor);
+            var numeAutor = autori.FirstOrDefault().Name;
+			
+            string articleAutori = autori.FirstOrDefault().Id;
+			string articlePersoana = "";
+			
+            List<Autor> articleAutoriList = GetAutori(articleAutori);
+          
+          
+          foreach (var articleAutor in articleAutoriList)
+            { 	articlePersoana = @articleAutor.Persoana;
+
+
+
+			} 
+			
+          if(articlePersoana == "Persoana" ){
+           @* <h3 class="block-title">
+              <span>
+                @if (numeAutor != null) {
+               @numeAutor
+                }
+              </span>
+            </h3>*@
+   
+            <!-- zona de informatii autor start -->
+             foreach (var articleAutor in articleAutoriList)
+                    {
+          
+          			 string mainImage = !string.IsNullOrEmpty(@articleAutor.Image) ? GetImage(@articleAutor.Image, 100, 150) + "&bgcolor=white"  : "/Files/Images/NoImage/100x150.png";
+          
+                      <div class="author-box clearfix ">
+
+                                <div class="author-avatar">
+
+                                    <img alt="" src="@mainImage" >
+
+                                </div>
+                                <div class="author-info">
+                                  <h3><a href="@articleAutor.Link">@articleAutor.Name</a></h3>
+                                    <p class="author-bio">@articleAutor.Description </p>
+                                    <div class="author-contact"></div>
+                                </div>
+                       </div>
+              		}
+             <!-- zona de informatii autor end -->
+                        }
+                  }
+              }
+          
+      <div class="post-content clearfix">
+        <div class="dwcontent" id="maincontent" title="Main Content" settings="unwrap:true"></div>
+      </div><!-- .post-content -->
+    </article><!-- .post-wrapper -->
+
+                    
+          <!-- Mid ad -->
+       
+          <!-- End Mid ad -->
+</div><!-- End Left big column -->
+
+<div class="col-md-4" data-stickycolumn>
+  <div style="display: none;"><a href='/Default.aspx?ID=@GetPageIdByNavigationTag("companii")' class="read-more">@Translate("Profil companie", "Profil companie")</a></div>
+  @Include("Custom/Sidebar.cshtml")
+</div><!-- End last column -->        
+</div><!-- .blog-content -->
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-26068739-1', 'auto');
+
+
+// START DIMENSIUNI
+
+// DIMENSIUNI PENTRU Romanian Industry Zoom:
+  //var dw_editie = 'NUMAR_EDITIE';
+  var dw_autor = '@name';
+  //var dw_companie = 'NUME_COMPANIE';
+  //var dw_data_aparitie = 'DATA_APARITIE'; // format dd.mm.yyyy
+
+  //ga('set', 'dimension1', dw_editie);
+ga('set', 'dimension2', dw_autor);
+  //ga('set', 'dimension3', dw_companie);
+  //ga('set', 'dimension9', dw_data_aparitie);
+
+// END DIMENSIUNI
+
+
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+ 
+   

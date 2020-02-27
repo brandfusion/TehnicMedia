@@ -1,0 +1,67 @@
+@if(1==2){
+<!--@MasterPageFile(Master.cshtml)-->	
+}
+@* 
+http://solutionset.dotfusion.ro/Default.aspx?ID=@(GetInteger("Item.Area.NewsletterPage_ID"))&action=subscribe&email=test@test.com
+*@
+@{
+	
+	string action = System.Web.HttpContext.Current.Request["action"];
+	string email = System.Web.HttpContext.Current.Request["email"];
+	bool subscribed = false;
+	bool unSubscribed = false;
+	bool userAlreadyExists = false;
+
+	System.Web.HttpContext.Current.Response.Write("<div id='response'>");
+	if (!string.IsNullOrEmpty(email) && Dynamicweb.Base.ValidateEmail(email))
+	{
+		int groupSubscribersId = GetInteger("Item.Area.Subscribers_Group_ID");
+		int groupUnsubscribersId = GetInteger("Item.Area.Unsubscribers_Group_ID");
+
+		var userNewsletter = Dynamicweb.Modules.UserManagement.User.GetUserByUserName(email);
+		if (userNewsletter == null) 
+        { 
+            userNewsletter = new Dynamicweb.Modules.UserManagement.User(); 
+            userNewsletter.UserName = email; 
+            userNewsletter.Email = email; 
+            userNewsletter.Password = Dynamicweb.Base.PasswordGenerate("12"); 
+            userNewsletter.PasswordDate = DateTime.Now; 
+            userNewsletter.ValidFrom = DateTime.Now.AddDays(-1); 
+            userNewsletter.ValidTo = DateTime.Now.AddYears(1000); 
+//userNewsletter.AccessUser_Newsletter = "True";
+        }
+        else if (userNewsletter.GroupIDs.Contains(groupSubscribersId))
+        {
+        	userAlreadyExists = true;
+        }
+		
+		if (groupSubscribersId != 0 && groupUnsubscribersId != 0)
+		{
+            if (action.ToLower().Equals("subscribe") && !userAlreadyExists)
+            { 
+                userNewsletter.AddToGroup(groupSubscribersId);
+				userNewsletter.RemoveFromGroup(groupUnsubscribersId);
+                userNewsletter.Save();
+                System.Web.HttpContext.Current.Response.Write(@Translate("Ati fost abonat cu succes", "Ati fost abonat cu succes!"));
+                subscribed = true;
+            }
+            if (action.ToLower().Equals("subscribe") && userAlreadyExists)
+            {
+                System.Web.HttpContext.Current.Response.Write(@Translate("Email-ul exista deja in baza de date", "Email-ul exista deja in baza de date!"));
+            }
+            else if (action.ToLower().Equals("unsubscribe"))
+            {
+				userNewsletter.AddToGroup(groupUnsubscribersId);
+                userNewsletter.RemoveFromGroup(groupSubscribersId);
+                userNewsletter.Save();
+                unSubscribed = true;
+                System.Web.HttpContext.Current.Response.Write(@Translate("Ati fost dezabonat cu succes", "Ati fost dezabonat cu succes!"));
+            }
+		}
+	}
+	if (!subscribed && !unSubscribed && !userAlreadyExists)
+	{
+		System.Web.HttpContext.Current.Response.Write(@Translate("Email incorect", "Email incorect!"));
+	}
+	System.Web.HttpContext.Current.Response.Write("</div>");
+}

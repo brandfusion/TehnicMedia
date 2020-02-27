@@ -1,0 +1,49 @@
+﻿@using Dynamicweb.Frontend
+@using System.Text.RegularExpressions
+@using Dynamicweb.Content;
+@using Dynamicweb.Rendering
+@Include("../../Includes/GetImage_new.cshtml")
+@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/ArticleHelper.cshtml")
+@Include("../../Includes/VerifyImage.cshtml")
+
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+  <div class="row">
+      @foreach(var item in GetLoop("ItemPublisher:Items.List")){
+        string articleTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+        string itemAuthor = "";
+        var articleDate = item.GetDate("ItemPublisher:Item.Data");
+        string articleLink = item.GetString("ItemPublisher:Item.Url");
+        
+        string articleExcerpt = item.GetString("ItemPublisher:Item.Sumar");
+        string articleVisits = item.GetString("ItemPublisher:Item.Visits.Value");
+        string itemAutori = item.GetString("ItemPublisher:Item.Autori.Value");
+        string itemSections = "";
+        bool itemConditionVisits = item.GetBoolean("ItemPublisher:Item.Vizite");
+        string articleViews = GetString("Item.Visits");
+        string articleImageRaw = item.GetString("ItemPublisher:Item.ImaginePrincipala");
+        string articleImage = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 350, 230) : "";   		
+        articleImage = articleImage + "&bgcolor=white";
+        List<Autor> articleAutori = GetAutori(itemAutori);
+        List<Sectiune> articleSections = GetSectiuni(itemSections);
+        articleExcerpt = Regex.Replace(articleExcerpt, @"<[^>]*>", String.Empty);
+        int counterAutor3 = 1;
+      
+        @Include("../../Lists/Articole-LP-Sectiune-2col-image-nosummary.cshtml")
+
+    }
+  </div>
+}
+
+
+@{
+  int previousPage = GetInteger("ItemPublisher:Items.Paging.PrevPage");
+  int currentPage = GetInteger("ItemPublisher:Items.Paging.CurrentPage");
+  int globalPageID = GetInteger("ItemPublisher:Global.PageId");
+  int lastPage = GetInteger("ItemPublisher:Items.Paging.TotalPages");
+}
+
+
+@Include("Includes/Pagination.cshtml")
+

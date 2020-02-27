@@ -1,0 +1,25 @@
+﻿@Include("../../Custom/GlobalVariables.cshtml")
+@Include("../../Includes/GetImage_new.cshtml")
+<div class="owl-carousel owl-theme">
+   @if(GetBoolean("ItemPublisher:Items.Any")){
+      foreach(LoopItem item in GetLoop("ItemPublisher:Items.List")){
+  
+         string itemImage = item.GetString("ItemPublisher:Item.ImagineSectiune");
+  			string mainImageRaw = item.GetString("ItemPublisher:Item.ImagineSectiune");
+        	string mainImage = !string.IsNullOrEmpty(mainImageRaw) ? GetImage(mainImageRaw, 230, 172) : "";   		
+			mainImage = mainImage + "&bgcolor=white";	
+  
+  	      string itemImageURL = "/Admin/Public/GetImage.ashx?Image=" + itemImage +"&Format=jpg&Width=160&Height=120&Compression=99&Crop=0";
+  		   string itemURL = item.GetString("ItemPublisher:Item.Url");
+         
+         <div class="item" style="width:100%!important">
+              @if(!string.IsNullOrEmpty(item.GetString("ItemPublisher:Item.ImagineSectiune"))){
+                 <a href="@itemURL"><img src='@mainImage' alt="" style="width:100%!important;" /></a>
+              }else{
+                 <a href="@itemURL"><img src="@areaLayoutPath/assets/img/demo/230x172.png" height="115" alt="" /></a>
+              }
+              @*<h4><!--<a href="@itemURL">@item.GetString("ItemPublisher:Item.Title.Value")</a>  --></h4>*@
+         </div>                  
+      }
+   }
+</div>

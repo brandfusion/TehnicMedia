@@ -1,0 +1,1845 @@
+﻿@{
+		    
+	string areaLayoutPath = "/Files/Templates/Designs/TTonline/";		
+	areaLayoutPath = areaLayoutPath.Substring(0, areaLayoutPath.LastIndexOf("/"));
+
+	string Layout_Style = GetString("Item.Area.Layout_Style.Value"),
+    Template_Style = GetString("Item.Area.Template_Style.Value"),
+    Sticky_Header = GetString("Item.Area.Sticky_Header.Value"),
+    Template_Color = GetString("Item.Area.Template_Color.Value"),
+	bodyStyle = Layout_Style + " " + Template_Style + " " + Sticky_Header + " " + Template_Color;
+
+}
+
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>@GetValue("Title")</title>
+@GetValue("MetaTags")
+@GetValue("CopyRightNotice")
+
+  
+  
+  <meta name="author" content="Dynamic Applications">
+  <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  @{
+     string designFolder = GetString("Template:DesignBaseUrl");
+  }
+  <!-- Favicon -->
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="@(designFolder)images/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@(designFolder)images/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@(designFolder)images/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@(designFolder)images/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon-precomposed" sizes="60x60" href="@(designFolder)images/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="@(designFolder)images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="@(designFolder)images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="@(designFolder)images/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="@(designFolder)images/favicon-128.png" sizes="128x128">
+  <meta name="application-name" content="&nbsp;">
+  <meta name="msapplication-TileColor" content="#FFFFFF">
+  <meta name="msapplication-TileImage" content="@(designFolder)images/mstile-144x144.png">
+  <meta name="msapplication-square70x70logo" content="@(designFolder)images/mstile-70x70.png">
+  <meta name="msapplication-square150x150logo" content="@(designFolder)images/mstile-150x150.png">
+  <meta name="msapplication-wide310x150logo" content="@(designFolder)images/mstile-310x150.png">
+  <meta name="msapplication-square310x310logo" content="@(designFolder)images/mstile-310x310.png">
+  
+  <!-- Google Fonts -->
+  <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,400italic,500,700,700italic,900" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700,700italic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Raleway:900" rel="stylesheet" type="text/css">
+
+  <!-- Icon Font -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ @* <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"> *@
+
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="@areaLayoutPath/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" type="text/css" media="screen">
+  <link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
+
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/fix.css">
+  <link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/robert.css">
+  <link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/mihai.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick-theme.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"> 
+ <!-- Stil customizat pentru paginile de companie de tip Premium -->
+    @if(!String.IsNullOrEmpty(GetString("Item.Custom_Style"))){
+    <link rel="stylesheet" type="text/css" href='@GetString("Item.Custom_Style")'>
+    
+
+    }
+    @{
+    	bool Fix = GetBoolean("Item.Banner_Fix");
+    }
+    
+    
+    @if(@Fix == false){
+    <style>
+      .premium {
+	  background: @GetString("Item.MainColor.Value") url(@GetString("Item.Background_Image")) no-repeat!important;
+	  background-size:contain!important;
+      color: @GetString("Item.TextColor")!important;
+            }
+    </style>
+    }else{
+    <style>
+    .premium {
+	  background: @GetString("Item.MainColor.Value") url(@GetString("Item.Background_Image")) fixed no-repeat!important ;
+	  background-size:cover!important;
+      color: @GetString("Item.TextColor")!important;
+            }
+    </style>
+    
+    }
+    
+    <style>
+      .secondarycolor {
+      color: @GetString("Item.SecondaryColor.Value")!important;
+      }
+      .buton-formular{
+      background-color:@GetString("Item.MainColor.Value")!important;
+      }
+      .buton-formular:hover{
+      background-color:@GetString("Item.SecondaryColor.Value")!important;
+      }
+      .primary-color-border-bottom{
+      border-bottom-color:	@GetString("Item.MainColor.Value")!important;
+      }
+      .social{ font-size:22px;}
+      .declaratiemanager {margin-top: 55px; margin-left: -38px;}
+      .news-details1 {
+    position: absolute;
+    bottom: 32px;
+    left: -3px;
+}
+      .news-title1 {max-height: 42px;}
+      
+
+    </style>
+    
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<!--<link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/main.css">-->	
+    <!-- Generated by Revive Adserver v4.0.1 -->
+    <script type='text/javascript' src='http://adserver.dotfusion.ro/revive/www/delivery/spcjs.php?id=1&amp;target=_blank'></script>
+	<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+	@GetValue("Stylesheets")
+@GetValue("Javascripts")
+</head>
+
+    @{
+    string imagineBannerRaw = GetString("Item.Imagine_Banner");
+   
+    string linkBanner = GetString("LinkBanner");
+    string imagineBanner = !string.IsNullOrEmpty(imagineBannerRaw) ? GetImage(imagineBannerRaw, 975, 100) + "&bgcolor=white"  : ""; 
+
+    string firstPageId = GetString("DwAreaFirstPageID");
+    }
+    
+
+<body class="@bodyStyle premium">
+ 
+    <div id="main" class="header-style1">
+
+        @{
+	bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
+    string logo = GetString("Item.Area.Logo");
+} 
+<header class="header-wrapper clearfix">
+
+    <div class="header" id="header">
+        <div class="container-fluid header-first-container">
+              <div class="mag-content">
+                <div class="container">
+                        <div class="row header-first-row">
+                            <div class="col-md-9 visible-lg visible-md" id="motto">
+                                    <a class="logo" href="/Defaul.aspx?ID=@firstPageId" title="" rel="home">
+                                        <img src="@logo"> 
+                                   </a><!-- .logo -->
+                                   <h4>Industry – Business Opportunities</h4>
+                            </div><!--End of col-md-9 visible-lg visible-md-->
+                            
+                            <div class="col-md-2 visible-lg visible-md text-right username">                 
+
+                              @if (userIsLoggedIn) {
+                                string userName = !string.IsNullOrWhiteSpace(Pageview.User.Name) ? Pageview.User.Name : string.Format("{0}{1}", Pageview.User.FirstName, Pageview.User.LastName);
+
+                                <div class="welcomeBack hidden-print text-left">
+                                  @Translate("welcome", "Welcome"), <span> @(!string.IsNullOrWhiteSpace(userName) ? userName : Pageview.User.UserName)</span>
+                                </div>
+                              }
+
+                            </div> 
+                            <div id="social-icon" class="social-icon">
+                                <a class="facebook" href='@Pageview.Area.Item["FacebookLink"]' target="_blank"> <i class="fa fa-facebook fa-2x padding" aria-hidden="true"></i> </a>
+                                <a class="twitter" href='@Pageview.Area.Item["TwitterLink"]' target="_blank">  <i class="fa fa-twitter fa-2x  padding" aria-hidden="true"></i>  </a>
+                            </div>
+
+                         </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="container-fluid header-second-container">
+                    <div class="mag-content">
+
+                        <div class="container">
+                            <div class="row header-second-row"> 
+                                <div class="col-md-12">
+                                    
+                                    <!-- Mobile Menu Button -->
+                                    <a class="navbar-toggle collapsed" id="nav-button" href="#mobile-nav">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </a><!-- .navbar-toggle -->
+                                    <!-- Main Nav Wrapper -->
+                                    <nav class="navbar mega-menu">
+                                            <a class="logo hidden-lg hidden-md" href="/Default.aspx?ID=@firstPageId" title="" rel="home">
+                                                <img src="@logo">
+                                           </a><!-- .logo -->
+                                        <!-- Navigation Menu -->
+                                        <div class="navbar-collapse collapse">
+                                            @RenderNavigation(new {
+                                              template = "MainNavigation.xslt",
+                                              expandmode = "all",
+                                              id = "header-nav",
+                                              startlevel = 1,
+                                              listStyle = "top-navigation",
+                                              endlevel = 2
+                                            })                              
+                                        </div><!-- .navbar-collapse -->              
+                                        <!-- End Navigation Menu -->
+                                          
+
+
+                                    <div class="btn-group dropdown-login">
+              <button class="btn btn-default btn-sm dropdown-toggle dropdown-login" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user fa-1x" aria-hidden="true">&nbsp; &nbsp;</i><span class=""></span>
+              </button>
+              <ul class="dropdown-menu">
+                  <!-- Button trigger modal -->
+                  
+                  @if (userIsLoggedIn)
+                  {
+                      <li><a href="/Admin/Public/ExtranetLogoff.aspx?ID=1">Logout</a></li>	
+                  } else {
+                      <li><a href="/Default.aspx?ID=4256">Log in</a></li>
+                  	  <li><a href="/Default.aspx?ID=4255">@Translate("Inregistrare","Inregistrare")</a></li>
+                  } 
+              </ul>
+            </div>
+                                   <!-- Single button -->
+                                     
+                                        <div class="header-right galaxy-s5 nexus-5x iphone-6">
+                                            <div class="social-icons">
+
+                                                @{
+                                                   var languageSwitcherValue = "";
+                                                   foreach (var language in GetLoop("Languages")) {
+                                                        if (language.GetBoolean("IsCurrent")) {
+                                                         languageSwitcherValue = language.GetString("Culture");
+                                                        }
+                                                   }
+                                                }
+                                                @if (languageSwitcherValue == "ro-RO") { 
+                                                    <a href="/" class="selected">RO</a> <span>|</span> <a href="/Default.aspx?ID=5557">EN</a> 
+                                                }
+                                                @if (languageSwitcherValue == "en-US") { 
+                                              <a href="/">RO</a> <span>|</span> <a href="Default.aspx?ID=5557" class="selected">EN</a>  
+                                                }                                                   
+                                              
+                                                @* <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook fa-lg"></i></a>
+                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter fa-lg"></i></a>
+                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i class="fa fa-google-plus fa-lg"></i></a>
+                                                <!-- Only for Fixed Sidebar Layout -->
+                                                <a href="#" class="fixed-button navbar-toggle" id="fixed-button">
+                                                    <i></i>
+                                                    <i></i>
+                                                    <i></i>
+                                                    <i></i>
+                                                </a><!-- .fixed-button -->*@
+                                            </div><!-- .social-icons -->
+                                        </div><!-- .header-right -->
+
+                                         
+
+  @if(GetString("DwAreaID") == "1"){
+   
+        <div id="sb-search" class="sb-search">     
+   			 <div class="form-group" style="position: relative;">
+     			 <form action="/cautare.aspx" method="GET"> 
+      				 <input class="sb-search-input" placeholder="Termen de cautare..." type="text" value="" name="q" id="q">
+      				 <input class="sb-search-submit btn-search" type="submit" value="">
+         			<span class="sb-icon-search fa fa-search" data-toggle="tooltip" data-placement="bottom" title="Search"></span>
+      			</form>
+			</div> 
+        </div>
+        }else {
+        
+  <div id="sb-search" class="sb-search">     
+    <div class="form-group" style="position: relative;">
+      <form action="/en/search.aspx" method="GET"> 
+      	 <input class="sb-search-input" placeholder="Input keyword ...." type="text" value="" name="q" id="q">
+      	 <input class="sb-search-submit btn-search" type="submit" value="">
+         <span class="sb-icon-search fa fa-search" data-toggle="tooltip" data-placement="bottom" title="Search"></span>
+      </form>
+	</div>
+  </div>
+        } 
+        
+        
+        
+        
+      
+                                    </nav><!-- .navbar -->
+
+                                                         
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                </div><!--.container -->
+            </div><!-- .mag-content -->
+        </header></div><!-- .container -->
+    <!-- .header -->
+
+<!-- .header-wrapper -->
+        @*skyscrapers*@
+       
+        <!-- Begin Main Wrapper -->
+        <div class="container main-wrapper pagina-companie ">
+			
+            <!-- Begin Main Banner -->
+            <div class="mag-content clearfix banner-companie ">
+                <div class="row">
+                    <div class="col-md-12">
+                      <a href="@linkBanner"><img src="@imagineBanner"></a>
+                    </div>
+                </div>
+            </div>
+          
+              
+            <!-- End Main Banner -->
+
+
+            <div class="main-content mag-content clearfix industry-background">
+
+                @inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using BrandFusion.Dw.eCommerce
+@using Dynamicweb.Ecommerce.Products
+@using BrandFusion.Dw.TTOnline;
+
+@GetValue("Title(Article page)")
+@GetValue("Description(Pagina de articol)")
+@functions {
+
+//public class Session
+//{
+//public string Id;
+//public string Title;
+//public DateTime StartTime;
+//public DateTime EndTime;
+//public bool IsBreak;
+//public string Description;
+//public string Type;
+//public string Url;
+//public string AllowedGroups;
+//public string Location;
+//public string Level;
+//public int NumberOfSeats;
+//public int NumberOfReservedSeats;
+//public List<Speaker>
+    //Speakers;
+    //public List<Speaker>
+        //Moderatori;
+        //public LoopItem Item;
+        //}
+
+        public class Autor
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+		public string Description;
+		public string Image;
+		public string Persoana;
+        }
+
+        public class Companie
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        public string Logo;
+        }
+
+        public class RelevantaGeografica
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+        public class Tag
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+        public class Sectiune
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+        public class Editie
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+
+
+		public static string StripHtmlTagByCharArray(string htmlString)
+        {
+            char[] array = new char[htmlString.Length];
+            int arrayIndex = 0;
+            bool inside = false;
+        
+            for (int i = 0; i < htmlString.Length; i++)
+            {
+                char let = htmlString[i];
+                if (let == '<')
+                {
+                    inside = true;
+                    continue;
+                }
+                if (let == '>')
+                {
+                    inside = false;
+                    continue;
+                }
+                if (!inside)
+                {
+                    array[arrayIndex] = let;
+                    arrayIndex++;
+                }
+            }
+            return new string(array, 0, arrayIndex);
+        }
+
+
+        private List<Autor> GetAutori(string autoriList)
+            {
+            var autori = new List<Autor> ();
+
+            if(!string.IsNullOrEmpty(autoriList)){
+                string[] itemIdList = autoriList.Split(',');
+                foreach (string itemId in itemIdList)
+                {
+                    var autor = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Autori", itemId);
+                    if (autor != null)
+                    {
+                        autori.Add(new Autor
+                        {
+                        Id = itemId,
+                        Name = autor["Name"] != null ? autor["Name"].ToString() : "",
+						Image = autor["Image"] != null ? autor["Image"].ToString() : "",
+						Description = autor["Description"] != null ? autor["Description"].ToString() : "",
+						Link = "/Default.aspx?ID=4250&autor="+itemId,
+						Persoana = autor["Persoana_Companie"] != null ? autor["Persoana_Companie"].ToString() : ""
+                        });
+                    }
+                }
+            }   
+
+            return autori;
+        }
+
+    private List<RelevantaGeografica> GetRelevanta(string relevantaList)
+    {
+        var relevante = new List<RelevantaGeografica> ();
+
+        if(!string.IsNullOrEmpty(relevantaList)){
+            string[] itemIdList = relevantaList.Split(',');
+            foreach (string itemId in itemIdList)
+            {
+                var relevanta = Dynamicweb.Content.Items.Item.GetItemById("RelevantaGeografica", itemId);
+                if (relevanta != null)
+                {
+                    relevante.Add(new RelevantaGeografica
+                    {
+                    Id = itemId,
+                    Name = relevanta["Name"] != null ? relevanta["Name"].ToString() : "",
+                    Link = ""
+                    });
+                }
+            }
+        }
+
+        return relevante;
+    }
+
+
+    private List<Sectiune> GetSectiuni(string sectiuniList)
+    {
+        var sectiuni = new List<Sectiune> ();
+
+         return sectiuni;
+
+    }
+
+    private List<Tag> GetTaguri(string taguriList)
+    {
+        var taguri = new List<Tag>();
+        if(!string.IsNullOrEmpty(taguriList)){
+            string[] itemIdList = taguriList.Split(',');
+            foreach (string itemId in itemIdList)
+                {
+                var tag = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Taguri", itemId);
+                if (tag != null)
+                {
+                taguri.Add(new Tag
+                    {
+                        Id = itemId,
+                        Name = tag["Name"] != null ? tag["Name"].ToString() : "",
+                        Link = "Default.aspx?ID=4252&tag="+itemId
+                    });
+                }
+                }
+        }
+            return taguri;
+
+    }
+
+
+    private List<Companie> GetCompany(string companyList)
+    {
+        var companies = new List<Companie> ();
+        if(!string.IsNullOrEmpty(companyList)){
+            string[] itemIdList = companyList.Split(',');
+            foreach (string itemId in itemIdList)
+                {
+                var companie = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Companii", itemId);
+                if (companie != null)
+                {
+                companies.Add(new Companie
+                    {
+                    Id = itemId,
+                    Name = companie["Name"] != null ? companie["Name"].ToString() : "",
+                    Logo = companie["Logo"] != null ? companie["Logo"].ToString() : "",
+                    Link = "/Default.aspx?ID=4271&companie="+itemId
+                    });
+                }
+            }
+        }
+        return companies;
+
+    }
+
+    
+
+
+
+}
+
+@using Dna.ImageProcessor;
+@using Dynamicweb.Frontend.Devices;
+
+@{
+  string designName = GetString("Template:DesignBaseUrl").Replace("/Files/Templates/Designs/", "").Replace("/", "");
+}
+
+@functions{
+  /// <summary>
+  /// Returns the URL for the given ImageSettings.
+  /// </summary>
+  /// <param name="settings">The ImageSettings used to generate the URL.
+  private static string GetImage(ImageSettings settings)
+  {
+    return settings.ToUrl();
+  }
+
+  /// <summary>
+  /// Returns the URL for the given ImageSettings.
+  /// </summary>
+  /// <param name="url">The URL to the image.
+  /// <param name="settings">The ImageSettings used to generate the URL.
+  public static string GetImage(string url, ImageSettings settings = null)
+  {
+    if (settings == null)
+    {
+      settings = new ImageSettings();
+    }
+    settings.ImageUrl = url;
+    return GetImage(settings);
+  }
+
+  /// <summary>
+  /// Returns the URL for the given ImageSettings.
+  /// </summary>
+  /// <param name="url">The URL to the image.
+  /// <param name="width">The requested width of the image.
+  /// <param name="height">The requested height of the image.
+  /// <param name="settings">The ImageSettings used to generate the URL.
+  public static string GetImage(string url, int width, int height, ImageSettings settings = null)
+  {
+    if (settings == null)
+    {
+      settings = new ImageSettings();
+    }
+    settings.Width = width;
+    settings.Height = height;
+    return GetImage(url, settings);
+  }
+
+  /// <summary>
+  /// Returns the URL for the given ImageSettings.
+  /// </summary>
+  /// <param name="url">The URL to the image.
+  /// <param name="width">The requested width of the image.
+  /// <param name="height">The requested height of the image.
+  /// <param name="widthTablet">The requested width of the image for a tablet device.
+  /// <param name="heightTablet">The requested height of the image for a tablet device.
+  /// <param name="widthMobile">The requested width of the image for a mobile device.
+  /// <param name="heightMobile">The requested height of the image for a mobile device.
+  /// <param name="settings">The ImageSettings used to generate the URL.
+  public static string GetImage(string url, int width, int height, int widthTablet, int heightTablet, int widthMobile, int heightMobile, ImageSettings settings = null)
+  {
+    var currentDevice = Dynamicweb.Frontend.PageView.Current().Device;
+
+    switch (currentDevice)
+    {
+      case DeviceType.Tablet:
+        width = widthTablet != 0 ? widthTablet : width;
+        height = heightTablet != 0 ? heightTablet : height;
+        break;
+      case DeviceType.Mobile:
+        width = widthMobile != 0 ? widthMobile : width;
+        height = heightMobile != 0 ? heightMobile : height;
+        break;
+        // default: Skip; just use existing width and height
+    }
+    if (settings == null)
+    {
+      settings = new ImageSettings();
+    }
+    settings.ImageUrl = url;
+    settings.Width = width;
+    settings.Height = height;
+    return GetImage(settings);
+  }
+}
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+
+@functions{
+  private string GetImagePathUrl(string small, string medium, string large, string pattern)
+  {
+    string imagePath;
+
+    if (!string.IsNullOrEmpty(small))
+      imagePath = small;
+    else if (!string.IsNullOrEmpty(medium))
+      imagePath = medium;
+    else if (!string.IsNullOrEmpty(large))
+      imagePath = large;
+    else
+      imagePath = pattern;
+
+    return imagePath;
+  }
+}
+
+
+ @GetValue("DwContent(maincontent1)")
+
+
+
+<link rel="stylesheet" href="/Files/Templates/ItemPublisher/ItemPublisher.css">
+
+
+@{
+    var idCompanie = GetString("Item.Companie.Value");
+    Dynamicweb.Content.Items.Item companie = null;
+
+    if (!string.IsNullOrEmpty(idCompanie)){
+        companie = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Companii", idCompanie);
+                    
+
+    if(companie != null){
+            //begin content
+
+            var MissingFoto = "http://placehold.it/100x100";
+            var MissingBanner = "http://placehold.it/1170x250";
+      
+            var Name = companie["Name"];  
+			string NameCompanie = Name.ToString();
+            var ID = companie["Id"]; 
+			string IDCompanie = ID.ToString();
+            string LogoS = companie["Logo"] != null ? companie["Logo"].ToString(): "";
+            var Logo = !string.IsNullOrEmpty(LogoS) ? LogoS : MissingFoto;
+            string BannerS = companie["Banner"] !=null ? companie["Banner"].ToString():"";
+
+        	 var BannerRaw = !string.IsNullOrEmpty(BannerS) ? BannerS : "";
+			
+			string Banner = !string.IsNullOrEmpty(BannerRaw) ? GetImage(BannerRaw, 1140, 400) + "&bgcolor=white"  : ""; 
+
+            string ImgProfilS = companie["ImgProfil"] != null ? companie["ImgProfil"].ToString(): "";
+            var ImgProfil = !string.IsNullOrEmpty(ImgProfilS) ? ImgProfilS : MissingFoto;  
+            string SummaryS = companie["Summary"] !=null ? companie["Summary"].ToString(): "";
+            var Summary = !string.IsNullOrEmpty(SummaryS) ? SummaryS : "Missing text";
+            string OldTidS = companie["OldTid"] !=null ? companie["OldTid"].ToString(): "";
+            var OldTid = !string.IsNullOrEmpty(OldTidS) ? OldTidS: "Missing OldTid";
+            string DateContactS = companie["DateContact"] !=null ? companie["DateContact"].ToString(): "";
+            var DateContact = !string.IsNullOrEmpty(DateContactS) ? DateContactS: "Missing DateContact";
+      bool AfiseazaJobs = companie["Afiseaza_Jobs"] != null ? (bool)companie["Afiseaza_Jobs"]: false;
+      bool AfiseazaArticole = companie["Afiseaza_Articole"] != null ? (bool)companie["Afiseaza_Articole"]: false;
+      bool AfiseazaStiri = companie["Afiseaza_Stiri"] != null ? (bool)companie["Afiseaza_Stiri"]: false;
+            var DescriptionS = companie["Description"] !=null ? companie["Description"].ToString(): "";
+      string Description = !string.IsNullOrEmpty(DescriptionS) ? DescriptionS:"Missing Description";
+      var MapContactS = companie["MapContact"] !=null ? companie["MapContact"].ToString(): "";
+      string MapContact = !string.IsNullOrEmpty(MapContactS) ? MapContactS:"Missing MapContact";
+      var EnvelopeContactS = companie["EnvelopeContact"] !=null ? companie["EnvelopeContact"].ToString(): "";
+      string EnvelopeContact = !string.IsNullOrEmpty(EnvelopeContactS) ? EnvelopeContactS:"Missing EnvelopeContact";
+      var PhoneContactS = companie["PhoneContact"] !=null ? companie["PhoneContact"].ToString(): "";
+      string PhoneContact = !string.IsNullOrEmpty(PhoneContactS) ? PhoneContactS:"Missing PhoneContact";
+      var GlobeContactS = companie["GlobeContact"] !=null ? companie["GlobeContact"].ToString(): "";
+      string GlobeContact = !string.IsNullOrEmpty(GlobeContactS) ? GlobeContactS:"Missing GlobeContact";
+            string Tara = companie["Tara"] !=null ? companie["Tara"].ToString(): "";
+            string Oras = companie["Oras"] !=null ? companie["Oras"].ToString(): "";
+      string Strada = companie["Strada"] !=null ? companie["Strada"].ToString(): "";
+      string CodPostal = companie["Cod_Postal"] !=null ? companie["Cod_Postal"].ToString(): "";
+      string LinkCatreSiteS = companie["LinkCatreSite"] !=null ? companie["LinkCatreSite"].ToString(): "";
+      string LinkCatreSite = !string.IsNullOrEmpty(LinkCatreSiteS) ? LinkCatreSiteS:"#";
+      string FacebookLink = companie["SocialMediaFacebook"] !=null ? companie["SocialMediaFacebook"].ToString(): "";
+      string TwitterLink = companie["SocialMediaTwitter"] !=null ? companie["SocialMediaTwitter"].ToString(): "";
+      string LinkedinLink = companie["SocialMediaLinkedin"] !=null ? companie["SocialMediaLinkedin"].ToString(): "";
+      string DeclaratieManager = companie["DeclaratieManager"] !=null ? companie["DeclaratieManager"].ToString(): ""; 
+      string ImagineProfilS = companie["ImgProfil"] !=null ? companie["ImgProfil"].ToString(): "";
+      var ImagineProfil = !string.IsNullOrEmpty(ImagineProfilS) ? ImagineProfilS : "";
+      string DescriereCompanie = companie["Description"] !=null ? companie["Description"].ToString(): "";
+      string Email = companie["Email"] !=null ? companie["Email"].ToString(): "";
+      string TipClient = companie["TipClient"] !=null ? companie["TipClient"].ToString(): "";
+      bool Contactform = companie["Contacteaza_ne"] != null ? (bool)companie["Contacteaza_ne"]: false;
+      string Geolocatie = companie["Geolocation"] != null ? companie["Geolocation"].ToString() : "";
+      string Character = "@";	
+		bool AfiseazaBandaSubBranduri = companie["BandaSubbranduri"] != null ? (bool)companie["BandaSubbranduri"]: false;
+        int BandaSubBranduri = companie["Banda_Sub_Branduri"] != null ? (int)companie["Banda_Sub_Branduri"] : 0 ;
+		string URLPaginaDealerProducator = companie["URLPagina_Dealer_Producator"] !=null ? companie["URLPagina_Dealer_Producator"].ToString(): "";
+
+      var ProduseReprezentative = ProductFacade.GetItemTypeProducts(companie["RepresentativeProducts"]);
+ string linkToateArticole =TTOnlineUrlFacade.GenerateLinkForCompanii2(IDCompanie, NameCompanie); 
+string CATEGORIE_PARTENER = companie["Sectiune"] !=null ? companie["Sectiune"].ToString(): "";
+           
+           @* var RepresentativeProducts = GetLoop("Item.RepresentativeProducts.Value");
+            var SecondaryProducts = GetLoop("Item.SecondaryProducts.Value");
+            var ProduseAll = RepresentativeProducts.ToList();
+            ProduseAll.AddRange(SecondaryProducts);
+            *@
+
+           
+
+
+
+<!--Starter start -->
+if(TipClient == "4" && !string.IsNullOrEmpty(Banner)) {
+  <div class="row space-10 background-white row-companie row-companie-banner">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <img src="@Banner">
+      </div>
+  </div>
+}
+
+<div class="row row-companie mb-40 row-contact-companie pbt-20 background-white">  
+  <!-- Contact Info Start-->
+  @if(TipClient != "1"){
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 HartaAdresaHartaAdresa-center">
+                @if(Logo != "http://placehold.it/100x100"){
+                    <img class="img-responsive text-center" src="@Logo" alt="">
+                }else{
+                    <h3 class="block-title"><span class="nume-companie-js" style="font-size:40px;">@Name</span></h3>
+                    }
+            </div> 
+    </div>
+  }
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+      <div class="contactinfo">
+         <div class="row space-10">
+                 
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+            <h3 class="block-title"><span class="nume-companie-js" style="font-size:40px;">@Name</span></h3>
+            
+            @if(TipClient == "3" || TipClient == "4"){
+            
+                    if(!String.IsNullOrEmpty(Oras)){
+                                  <p><i class="fa fa-envelope" aria-hidden="true"></i>  <b>Adresa:</b> <span>@Strada</span>, <span>@Oras</span>, <span>@Tara</span>, <span> Cod Postal: @CodPostal </span></p>
+                    }
+                     if(PhoneContact !="Missing PhoneContact") {
+                    <p><i class="fa fa-phone " aria-hidden="true"></i>   <b>Telefon:</b> @PhoneContact</p>
+                                                             }
+                    if(!String.IsNullOrEmpty(@LinkCatreSite)){
+                        <p><i class="fa fa-globe r" aria-hidden="true"></i>  <b>Website:</b> <a href="@LinkCatreSite" alt="Website @Name" target="_blank">Vezi website</a></p>
+                      }
+
+
+
+				 if(TipClient == "4"){
+                      <div class="socialmedia">
+                      @if(!String.IsNullOrEmpty(@FacebookLink) ||!String.IsNullOrEmpty(@TwitterLink) || !String.IsNullOrEmpty(@LinkedinLink) ){
+                      <p><b>@Name pe retele sociale</b></p>
+
+
+                      }
+                      @if(!String.IsNullOrEmpty(@FacebookLink)){ <a href="@FacebookLink"><span class="social"> <i class="fa fa-facebook" aria-hidden="true"> </i></span></a>}
+                      @if(!String.IsNullOrEmpty(@TwitterLink)){  <a href="@TwitterLink"><span class="social"> <i class="fa fa-twitter" aria-hidden="true"> </i></span></a>}
+                      @if(!String.IsNullOrEmpty(@LinkedinLink)){ <a href="@LinkedinLink"><span class="social"> <i class="fa fa-linkedin" aria-hidden="true"> </i></span></a>}
+                        </div>
+           }
+           }
+           
+           	@if(!String.IsNullOrEmpty(@Email)){
+           		<a href="mailto:@Email"> @Character </a>
+           
+           }
+          </div>
+
+      
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+            <hr>
+            <div style="display:-webkit-box;"><i class="fa fa-share-alt" aria-hidden="true"></i>  <b>Share:</b>  <div class="addthis_inline_share_toolbox_islb"></div></div>
+          </div>
+      
+      	
+      
+        </div> 
+      </div> 
+    </div>
+<!-- Contact Info End-->
+
+</div>
+
+
+<!--Declaratie Manager Start-->
+
+  if(!String.IsNullOrEmpty(@ImagineProfil) && !String.IsNullOrEmpty(@DeclaratieManager)){
+    <div class="row  row-companie background-white mb-40 despre-companie">
+     <div class="col-xs-12 col-titlu-companie"><h3 class=""><i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i> <span class="">Declaratia Managerului @Name</span></h3> </div> 
+      
+  
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pbt-20">
+
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    
+      <div class="declaratiemanager">@DeclaratieManager</div>
+    
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+      <p><img src="@ImagineProfil" alt="@Name Manager" align="left"></p>
+    </div>
+    </div>
+
+    
+  
+    </div>
+  } 
+
+
+<!--Declaratie Manager End-->
+
+
+ if(Summary != "Missing text"){
+<div class="row row-companie background-white mb-40">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-titlu-companie">
+    
+    <h3><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><span>Despre @Name</span></h3> 
+  </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pbt-20">
+    <p>@Summary</p>
+    @if(@Description != "Missing Description"){
+    <p>@Description</p>
+    }
+  </div>
+  
+</div>
+}
+
+
+
+<!--Starter end -->;
+
+
+<!--Profesional Start -->
+
+
+<!-- Brandurile Vandute Start -->
+
+if(TipClient == "4"){
+          if(AfiseazaBandaSubBranduri == true){
+          
+
+            
+              int BandaSubBranduriID = companie["Banda_Sub_Branduri"] != null ? (int)companie["Banda_Sub_Branduri"] : 0 ;
+           
+
+
+            if(BandaSubBranduriID != 0){
+
+
+
+                  var ListaBranduri = Dynamicweb.Content.Items.ItemList.GetItemListById(BandaSubBranduriID);
+
+            if(ListaBranduri.Relations.Any()){
+            
+            
+                      if(ListaBranduri != null){
+                      <div class="row row-companie mb-40  background-white row-branduri">
+                        <div class="col-xs-12 col-titlu-companie"><h3><i class="fa fa-handshake-o fa-2x" aria-hidden="true"></i><span>Branduri vandute de @Name</span></h3></div>
+                          <div class="col-xs-12 pbt-20">
+                              <div class="owl-carousel owl-theme owl-custom"> 
+                                @foreach( var BrandID in ListaBranduri.Relations){
+
+                                    var Brand = new Dynamicweb.Content.Items.Item(BrandID);
+                                    string Titlu = Brand["Titlu"] != null ? Brand["Titlu"].ToString() : "";
+                                    string Poza = Brand["Logo_Brand"] != null ? Brand["Logo_Brand"].ToString() : "";
+                                    string Link = Brand["Link"] != null ? Brand["Link"].ToString() : "";
+                                    <div class="item">	
+
+                                           <a href="@Link"><img src="@Poza"></a>
+
+                                          <p><a href="@Link">@Titlu</a></p>
+
+
+
+
+                                    </div>
+
+                                }
+
+                              </div>
+
+                          </div>	
+                        </div> 
+                      }
+
+                      
+                }
+            }
+
+          
+
+      }
+}
+<!-- Brandurile Vandute End-->
+
+
+
+<!--Articole Start -->
+if(AfiseazaArticole){
+  <div class="row row-companie mb-40  background-white">
+      <div class="js-articole-companie col-xs-12" data-id-companie="@idCompanie">
+          <div class="js-titlu-articole row"></div>
+          <div class="js-content-articole row pbt-20"></div>
+          <div class="row pbt-20">
+            <a class="btn btn-primary btn-companie-albastru" style="margin-left:30px; margin-bottom:30px;" href="/Default.aspx?ID=6822&Companie=@ID">Toate Articolele</a>
+          </div>
+          <!-- <div class="js-buton-articole pbt-20 row"></div>-->
+      </div>
+  </div>
+}
+<!--Articole End -->
+
+<!--Stiri Start -->
+if(AfiseazaStiri){
+    <div class="row  row-companie mb-40  background-white">
+        <div class="js-stiri-companie col-xs-12" data-id-companie="@idCompanie">
+            <div class="js-titlu-stiri row"></div>
+            <div class="js-content-stiri row pbt-20"></div>
+            @*<div class="js-buton-stiri pbt-20 row"></div>*@
+            <a class="btn btn-primary btn-companie-albastru" style="margin-left:30px; margin-bottom:30px;" href="/Default.aspx?ID=6821&Companie=@ID">Toate Stirile</a>
+        </div>
+    </div>
+}
+<!--Stiri End -->
+
+<!--Standard start -->
+if(ProduseReprezentative.Any()){
+<div class="row row-companie mb-40  background-white">
+  <div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-cube fa-2x" aria-hidden="true"></i><span>Produse @Name</span></h3></div>
+<div class="product reset-padding-right item-scope animated col-xs-12 pbt-20">
+@{
+  int count = 0;
+  }
+  
+ 
+@foreach (var produsReprezentativ in ProduseReprezentative) {
+  
+  
+  string mainImage = !string.IsNullOrEmpty(@produsReprezentativ.ImageLarge) ? GetImage(@produsReprezentativ.ImageLarge, 255, 168) + "&bgcolor=white"  : "/Files/Images/NoImage/255x168.png";  
+  
+ var grupuri = produsReprezentativ.Groups;
+  if(count < 8){
+<div class="product-item standard-item col-sm-6 col-xs-12 col-md-3">
+  <div class="product-border">
+    <div class="product-image">
+      <a href="/Default.aspx?ID=4228&ProductID=@(produsReprezentativ.Id)" class="overlay-link">
+        <figure class=" text-center test">
+          @if(!String.IsNullOrEmpty(@produsReprezentativ.ImageLarge)) {
+          <img src="/Files@(mainImage)" alt="@produsReprezentativ.Name" class="">
+          } else {
+              <img src="http://placehold.it/350x150" alt="@produsReprezentativ.Name" class="img-responsive">
+          }
+        </figure>
+      </a>
+    </div>
+
+    <div class="product-title">
+      <h2>
+        @produsReprezentativ.Name 
+        
+      </h2>      
+    </div>
+  
+
+
+
+
+   
+    <div class="product-buttons">    
+        <a class="btn-companie-albastru" href="/Default.aspx?ID=4228&ProductID=@(produsReprezentativ.Id)"><span class="detalii-produs">Detalii produs</span></a>    
+    </div>
+
+
+  </div>
+  </div>
+	}
+
+	count++;
+}
+
+<div class="col-xs-12"><a href="@URLPaginaDealerProducator" class="btn btn-primary btn-companie-albastru">Toate Produsele</a></div>
+</div>
+</div>
+
+}
+<!--Standard end -->
+
+
+<!-- Cataloage de Produse Start-->
+
+
+ 
+int CatalogID = companie["Cataloage_Produse"] != null ? (int)companie["Cataloage_Produse"] : 0;
+
+
+
+
+      
+if(CatalogID != 0){
+
+
+
+	
+    
+     var ListaCatalog = Dynamicweb.Content.Items.ItemList.GetItemListById(CatalogID);
+
+       if(ListaCatalog != null) {
+  		if(ListaCatalog.Relations.Any()){
+  		<div class="row row-companie mb-40  background-white cataloage-produse">
+         <div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-book fa-2x" aria-hidden="true"></i><span>Cataloage de Produse</span></h3></div>
+ 
+            @foreach( var ElementID in ListaCatalog.Relations){
+              var Element = new Dynamicweb.Content.Items.Item(ElementID);
+          string Thumbnail = Element["Thumbnail"]!=null ? Element["Thumbnail"].ToString(): "";
+
+            <div class="col-md-4 col-xs-12 col-sm-12 pbt-20">
+              <article class="news-block small-block testProfesional" style="">
+
+                @if(userIsLoggedIn == true){
+                  
+                  
+                                 if(!string.IsNullOrEmpty(@Thumbnail)){
+                                                      <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'></figure></a>
+                                                                                              }
+                                                                                                  else
+                                                                                              {
+
+                                                     <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'></figure></a>
+                                                                                              }
+                  
+                  
+                
+  
+                                      <header class="news-details">
+
+                                        <h3 class="news-title"><a href='@Element["Fisier"]' target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
+
+
+                                      </header>
+				}else{
+
+
+	 								if(!string.IsNullOrEmpty(@Thumbnail)){
+                                                      <a class=" overlay-link catalog-link-js" data-loggedin="@userIsLoggedIn" target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'></figure></a>
+                                                                                              }
+                                                                                                  else
+                                                                                              {
+
+                                                     <a class=" overlay-link catalog-link-js" data-loggedin="@userIsLoggedIn" target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'></figure></a>
+                                                                                              }
+                  
+                  
+                
+
+                                        <header class="news-details">
+
+                                          <h3 class="news-title"><a target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
+
+
+                                        </header>
+
+}
+   
+
+  </article>
+</div>
+
+        	 	} 
+  			</div>
+      		} 
+       }
+} 
+
+
+<!-- Cataloage de Produse End-->
+
+<!-- Fise tehnice Start --> 
+
+int FiseTehniceID = companie["Fise_Tehnice"] != null ? (int)companie["Fise_Tehnice"] : 0;
+
+
+  
+  		if(FiseTehniceID != 0){
+
+  		
+
+	
+			
+             var ListaFiseTehnice = Dynamicweb.Content.Items.ItemList.GetItemListById(FiseTehniceID);
+			
+					
+  
+  			if(ListaFiseTehnice != null) {
+
+  			
+
+  					if(ListaFiseTehnice.Relations.Any()){
+  					<div class="row row-companie mb-40  background-white">
+        				 <div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-book fa-2x" aria-hidden="true"></i><span>Fise Tehnice</span></h3></div>
+ 					
+  
+  						@foreach( var ElementID in ListaFiseTehnice.Relations){
+          					    var Element = new Dynamicweb.Content.Items.Item(ElementID);
+        					  string Thumbnail = Element["Thumbnail"]!=null ? Element["Thumbnail"].ToString(): "";
+  
+  								<div class="col-md-4 col-xs-12 col-sm-12 pbt-20">
+           							   <article class="news-block small-block" style="">
+
+                                                @if(userIsLoggedIn == true){
+
+
+                                                                 if(!string.IsNullOrEmpty(@Thumbnail)){
+                                                                                      <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay proportie-1 text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'></figure></a>
+                                                                                                                              }
+                                                                                                                                  else
+                                                                                                                              {
+
+                                                                                     <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay proportie-1 text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'></figure></a>
+                                                                                                                              }
+
+
+
+
+                                                                      <header class="news-details">
+
+                                                                        <h3 class="news-title"><a href='@Element["Fisier"]' target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
+
+
+                                                                      </header>
+                                                  }else{
+
+
+                                                                    if(!string.IsNullOrEmpty(@Thumbnail)){
+                                                                                      <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe" target="_blank"><figure class="image-overlay proportie-1 text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'></figure></a>
+                                                                                                                              }
+                                                                                                                                  else
+                                                                                                                              {
+
+                                                                                     <a class="videoGallery fancybox.iframe overlay-link" data-fancybox-type="iframe" target="_blank"><figure class="image-overlay proportie-1 text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'></figure></a>
+                                                                                                                              }
+
+
+
+
+                                                                        <header class="news-details">
+
+                                                                          <h3 class="news-title"><a target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
+
+
+                                                                        </header>
+
+                                                      }
+
+
+                                            </article>
+                                          </div>							
+  
+  
+  
+  
+  						}
+              </div> 
+               }
+        } 
+  	
+ }
+  
+
+
+
+<!-- Fise tehnice End -->
+
+
+
+<!--Profesional End -->;
+
+
+<!--Premium Start-->
+<!-- Galerie Foto Video Start-->
+<div class="row row-companie mb-40  background-white row-galerie-foto">
+@{
+int FotoVideoId = companie["GalerieFotoVideo"] != null ? (int)companie["GalerieFotoVideo"] : 0;
+}
+         
+@if(FotoVideoId != 0){
+  var GalerieFotoVideoLista = Dynamicweb.Content.Items.ItemList.GetItemListById(FotoVideoId);
+  if(GalerieFotoVideoLista != null) { 
+    if(GalerieFotoVideoLista.Relations.Any()){
+      <div class="col-xs-12 col-titlu-companie"><h3><i class="fa fa-picture-o fa-2x" aria-hidden="true"></i> <span>Galerie Foto/Video</span></h3></div> 
+    }
+    foreach( var GalerieID in GalerieFotoVideoLista.Relations){
+      var Training = new Dynamicweb.Content.Items.Item(GalerieID);
+      string TipMedia = Training["Tip_Media"]!= null ? Training["Tip_Media"].ToString() :"";
+      string galleryImage= Training["Imagine"] !=null ? Training["Imagine"].ToString(): "";
+      
+      string YoutubeVideo = Training["Youtube_Embed_Code"] !=null ? Training["Youtube_Embed_Code"].ToString(): "";
+      string VimeoVideo = Training["Vimeo_Embed_Code"] !=null ? Training["Vimeo_Embed_Code"].ToString(): "";
+      string Thumbnail = Training["Thumbnail"] !=null ? Training["Thumbnail"].ToString(): "";
+      string ThumbnailVimeo = Training["Thumbnail_Vimeo"] !=null ? Training["Thumbnail_Vimeo"].ToString(): "";
+      string mainImage = ""; 
+      string largeImage = "";
+      
+      <div class="col-md-3 col-xs-12 col-sm-6 col-galerie pbt-20">        
+        @if(TipMedia == "0" ){
+          mainImage= !string.IsNullOrEmpty(galleryImage) ? GetImage(galleryImage, 260, 195) + "&bgcolor=black" : "/Files/Images/NoImage/260x195.png";
+          largeImage = !string.IsNullOrEmpty(galleryImage) ? GetImage(galleryImage, 600, 450) + "&bgcolor=white" : "/Files/Images/NoImage/260x195.png";
+          <a class="videoGallery" href="@largeImage" rel="group2"><img src="@mainImage" alt=""></a>  
+        } else {
+          if(TipMedia == "1" ){
+            mainImage= !string.IsNullOrEmpty(Thumbnail) ? GetImage(Thumbnail, 260, 195) + "&bgcolor=black" : "/Files/Images/NoImage/260x195.png";
+            <a class="videoGallery fancybox.iframe" href="https://www.youtube.com/embed/@(YoutubeVideo)" rel="group2"><img src="@mainImage" alt=""><i class="fa fa-caret-right fa-4x OverlayIcon" aria-hidden="true"></i></a>
+          } else {  
+            if(TipMedia == "2" ){
+              mainImage= !string.IsNullOrEmpty(ThumbnailVimeo) ? GetImage(ThumbnailVimeo, 260, 195) + "&bgcolor=black" : "/Files/Images/NoImage/260x195.png";
+              <a class="videoGallery  fancybox.iframe" href="https://player.vimeo.com/video/@(VimeoVideo)" rel="group2"><img src="@mainImage" alt=""></a>
+            }
+          }
+        }
+      </div>
+    }
+  }
+}
+</div>
+<!-- Galerie Foto Video End-->
+
+<!-- Trainings Start -->
+int TrainingListId = companie["Traninguri"] != null ? (int)companie["Traninguri"] : 0;
+if(TrainingListId != 0){
+  var TrainingLista = Dynamicweb.Content.Items.ItemList.GetItemListById(TrainingListId);
+  if(TrainingLista.Relations.Any()){
+    <div class="row row-companie mb-40  background-white row-training">
+     <div class="col-xs-12 col-titlu-companie"><h3><span>@Name Training</span></h3></div>
+      @if(TrainingLista != null) { 
+        foreach( var TrainingID in TrainingLista.Relations){
+          var Training = new Dynamicweb.Content.Items.Item(TrainingID);
+          string TipTraining = Training["Tip_Training"]!= null ? Training["Tip_Training"].ToString() :"";
+          string Pdf = Training["Fisier_PDF"] !=null ? Training["Fisier_PDF"].ToString(): "";
+          string YoutubeVideo = Training["Cod_Embed_Video_Youtube"] !=null ? Training["Cod_Embed_Video_Youtube"].ToString(): "";
+          string VimeoVideo = Training["Cod_Embed_Vimeo_Video"] !=null ? Training["Cod_Embed_Vimeo_Video"].ToString(): "";
+          string Thumbnail = Training["Thumbnail"] !=null ? Training["Thumbnail"].ToString(): "";
+          string Titlu = Training["Titlu"] !=null ? Training["Titlu"].ToString(): "";
+          <div class="col-md-4 col-xs-12 pbt-20">   
+            <article class="news-block small-block">
+              @if(TipTraining == "0" ){
+                <a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="@Pdf" rel="group2">
+                  <figure class="image-overlay proportie-1">
+                    <img src="@Thumbnail" alt="">
+                  </figure>
+                </a>  
+                <header class="news-details">
+                  <h3 class="news-title"><a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="@Pdf" rel="group2">@Titlu</a></h3>
+                </header>
+              } else {
+                if(TipTraining == "1" ){
+                  <a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="https://www.youtube.com/embed/@(YoutubeVideo)" rel="group2">         
+                    <figure class="image-overlay proportie-1">
+                      <img src="@Thumbnail" alt="">
+                    </figure>
+                  </a>
+                  <header class="news-details">
+                    <h3 class="news-title"><a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="@Pdf" rel="group2">@Titlu</a></h3>
+                  </header>
+                }else{ 
+                  if(TipTraining == "2" ){
+                    <a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="https://player.vimeo.com/video/@(VimeoVideo)" rel="group2">   
+                      <figure class="image-overlay proportie-1">
+                        <img src="@Thumbnail" alt="">
+                      </figure> 
+                    </a>
+                    <header class="news-details">
+                      <h3 class="news-title"><a class="videoGallery fancybox.iframe" data-fancybox-type="iframe" href="@Pdf" rel="group2">@Titlu</a></h3>
+                    </header>
+                  }
+                }
+              }
+            </article>
+          </div>
+
+        }                         
+      } 
+    </div>  
+  }
+}
+<!-- Trainings End-->
+
+<!-- Testimoniale Start -->
+int TestimonialeID = companie["Testimoniale"] != null ? (int)companie["Testimoniale"] : 0;
+if(TestimonialeID != 0){
+  var ListaTestimoniale = Dynamicweb.Content.Items.ItemList.GetItemListById(TestimonialeID);
+  if(ListaTestimoniale.Relations.Any()){
+    <div class="row row-companie mb-40  background-white row-testimoniale">
+      <div class="col-xs-12 col-titlu-companie"><h3><i class="fa fa-list-alt fa-2x" aria-hidden="true"></i><span>Testimoniale @Name</span></h3></div>
+        @if(ListaTestimoniale != null) {
+          <div class="col-xs-12 pbt-20">
+            <div class="owl-carousel owl-theme owl-testimonial">     
+              @foreach( var ElementID in ListaTestimoniale.Relations){
+                var Element = new Dynamicweb.Content.Items.Item(ElementID);
+                string Poza = Element["Poza"]!=null ? Element["Poza"].ToString(): "";
+                string Functia = Element["Functia"]!=null ? Element["Functia"].ToString(): "";  
+                string Nume = Element["Nume"]!=null ? Element["Nume"].ToString(): "";
+                string Testimonial = Element["Testimonial"]!=null ? Element["Testimonial"].ToString(): "";
+                <div class="item">
+                  <div class="testimonial">
+                    <p>@Testimonial</p>
+                    <h4>- @Nume, @Functia</h4>
+                    <img src="@Poza">
+                  </div> 
+                </div>
+              }
+            </div>
+          </div>    
+        }
+    </div> 
+  }
+}
+<!-- Testimoniale End -->
+<!--Echipa Start-->
+int EchipaID = companie["Echipa_Companie_Premium"] != null ? (int)companie["Echipa_Companie_Premium"] : 0;
+  if(EchipaID != 0){
+    var ListaMembriEchipa = Dynamicweb.Content.Items.ItemList.GetItemListById(EchipaID);
+    if(ListaMembriEchipa.Relations.Any()){
+      <div class="row  row-companie mb-40  background-white row-echipa">
+      <div class="col-xs-12 col-titlu-companie"><h3><i class="fa fa-users fa-2x" aria-hidden="true"></i><span>Echipa @Name</span></h3></div>
+      @if(ListaMembriEchipa != null) {
+        <div class="col-xs-12 pbt-20">
+          <div class="owl-carousel owl-theme">
+          @foreach( var ElementID in ListaMembriEchipa.Relations){
+            var Element = new Dynamicweb.Content.Items.Item(ElementID);
+            string Poza = Element["Poza"]!=null ? Element["Poza"].ToString(): "";
+            string Functia = Element["Functia"]!=null ? Element["Functia"].ToString(): "";  
+            string Nume = Element["Nume"]!=null ? Element["Nume"].ToString(): "";
+            <div class="">
+              <article class="news-block small-block" style="margin-top:15px;">
+                <div class="overlay-link">
+                  <figure class="">
+                    <img src='@Poza' alt='@Nume' style="height: 287px;">                                             
+                  </figure>
+                </div>
+                <header class="news-details">
+                  <h3 class="news-title"><a>@Nume - @Functia</a></h3>
+                </header>
+              </article>
+            </div>
+          } 
+          </div>
+        </div>
+      } 
+      </div>
+    } 
+} 
+<!--Echipa End-->
+<!-- Jobs Start -->
+int JobsId = companie["Jobs"] != null ? (int)companie["Jobs"] : 0;       
+if(JobsId != 0){
+  var JobsLista = Dynamicweb.Content.Items.ItemList.GetItemListById(JobsId);
+  if(JobsLista.Relations.Any()){
+    <div class="row row-companie mb-40  background-white row-jobs">
+      <div class="col-xs-12 col-titlu-companie"><h3><i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i><span>@Name Angajeaza</span></h3></div>
+      @if(JobsLista != null) { 
+        foreach( var JobID in JobsLista.Relations){
+          var Element = new Dynamicweb.Content.Items.Item(JobID);
+          string titlu = Element["Titlu"]!= null ? Element["Titlu"].ToString() :"";
+          string descriere = Element["Descriere"] !=null ? Element["Descriere"].ToString(): "";
+          string data = Element["Data"]!= null ? Element["Data"].ToString() :"";
+          string locatie = Element["Location"]!= null ? Element["Location"].ToString() :"";
+          <div class="col-md-6 col-sm-6 col-xs-12 col-jobs pbt-20">
+            <div class="job-box">
+              <div class="col-xs-12">
+                <p>@titlu</p>
+                <p>Descriere : @descriere</p>
+              </div>
+              <div class="col-xs-6">
+                <p>Data: @data </p>
+                <p>Locatie : @locatie</p>
+              </div>
+              <div class="col-xs-12">
+                <a href="mailto:@(Email)?Subject=Job%20Aplication%20from%20TTOnline%20@(titlu)" target="_top" class="btn-companie-albastru">Trimite Cv-ul</a>
+              </div>
+            </div>
+          </div>
+        }
+      }
+  </div>
+  }
+}
+<!-- Jobs End -->
+<!-- Brosuri Start -->
+
+<!-- Brosuri End -->
+<!--Premium End-->;
+
+
+if(Contactform == true){
+<!-- Harta Start-->
+<div class="row row-companie mb-40  background-white">
+	<div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-globe fa-2x" aria-hidden="true"></i><span>Localizare</span></h3></div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 pbt-20">
+        <div class="maps">                      
+            <div id="map-canvas" class="premium-map-canvas" data-lat="" data-lng="" data-geolocation='@Geolocatie' data-zoom="14"></div>                
+            <div class="addresses-block">
+              <a class="premium-map-marker" data-lat="" data-lng="" data-string='@Strada @Oras @Tara'></a>
+            </div>                        
+        </div> 
+    </div>
+<!-- Harta End-->
+
+<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pbt-20">
+  
+    <h5>Contacteaza @Name</h5>
+      <div data-nume="@Name" class="form-wrapper">
+    @RenderParagraphContent(120)
+      </div>
+    </div> 
+</div>
+}else{
+
+	<!-- Harta Start-->
+<div class="row row-companie mb-40  background-white">
+<div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-globe fa-2x" aria-hidden="true"></i> <span>Localizare</span></h3></div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pbt-20">
+        <div class="maps">                      
+            <div id="map-canvas" class="premium-map-canvas" data-lat="" data-lng="" data-geolocation='@Geolocatie' data-zoom="14"></div>                
+            <div class="addresses-block">
+              <a class="premium-map-marker" data-lat="" data-lng="" data-string='@Strada @Oras @Tara'></a>
+            </div>                        
+        </div> 
+    </div>
+</div>
+	<!-- Harta End-->
+
+}
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-26068739-1', 'auto');
+
+
+// START DIMENSIUNI
+
+// DIMENSIUNI PENTRU Business Directory
+var dw_bd_tip = 'Premium'; // Standard/Starter/Profesional/Premium
+var dw_bd_categorie = '@CATEGORIE_PARTENER';
+
+ga('set', 'dimension7', dw_bd_tip);
+ga('set', 'dimension8', dw_bd_categorie);
+
+// END DIMENSIUNI
+
+
+ga('send', 'pageview');
+</script>
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+}
+}
+
+
+}
+
+
+
+            </div><!-- .main-content -->
+            <!-- End Main Banner -->
+            <div class="mag-content clearfix">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- End Main Banner -->
+        </div><!-- .main-wrapper -->
+
+        <!-- Footer -->
+
+@{
+
+string AdresaLogoFooter= "https://" + GetGlobalValue("Global:Request.Host")+ "/Files/Images/tehnicmedia-logo.jpg";
+}
+
+
+<footer class="footer source-org vcard copyright clearfix" id="footer" role="contentinfo">
+    <div class="footer-main">
+        <div class="fixed-main">
+            <div class="container">
+                <div class="mag-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="footer-block clearfix">
+                                <h3>@Translate("link", "Link-uri utile"):</h3> 
+
+                                <ul class="footer-menu">
+                                    @foreach(LoopItem footerMenu in GetLoop("Item.Area.FooterMenu")) {
+
+                                        string footerLink = footerMenu.GetString("Item.Area.FooterMenu.FooterLinkUrl"),
+                                               footerLinkText = footerMenu.GetString("Item.Area.FooterMenu.FooterLinkText.Value"),
+                                               openInNewWindow = footerMenu.GetBoolean("Item.Area.FooterMenu.OpenInNewWindows") ? "_blank" : "_self";
+
+                                        <li><a href="@footerLink" target='@openInNewWindow'>@footerLinkText</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="footer-block clearfix">
+                                <h3>@Translate("aboutUs", "DESPRE NOI"):</h3>
+                                <p>@Pageview.Area.Item["FooterAbout"]</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-md-offset-1">
+                            <div class="footer-block clearfix">
+                                <h3>@Translate("contactUs", "CONTACT"):</h3>
+                                <ul>
+                                    <li><i class="fa fa-phone" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Phone"]</li>
+                                    <li><i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Email"]</li>
+                                    <li> <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Address"]</li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom clearfix">
+        <div class="fixed-main">
+            <div class="container">
+                <div class="mag-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>@Translate("copyright", "Copyright"): @Translate("TehnicMedia2017", "Tehnic Media") &copy; @DateTime.Now.Year.
+                            <a href="http://www.tehnicmedia.ro"><img src="@AdresaLogoFooter" width="" height=""></a></p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="social-icons pull-right">
+                                <a href='@Pageview.Area.Item["FacebookLink"]' target="_blank"><i class="fa fa-facebook" style="padding: 0px 8px;"></i></a>
+                                <a href='@Pageview.Area.Item["TwitterLink"]' target="_blank"><i class="fa fa-twitter" style="padding: 0px 8px;"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<!-- End Footer -->
+
+    
+
+    <!-- Mobile Menu -->
+    <nav id="mobile-nav">
+      <div>
+        @RenderNavigation(new {
+          template = "MainNavigationMobile.xslt",
+          expandmode = "all",
+          id = "mobile-nav",
+          startlevel = 1,
+          listStyle = "mobile-navigation",
+          endlevel = 2
+         })
+      </div>
+    </nav>
+    <!-- / Mobile Menu -->
+    <div id="go-top-button" class="fa fa-angle-up" title="Scroll To Top"></div>
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+
+
+<script src="@areaLayoutPath/assets/js/map.js"></script>
+
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.0/lodash.min.js"></script> -->
+@* <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> *@
+<script type="text/javascript" src="@areaLayoutPath/assets/js/main.min.js"></script>
+    
+ <!-- Go to www.addthis.com/dashboard to customize your tools -->
+@*<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5716953ddb10f4d0"></script>*@
+    
+
+<!-- JS pentru newsletter-->    
+<script type="text/javascript" src="@areaLayoutPath/assets/js/custom.js"></script>    
+    
+    
+<!-- Jquery js -->
+<!--<script src="@areaLayoutPath/assets/js/jquery-1.11.2.min.js"></script>-->
+
+<!-- Modernizr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+<!-- Bootstrap js -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- Google map api -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyC3qzD9htQdRmf9Utip_B4jozI61S1Kub0"></script>
+
+<!-- Plugins js -->
+<script src="@areaLayoutPath/assets/js/plugins.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.0/jquery.easing.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.6/js/jquery.fancybox.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>  
+<!-- Theme js -->
+<script src="@areaLayoutPath/assets/js/script.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.0/owl.carousel.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.0/assets/owl.carousel.min.css">
+
+<script type="text/javascript" src="@areaLayoutPath/assets/js/alertify.js"></script>
+<script type="text/javascript" src="@areaLayoutPath/assets/js/account-creation.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+<script type="text/javascript" src="@areaLayoutPath/assets/js/product-page-nav-tab-script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stickyfill/1.1.4/stickyfill.min.js" type="text/javascript" charset="utf-8"></script>
+@RenderSnippet("Modals")
+
+<script>
+  $(document).ready(function(){
+  
+  
+  
+
+    $('.owl-carousel').not('.owl-testimonial').owlCarousel({
+        loop: false,
+        margin: 10,
+        dots: false,
+        nav: true,      
+        autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 2,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 4
+          }
+        }
+    })
+ 
+
+  //$('#myModal').modal('show')
+
+
+  $(document).ready(function() {
+
+  /* This is basic - uses default settings */
+  
+  //$("a.single_image").fancybox();
+  
+  /* Using custom settings */
+  
+  // $("a#inline").fancybox({
+  //   'hideOnContentClick': true
+  // });
+
+  /* Apply fancybox to multiple items */
+  
+  $("a.single_image").fancybox({
+    'transitionIn'  : 'elastic',
+    'transitionOut' : 'elastic',
+    'speedIn'   : 600, 
+    'speedOut'    : 200, 
+    'overlayShow' : false
+  });
+  
+});
+
+		$('.owl-testimonial').owlCarousel({
+        loop: true,
+        margin: 10,
+        dots: false,
+  		center:true,
+        nav: true,      
+        autoplay: true,
+        autoplayHoverPause: true,
+        slideBy: 2,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 1
+          },
+          1000: {
+            items: 1
+          }
+        }
+    })
+
+  
+
+
+
+ });
+  </script>
+      
+@Pageview.Area.Item["Analytics_Code"]
+<!-- Add to Calendar -->
+<script type="text/javascript">(function () {
+  if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+  if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+    s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+    s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+    var h = d[g]('body')[0];h.appendChild(s); }
+  })();
+</script>
+
+<!-- Go to www.addthis.com/dashboard to customize your tools --> 
+
+
+<!-- Twitter Widget-->
+<script type="text/javascript">
+  window.twttr = (function (d,s,id) {
+  var t, js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+  js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+  return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+  }(document, "script", "twitter-wjs"));
+</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5941501b1be8de2c"></script> 
+<!-- Twitter Widget Loader -->
+@* <script type="text/javascript">
+  $(document).ready(function() { 
+      twttr.widgets.load();  
+ });
+</script> *@
+<!-- Start Scroll tracking -->
+<script src="@areaLayoutPath/assets/js/gascrolldepth.min.js"></script>
+<script>
+    gascrolldepth.init({
+        elements: ['#mm-0', 'footer'],
+        userTiming: true,
+        gtmOverride: true,
+        eventHandler: function(data) {
+            if (data.event == "ScrollDistance") {
+                ga('send', 'event', data.eventCategory, data.eventAction, data.eventLabel, data.eventValue);
+            }
+        }
+    });
+</script>
+<!-- End Scroll tracking -->
+    <script type="text/javascript">
+
+/* <![CDATA[ */
+
+var google_conversion_id = 1010029401;
+
+var google_custom_params = window.google_tag_params;
+
+var google_remarketing_only = true;
+
+/* ]]> */
+
+</script>
+
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+
+</script>
+
+<noscript>
+
+<div style="display:inline;">
+
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1010029401/?guid=ON&amp;script=0">
+
+</div>
+
+</noscript>
+</body>
+</html>

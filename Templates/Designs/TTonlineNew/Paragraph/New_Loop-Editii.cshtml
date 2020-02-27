@@ -1,0 +1,92 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System
+@using System.Web;
+@using System.Collections;
+@using System.Collections.Generic
+@using System.Linq;
+@using Dynamicweb.Content.Items
+
+@Include("Layout.cshtml")
+@Include("../Custom/GlobalVariables.cshtml")
+@Include("../Includes/ArticleHelper.cshtml")
+@Include("../Includes/GetImage_new.cshtml")
+@Include("../Includes/New_PlaceholderHelpers.cshtml")
+
+@{
+    var editiiFeedPage = GetPageIdByNavigationTag("EditiiFeed");
+   
+}
+<div class="row">
+	<div class="col-md-12 col-xs-12">
+		<h1 class="block-title"><span>@Translate("arhivaRevistei", "Arhiva Revistei")</span></h1>
+	</div>
+	<div class="row arhiva-editii">
+		<div class="col-xs-12">
+            <div class="bhoechie-tab-container">
+    	        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 bhoechie-tab-menu">
+    		        <div class="list-group handlebars-wrapper" data-template="LoopAniEditiiTemplate" data-json-feed="/Default.aspx?ID=@editiiFeedPage&PageSize=100" data-json-feed-reviste="/Default.aspx?ID=@editiiFeedPage&PageSize=100&An=">
+    			        @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+			            @RenderPlaceholderImageOnly("pre-render-element--xs")
+    		        </div>
+    	        </div>
+    	        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 bhoechie-tab">
+    		        <div class="bhoechie-tab-content active" data-template="LoopEditiiTemplate">
+    			        <div class="col-md-4 col-md-6">
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                        </div>
+                        <div class="col-md-4 col-md-6">
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                        </div>
+                        <div class="col-md-4 col-md-6">
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                            @RenderPlaceholderImageOnly("pre-render-element--lg")
+                         </div>
+    		        </div>
+    		    </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+
+
+<script id="LoopAniEditiiTemplate" type="text/x-handlebars-template">
+	{{#foreach Ani}}
+	{{#if $first}}
+	    <span class="list-group-item text-center active" data-year="{{an}}">
+			{{an}}
+		</span>
+		{{else}}
+		<span class="list-group-item text-center"  data-year="{{an}}">
+        	{{an}}
+        </span>
+		{{/if}}
+	{{/foreach}}
+	<a href='/Default.aspx?ID=@Pageview.Area.Item["Revista_ID"]' class="list-group-item text-center" id="eng">
+    	@Translate("Revista")
+    </a>
+</script>
+
+<script id="LoopEditiiTemplate" type="text/x-handlebars-template">
+{{#Editii}}
+    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-lista-editii">
+		<article class="lista-editii">
+			<a href="{{link}}" class="overlay-link" target="_blank">
+				<figure class="image-overlay">
+					<img src="/Admin/Public/GetImage.ashx?Image={{imagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=223&Height=326" class="content-image" alt="{{titlu}}">
+				</figure>
+			</a>
+			<header class="featured-header">
+				<h4><a href="{{link}}">{{titlu}}</a></h4>
+			</header>
+		</article>
+	</div>
+{{/Editii}}
+</script>

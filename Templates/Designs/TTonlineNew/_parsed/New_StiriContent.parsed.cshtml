@@ -1,0 +1,1442 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using System.Text.RegularExpressions
+@using System.Web.UI.HtmlControls
+@{
+		    
+	string areaLayoutPath = "/Files/Templates/Designs/TTonline/";		
+	areaLayoutPath = areaLayoutPath.Substring(0, areaLayoutPath.LastIndexOf("/"));
+
+	string Layout_Style = GetString("Item.Area.Layout_Style.Value"),
+    Template_Style = GetString("Item.Area.Template_Style.Value"),
+    Sticky_Header = GetString("Item.Area.Sticky_Header.Value"),
+    Template_Color = GetString("Item.Area.Template_Color.Value"),
+	bodyStyle = Layout_Style + " " + Template_Style + " " + Sticky_Header + " " + Template_Color;
+
+}
+
+
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@using System.Text.RegularExpressions
+
+@helper OgMeta(string designName)
+{
+if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductID"]))
+{
+      @SnippetStart("OGMeta")<meta property="og:title" content='@GetString("Title")'>
+        @* <meta property="og:image" content='@Pageview.GlobalTags.GetTagByName("Global:Request.Scheme").Value.ToString()://@Pageview.GlobalTags.GetTagByName("Global:Request.Host").Value.ToString()/Files/Templates/Designs/@designName/images/logo.png'> *@
+        <meta property="og:site_name" content='@Pageview.Area.Name'>
+        <meta property="og:url" content='@Pageview.GlobalTags.GetTagByName("Global:Request.Scheme").Value.ToString()://@Pageview.GlobalTags.GetTagByName("Global:Request.Host").Value.ToString()@Pageview.GlobalTags.GetTagByName("Global:Pageview.Url").Value.ToString()'>
+        <meta property="og:description" content='@StripHtml(GetString("Meta.Description"))'>
+        <meta property="og:type" content="article">
+        <meta property="og:locale" content='@Pageview.GlobalTags.GetTagByName("Global:Area.LongLang").Value.ToString().Replace("-", "_")'>
+        @SnippetEnd("OGMeta")
+  }
+}
+@helper HtmlHead(string designName)
+{
+  string designFolder = GetString("Template:DesignBaseUrl");
+  string robots = "";
+  string ipCountry = "RO";//Dna.IP.Frontend.GetCountryCode();
+  string countryCodeModule = !string.IsNullOrEmpty(ipCountry) ? ipCountry : "RO";
+  string userCountryCode = (Pageview.User != null && !string.IsNullOrEmpty(Pageview.User.Country)) ? Pageview.User.Country : ipCountry;
+  string userState = Pageview.User != null ? Pageview.User.State : string.Empty;
+  string userAccountsNumber = (System.Web.HttpContext.Current.Session["AccountsNumber"] ?? "").ToString();
+  robots = (GetBoolean("Item.Area.DemoBanner") || GetBoolean("Item.Area.NoIndex")) ? CommaSplittedString(robots, "noindex") : "";
+  robots = (GetBoolean("Item.Area.DemoBanner") || GetBoolean("Item.Area.NoFollow")) ? CommaSplittedString(robots, "nofollow") : "";
+
+  <head>
+    <title>@GetValue("Title")</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="@(designFolder)images/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@(designFolder)images/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@(designFolder)images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@(designFolder)images/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="@(designFolder)images/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="@(designFolder)images/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="@(designFolder)images/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="@(designFolder)images/apple-touch-icon-152x152.png">
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-196x196.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="@(designFolder)images/favicon-128.png" sizes="128x128">
+    <meta name="application-name" content="&nbsp;">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="@(designFolder)images/mstile-144x144.png">
+    <meta name="msapplication-square70x70logo" content="@(designFolder)images/mstile-70x70.png">
+    <meta name="msapplication-square150x150logo" content="@(designFolder)images/mstile-150x150.png">
+    <meta name="msapplication-wide310x150logo" content="@(designFolder)images/mstile-310x150.png">
+    <meta name="msapplication-square310x310logo" content="@(designFolder)images/mstile-310x310.png">
+
+    @if (!string.IsNullOrEmpty(robots))
+    {
+      <meta name="robots" content="@robots">
+    }
+    @OgMeta(designName)
+    @RenderSnippet("OGMeta")
+    @GetString("MetaTags")
+    @GetString("CopyRightNotice")
+    @GetString("Stylesheets")
+
+    @* <link rel="shortcut icon" href="@(designFolder)images/favicon.ico" type="image/x-icon"> *@
+
+    <!-- Icon Font -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    @{
+      var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
+      var styleBundle = Dna.Optimizer.Renderer.RenderStyles(string.Format("{0}css", designFolder), minify, true, "-main-styles", new[] { "exceptions" });
+      var scriptBundleHeader = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/header", designFolder), minify, true, "-main-scripts-header", new[] { "exceptions" });
+      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+    }
+    <link rel="stylesheet" href="@styleBundle">
+    <script src="@scriptBundleHeader"></script>
+    @GetString("Javascripts")
+    @RenderSnippet("externalScripts")
+    @SnippetStart("externalScripts") @SnippetEnd("externalScripts")
+    <!--[if lte IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+    <![endif]-->
+    <script>
+      @RenderSnippet("jsVariables")
+      @SnippetStart("jsVariables") @SnippetEnd("jsVariables")
+
+      var obj_pages = {
+        str_miniCart: '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.MiniCart"))',
+        str_login: '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.Login"))',
+        str_globalTranslates: '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.GlobalTranslates"))',
+        str_contactPopup : '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.ContactUs_Popup"))',
+        str_cartInformation: '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.Cart_Information"))',
+        str_typeAhead : '@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(GetString("Item.Area.TypeAhead"))'
+      },
+      obj_user = {
+        str_country: '@userCountryCode',
+        str_state: '@userState',
+        str_accountsNumber:'@userAccountsNumber'
+      },
+      obj_settings = {
+        str_contactTimeout: '@GetString("Item.Area.Time")',
+        str_cartQty: '@GetString("Ecom:Order.OrderLines.TotalProductQuantity")'
+      },
+      obj_translates = {
+        str_seeAll: '@Translate("seeAllThe", "See all the")',
+        str_results: '@Translate("results", "results")'
+      };
+      $(function () {
+        @UserDoesNotExist()
+        @RenderSnippet("jsOnLoadVariables")
+        @SnippetStart("jsOnLoadVariables") @SnippetEnd("jsOnLoadVariables")
+        @RenderSnippet("jsOnLoad")
+        @SnippetStart("jsOnLoad") @SnippetEnd("jsOnLoad")
+      });
+      
+      @if(!string.IsNullOrWhiteSpace(GetString("Item.Area.GoogleAnalytics")))
+      {
+          <text>
+          (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+              (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+          })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+          ga('create', '@GetString("Item.Area.GoogleAnalytics")', 'auto');
+          ga('send', 'pageview');
+          </text>
+      }
+      @SnippetStart("eCommerceTracking")@SnippetEnd("eCommerceTracking")
+      @RenderSnippet("eCommerceTracking")
+      </script>
+
+      <!-- Global site tag (gtag.js) - Google Ads: 970361168 --> 
+      <script async="" src="https://www.googletagmanager.com/gtag/js?id=AW-970361168"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-970361168'); </script>
+
+      <!-- Hotjar Tracking Code for https://ttonline.ro -->
+    <script>
+      (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1231893,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Global site tag (gtag.js) - Google Ads: 1010029401 -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=AW-1010029401"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-1010029401');
+    </script>
+
+  </head>
+}
+@helper UserDoesNotExist()
+{
+  if (Dynamicweb.Environment.ExecutingContext.IsFrontEnd() && !Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn())
+  {
+    if (!string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Password"]) && !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["Username"]))
+    {
+        @SnippetStart("jsOnLoad")
+        @:var showLogin = true;
+        @:alert("@Translate("yourUserNameOrPasswordDidntMatch", "Your user name or password didn't match. Please try again.")");
+        @SnippetEnd("jsOnLoad")
+    }
+  }
+}
+@helper Logo(string cssclass, string companyName, string fileName)
+{
+  if (!string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["print"]))
+  {
+    <div class="@cssclass">
+      <a href="/">
+        <img class="img-responsive hidden-print" src="/Files/Templates/Designs/TTonlineNew/images/@(fileName)" alt="@companyName" title="@companyName">
+        <img class="img-responsive visible-print" src="/Files/Images/logo_TT.png" alt="@companyName" title="@companyName">
+      </a>
+    </div>
+  }
+  else
+  {
+    <div class="@cssclass">
+      <a href="/">
+        <img class="img-responsive" src="/Files/Templates/Designs/TTonlineNew/images/@(fileName)" alt="@companyName" title="@companyName">
+      </a>
+    </div>
+  }
+}
+
+@helper Copyright()
+{
+  <div class="copyright">&copy; @DateTime.Now.Year @GetString("Item.Area.CompanyName") - @GetString("Item.Area.Copyright")</div>
+}
+@functions {
+  private string CommaSplittedString(string CommaSplittedString, string NewString)
+  {
+
+    if (!string.IsNullOrEmpty(CommaSplittedString))
+    {
+      CommaSplittedString += ", ";
+    }
+    CommaSplittedString += NewString;
+
+    return CommaSplittedString;
+  }
+  public static string StripHtml(string source)
+  {
+    return Regex.Replace(source, "<.*?>", string.Empty);
+  }
+}
+@{
+  string designName1 = "TTonline";
+  string device = Pageview.Device.ToString();
+  string firstPageId = GetString("DwAreaFirstPageID");
+  string homeOrSubpage = GetString("DwAreaFirstPageID") == GetString("Global:Page.ID") ? "home" : "subpage";
+  string print = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["print"]) ? "printOrPdf" : "";
+  //string resultsPage = GetString("Item.Area.SearchResults");
+  //string contactPage = GetString("Item.Area.ContactUs");
+  string countryCode = "RO";//Dna.IP.Frontend.GetCountryCode();
+  string longLang = Pageview.GlobalTags.GetTagByName("Global:Area.LongLang").Value.ToString();
+  //string email = GetString("Item.Area.Email");
+  //string phone = GetString("Item.Area.Phone");
+  
+  //bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
+  bool isPrint = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["print"]);
+  bool bol_backofficeLogged = Dynamicweb.Security.UserManagement.User.GetCurrentBackendUser() != null ? true : false;
+  List<LoopItem> socialMedia = GetLoop("Item.Area.SocialNetworks");
+  List<LoopItem> websiteLanguages = GetLoop("WebsiteLanguages");
+  string designFolder = GetString("Template:DesignBaseUrl");
+      var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
+      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+
+}
+<!DOCTYPE HTML>
+<!--[if lt IE 8 ]><html class="ie7" lang="@(longLang)"><![endif]--><!--[if IE 8 ]><html class="ie8" lang="@(longLang)"><![endif]--><!--[if IE 9 ]><html class="ie9" lang="@(longLang)"><![endif]--><!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="@(longLang)"><!--<![endif]-->
+
+@HtmlHead(designName1)
+ 
+<body class="@bodyStyle tileStyle">
+
+ 
+    <div id="main" class="header-style1">
+
+        @{
+	bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
+    string logo = GetString("Item.Area.Logo");
+} 
+<header class="header-wrapper clearfix">
+
+    <div class="header" id="header">
+        <div class="container-fluid header-first-container">
+              <div class="mag-content">
+                <div class="container">
+                        <div class="row header-first-row">
+                            <div class="col-md-9 visible-lg visible-md" id="motto">
+                                    <a class="logo" href="/Defaul.aspx?ID=@firstPageId" title="" rel="home">
+                                        <img src="@logo"> 
+                                   </a><!-- .logo -->
+                                   <h4>Industry – Business Opportunities</h4>
+                            </div><!--End of col-md-9 visible-lg visible-md-->
+                            
+                            <div class="col-md-2 visible-lg visible-md text-right username">                 
+
+                              @if (userIsLoggedIn) {
+                                string userName = !string.IsNullOrWhiteSpace(Pageview.User.Name) ? Pageview.User.Name : string.Format("{0}{1}", Pageview.User.FirstName, Pageview.User.LastName);
+
+                                <div class="welcomeBack hidden-print text-left">
+                                  @Translate("welcome", "Welcome"), <span> @(!string.IsNullOrWhiteSpace(userName) ? userName : Pageview.User.UserName)</span>
+                                </div>
+                              }
+
+                            </div> 
+                            <div id="social-icon" class="social-icon">
+                                <a class="facebook" href='@Pageview.Area.Item["FacebookLink"]' target="_blank"> <i class="fa fa-facebook fa-2x padding" aria-hidden="true"></i> </a>
+                                <a class="twitter" href='@Pageview.Area.Item["TwitterLink"]' target="_blank">  <i class="fa fa-twitter fa-2x  padding" aria-hidden="true"></i>  </a>
+                            </div>
+
+                         </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="container-fluid header-second-container">
+                    <div class="mag-content">
+
+                        <div class="container">
+                            <div class="row header-second-row"> 
+                                <div class="col-md-12">
+                                    
+                                    <!-- Mobile Menu Button -->
+                                    <a class="navbar-toggle collapsed" id="nav-button" href="#mobile-nav">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </a><!-- .navbar-toggle -->
+                                    <!-- Main Nav Wrapper -->
+                                    <nav class="navbar mega-menu">
+                                            <a class="logo hidden-lg hidden-md" href="/Default.aspx?ID=@firstPageId" title="" rel="home">
+                                                <img src="@logo">
+                                           </a><!-- .logo -->
+                                        <!-- Navigation Menu -->
+                                        <div class="navbar-collapse collapse">
+                                            @RenderNavigation(new {
+                                              template = "MainNavigation.xslt",
+                                              expandmode = "all",
+                                              id = "header-nav",
+                                              startlevel = 1,
+                                              listStyle = "top-navigation",
+                                              endlevel = 2
+                                            })                              
+                                        </div><!-- .navbar-collapse -->              
+                                        <!-- End Navigation Menu -->
+                                          
+
+
+                                    <div class="btn-group dropdown-login">
+              <button class="btn btn-default btn-sm dropdown-toggle dropdown-login" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user fa-1x" aria-hidden="true">&nbsp; &nbsp;</i><span class=""></span>
+              </button>
+              <ul class="dropdown-menu">
+                  <!-- Button trigger modal -->
+                  
+                  @if (userIsLoggedIn)
+                  {
+                      <li><a href="/Admin/Public/ExtranetLogoff.aspx?ID=1">Logout</a></li>	
+                  } else {
+                      <li><a href="/Default.aspx?ID=4256">Log in</a></li>
+                  	  <li><a href="/Default.aspx?ID=4255">@Translate("Inregistrare","Inregistrare")</a></li>
+                  } 
+              </ul>
+            </div>
+                                   <!-- Single button -->
+                                     
+                                        <div class="header-right galaxy-s5 nexus-5x iphone-6">
+                                            <div class="social-icons">
+
+                                                @{
+                                                   var languageSwitcherValue = "";
+                                                   foreach (var language in GetLoop("Languages")) {
+                                                        if (language.GetBoolean("IsCurrent")) {
+                                                         languageSwitcherValue = language.GetString("Culture");
+                                                        }
+                                                   }
+                                                }
+                                                @if (languageSwitcherValue == "ro-RO") { 
+                                                    <a href="/" class="selected">RO</a> <span>|</span> <a href="/Default.aspx?ID=5557">EN</a> 
+                                                }
+                                                @if (languageSwitcherValue == "en-US") { 
+                                              <a href="/">RO</a> <span>|</span> <a href="Default.aspx?ID=5557" class="selected">EN</a>  
+                                                }                                                   
+                                              
+                                                @* <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook fa-lg"></i></a>
+                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter fa-lg"></i></a>
+                                                <a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i class="fa fa-google-plus fa-lg"></i></a>
+                                                <!-- Only for Fixed Sidebar Layout -->
+                                                <a href="#" class="fixed-button navbar-toggle" id="fixed-button">
+                                                    <i></i>
+                                                    <i></i>
+                                                    <i></i>
+                                                    <i></i>
+                                                </a><!-- .fixed-button -->*@
+                                            </div><!-- .social-icons -->
+                                        </div><!-- .header-right -->
+
+                                         
+
+  @if(GetString("DwAreaID") == "1"){
+   
+        <div id="sb-search" class="sb-search">     
+   			 <div class="form-group" style="position: relative;">
+     			 <form action="/cautare.aspx" method="GET"> 
+      				 <input class="sb-search-input" placeholder="Termen de cautare..." type="text" value="" name="q" id="q">
+      				 <input class="sb-search-submit btn-search" type="submit" value="">
+         			<span class="sb-icon-search fa fa-search" data-toggle="tooltip" data-placement="bottom" title="Search"></span>
+      			</form>
+			</div> 
+        </div>
+        }else {
+        
+  <div id="sb-search" class="sb-search">     
+    <div class="form-group" style="position: relative;">
+      <form action="/en/search.aspx" method="GET"> 
+      	 <input class="sb-search-input" placeholder="Input keyword ...." type="text" value="" name="q" id="q">
+      	 <input class="sb-search-submit btn-search" type="submit" value="">
+         <span class="sb-icon-search fa fa-search" data-toggle="tooltip" data-placement="bottom" title="Search"></span>
+      </form>
+	</div>
+  </div>
+        } 
+        
+        
+        
+        
+      
+                                    </nav><!-- .navbar -->
+
+                                                         
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                </div><!--.container -->
+            </div><!-- .mag-content -->
+        </header></div><!-- .container -->
+    <!-- .header -->
+
+<!-- .header-wrapper -->
+    
+        <!-- Begin Main Wrapper -->
+        <div class="container main-wrapper">
+
+          @if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["productid"]))
+          {
+              <div class="hidden-xs hidden-sm hidden-md skyscraper--left">
+    <div class="sticky default">
+        <span>
+            <ins data-revive-zoneid="2" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+            <script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+        </span>
+    </div>
+</div>
+              <div class="hidden-xs hidden-sm hidden-md skyscraper--right">
+  <div class="sticky default">
+    <span>
+      <ins data-revive-zoneid="3" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+    </span>
+  </div>
+</div>
+          } 
+       
+          @if(@GetInteger("DwPageID") == 4228)
+            {
+              <style>
+                .ad728-wrapper {
+                    margin: 40px auto 0px;
+                }
+              </style>
+              
+                string logoSubheader = GetString("Item.Area.Logo_IBuySmart");
+                string culoareFundal = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFundal")) ? "background:" + GetString("Item.Area.CuloareFundal") + ";" : "";
+                string culoareFont = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFont")) ? "color:" + GetString("Item.Area.CuloareFont") + ";" : "";
+                string textSubheader = GetString("Item.Area.Text");
+                string dimensiuneFont = !string.IsNullOrEmpty(GetString("Item.Area.DimensiuneFont")) ? "font-size:" + GetString("Item.Area.DimensiuneFont") + ";" : "";
+              
+                <div class="subheader row" style="@culoareFundal">
+                    <div class="col-xs-4">
+                      <img src="@logoSubheader">
+                    </div>
+                    <div class="col-xs-5">
+                      <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
+                    </div>
+                    <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
+                </div>
+          }
+  
+          @if(@GetInteger("DwAreaID") == 3){
+                <style>
+                  .ad728-wrapper {
+                      margin: 40px auto 0px;
+                  }
+                </style>
+
+                string logoSubheader = GetString("Item.Area.LogoIndustryZoom");
+                string culoareFundal = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFundal_Industryzoom")) ? "background:" + GetString("Item.Area.CuloareFundal_Industryzoom") + ";" : "";
+                string culoareFont = !string.IsNullOrEmpty(GetString("Item.Area.Culoare_Font_IndustryZoom")) ? "color:" + GetString("Item.Area.Culoare_Font_IndustryZoom") + ";" : "";
+                string textSubheader = GetString("Item.Area.Text_Subheader_Industry_Zoom");
+                string dimensiuneFont = !string.IsNullOrEmpty(GetString("Item.Area.Dimensiune_Font_IndustryZoom")) ? "font-size:" + GetString("Item.Area.Dimensiune_Font_IndustryZoom") + ";" : "";
+
+                <div class="subheader row" style="@culoareFundal">
+                    @if (!string.IsNullOrEmpty(textSubheader)) {
+                      <div class="col-xs-4">
+                        <img src="@logoSubheader">
+                      </div>
+                      <div class="col-xs-5">
+                        <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
+                      </div>
+                      <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
+                    } else {
+                      <div class="col-xs-12 noPadding">
+                        <img src="@logoSubheader" style="margin: 10px 0 -30px 0;">
+                      </div>
+                    }
+                </div>
+
+          }
+    
+    
+    	    @if(@GetInteger("DwPageID") == 4218 || @GetInteger("DwPageID") == 4271 || @GetInteger("DwPageID") == 8376 ){
+              <style>
+                .ad728-wrapper {
+                  margin: 40px auto 0px;
+                }
+              </style>
+      
+              string logoSubheader = GetString("Item.Area.Logo_Companii");
+              string culoareFundal = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFundalCompanii")) ? "background:" + GetString("Item.Area.CuloareFundalCompanii") + ";" : "";
+              string culoareFont = !string.IsNullOrEmpty(GetString("Item.Area.CuloareFontCompanii")) ? "color:" + GetString("Item.Area.CuloareFontCompanii") + ";" : "";
+              string textSubheader = GetString("Item.Area.TextSubheaderCompanii");
+              string dimensiuneFont = !string.IsNullOrEmpty(GetString("Item.Area.DimensiuneFontCompanii")) ? "font-size:" + GetString("Item.Area.DimensiuneFontCompanii") + ";" : "";
+            
+              <div class="subheader row" style="@culoareFundal">
+                  <div class="col-xs-4">
+                    <img src="@logoSubheader">
+                  </div>
+                  <div class="col-xs-8">
+                    <h4 style="@culoareFont; @dimensiuneFont">@textSubheader</h4>
+                  </div>
+              </div>
+          }
+    
+          @if(GetString("DwPageID") == "4228" || GetString("DwPageID") == "4218" || GetString("DwPageID") == "8376"){
+          
+        
+          } else {
+            <!-- Begin Main Banner -->
+            <div class="mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
+                <div class="row">
+                    <div class="col-md-12">
+                     
+                        <div class="ad728-wrapper">
+                          <ins data-revive-zoneid="1" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+                        </div>
+                     
+                    </div>
+                </div>
+            </div>
+            <!-- End Main Banner -->
+          }
+
+          @{
+            string backgroundClassShop = (GetString("DwPageID") == "4228") ? "shop-background" : " ";
+            string backgroundClassCompanii = (GetString("DwPageID") == "4218" || GetString("DwPageID") == "8376" ) ? "companii-background" : " ";
+            string backgroundClassIndustry = (GetString("DwPageID") == "4271") ? "industry-background" : " ";
+            
+          }
+          
+          <div class="main-content mag-content clearfix @backgroundClassShop @backgroundClassCompanii @backgroundClassIndustry">
+
+                @inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using Dynamicweb.Content.Items;
+
+@GetValue("Title(Article page)")
+@GetValue("Description(Pagina de articol)")
+@functions {
+
+//public class Session
+//{
+//public string Id;
+//public string Title;
+//public DateTime StartTime;
+//public DateTime EndTime;
+//public bool IsBreak;
+//public string Description;
+//public string Type;
+//public string Url;
+//public string AllowedGroups;
+//public string Location;
+//public string Level;
+//public int NumberOfSeats;
+//public int NumberOfReservedSeats;
+//public List<Speaker>
+    //Speakers;
+    //public List<Speaker>
+        //Moderatori;
+        //public LoopItem Item;
+        //}
+
+        public class Autor
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+		public string Description;
+		public string Image;
+		public string Persoana;
+        }
+
+        public class Companie
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        public string Logo;
+        }
+
+        public class RelevantaGeografica
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+        public class Tag
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+        public class Sectiune
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+        public class Editie
+        {
+        public string Id;
+        public string Name;
+        public string Link;
+        }
+
+
+
+		public static string StripHtmlTagByCharArray(string htmlString)
+        {
+            char[] array = new char[htmlString.Length];
+            int arrayIndex = 0;
+            bool inside = false;
+        
+            for (int i = 0; i < htmlString.Length; i++)
+            {
+                char let = htmlString[i];
+                if (let == '<')
+                {
+                    inside = true;
+                    continue;
+                }
+                if (let == '>')
+                {
+                    inside = false;
+                    continue;
+                }
+                if (!inside)
+                {
+                    array[arrayIndex] = let;
+                    arrayIndex++;
+                }
+            }
+            return new string(array, 0, arrayIndex);
+        }
+
+
+        private List<Autor> GetAutori(string autoriList)
+            {
+            var autori = new List<Autor> ();
+
+            if(!string.IsNullOrEmpty(autoriList)){
+                string[] itemIdList = autoriList.Split(',');
+                foreach (string itemId in itemIdList)
+                {
+                    var autor = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Autori", itemId);
+                    if (autor != null)
+                    {
+                        autori.Add(new Autor
+                        {
+                        Id = itemId,
+                        Name = autor["Name"] != null ? autor["Name"].ToString() : "",
+						Image = autor["Image"] != null ? autor["Image"].ToString() : "",
+						Description = autor["Description"] != null ? autor["Description"].ToString() : "",
+						Link = "/Default.aspx?ID=4250&autor="+itemId,
+						Persoana = autor["Persoana_Companie"] != null ? autor["Persoana_Companie"].ToString() : ""
+                        });
+                    }
+                }
+            }   
+
+            return autori;
+        }
+
+    private List<RelevantaGeografica> GetRelevanta(string relevantaList)
+    {
+        var relevante = new List<RelevantaGeografica> ();
+
+        if(!string.IsNullOrEmpty(relevantaList)){
+            string[] itemIdList = relevantaList.Split(',');
+            foreach (string itemId in itemIdList)
+            {
+                var relevanta = Dynamicweb.Content.Items.Item.GetItemById("RelevantaGeografica", itemId);
+                if (relevanta != null)
+                {
+                    relevante.Add(new RelevantaGeografica
+                    {
+                    Id = itemId,
+                    Name = relevanta["Name"] != null ? relevanta["Name"].ToString() : "",
+                    Link = ""
+                    });
+                }
+            }
+        }
+
+        return relevante;
+    }
+
+
+    private List<Sectiune> GetSectiuni(string sectiuniList)
+    {
+        var sectiuni = new List<Sectiune> ();
+
+         return sectiuni;
+
+    }
+
+    private List<Tag> GetTaguri(string taguriList)
+    {
+        var taguri = new List<Tag>();
+        if(!string.IsNullOrEmpty(taguriList)){
+            string[] itemIdList = taguriList.Split(',');
+            foreach (string itemId in itemIdList)
+                {
+                var tag = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Taguri", itemId);
+                if (tag != null)
+                {
+                taguri.Add(new Tag
+                    {
+                        Id = itemId,
+                        Name = tag["Name"] != null ? tag["Name"].ToString() : "",
+                        Link = "Default.aspx?ID=4252&tag="+itemId
+                    });
+                }
+                }
+        }
+            return taguri;
+
+    }
+
+
+    private List<Companie> GetCompany(string companyList)
+    {
+        var companies = new List<Companie> ();
+        if(!string.IsNullOrEmpty(companyList)){
+            string[] itemIdList = companyList.Split(',');
+            foreach (string itemId in itemIdList)
+                {
+                var companie = Dynamicweb.Content.Items.Item.GetItemById("Taxonomie_Companii", itemId);
+                if (companie != null)
+                {
+                companies.Add(new Companie
+                    {
+                    Id = itemId,
+                    Name = companie["Name"] != null ? companie["Name"].ToString() : "",
+                    Logo = companie["Logo"] != null ? companie["Logo"].ToString() : "",
+                    Link = "/Default.aspx?ID=4271&companie="+itemId
+                    });
+                }
+            }
+        }
+        return companies;
+
+    }
+
+    
+
+
+
+}
+
+@helper RenderPlaceholderImageOnLeft()
+{
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+            <div class="pre-render-element pre-render-element--md"></div>
+        </div>
+        <div class="col-md-8 col-xs-12">
+            <div class="pre-render-element pre-render-element--title"></div>
+            <div class="pre-render-element pre-render-element--title"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+        </div>
+    </div>
+   
+}
+@helper RenderPlaceholderImageOnly(string imageSize)
+{
+    <div class="pre-render-element @imageSize"></div>
+}
+
+@helper RenderPlaceholderImageTop(string imageSize)
+{
+    <div class="pre-render-element @imageSize"></div>
+    <div class="pre-render-element pre-render-element--title"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+}
+@helper RenderPlaceholderImageTopNoText(string imageSize)
+{
+    <div class="pre-render-element @imageSize"></div>
+    <div class="pre-render-element pre-render-element--title"></div>
+
+}
+@helper RenderPlaceholderNoImage()
+{
+    <div class="pre-render-element pre-render-element--title"></div>
+    <div class="pre-render-element pre-render-element--title"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+    <div class="pre-render-element pre-render-element--text"></div>
+}
+
+@helper RenderPlaceholderCaruselText()
+{
+    <div class="item placeholder">
+            <div class="pre-render-element pre-render-element--md"></div>
+            <div class="pre-render-element pre-render-element--title"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+            <div class="pre-render-element pre-render-element--text"></div>
+        </div>
+}
+@helper RenderPlaceholderCaruselImage()
+{
+    <div class="item">
+        <div class="pre-render-element pre-render-element--md"></div>
+    </div>
+}
+@{
+	string IdCompanie = System.Web.HttpContext.Current.Request["Companie"] != null ? System.Web.HttpContext.Current.Request["Companie"].ToString(): "";
+	string IdAutor = System.Web.HttpContext.Current.Request["Autor"] != null ? System.Web.HttpContext.Current.Request["Autor"].ToString(): "";
+
+	string name = "";
+	string link = "";
+
+
+	if(!string.IsNullOrEmpty(IdAutor)){
+		var item = ItemManager.Storage.Open("Taxonomie_Autori").SelectById(IdAutor);
+   		name = "- " + (string) item["Name"];
+		link = (string) item["Companiae_Asociata"];
+	}
+
+	if(!string.IsNullOrEmpty(IdCompanie)){
+		var item2 = ItemManager.Storage.Open("Taxonomie_Companii").SelectById(IdCompanie);
+   		name = "- " + (string) item2["Name"];
+		link = IdCompanie;
+	}
+    
+    var stiriPageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
+    var sectionID = System.Web.HttpContext.Current.Request.Params["Sectiune"];
+    var url = "/Default.aspx?ID="+stiriPageID+"&pagesize=12&type=Stiri";
+    if (!string.IsNullOrEmpty(sectionID))
+    {
+        url += "&Sections="+ sectionID;
+    }
+}
+	
+
+      <div class="row blog-content">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+          <article class="post-wrapper clearfix">
+            @if(GetString("DwPageName") != "Cautare" ){
+            <header class="post-header clearfix">
+              <div class="row">
+                <div class="col-xs-9">
+                  <h1 class="block-title">
+                    <span> @GetString("DwPageName")  @name</span>
+                  </h1><!-- .post-title -->
+                </div>
+                @if(!string.IsNullOrEmpty(IdAutor) || !string.IsNullOrEmpty(IdCompanie)){
+                  if(!string.IsNullOrEmpty(link)){
+                    <div class="col-xs-3">
+                      <a class="btn btn-primary" href="/companie?companyID=@(link)">Vezi Compania</a>    
+                    </div>
+                  }
+                }
+              </div>
+            
+            </header><!-- .post-header -->}
+            
+            <div class="post-content clearfix">
+                <!-- Lista Stiri -->
+                 <div class="row">
+                        <div class="col-xs-12">
+                            <div class="first-container" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="@url">
+                                <ul class="widget-content">
+                                    @RenderPlaceholderImageOnLeft()
+                                    @RenderPlaceholderImageOnLeft()
+                                    @RenderPlaceholderImageOnLeft()
+                                    @RenderPlaceholderImageOnLeft()
+                                    @RenderPlaceholderImageOnLeft()
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <!-- END Lista Stiri -->
+                
+                 <!-- Content Paragraf -->
+                @GetValue("DwContent(maincontent)")
+                <!-- END Content Paragraf -->
+            </div><!-- .post-content -->
+          </article><!-- .post-wrapper -->
+
+                    
+          
+</div><!-- End Left big column -->
+
+<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+  <aside class="sidebar clearfix " style="margin-top: 34px;">
+    
+    <div class="widget adwidget  ">
+        <ins data-revive-zoneid="4" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+    </div>
+  
+    @{
+	var eventsPageID = GetPageIdByNavigationTag("EventsFeed");
+}
+<div class="widget evenimentewidget" style="margin-bottom:10px;">
+	<h3 class="block-title">
+		<span><a href="Default.aspx?ID=4258">@Translate("Evenimente","Evenimente") </a></span>
+	</h3>
+
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner sidebar-handlebars-wrapper" role="listbox" data-template="WidgetEvenimenteTemplate" data-json-feed="/Default.aspx?ID=@eventsPageID">
+			@*Handlebars goes here*@
+			@RenderPlaceholderImageTop("pre-render-element--md")
+		</div>
+		
+		<a class="carousel-control" href="#myCarousel" role="button" data-slide="prev" style="color: #ffa700;">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control" href="#myCarousel" role="button" data-slide="next" style="right: 0; left: auto; color: #ffa700;">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+</div>
+
+<script id="WidgetEvenimenteTemplate" type="text/x-handlebars-template">  
+{{#each EvenimenteContainer}}
+   <div class="item">
+        <figure class="image-overlay">
+			<img src="/Admin/Public/GetImage.ashx?Image={{Afis}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=350&Height=230" class="img-responsive">
+        </figure>
+        <span>{{title}}</span>                
+        <div class="description">{{{Descriere}}}</div>
+        @if(GetInteger("DwAreaID") == 1){
+              <a href="{{URLEveniment}}" style="z-index: 200;">Mai mult</a>
+          }else{
+              <a href="{{URLEveniment}}" style="z-index: 200;">Read More</a>
+          }
+	</div>
+{{/each}}	
+</script>
+
+
+<script type="text/javascript">
+	
+</script>
+
+
+
+    
+    @{
+    var urlEditorial = "/Default.aspx?ID=" + GetPageIdByNavigationTag("ArticoleEditorial");
+    var feedPageID = GetPageIdByNavigationTag("ArticlesFeed");
+}
+<div class="widget editorialwidget">
+    <div class="content sidebar-handlebars-wrapper" role="listbox" data-template="WidgetEditorialTemplate" data-json-feed="/Default.aspx?ID=@feedPageID&type=Editorial&PageSize=1">
+        @RenderPlaceholderNoImage()
+    </div>
+</div>
+
+<script id="WidgetEditorialTemplate" type="text/x-handlebars-template">  
+{{#ArticlesContainer}}
+   {{#each Article}}
+   <h3 class="block-title"><span><a href="@urlEditorial">@Translate("Editorial","Editorial")</a></span></h3>
+   <article class="widget-post clearfix">
+       <h3><a href='/Default.aspx?ID={{pagePageID}}'>{{itemTitlu}}</a></h3>
+        {{{itemSumar}}}
+       <p class="text-right"><a href="/Default.aspx?ID={{pagePageID}}" id="editorialLink">@Translate("citeste","Mai mult")</a></p>         
+   </article>
+   {{/each}}
+{{/ArticlesContainer}}
+   
+</script>
+    <div class="widget adwidget" style=" margin-top: 20px; margin-bottom:25px;">
+        <ins data-revive-zoneid="5" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+    </div>
+   
+    
+    <div class="widget facebookwidget" style="margin-bottom:20px;">
+  		<h3 class="block-title"><span> T&amp;T @@ Facebook</span></h3>
+  		<div class="content">
+          <div class="fb-page" data-adapt-container-width="true" data-hide-cover="false" data-href="https://www.facebook.com/tehnicasitehnologie/" data-show-facepile="false" data-show-posts="false" data-small-header="true">
+			<div class="fb-xfbml-parse-ignore">
+				<blockquote cite="https://www.facebook.com/tehnicasitehnologie/">
+					<a href="https://www.facebook.com/tehnicasitehnologie/">T&amp;T - Tehnica si Tehnologie</a>
+              	</blockquote>
+			</div>
+		  </div>
+		</div>
+		<div id="fb-root"></div>
+		<script>
+		  (function(d, s, id) {
+			  var js, fjs = d.getElementsByTagName(s)[0];
+			  if (d.getElementById(id)) return;
+			  js = d.createElement(s); js.id = id;
+				js.async= "async";
+			  js.src = "//connect.facebook.net/ro_RO/sdk.js#xfbml=1&version=v2.5";
+			  fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
+
+</div>
+
+    
+    <div class="widget twitterwidget" style="margin-bottom:0px;">
+	<h3 class="block-title"><span> T&amp;T @@ Twitter</span></h3>
+	<div class="content">
+      	<a class="twitter-timeline" data-width="365" data-height="108" data-theme="light" href="https://twitter.com/TTehnologie">Tweets by TTehnologie</a>
+     </div>
+</div>
+    
+<div class="widget multimediawidget" style="margin-bottom:20px;">
+	@RenderItemList(new { 
+	  ItemType = "Multimedia",
+	  ListSourceType = "Area",
+  	  ListSourceArea = 1,
+	  ItemFieldsList = "*",
+	  ListTemplate = "/ItemPublisher/List/Sidebar-Multimedia.cshtml",
+	  ListPageSize = 10,
+	  ListOrderBy = "",
+	  ListOrderByDirection = "",
+	  Filter = ""
+	})
+</div>
+
+    @RenderSnippet("Tags")
+
+    
+    <div class="widget adwidget">
+<div class="row" style="margin-bottom:50px;">
+  <div class="col-xs-6">
+    <ins data-revive-zoneid="13" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+  </div>
+  <div class="col-xs-6">
+     <ins data-revive-zoneid="17" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6">
+     
+<ins data-revive-zoneid="18" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+  </div>
+  <div class="col-xs-6">
+     
+<ins data-revive-zoneid="19" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+  </div>
+</div>
+</div>
+
+    @if(@GetPageIdByNavigationTag("Revista") != @GetInteger("DwPageID")) {
+    @RenderParagraphContent(164)
+}
+    <div class="widget adwidget  ">
+        <ins data-revive-zoneid="6" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+    </div>
+    @{
+    var feedCititePageID = GetPageIdByNavigationTag("ArticlesCititeFeed");
+}
+
+<div class="widget tabwidget">
+    <ul class="nav nav-tabs" role="tablist" id="widget-tab">
+        <li role="presentation" class="active"><a href="#tab-popular" aria-controls="tab-popular" role="tab" data-toggle="tab">@Translate("popular","Cele mai citite")</a></li>
+        <li role="presentation"><a href="#tab-recent" aria-controls="tab-recent" role="tab" data-toggle="tab">@Translate("recent","Cele mai noi")</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active sidebar-handlebars-wrapper" id="tab-popular" data-template="CeleMaiNoiTemplate" data-json-feed="/Default.aspx?ID=@feedPageID&PageSize=5&type=Articole">
+            @*Handlebars Template goes here*@
+            @RenderPlaceholderImageOnLeft()
+            @RenderPlaceholderImageOnLeft()
+            @RenderPlaceholderImageOnLeft()
+        </div><!-- Recent Posts -->
+        <div role="tabpanel" class="tab-pane sidebar-handlebars-wrapper" id="tab-recent" data-template="CeleMaiCititeTemplate" data-json-feed="/Default.aspx?ID=@feedCititePageID&PageSize=5&type=Articole">
+            @*Handlebars Template goes here*@
+        </div><!-- Recent Posts -->         
+    </div>
+</div>
+
+<script id="CeleMaiNoiTemplate" type="text/x-handlebars-template"> 
+{{#ArticlesContainer}}
+   {{#each Article}}
+   <article class='widget-post clearfix'>
+       <div class="simple-thumb">  
+       <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=95&Height=90' alt="{{itemTitlu}}" />
+       </div>
+       <header>
+           <h3>
+               <a href='/Default.aspx?ID={{pagePageID}}'>{{itemTitlu}}</a>
+           </h3>
+       </header>
+   </article>
+   {{/each}}
+{{/ArticlesContainer}}   
+</script>
+
+<script id="CeleMaiCititeTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+   {{#each Article}}
+    <article class="widget-post clearfix">
+        <div class="simple-thumb">  
+            <img src='/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=95&Height=80' alt="{{itemTitlu}}" />
+        </div>
+        <header>
+            <h3>
+                <a href='/Default.aspx?ID={{pagePageID}}'>{{itemTitlu}}</a>
+            </h3>
+            <p class="simple-share">
+                <span><i class="fa fa-clock-o"></i>{{itemData}}</span>
+            </p>
+        </header>
+    </article>
+    {{/each}}
+{{/ArticlesContainer}}    
+</script>
+
+
+    <div class="widget adwidget ">
+        <ins data-revive-zoneid="8" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+    </div>
+ 
+</aside>
+</div><!-- End last column -->        
+</div><!-- .blog-content -->
+
+<!-- Page Loader -->
+<div id="loader"><div class="loader-icon"></div></div>
+
+ <!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-26068739-1', 'auto');
+// DIMENSIONS DECLARATION WHERE NEEDED
+ga('send', 'pageview');
+</script>
+
+<script async="" src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+<!-- Handlebars Template-->
+<script id="LoopStiriTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}
+        <article class="simple-post simple-big clearfix col-md-12 separator-articole">
+            <div class="simple-thumb" style="width: 250px!important;">
+                <a href="/Default.aspx?ID={{pagePageID}}">
+                    <figure class="">
+                        <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168"/> 
+                    </figure>
+                </a>
+            </div>
+            <header>
+                <p class="simple-share">
+                        @Translate("articolde", "de")
+                        {{#each articleAutori}}
+                            <a href="{{Link}}">{{Name}}</a>
+                        {{/each}}
+                        <span class="m-0">-</span>
+                    <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                    {{#if showItemVisits}} 
+                        <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                     {{/if}}
+
+                </p>
+                <h3>
+                    <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
+                </h3>
+                <div class="excerpt" >{{{itemSumar}}}</div>
+            </header>
+        </article>
+    {{/each}}
+{{/ArticlesContainer}}
+{{#ifCond pagingPageCount '>' 1}}
+    <nav>
+        <ul class="pagination pagination-sm">
+            {{#ifCond currentPage "!==" "1"}}
+                 <li data-page-link="{{pagingFirstPageLink}}" data-container="LoopStiriTemplate">                			        
+                    <span class="mr-02"> « </span>                 
+                 </li>
+                 <li data-page-link="{{pagingPrevPageLink}}" data-container="LoopStiriTemplate">
+                    <span aria-label="@Translate("paginaAnterioara", "Pagina anterioara")"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></span>
+                 </li>
+            {{/ifCond}}
+            
+            {{#Pages}}
+                {{#if isCurrent}}
+                   <li class="active"><span data-page-link="{{pageLink}}">{{pageNumber}}</span></li>
+                {{else}}
+                   <li data-page-link="{{pageLink}}" data-container="LoopStiriTemplate"><span>{{pageNumber}}</span></li>
+                {{/if}}                
+            {{/Pages}}
+
+            {{#if isNotLastPage}}
+                <li data-page-link="{{pagingNextPageLink}}" data-container="LoopStiriTemplate">
+                    <span aria-label='@Translate("paginaUrmatoare", "Pagina urmatoare")'><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></span>                     
+                </li>
+                <li data-page-link="{{pagingLastPageLink}}" data-container="LoopStiriTemplate">
+                    <span> » </span>
+                </li>
+            {{/if}}
+        </ul>
+    </nav>
+ {{/ifCond}}
+</script>
+   
+
+          </div><!-- .main-content -->
+    
+          @if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["productid"]))
+          {
+              <!-- End Main Banner -->
+              <div class="mag-content clearfix sidebar-stop" style="max-width:1170px; padding-left: 0px; padding-right: 0px;">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="ad728-wrapper">
+                            <ins data-revive-zoneid="7" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- End Main Banner -->
+          }
+        
+        </div><!-- .main-wrapper -->
+
+
+        <!-- Footer -->
+
+@{
+
+string AdresaLogoFooter= "https://" + GetGlobalValue("Global:Request.Host")+ "/Files/Images/tehnicmedia-logo.jpg";
+}
+
+
+<footer class="footer source-org vcard copyright clearfix" id="footer" role="contentinfo">
+    <div class="footer-main">
+        <div class="fixed-main">
+            <div class="container">
+                <div class="mag-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="footer-block clearfix">
+                                <h3>@Translate("link", "Link-uri utile"):</h3> 
+
+                                <ul class="footer-menu">
+                                    @foreach(LoopItem footerMenu in GetLoop("Item.Area.FooterMenu")) {
+
+                                        string footerLink = footerMenu.GetString("Item.Area.FooterMenu.FooterLinkUrl"),
+                                               footerLinkText = footerMenu.GetString("Item.Area.FooterMenu.FooterLinkText.Value"),
+                                               openInNewWindow = footerMenu.GetBoolean("Item.Area.FooterMenu.OpenInNewWindows") ? "_blank" : "_self";
+
+                                        <li><a href="@footerLink" target='@openInNewWindow'>@footerLinkText</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="footer-block clearfix">
+                                <h3>@Translate("aboutUs", "DESPRE NOI"):</h3>
+                                <p>@Pageview.Area.Item["FooterAbout"]</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-md-offset-1">
+                            <div class="footer-block clearfix">
+                                <h3>@Translate("contactUs", "CONTACT"):</h3>
+                                <ul>
+                                    <li><i class="fa fa-phone" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Phone"]</li>
+                                    <li><i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Email"]</li>
+                                    <li> <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Address"]</li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom clearfix">
+        <div class="fixed-main">
+            <div class="container">
+                <div class="mag-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>@Translate("copyright", "Copyright"): @Translate("TehnicMedia2017", "Tehnic Media") &copy; @DateTime.Now.Year.
+                            <a href="http://www.tehnicmedia.ro"><img src="@AdresaLogoFooter" width="" height=""></a></p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="social-icons pull-right">
+                                <a href='@Pageview.Area.Item["FacebookLink"]' target="_blank"><i class="fa fa-facebook" style="padding: 0px 8px;"></i></a>
+                                <a href='@Pageview.Area.Item["TwitterLink"]' target="_blank"><i class="fa fa-twitter" style="padding: 0px 8px;"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<!-- End Footer -->
+
+    
+
+    <!-- Mobile Menu -->
+    <nav id="mobile-nav">
+      <div>
+        @RenderNavigation(new {
+          template = "MainNavigationMobile.xslt",
+          expandmode = "all",
+          id = "mobile-nav",
+          startlevel = 1,
+          listStyle = "mobile-navigation",
+          endlevel = 2
+         })
+      </div>
+    </nav>
+    <!-- / Mobile Menu -->
+    <div id="go-top-button" class="fa fa-angle-up" title="Scroll To Top"></div>
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    @*polyfill for Axios for IE11*@
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script> 
+ <script type="text/javascript" src="@scriptBundleFooter"></script>
+
+
+
+@*Include("Custom/MasterFooter.cshtml")*@
+@RenderSnippet("Modals")
+<!--<script type="text/javascript" src="assets/js/footer_scripts.js"></script>-->
+      
+@Pageview.Area.Item["Analytics_Code"]
+<!-- Add to Calendar -->
+<script type="text/javascript">(function () {
+  if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+  if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+    s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+    s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+    var h = d[g]('body')[0];h.appendChild(s); }
+  })();
+</script>
+
+<!-- Go to www.addthis.com/dashboard to customize your tools --> 
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58b014abcccaba2d"></script> 
+
+<!-- Twitter Widget-->
+<!--<script type="text/javascript">
+  window.twttr = (function (d,s,id) {
+  var t, js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+  js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+  return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+  }(document, "script", "twitter-wjs"));
+</script>-->
+
+<!-- Twitter Widget Loader -->
+
+@RenderSnippet("bottomJS")
+
+<!-- Start Scroll tracking -->
+<script src="@areaLayoutPath/assets/js/gascrolldepth.min.js"></script>
+<script>
+    gascrolldepth.init({
+        elements: ['#mm-0', 'footer'],
+        userTiming: true,
+        gtmOverride: true,
+        eventHandler: function(data) {
+            if (data.event == "ScrollDistance") {
+                ga('send', 'event', data.eventCategory, data.eventAction, data.eventLabel, data.eventValue);
+            }
+        }
+    });
+</script>
+<!-- End Scroll tracking -->
+<script type="text/javascript">
+
+/* <![CDATA[ */
+
+var google_conversion_id = 1010029401;
+
+var google_custom_params = window.google_tag_params;
+
+var google_remarketing_only = true;
+
+/* ]]> */
+
+</script>
+
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+
+<noscript>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1010029401/?guid=ON&amp;script=0">
+    </div>
+</noscript>
+<div id="loading"></div>
+</body>
+</html>

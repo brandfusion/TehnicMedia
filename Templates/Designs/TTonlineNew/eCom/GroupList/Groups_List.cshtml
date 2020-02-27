@@ -1,0 +1,22 @@
+﻿<div class="col-sm-12"> 
+    @if(GetValue("Ecom:Group.Name") != null) {
+      <h1><text>@GetValue("Ecom:Group.Name")</text></h1>
+      <p>@GetValue("Ecom:Group.Description")</p>
+    } else {
+      <h1><text>@GetGlobalValue("Global:Page.Name")</text></h1>
+      <p>@GetGlobalValue("Global:Page.Meta.Description")</p>
+    }
+
+
+    <div class="category-list clearfix">
+      <div class="row reset-margin-right">
+      @foreach (LoopItem i in GetLoop("Groups")){  
+        @Include("../../Custom/Groups_loop.cshtml")                                             
+      }
+      </div>  
+    </div>
+</div>        
+
+@SnippetStart("bottomJS")
+<script src="/Files/Templates/Designs/NewDesign/assets/js/menu_landing.js"></script>
+@SnippetEnd("bottomJS")

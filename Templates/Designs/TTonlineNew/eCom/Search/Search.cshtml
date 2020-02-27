@@ -1,0 +1,30 @@
+﻿ 
+
+  @if(GetString("DwAreaID") == "1"){
+   
+        <div id="sb-search" class="sb-search">     
+   			 <div class="form-group" style="position: relative;">
+     			 <form action="/cautare.aspx" method="GET" > 
+      				 <input class="sb-search-input" placeholder="Termen de cautare..." type="text" value="" name="q" id="q">
+      				 <input class="sb-search-submit btn-search" type="submit" value="">
+         			<span class="sb-icon-search fa fa-search" data-toggle="tooltip" data-placement="bottom" title="Search"></span>
+      			</form>
+			</div> 
+        </div>
+        }else {
+        
+  <div id="sb-search" class="sb-search">     
+    <div class="form-group" style="position: relative;">
+      <form action="/en/search.aspx" method="GET" > 
+      	 <input class="sb-search-input" placeholder="Input keyword ...." type="text" value="" name="q" id="q">
+      	 <input class="sb-search-submit btn-search" type="submit" value="">
+         <span class="sb-icon-search fa fa-search" data-toggle="tooltip" data-placement="bottom" title="Search"></span>
+      </form>
+	</div>
+  </div>
+        } 
+        
+        
+        
+        
+  

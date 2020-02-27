@@ -1,0 +1,29 @@
+﻿@if(GetInteger("DwAreaID") == 1){
+<div class="widget evenimentewidget" style="margin-bottom:10px;">
+
+	@RenderItemList(new { 
+	ItemType = "Eveniment",
+	ListSourceType = "SelfArea",
+	ItemFieldsList = "*",
+	ListTemplate = "/ItemPublisher/List/Sidebar-Evenimente.cshtml",
+	ListPageSize = 150,
+   	ListOrderBy = "Data_Inceput"
+	
+})
+</div>
+
+}else{
+<div class="widget evenimentewidget" style="margin-bottom:10px;">
+
+	@RenderItemList(new { 
+	ItemType = "Eveniment_EN",
+	ListSourceType = "SelfArea",
+	ItemFieldsList = "*",
+	ListTemplate = "/ItemPublisher/List/Sidebar-Evenimente.cshtml",
+	ListPageSize = 150,
+  	ListOrderBy = "Data_Inceput"
+	
+})
+</div>
+
+}

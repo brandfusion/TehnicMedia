@@ -1,0 +1,76 @@
+﻿@using Dynamicweb.Frontend
+@Include("../../Custom/GlobalVariables.cshtml")
+ <section class="news-text-block">
+        
+
+@if(GetBoolean("ItemPublisher:Items.Any")){
+
+
+  	foreach(var item in GetLoop("ItemPublisher:Items.List")){
+      string itemTitle = item.GetString("ItemPublisher:Item.Titlu.Value");
+      string defaultImage = areaLayoutPath + "/assets/img/demo/255x180.png";
+      string itemAuthor = "";
+      var itemDate = item.GetDate("ItemPublisher:Item.Data");
+      string itemLink = Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(item.GetString("ItemPublisher:Item.Url"));
+      string itemImage = item.GetString("ItemPublisher:Item.ImaginePrincipala.Value");
+      string image = !string.IsNullOrEmpty(itemImage) ? itemImage : defaultImage;
+      string itemExcerpt = item.GetString("ItemPublisher:Item.Sumar");
+      string itemVisits = item.GetString("ItemPublisher:Item.Visits.Value");
+
+ <div class="col-md-6">
+                <article class="news-block small-block">
+                  <a href="@itemLink" class="overlay-link">
+                    <figure class="image-overlay" style="width:320px height:250px;">
+                      <img  style="height:250px!important;" src="/Admin/Public/GetImage.ashx?Image=@itemImage&altFmImage_path=@areaLayoutPath/assets/img/demo/730x320.png&Format=jpg&Width=320&Height=250&Crop=6&DoNotUpscale=True" alt="@itemTitle" />
+                    </figure>
+                  </a>
+                  <a href="#" class="category">
+                    Eficienta Energetica
+                  </a>
+                  <header class="news-details">
+                    <p class="news-title" style="font-size:17px;">
+                      <a href="@itemLink">
+                        @itemTitle
+                      </a>
+                    </p>
+                     <p class="simple-share">
+		                                        <a href="#">Business</a> / @Translate("articolde","de") <a href="#">@itemAuthor</a> -
+		                                        <span><i class="fa fa-clock-o"></i> @itemDate</span>
+		            </p>
+                  </header>
+                </article><!-- News block -->      
+          
+              
+            </div>
+
+	}
+
+}
+</section>
+
+<!--@If(ItemPublisher:Items.Paging.TotalPages>1)-->
+    <ul class="items-list-paging items-clear">
+        <!--@If(ItemPublisher:Items.Paging.CurrentPage>1)-->
+			<li class="items-list-page">
+			    <a href="@GetValue("ItemPublisher:Items.Paging.PrevPage")"><!--@Translate(PreviousPage, "Previous page")--></a>
+			</li>
+		<!--@EndIf-->
+
+        @foreach (LoopItem i in GetLoop("ItemPublisher:Items.Paging.Pages5")){
+            <li class="items-list-page">
+                <!--@If(ItemPublisher:Items.Paging.Pages5.Page.IsCurrent=True)-->
+                <strong>@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.Number")</strong>
+                <!--@EndIf-->
+                <!--@If(ItemPublisher:Items.Paging.Pages5.Page.IsCurrent<>True)-->
+                <a href="@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.UrlHtmlEncoded")">@i.GetValue("ItemPublisher:Items.Paging.Pages5.Page.Number")</a>
+                <!--@EndIf-->
+            </li>
+        }
+        
+        <!--@If(ItemPublisher:Items.Paging.TotalPages>ItemPublisher:Items.Paging.CurrentPage)-->
+            <li class="items-list-page">
+                <a href="@GetValue("ItemPublisher:Items.Paging.NextPage")"><!--@Translate(NextPage, "Next page")--></a>
+            </li>
+        <!--@EndIf-->
+    </ul>
+    <!--@EndIf-->

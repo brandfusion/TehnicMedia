@@ -1,0 +1,19 @@
+﻿<h3>@Translate("External_account_log_in", "External account log in")</h3>
+<table border="0" cellpadding="5">                
+  <tr>
+    <th>@Translate("Provider_name", "Provider name")</th>
+    <th></th>
+  </tr>
+  @GetLoop("DWExtranetExternalLoginProviders").Count
+  @foreach (LoopItem i in GetLoop("DWExtranetExternalLoginProviders")){
+    <tr>
+      <td>@i.GetValue("ProviderName")</td>
+      <td>
+        <a href="/Admin/Public/Social/ExternalLogin.aspx?action=login&providerID=@i.GetValue("ProviderID")" style="font: normal 12px Arial; text-decoration: none; background-color: #EEEEEE; color: #333333; padding: 2px 6px 2px 6px; border: 1px solid #CCCCCC;">
+        	@i.GetValue("ProviderType")
+      	</a>
+    </td>
+  </tr> 
+    }
+</table>
+     

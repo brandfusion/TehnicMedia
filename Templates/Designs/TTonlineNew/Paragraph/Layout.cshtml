@@ -1,0 +1,51 @@
+﻿@{
+	init();
+}
+
+@functions {
+	private int columnsWritten { get; set; }
+	private int columns { get; set; }
+	private string noPadding {get; set; }
+	private string noMargin{get; set; }
+	private string customStyle {get; set;}
+
+	public void init()
+	{
+		columnsWritten = Dynamicweb.Core.Converter.ToInt32(System.Web.HttpContext.Current.Items["currentColumns"]);
+		columns = GetInteger("Item.Width");
+		noPadding = GetBoolean("Item.No_Padding") ? " no-padding" : "";
+		noMargin = GetBoolean("Item.No_Margin") ? " no-margin" : "";
+		customStyle = !string.IsNullOrEmpty(GetString("Item.CustomStyle")) ? " " + GetString("Item.CustomStyle"): "";
+		System.Web.HttpContext.Current.Items["currentColumns"] = columnsWritten + GetInteger("Item.Width");
+	}
+
+	public void Fluid()
+	{
+		columnsWritten = Dynamicweb.Core.Converter.ToInt32(System.Web.HttpContext.Current.Items["currentColumns"]);
+		columns = 12;
+		System.Web.HttpContext.Current.Items["currentColumns"] = columnsWritten + 12;
+	}
+
+	public string ColumnClass()
+	{
+		if (GetString("Item.WidthMobile") == "hide"){
+			return "col-md-" + GetString("Item.Width") + " hidden-xs" + noPadding + noMargin + customStyle;
+		} else {
+			return "col-md-" + GetString("Item.Width") + " col-xs-" + GetString("Item.WidthMobile")  + noPadding + noMargin +customStyle;
+		}
+	}
+	
+	public string NewRow()
+	{
+		if (columns + columnsWritten > 12)
+		{
+			System.Web.HttpContext.Current.Items["currentColumns"] = columns;
+			return "</div><div class=\"row\">";
+		}
+		else
+		{
+			return string.Empty;
+		}
+		
+	}
+}
