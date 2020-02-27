@@ -425,3 +425,7 @@
 .btn-background {
     background-color:#ffa700!important;
 }
+.loop-stiri-figure {
+    min-height: 230px;
+    max-height: 230px;
+}
