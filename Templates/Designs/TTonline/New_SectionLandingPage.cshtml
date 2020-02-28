@@ -196,7 +196,7 @@ string filterValue8= "Item.Tip='Articole'";
 <script id="MainArticleTemplate" type="text/x-handlebars-template">   
    {{#ArticlesContainer}}
         {{#each Article}}       				
-             <article class="news-block big-block mb-0">      
+             <article class="news-block big-block mb-0 sectiune-container">      
                <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
                    <figure class="image-overlay proportie-1" style="height: 480.263px;">
                      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=870&Height=572" alt="{{itemTitlu}}" style="height: 100%;" /> 
@@ -252,7 +252,7 @@ string filterValue8= "Item.Tip='Articole'";
          <div class="col-xs-12 col-sm-12 col-md-6">
            <article class="news-block small-block">
              <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
-             <figure class="loop-stiri-figure">
+             <figure class="">
                 <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230&bgcolor=white" />                   
              </figure>
              </a>             
@@ -308,44 +308,44 @@ string filterValue8= "Item.Tip='Articole'";
 </script>
 @*STIRI*@
 <script id="LoopStiriTemplate" type="text/x-handlebars-template">
-  {{#if ArticlesContainer}}
-  <h3 class="block-title main-content-two"><span>@Translate("Stiri","Stiri")</span></h3>
-  {{/if}}
-    {{#ArticlesContainer}}
-        {{#each Article}}
-            <article class="simple-post simple-big clearfix col-md-12 separator-articole">
-                <div class="simple-thumb" style="width:255px" >
-                    <a href="/Default.aspx?ID={{pagePageID}}">
-                      <figure class="">
-    				       <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168"/> 
-                      </figure>
-                    </a>
-                </div>
-                <header>
-                    <p class="simple-share">                  
-                        @Translate("articolde","de") 
-                        {{#each articleAutori}}
-                            <a href="{{Link}}">{{Name}}</a>
-                        {{/each}}
-                        <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
-                        {{#if showItemVisits}} 
-                          <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
-                        {{/if}}
-                    </p>
-                    <h3>
-                        <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
-                    </h3>
-                    <div class="excerpt" >{{{itemSumar}}}</div>
-                 <br/>
-                </header>
-            </article>        
-        {{/each}}
-    {{/ArticlesContainer}}
-  {{#if ArticlesContainer}}
-  <div class="row load-more">
-  	<a href='/stiri?Sectiune=@sectionID'><button type="button" class="btn btn-lg btn-block">@Translate("MaiMulteStiri","Mai multe stiri")</button></a>
-  </div>
-  {{/if}}
+{{#if ArticlesContainer}}
+     <h3 class="block-title main-content-two"><span>@Translate("Stiri","Stiri")</span></h3>
+{{/if}}
+{{#ArticlesContainer}}
+    {{#each Article}}
+        <article class="simple-post simple-big clearfix col-md-12 separator-articole">
+            <div class="simple-thumb" style="width:255px" >
+                <a href="/Default.aspx?ID={{pagePageID}}">
+                  <figure class="loop-stiri-figure">
+    				   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168"/> 
+                  </figure>
+                </a>
+            </div>
+            <header>
+                <p class="simple-share">                  
+                    @Translate("articolde","de") 
+                    {{#each articleAutori}}
+                        <a href="{{Link}}">{{Name}}</a>
+                    {{/each}}
+                    <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                    {{#if showItemVisits}} 
+                      <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                    {{/if}}
+                </p>
+                <h3>
+                    <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
+                </h3>
+                <div class="excerpt" >{{{itemSumar}}}</div>
+             <br/>
+            </header>
+        </article>        
+    {{/each}}
+{{/ArticlesContainer}}
+{{#if ArticlesContainer}}
+    <div class="row load-more">
+    <a href='/stiri?Sectiune=@sectionID'><button type="button" class="btn btn-lg btn-block">@Translate("MaiMulteStiri","Mai multe stiri")</button></a>
+    </div>
+{{/if}}
 </script>
 
 <script id="LoopProduseTemplate" type="text/x-handlebars-template">
@@ -387,7 +387,7 @@ string filterValue8= "Item.Tip='Articole'";
               <h5 class="titlu-produs-lista news-title" ><a href="{{link}}">{{name}}</a></h5>    
             </div>
           </div>    
-        <div class="row min-height-40">
+        <div class="row" style="min-height:40px;">
          <div class="col-xs-12">
                 {{#ifCond manufacturer "!==" ""}}
                   <div class="col-xs-6" >      
@@ -409,7 +409,7 @@ string filterValue8= "Item.Tip='Articole'";
            </div>
         </div>         
     
-        <div class="row min-height-30">
+        <div class="row" style="min-height:30px;">
           <div class="col-xs-12">
               <div class="col-xs-6 text-center">      
                    <p class="simple-share manufacturer">
@@ -491,7 +491,7 @@ string filterValue8= "Item.Tip='Articole'";
               <h5 class="titlu-produs-lista news-title"><a href="{{link}}">{{name}}</a></h5>    
             </div>
           </div>    
-         <div class="row min-height-40">
+         <div class="row" style="min-height:40px;">
          <div class="col-xs-12">
                 {{#ifCond manufacturer "!==" ""}}
                   <div class="col-xs-4" >      
@@ -513,7 +513,7 @@ string filterValue8= "Item.Tip='Articole'";
                 {{/ifCond}}
            </div>
         </div>    
-        <div class="row min-height-30">
+        <div class="row" style="min-height:30px;">
           <div class="col-xs-12">
               <div class="col-xs-3 text-center">      
                    <p class="simple-share manufacturer">

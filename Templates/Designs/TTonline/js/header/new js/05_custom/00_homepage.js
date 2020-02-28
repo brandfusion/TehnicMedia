@@ -3,11 +3,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if (document.getElementById('HomePageSlider') !== null) {
         window.scrollTo(0, 0);
         loadFirstViewHomepage();
-        if(!isIE11()) {
-            loadOnScroll();
-        } else {
-            loadOnScrollForIE();
-        }
+        getScrollContent();
     }
     //load content on other pages
     if (document.querySelector('.first-container') !== null) {
@@ -15,12 +11,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         //load first view
         loadFirstView(document.querySelector('.first-container'));
         //load on scroll
-        if(!isIE11()) {
-            loadOnScroll();
-        } else {
-            //load first view
-            loadOnScrollForIE();
-        }
+        getScrollContent();
     }
     
     //load content on change page
@@ -30,11 +21,18 @@ document.addEventListener('DOMContentLoaded', function(event) {
     
     //load article detail page
     if(document.querySelector('.first-container-article')) {
-        loadArticle();        
-        loadOnScroll();
+        loadArticle();
+        getScrollContent();
     }
 });
 
+function getScrollContent() {
+    if(!isIE11()) {
+        loadOnScroll();
+    } else {
+        loadOnScrollForIE();
+    }
+}
 /*START HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 //On page load on homepage, first items loaded will be the slider and the first categories
@@ -124,32 +122,29 @@ function loadOnScroll() {
 }
 
 function loadOnScrollForIE() {
-    
-    window.addEventListener('scroll', function(e) {
-    
+
     var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper');
     var allSidebarWrappers = document.querySelectorAll('.sidebar-handlebars-wrapper');
 
     for(var x = 0; x < allHandlebarsWrapers.length; x++) {
-        lazyLoadElements(allHandlebarsWrapers[x]);
+        getDataForHandlebars(allHandlebarsWrapers[x]);
     }
     for(var x = 0; x < allSidebarWrappers.length; x++) {
-        lazyLoadElements(allSidebarWrappers[x]);
-    } 
-    })    
+        getDataForHandlebars(allSidebarWrappers[x]);
+    }    
 }
 
 function loadOnChangePage() {
     var buttons = document.querySelectorAll('.pagination li:not(.active)');
     
-    buttons.forEach(function(button) {
+    Array.prototype.forEach.call(buttons, function(button) {
         button.addEventListener('click', function(e) {
             document.querySelector('li.active').classList.remove('active');
             button.classList.add('active');
             window.scrollTo(0, 0);
             
             if(button.textContent !== "1" && document.querySelector('.hideSecondPage') !== null) {
-                document.querySelectorAll('.hideSecondPage').forEach(function(elem) {elem.classList.add("hidden")})
+                Array.prototype.forEach.call(document.querySelectorAll('.hideSecondPage'), function(elem) {elem.classList.add("hidden")})
             }
             var urlFeed = button.getAttribute('data-page-link');
             var containerName = button.getAttribute('data-container');
@@ -176,32 +171,30 @@ function getDataToChangePage(urlFeed, container) {
         console.log(error, "error chang page");
     })
 }
+function loadEdition(button) {    
+    var year = button.getAttribute('data-year');
+    var feedURL = document.querySelector('.bhoechie-tab-menu .list-group').getAttribute('data-json-feed-reviste') + year;
+    var container = document.querySelector('.bhoechie-tab-content');
+    
+    document.querySelector('.bhoechie-tab-menu .list-group-item.active').classList.remove('active');
+    button.classList.add('active');
+
+    axios({
+        method:'get',
+        url: feedURL
+    })
+        .then(function (response) {
+            compileDataToHandlebars(response.data[0], container);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error editions by year");
+        })
+}
 function getEditionsByYear() {
     var archiveButtons = document.querySelectorAll('.bhoechie-tab-menu .list-group-item');
-    var container = document.querySelector('.bhoechie-tab-content');
-    var loader = ' <div class="loader"></div>';
-    
-    archiveButtons.forEach(function(item) {
-       item.addEventListener('click', function(e) {
-          var year = item.getAttribute('data-year');
-          var feedURL = document.querySelector('.bhoechie-tab-menu .list-group').getAttribute('data-json-feed-reviste') + year;
-          
-          document.querySelector('.bhoechie-tab-menu .list-group-item.active').classList.remove('active');
-          item.classList.add('active');
-          
-          container.innerHTML = loader;
-           axios({
-               method:'get',
-               url: feedURL
-           })
-           .then(function (response) {
-               compileDataToHandlebars(response.data[0], container);
-           })
-           .catch(function (error) {
-               // handle error
-               console.log(error, "error editions by year");
-           })
-       }); 
+    Array.prototype.forEach.call(archiveButtons, function(item) {
+       item.addEventListener('click', function(e) { loadEdition(item); }); 
     });
 }
 
@@ -276,15 +269,6 @@ function loadArticleSections(authorId) {
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 /*START ADDITIONAL FUNCTIONS*/
-function lazyLoadElements(element) {
-    var top  = window.pageYOffset || document.documentElement.scrollTop;
-    var currentElementTop = element.parentNode.offsetTop  - 500;
-    if (parseFloat(currentElementTop) < parseFloat(top) && !element.classList.contains("rendering"))
-    {
-        element.classList.add('rendering');
-        getDataForHandlebars(element);
-    }
-}
 
 function compileDataToHandlebars(data, homePageSliderWrapper) {
     var homepageSliderTemplate = document.getElementById(homePageSliderWrapper.getAttribute('data-template'));
@@ -320,15 +304,10 @@ function getDataForHandlebars(homePageSliderWrapper) {
             $(".owl-companii-2").trigger('destroy.owl.carousel');
             initializeHomepageCarousel();
         }
+        
         if(document.querySelector('.bhoechie-tab-container') !== null) {
-            getEditionsByYear();
-            var evt = new MouseEvent('click', {
-                bubbles: true,
-                cancelable: true,
-                view: window
-            });
-            var firstButton = document.querySelector('.bhoechie-tab-menu .list-group-item');
-            firstButton.dispatchEvent(evt);           
+            loadEdition(document.querySelector('.bhoechie-tab-menu .list-group-item'));
+            getEditionsByYear();          
         }
     })
     .catch(function (error) {
