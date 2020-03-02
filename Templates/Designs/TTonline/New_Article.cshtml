@@ -212,7 +212,7 @@ s.setAttribute('data-timestamp', +new Date());
           </p>
            {{#ifCond itemImaginePrincipala "!==" ""}}
               <figure class="image-overlay">                     
-                <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}">          
+                <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=5&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}">          
               </figure>
           {{/ifCond}}
        </header><!-- .post-header -->
@@ -266,18 +266,17 @@ s.setAttribute('data-timestamp', +new Date());
 {{/ArticlesContainer}}    
 </script>
 <script id="AuthorsTemplate" type="text/x-handlebars-template">
-  {{#ifCond counterAutori "!==" "1"}}
-      {{#Autori}}
-      
-           {{#ifCond persoana_companie "!==" "Persoana"}}  
+    {{#ifCond counterAutori "!==" "1"}}
+      {{#Autori}}      
+           {{#ifCond persoana_companie "===" "Persoana"}}  
               <div class="col-xs-12">
                 <h5>Autori</h5>   
               </div>
             {{/ifCond}}
       {{/Autori}}      
       {{#Autori}}
-         {{#ifCond persoana_companie "!==" "Persoana"}}     
-              <div class="col-xs-12 col-sm-12 col-md-6">
+         {{#ifCond persoana_companie "===" "Persoana"}}       
+              <div class="col-xs-12 col-sm-12 col-md-12 evenimentewidget">
                   <div class="col-xs-3">
                     <img alt="" src="/Admin/Public/GetImage.ashx?Image={{imagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=100&Height=150&bgcolor=white" >
                   </div>
@@ -292,7 +291,7 @@ s.setAttribute('data-timestamp', +new Date());
   {{/ifCond}}
    {{#ifCond counterAutori "===" "1"}}
       {{#Autori}}
-         {{#ifCond persoana_companie "===" "Persoana"}}        
+         {{#ifCond persoana_companie "===" "Persoana"}}     
                 <div class="row row-butoane-articol">
                      <div class="col-xs-12 col-sm-12"><a href="/Default.aspx?ID=@autorPage&autor={{autorId}}" class="btn btn-primary btn-background">@Translate("VeziAlteArticoleAleAutorului", "Alte articole ale autorului")</a></div>
                  </div>  
@@ -306,10 +305,10 @@ s.setAttribute('data-timestamp', +new Date());
                    </div>
                  </div>
           {{/ifCond}}     
-          {{#ifCond persoana_companie "!==" "Persoana"}}        
-            <div class="row row-butoane-articol">
-                 <div class="col-xs-12 col-sm-12"><a href="/Default.aspx?ID=@autorPage&autor={{autorId}}" class="btn btn-primary btn-background">@Translate("VeziAlteArticoleAleCompanieiAutoare", "Alte articole ale companiei autoare")</a></div>
-             </div>  
+          {{#ifCond persoana_companie "===" "Persoana"}}        
+              <div class="row row-butoane-articol">
+                  <div class="col-xs-12 col-sm-12"><a href="/Default.aspx?ID=@autorPage&autor={{autorId}}" class="btn btn-primary btn-background">@Translate("VeziAlteArticoleAleCompanieiAutoare", "Alte articole ale companiei autoare")</a></div>
+              </div>  
       {{/ifCond}}     
       {{/Autori}}
    {{/ifCond}}
