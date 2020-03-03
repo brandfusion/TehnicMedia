@@ -427,6 +427,21 @@
 .sectiune-container img, .lista-editii img {
     flex-shrink: 0;
 }
+.load-more {
+    padding: 0 10px;
+}
+#LoopAutor {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    border-bottom: 2px solid #d6d6d6;
+}
+#LoopAutor h1 {
+    margin-bottom: 8px;
+    border: none;
+}
+#LoopAutor span {
+    padding-bottom: 10px;
+}
 @media (min-width: 1024px) {
     #mobile-nav {
         display: none;

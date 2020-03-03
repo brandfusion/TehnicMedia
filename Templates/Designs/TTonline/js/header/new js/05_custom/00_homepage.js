@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(event) {
+    window.scrollTo(0, 0);
     //load content on homepage
     if (document.getElementById('HomePageSlider') !== null) {
         window.scrollTo(0, 0);
@@ -13,12 +14,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
         //load on scroll
         getScrollContent();
     }
-    
+
     //load content on change page
     if(document.querySelector('.pagination') !== null) {
         loadOnChangePage();
     }
-    
+
     //load article detail page
     if(document.querySelector('.first-container-article')) {
         loadArticle();
@@ -40,32 +41,33 @@ function loadFirstViewHomepage() {
     var homePageSliderWrapper = document.getElementById('HomePageSlider');
     var urlFeed = homePageSliderWrapper.getAttribute("data-json-feed");
     var loader  = document.getElementById('loader');
+
     axios({
         method:'get',
         url:urlFeed
     })
-    .then(function (response) {
-        //hide loader
-        loader.classList.add('hidden');
-        //compile data
-        compileDataToHandlebars(response.data[0], homePageSliderWrapper);              
-        //initialize homepage slider after handlebars template was compiled
-        initializeHomepageSlider();
-    })
-    .then(function() {
-        //load Recomandari T&T
-        var recomandariWrapper = document.getElementById('RecomandariTT');
-        getDataForHandlebars(recomandariWrapper)
-    })
-    .then(function() {
-        //load Ultimele stiri
-        var ultimeleStiriWrapper = document.getElementById('UltimeleStiri');
-        getDataForHandlebars(ultimeleStiriWrapper)
-    })
-    .catch(function (error) {
-    // handle error
-    console.log(error, "error first view hp");
-    })
+        .then(function (response) {
+            //hide loader
+            loader.classList.add('hidden');
+            //compile data
+            compileDataToHandlebars(response.data[0], homePageSliderWrapper);
+            //initialize homepage slider after handlebars template was compiled
+            initializeHomepageSlider();
+        })
+        .then(function() {
+            //load Recomandari T&T
+            var recomandariWrapper = document.getElementById('RecomandariTT');
+            getDataForHandlebars(recomandariWrapper)
+        })
+        .then(function() {
+            //load Ultimele stiri
+            var ultimeleStiriWrapper = document.getElementById('UltimeleStiri');
+            getDataForHandlebars(ultimeleStiriWrapper)
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error first view hp");
+        })
 }
 //On page load, make call for first container on page
 function loadFirstView(handlebarsWrapper) {
@@ -75,28 +77,28 @@ function loadFirstView(handlebarsWrapper) {
         method:'get',
         url: urlFeed
     })
-    .then(function (response) {
-        //hide loader
-        loader.classList.add('hidden');
-        
-        compileDataToHandlebars(response.data[0], handlebarsWrapper);
-        
-    })
-    .then(function() {
-        if(document.querySelector('.pagination') !== null) {
-            loadOnChangePage();
-        }
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error, "error first view");
-    })
+        .then(function (response) {
+            //hide loader
+            loader.classList.add('hidden');
+
+            compileDataToHandlebars(response.data[0], handlebarsWrapper);
+
+        })
+        .then(function() {
+            if(document.querySelector('.pagination') !== null) {
+                loadOnChangePage();
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error first view");
+        })
 }
 function loadOnScroll() {
-   
+
     var allHandlebarsWrapers = document.querySelectorAll('.handlebars-wrapper');
     var allSidebarWrappers = document.querySelectorAll('.sidebar-handlebars-wrapper');
-    
+
     const options = {
         threshold: 0,
         rootMargin: "100px"
@@ -117,8 +119,8 @@ function loadOnScroll() {
     if(allSidebarWrappers.length > 0) {
         allSidebarWrappers.forEach(function(elem) {
             observer.observe(elem)
-        }); 
-    }    
+        });
+    }
 }
 
 function loadOnScrollForIE() {
@@ -131,28 +133,28 @@ function loadOnScrollForIE() {
     }
     for(var x = 0; x < allSidebarWrappers.length; x++) {
         getDataForHandlebars(allSidebarWrappers[x]);
-    }    
+    }
 }
 
 function loadOnChangePage() {
     var buttons = document.querySelectorAll('.pagination li:not(.active)');
-    
+
     Array.prototype.forEach.call(buttons, function(button) {
         button.addEventListener('click', function(e) {
             document.querySelector('li.active').classList.remove('active');
             button.classList.add('active');
             window.scrollTo(0, 0);
-            
+
             if(button.textContent !== "1" && document.querySelector('.hideSecondPage') !== null) {
-                Array.prototype.forEach.call(document.querySelectorAll('.hideSecondPage'), function(elem) {elem.classList.add("hidden")})
+                Array.prototype.forEach.call(document.querySelectorAll('.hideSecondPage'), function(elem) {elem.classList.add("hidden")});
             }
             var urlFeed = button.getAttribute('data-page-link');
             var containerName = button.getAttribute('data-container');
             var container = document.querySelector('[data-template="'+containerName+'"]');
 
             getDataToChangePage(urlFeed, container)
-        });        
-    });    
+        });
+    });
 }
 
 function getDataToChangePage(urlFeed, container) {
@@ -160,22 +162,22 @@ function getDataToChangePage(urlFeed, container) {
         method:'get',
         url: urlFeed
     })
-    .then(function (response) {
-        compileDataToHandlebars(response.data[0], container);
-    })
-    .then(function() {
-        loadOnChangePage()
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error, "error chang page");
-    })
+        .then(function (response) {
+            compileDataToHandlebars(response.data[0], container);
+        })
+        .then(function() {
+            loadOnChangePage()
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error chang page");
+        })
 }
-function loadEdition(button) {    
+function loadEdition(button) {
     var year = button.getAttribute('data-year');
     var feedURL = document.querySelector('.bhoechie-tab-menu .list-group').getAttribute('data-json-feed-reviste') + year;
     var container = document.querySelector('.bhoechie-tab-content');
-    
+
     document.querySelector('.bhoechie-tab-menu .list-group-item.active').classList.remove('active');
     button.classList.add('active');
 
@@ -194,7 +196,7 @@ function loadEdition(button) {
 function getEditionsByYear() {
     var archiveButtons = document.querySelectorAll('.bhoechie-tab-menu .list-group-item');
     Array.prototype.forEach.call(archiveButtons, function(item) {
-       item.addEventListener('click', function(e) { loadEdition(item); }); 
+        item.addEventListener('click', function(e) { loadEdition(item); });
     });
 }
 
@@ -206,65 +208,66 @@ function loadArticle() {
         method:'get',
         url: urlFeed
     })
-    .then(function (response) {
-        //hide loader
-        loader.classList.add('hidden');
-        compileDataToHandlebars(response.data[0], firstContainer);
+        .then(function (response) {
+            //hide loader
+            loader.classList.add('hidden');
+            compileDataToHandlebars(response.data[0], firstContainer);
 
-        var authorsArray = response.data[0].ArticlesContainer[0].Article[0].articleAutori;
-        return authorsArray;
-    })
-    .then(function (response) {
-        
-        var authorsWrapper = document.querySelector('.author-section');
-        var url = authorsWrapper.getAttribute("data-json-feed");
-        response.map(function(o, i) {
-            url += response.length - 1 === i ? o.Id : o.Id + ",";
-        });
-        getDataForArticlePage(authorsWrapper, url);
-        
-        return response;
-    })   
-    .then(function(response) {
-        var authorIds = ""
-        response.map(function(o, i) {
-            authorIds +=  response.length - 1 === i ? o.Id : o.Id + ","
-        });
-        loadArticleSections(authorIds);
-    })    
-    .catch(function (error) {
-        // handle error
-        console.log(error, "error load article");
-    })
+            var authorsArray = response.data[0].ArticlesContainer[0].Article[0].articleAutori;
+            return authorsArray;
+        })
+        .then(function (response) {
+            var authorsWrapper = document.querySelector('.author-section');
+            var url = authorsWrapper.getAttribute("data-json-feed");
+            response.map(function(o, i) {
+                url += response.length - 1 === i ? o.Id : o.Id + ",";
+            });
+            getDataForArticlePage(authorsWrapper, url);
+
+            return response;
+        })
+        .then(function(response) {
+            var authorIds = ""
+            response.map(function(o, i) {
+                authorIds +=  response.length - 1 === i ? o.Id : o.Id + ","
+            });
+            loadArticleSections(authorIds);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error load article");
+        })
 }
 
 function loadArticleSections(authorId) {
-    var sectionContainer = document.querySelector('.section-template');
-    var urlFeed = sectionContainer.getAttribute("data-json-feed");
+    var authorsContainter = document.querySelector('.author-template');
+    var urlFeed = authorsContainter.getAttribute("data-json-feed") + "&Autori=" + authorId;;
     axios({
         method:'get',
         url: urlFeed
     })
-    .then(function (response) {
-        compileDataToHandlebars(response.data[0], sectionContainer);
-        var authorsArray = response.data[0].ArticlesContainer;
-        return authorsArray;
-    })
-    .then(function (response) {
-        var authorsContainter = document.querySelector('.author-template');
-        var url = authorsContainter.getAttribute("data-json-feed");
-        response.map(function(o, i) {
-            url += response.length - 1 === i ? o.Article[0].pagePageID : o.Article[0].pagePageID + ",";
-        });
-        var autoriIds = response[0].Article[0].itemAutori;
-        
-        url += "&Autori=" + authorId;
-        getDataForArticlePage(authorsContainter, url);
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error, "error load article sections");
-    })
+        .then(function (response) {
+            console.log(response, 'this is an array1')
+            var isResponse = response.data.length > 0;
+            compileDataToHandlebars(response.data[0], authorsContainter);
+
+            var authorsArray = isResponse > 0 ? response.data[0].ArticlesContainer : undefined;
+            return authorsArray;
+        })
+        .then(function (response) {
+            var sectionContainer = document.querySelector('.section-template');
+            var url = sectionContainer.getAttribute("data-json-feed");
+            if(response !== undefined) {
+                response.map(function(o, i) {
+                    url += response.length - 1 === i ? o.Article[0].pagePageID : o.Article[0].pagePageID + ",";
+                });        }
+
+            getDataForArticlePage(sectionContainer, url);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error load article sections");
+        })
 }
 /*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
@@ -283,50 +286,49 @@ function getDataForHandlebars(homePageSliderWrapper) {
         method:'get',
         url: urlFeed
     })
-    .then(function (response) {
-        compileDataToHandlebars(response.data[0], homePageSliderWrapper);   
-        if(isIE11()) {
-            homePageSliderWrapper.classList.remove('rendering');
-            homePageSliderWrapper.classList.add('rendered');
-        }
+        .then(function (response) {
+            compileDataToHandlebars(response.data[0], homePageSliderWrapper);
+            if(isIE11()) {
+                homePageSliderWrapper.classList.remove('rendering');
+                homePageSliderWrapper.classList.add('rendered');
+            }
 
-        if(document.querySelector('.pagination') !== null) {
-            loadOnChangePage();
-        }
-    })
-    .then(function() {
-        if(homePageSliderWrapper.classList.contains("carousel-inner")) {
-            initializeEventsCarousel();
-        }
-        if (homePageSliderWrapper.classList.contains("owl-carousel")) {
-            $(".owl-carousel").trigger('destroy.owl.carousel');
-            $(".owl-companii-1").trigger('destroy.owl.carousel');
-            $(".owl-companii-2").trigger('destroy.owl.carousel');
-            initializeHomepageCarousel();
-        }
-        
-        if(document.querySelector('.bhoechie-tab-container') !== null) {
-            loadEdition(document.querySelector('.bhoechie-tab-menu .list-group-item'));
-            getEditionsByYear();          
-        }
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error, "error data for hdb");
-    })
+            if(document.querySelector('.pagination') !== null) {
+                loadOnChangePage();
+            }
+        })
+        .then(function() {
+            if(homePageSliderWrapper.classList.contains("carousel-inner")) {
+                initializeEventsCarousel();
+            }
+            if (homePageSliderWrapper.classList.contains("owl-carousel")) {
+                $(".owl-carousel").trigger('destroy.owl.carousel');
+                $(".owl-companii-1").trigger('destroy.owl.carousel');
+                $(".owl-companii-2").trigger('destroy.owl.carousel');
+                initializeHomepageCarousel();
+            }
+            if(document.querySelector('.bhoechie-tab-container') !== null) {
+                loadEdition(document.querySelector('.bhoechie-tab-menu .list-group-item'));
+                getEditionsByYear();
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error data for hdb");
+        })
 }
 function getDataForArticlePage(wrapper, url) {
     axios({
         method:'get',
         url: url
     })
-    .then(function (response) {
-        compileDataToHandlebars(response.data[0], wrapper);
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error, "error data for article");
-    })
+        .then(function (response) {
+            compileDataToHandlebars(response.data[0], wrapper);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error data for article");
+        })
 }
 function initializeHomepageSlider() {
     $('.flexslider').flexslider({
@@ -369,7 +371,7 @@ function initializeHomepageCarousel(){
         margin: 10,
         dots: false,
         nav: true,
-    //    autoplay: true,
+        //    autoplay: true,
         autoplayHoverPause: true,
         slideBy: 2,
         navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
@@ -390,7 +392,7 @@ function initializeHomepageCarousel(){
         margin: 10,
         dots: false,
         nav: true,
-      //  autoplay: true,
+        //  autoplay: true,
         autoplayHoverPause: true,
         slideBy: 3,
         navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],

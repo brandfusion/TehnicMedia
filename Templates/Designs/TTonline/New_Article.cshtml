@@ -99,7 +99,7 @@
           
               <div class="col-md-6">
                 <h3 class="block-title"><span>@Translate("De acelasi autor","De acelasi autor")</span></h3>
-                <div class="row author-template" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageSize=3&Excluded=@currentPageId,">
+                <div class="row author-template" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageSize=3&SectiuneParinte=@articleSectiuneID&Excluded=@currentPageId">
                   <div style="margin-right: 5px">
                     @RenderPlaceholderImageTop("pre-render-element--md")
                     @RenderPlaceholderImageTop("pre-render-element--md")
@@ -110,7 +110,7 @@
               
               <div class="col-md-6">
                 <h3 class="block-title"><span>@Translate("Din aceeasi sectiune","Din aceeasi sectiune")</span></h3>
-                <div class="row section-template" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&Excluded=@currentPageId&PageSize=3&SectiuneParinte=@articleSectiuneID">
+                <div class="row section-template" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageSize=3&SectiuneParinte=@articleSectiuneID&Excluded=@currentPageId,">
                   <div style="margin-left: 5px">
                     @RenderPlaceholderImageTop("pre-render-element--md")
                     @RenderPlaceholderImageTop("pre-render-element--md")
@@ -210,11 +210,11 @@ s.setAttribute('data-timestamp', +new Date());
                  <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
             {{/if}}
           </p>
-           {{#ifCond itemImaginePrincipala "!==" ""}}
-              <figure class="image-overlay">                     
-                <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=5&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}">          
-              </figure>
-          {{/ifCond}}
+         {{#ifCond itemImaginePrincipala "!==" ""}}
+            <figure class="image-overlay">                     
+              <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=5&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}">          
+            </figure>
+         {{/ifCond}}
        </header><!-- .post-header -->
         <div class="post-content clearfix"> 
           {{{itemContinut}}}
@@ -266,7 +266,7 @@ s.setAttribute('data-timestamp', +new Date());
 {{/ArticlesContainer}}    
 </script>
 <script id="AuthorsTemplate" type="text/x-handlebars-template">
-    {{#ifCond counterAutori "!==" "1"}}
+   {{#ifCond counterAutori "!==" "1"}}
       {{#Autori}}      
            {{#ifCond persoana_companie "===" "Persoana"}}  
               <div class="col-xs-12">
@@ -278,7 +278,7 @@ s.setAttribute('data-timestamp', +new Date());
          {{#ifCond persoana_companie "===" "Persoana"}}       
               <div class="col-xs-12 col-sm-12 col-md-12 evenimentewidget">
                   <div class="col-xs-3">
-                    <img alt="" src="/Admin/Public/GetImage.ashx?Image={{imagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=100&Height=150&bgcolor=white" >
+                    <img alt="" src="/Admin/Public/GetImage.ashx?Image={{imagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=100&Height=150&bgcolor=white" >
                   </div>
                   <div class="col-xs-9">
                     <p class="simple-share">
@@ -297,7 +297,7 @@ s.setAttribute('data-timestamp', +new Date());
                  </div>  
                  <div class="author-box clearfix">
                    <div class="author-avatar">                   
-                       <img alt="" src="/Admin/Public/GetImage.ashx?Image={{imagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=100&Height=150&bgcolor=white" >
+                       <img alt="" src="/Admin/Public/GetImage.ashx?Image={{imagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=100&Height=150&bgcolor=white" >
                    </div>
                    <div class="author-info">
                      <h3><a href="/Default.aspx?ID=@autorPage&autor={{autorId}}">{{name}}</a></h3>
@@ -320,7 +320,7 @@ s.setAttribute('data-timestamp', +new Date());
         <article class="news-block small-block" style="margin-bottom: 110px;">
           <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
           <figure class="image-overlay proportie-1">
-            <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=350&Height=230" alt="{{itemTitlu}}" class="img-responsive" />
+            <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230" alt="{{itemTitlu}}" class="img-responsive" />
           </figure>
           </a>
 
