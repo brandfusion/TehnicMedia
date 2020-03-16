@@ -74,7 +74,9 @@
 	}
 
 	$(window).load(function(){
-		setTimeout(function(){initialize();}, 500);
+		if(document.getElementById('map-canvas') !== null) {
+			setTimeout(function(){initialize();}, 500);
+		}
 	});
 
 });

@@ -373,8 +373,9 @@ if (typeof(map_canvas) != 'undefined' && map_canvas != null)
 	      title: 'Hello World!'
 	  });
 	}
-
-	google.maps.event.addDomListener(window, 'load', initialize); 
+	if(document.getElementById('map-canvas') !== null) {
+		google.maps.event.addDomListener(window, 'load', initialize);
+	}
 }
 
   
