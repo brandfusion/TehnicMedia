@@ -1,6 +1,6 @@
-console.log('here goes nothing')
+
 document.addEventListener('DOMContentLoaded', function(event) {
-   
+    console.log('here goes nothing')
     //load content on homepage
     if (document.getElementById('HomePageSlider') !== null) {
         window.scrollTo(0, 0);

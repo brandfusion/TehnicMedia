@@ -92,9 +92,9 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
     
     @{
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
-      var styleBundle = Dna.Optimizer.Renderer.RenderStyles(string.Format("{0}css", designFolder), minify, true, "-main-styles", new[] { "exceptions" });
-      var scriptBundleHeader = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/header", designFolder), minify, true, "-main-scripts-header", new[] { "exceptions" });
-      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+      var styleBundle = Dna.Optimizer.Renderer.RenderStyles(string.Format("{0}css", designFolder), minify:minify, recursive : true, virtualPathPrefix : "-main-styles", exclusions: new[] { "exceptions" });
+      var scriptBundleHeader = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/header", designFolder), minify: minify, recursive : true, virtualPathPrefix : "-main-scripts-header",exclusions:  new[] { "exceptions" });
+     // var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive : true, virtualPathPrefix : "-main-scripts-footer",exclusions:  new[] { "exceptions" });
     }
     <link rel="stylesheet" href="@styleBundle">
     <script src="@scriptBundleHeader"></script>
@@ -256,7 +256,9 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
   List<LoopItem> websiteLanguages = GetLoop("WebsiteLanguages");
   string designFolder = GetString("Template:DesignBaseUrl");
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
-      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+//var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive: true, virtualPathPrefix : "-main-scripts-footer", exclusions : new[] { "exceptions" });
+
 
 }
 <!DOCTYPE HTML>
@@ -739,24 +741,18 @@ editorialFilterValue = editorialFilterValue + "\"\"";
       <div class="widget adwidget">
 <div class="row" style="margin-bottom:50px;">
   <div class="col-xs-6">
-    <ins data-revive-zoneid="13" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
-<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+    [Include file '/Files/Templates/Designs/TTonline/Custom/Banners/SmallBox1.cshtml' not found in 'Templates/Designs/TTonlineNew/Custom/Banners/4Small-Bigbox.cshtml']
   </div>
   <div class="col-xs-6">
-     <ins data-revive-zoneid="17" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
-<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+     [Include file '/Files/Templates/Designs/TTonline/Custom/Banners/SmallBox2.cshtml' not found in 'Templates/Designs/TTonlineNew/Custom/Banners/4Small-Bigbox.cshtml']
   </div>
 </div>
 <div class="row">
   <div class="col-xs-6">
-     
-<ins data-revive-zoneid="18" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
-<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+     [Include file '/Files/Templates/Designs/TTonline/Custom/Banners/SmallBox3.cshtml' not found in 'Templates/Designs/TTonlineNew/Custom/Banners/4Small-Bigbox.cshtml']
   </div>
   <div class="col-xs-6">
-     
-<ins data-revive-zoneid="19" data-revive-id="30be11c85ce356e14970630466da228f"></ins>
-<script async="" src="//adserver.dotfusion.ro/revive/www/delivery/asyncjs.php"></script>
+     [Include file '/Files/Templates/Designs/TTonline/Custom/Banners/SmallBox4.cshtml' not found in 'Templates/Designs/TTonlineNew/Custom/Banners/4Small-Bigbox.cshtml']
   </div>
 </div>
 </div>
@@ -973,9 +969,6 @@ string AdresaLogoFooter= "https://" + GetGlobalValue("Global:Request.Host")+ "/F
     <!-- / Mobile Menu -->
     <div id="go-top-button" class="fa fa-angle-up" title="Scroll To Top"></div>
     <div class="mobile-overlay" id="mobile-overlay"></div>
-    @*polyfill for Axios for IE11*@
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script> 
  <script type="text/javascript" src="@scriptBundleFooter"></script>
 
 
@@ -1044,6 +1037,12 @@ var google_remarketing_only = true;
 
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script> 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/00_handlebars.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/05_axios.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/10_es6promise.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/05_custom/00_main.min.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/05_custom/05_handlebarsHelper.min.js"></script> 
 
 <noscript>
     <div style="display:inline;">

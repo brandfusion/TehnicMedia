@@ -1,5 +1,10 @@
-﻿@using System.Web;
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using Dynamicweb.Content
+@using Dynamicweb.Content.Items;
+@using System.Web;
 @MasterPageFile("Master.cshtml")
+@Include("Includes/New_PlaceholderHelpers.cshtml")
 @{
     string issuuCode = GetString("Item.Cod_ISSUU.Value");
     string pageItemID =  GetString("Item.Id");
@@ -75,7 +80,8 @@
 
 <div class="col-md-4" data-stickycolumn=""><!--aici incepe sidebar-->
   
-			@Include("Custom/Sidebar.cshtml")
+			@*Include("Custom/Sidebar.cshtml")*@
+	@Include("Custom/New_Sidebar.cshtml")
 			                        	               
 </div><!--se inchide divul pentru sidebar-->     
 

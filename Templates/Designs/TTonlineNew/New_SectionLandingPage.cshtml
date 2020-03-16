@@ -150,18 +150,14 @@ string filterValue8= "Item.Tip='Articole'";
     </div>
     
     <div class="row">
-        <div class="col-xs-12">
-            <h3 class="block-title main-content-two"><span>@Translate("Stiri","Stiri")</span></h3>
+        <div class="col-xs-12">            
             <div class="row handlebars-wrapper display-title-up" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&Sections=@sectionID&pagesize=5&type=Stiri">
                 @*Handlebars goes here*@ 
                 @RenderPlaceholderImageOnLeft()
                 @RenderPlaceholderImageOnLeft()
                 @RenderPlaceholderImageOnLeft()
                 @RenderPlaceholderImageOnLeft()
-            </div>
-            <div class="row load-more">
-                <a href='/stiri?Sectiune=@sectionID'><button type="button" class="btn btn-lg btn-block">@Translate("MaiMulteStiri","Mai multe stiri")</button></a>
-            </div>
+            </div>            
         </div>
     </div>
 
@@ -200,7 +196,7 @@ string filterValue8= "Item.Tip='Articole'";
 <script id="MainArticleTemplate" type="text/x-handlebars-template">   
    {{#ArticlesContainer}}
         {{#each Article}}       				
-             <article class="news-block big-block mb-0">      
+             <article class="news-block big-block mb-0 sectiune-container">      
                <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
                    <figure class="image-overlay proportie-1" style="height: 480.263px;">
                      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=870&Height=572" alt="{{itemTitlu}}" style="height: 100%;" /> 
@@ -256,7 +252,7 @@ string filterValue8= "Item.Tip='Articole'";
          <div class="col-xs-12 col-sm-12 col-md-6">
            <article class="news-block small-block">
              <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
-             <figure class="">
+             <figure class="loop-stiri-figure">
                 <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230&bgcolor=white" />                   
              </figure>
              </a>             
@@ -312,13 +308,16 @@ string filterValue8= "Item.Tip='Articole'";
 </script>
 @*STIRI*@
 <script id="LoopStiriTemplate" type="text/x-handlebars-template">
+  {{#if ArticlesContainer}}
+  <h3 class="block-title main-content-two"><span>@Translate("Stiri","Stiri")</span></h3>
+  {{/if}}
 {{#ArticlesContainer}}
     {{#each Article}}
         <article class="simple-post simple-big clearfix col-md-12 separator-articole">
             <div class="simple-thumb" style="width:255px" >
                 <a href="/Default.aspx?ID={{pagePageID}}">
                   <figure class="">
-    				   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=255&Height=168"/> 
+    				   <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=255&Height=168"/> 
                   </figure>
                 </a>
             </div>
@@ -342,6 +341,11 @@ string filterValue8= "Item.Tip='Articole'";
         </article>        
     {{/each}}
 {{/ArticlesContainer}}
+  {{#if ArticlesContainer}}
+  <div class="row load-more">
+  	<a href='/stiri?Sectiune=@sectionID'><button type="button" class="btn btn-lg btn-block">@Translate("MaiMulteStiri","Mai multe stiri")</button></a>
+  </div>
+  {{/if}}
 </script>
 
 <script id="LoopProduseTemplate" type="text/x-handlebars-template">
