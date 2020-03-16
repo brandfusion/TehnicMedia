@@ -25,7 +25,9 @@
   List<LoopItem> websiteLanguages = GetLoop("WebsiteLanguages");
   string designFolder = GetString("Template:DesignBaseUrl");
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
-      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+//var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive: true, virtualPathPrefix : "-main-scripts-footer", exclusions : new[] { "exceptions" });
+
 
 }
 <!DOCTYPE HTML>
@@ -200,9 +202,6 @@
     <!-- / Mobile Menu -->
     <div id="go-top-button" class="fa fa-angle-up" title="Scroll To Top"></div>
     <div class="mobile-overlay" id="mobile-overlay"></div>
-    @*polyfill for Axios for IE11*@
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script> 
  <script type="text/javascript" src="@scriptBundleFooter"></script>
 
 
@@ -271,6 +270,12 @@ var google_remarketing_only = true;
 
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script> 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/00_handlebars.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/05_axios.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/10_es6promise.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/05_custom/00_main.min.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/05_custom/05_handlebarsHelper.min.js"></script> 
 
 <noscript>
     <div style="display:inline;">
