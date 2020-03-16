@@ -92,9 +92,13 @@ ga('send', 'pageview');
                     <a href="/Default.aspx?ID={{itemSectiuneParinteId}}" style="color:#999 !important;font-weight:400 !important">{{itemSectiuneParinte}}</a>            
                     <span style="margin: 0;">/</span>
                     @Translate("articolde","de")
-                     {{#each articleAutori}}
-                  <a href="{{Link}}" class="link-autor" style="color: #999999 !important; font-weight: 400 !important;">{{Name}}</a>
-                     {{/each}}      
+                    {{#foreach articleAutori}}
+                        {{#if $last}} 
+                           <a href="{{Link}}" class="link-autor" style="color: #999999 !important; font-weight: 400 !important;">{{Name}}</a>
+                        {{else}}
+                           <a href="{{Link}}" class="link-autor" style="color: #999999 !important; font-weight: 400 !important;">{{Name}},</a>
+                        {{/if}}
+                    {{/foreach}}   
                     <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
                 </p>
                 <h3>

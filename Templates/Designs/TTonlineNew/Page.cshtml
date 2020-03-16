@@ -99,18 +99,17 @@
           
               <div class="col-md-6">
                 <h3 class="block-title"><span>@Translate("De acelasi autor","De acelasi autor")</span></h3>
-                <div class="row author-template" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageSize=3&Excluded=@currentPageId,">
+                <div class="row author-template" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageSize=3&SectiuneParinte=@articleSectiuneID&Excluded=@currentPageId">
                   <div style="margin-right: 5px">
                     @RenderPlaceholderImageTop("pre-render-element--md")
                     @RenderPlaceholderImageTop("pre-render-element--md")
-                  </div>  
-                  
+                  </div> 
                 </div>
               </div>
               
               <div class="col-md-6">
                 <h3 class="block-title"><span>@Translate("Din aceeasi sectiune","Din aceeasi sectiune")</span></h3>
-                <div class="row section-template" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&Excluded=@currentPageId&PageSize=3&SectiuneParinte=@articleSectiuneID">
+                <div class="row section-template" data-template="SectionTemplate" data-json-feed="/Default.aspx?ID=@pageId&PageSize=3&SectiuneParinte=@articleSectiuneID&Excluded=@currentPageId,">
                   <div style="margin-left: 5px">
                     @RenderPlaceholderImageTop("pre-render-element--md")
                     @RenderPlaceholderImageTop("pre-render-element--md")
@@ -123,7 +122,7 @@
                 <div class="col-xs-12 col-sm-6 "><a href="/revista/web-exclusive" class="btn btn-primary btn-background">@Translate("VeziArticoleWebExclusive", "Articole web exclusive")</a></div>
             </div>
         
-            @Include("/Files/Templates/Designs/TTonline/ProdusePeArticol.cshtml")          
+            @Include("/Files/Templates/Designs/TTonlineNew/ProdusePeArticol.cshtml")   
           
           </div><!-- .related-post -->         
         
@@ -200,11 +199,17 @@ s.setAttribute('data-timestamp', +new Date());
           <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="category bg{{itemSectiuneParinteId}}">
            {{itemSectiuneParinte}}
           </a>
-        
+       
           <p class="simple-share">
-            {{#articleAutori}}
-                   <span class="m-0">@Translate("articolde","de") <a href="{{Link}}">{{Name}}</a></span>
-            {{/articleAutori}}      
+          <span class="m-0">@Translate("articolde","de")
+            {{#foreach articleAutori}}
+                {{#if $last}} 
+                  <a href="{{Link}}">{{Name}}</a>
+                {{else}}
+                   <a href="{{Link}}">{{Name}},</a>
+                {{/if}}
+            {{/foreach}}      
+            </span>
             <span><span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span></span>
             {{#if showItemVisits}}
                  <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
@@ -212,7 +217,7 @@ s.setAttribute('data-timestamp', +new Date());
           </p>
          {{#ifCond itemImaginePrincipala "!==" ""}}
             <figure class="image-overlay">                     
-              <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}">          
+              <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&Crop=5&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}">          
             </figure>
          {{/ifCond}}
        </header><!-- .post-header -->
@@ -266,33 +271,29 @@ s.setAttribute('data-timestamp', +new Date());
 {{/ArticlesContainer}}    
 </script>
 <script id="AuthorsTemplate" type="text/x-handlebars-template">
-  {{#ifCond counterAutori "!==" "1"}}
-      {{#Autori}}
-      
-           {{#ifCond persoana_companie "!==" "Persoana"}}  
-              <div class="col-xs-12">
-                <h5>Autori</h5>   
-              </div>
-            {{/ifCond}}
-      {{/Autori}}      
-      {{#Autori}}
-         {{#ifCond persoana_companie "!==" "Persoana"}}     
-              <div class="col-xs-12 col-sm-12 col-md-6">
-                  <div class="col-xs-3">
-                    <img alt="" src="/Admin/Public/GetImage.ashx?Image={{imagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=100&Height=150&bgcolor=white" >
-                  </div>
-                  <div class="col-xs-9">
-                    <p class="simple-share">
-                    <a href="/Default.aspx?ID=@autorPage&autor={{autorId}}">{{name}}</a>
-                  </p>
-                  </div>    
-                </div>
-          {{/ifCond}}
-      {{/Autori}}
+   {{#ifCond counterAutori "!==" "1"}}
+        <div class="col-xs-12">
+          <h5>Autori</h5>   
+        </div>   
+        <div class="col-xs-12 col-sm-12 col-md-12 evenimentewidget">
+        <span class="simple-share">
+            {{#foreach Autori}}        
+               {{#if $last}} 
+                    {{#ifCond persoana_companie "===" "Persoana"}}                        
+                      <a href="/Default.aspx?ID=@autorPage&autor={{autorId}}">{{name}}</a>
+                    {{/ifCond}}
+                {{else}}
+                 {{#ifCond persoana_companie "===" "Persoana"}}                      
+                      <a href="/Default.aspx?ID=@autorPage&autor={{autorId}}">{{name}}, </a>                     
+                    {{/ifCond}}
+                {{/if}}  
+            {{/foreach}}
+            </span>
+        </div>  
   {{/ifCond}}
    {{#ifCond counterAutori "===" "1"}}
       {{#Autori}}
-         {{#ifCond persoana_companie "===" "Persoana"}}        
+         {{#ifCond persoana_companie "===" "Persoana"}}     
                 <div class="row row-butoane-articol">
                      <div class="col-xs-12 col-sm-12"><a href="/Default.aspx?ID=@autorPage&autor={{autorId}}" class="btn btn-primary btn-background">@Translate("VeziAlteArticoleAleAutorului", "Alte articole ale autorului")</a></div>
                  </div>  
@@ -306,10 +307,10 @@ s.setAttribute('data-timestamp', +new Date());
                    </div>
                  </div>
           {{/ifCond}}     
-          {{#ifCond persoana_companie "!==" "Persoana"}}        
-            <div class="row row-butoane-articol">
-                 <div class="col-xs-12 col-sm-12"><a href="/Default.aspx?ID=@autorPage&autor={{autorId}}" class="btn btn-primary btn-background">@Translate("VeziAlteArticoleAleCompanieiAutoare", "Alte articole ale companiei autoare")</a></div>
-             </div>  
+          {{#ifCond persoana_companie "===" "Persoana"}}        
+              <div class="row row-butoane-articol">
+                  <div class="col-xs-12 col-sm-12"><a href="/Default.aspx?ID=@autorPage&autor={{autorId}}" class="btn btn-primary btn-background">@Translate("VeziAlteArticoleAleCompanieiAutoare", "Alte articole ale companiei autoare")</a></div>
+              </div>  
       {{/ifCond}}     
       {{/Autori}}
    {{/ifCond}}
@@ -346,6 +347,7 @@ s.setAttribute('data-timestamp', +new Date());
     {{/each}}
 {{/ArticlesContainer}}  
 </script>
+
 @helper RenderCereOfertaButton()
 {
   <!-- Large modal -->

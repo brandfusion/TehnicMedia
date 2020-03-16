@@ -6,11 +6,15 @@ document.addEventListener('DOMContentLoaded', function(event) {
         loadFirstViewHomepage();
         getScrollContent();
     }
+
     //load content on other pages
     if (document.querySelector('.first-container') !== null) {
         window.scrollTo(0, 0);
         //load first view
         loadFirstView(document.querySelector('.first-container'));
+        //load on scroll
+        getScrollContent();
+    } else if (document.querySelector('.sidebar-container') !== null) {
         //load on scroll
         getScrollContent();
     }
@@ -79,8 +83,7 @@ function loadFirstView(handlebarsWrapper) {
     })
     .then(function (response) {
         //hide loader
-        loader.classList.add('hidden');
-        
+        loader.classList.add('hidden');        
         compileDataToHandlebars(response.data[0], handlebarsWrapper);
         
     })
