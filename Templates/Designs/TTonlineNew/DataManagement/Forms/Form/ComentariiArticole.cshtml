@@ -1,0 +1,45 @@
+﻿<h2>@Translate("Adauga un comentariu")</h2>
+@{
+    var formStart = GetString("Form.Start");
+    var formHiddenFields = GetString("Form.Hidden");
+    var submit = GetString("Form.Button.Submit");
+    var formEnd = GetString("Form.End");
+    @formStart
+    @formHiddenFields
+    <table id="defaultform" class="alternate" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                <input type="text" id="Article_Comments_UserId" name="Article_Comments_UserId" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" id="Article_Comments_Username" name="Article_Comments_Username" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" id="Article_Comments_PageId" name="Article_Comments_PageId" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label for="Article_Comments_Comment">@Translate("Adauga comentariu")</label>
+                    </div>
+                </div>
+                <textarea id="Article_Comments_Comment" name="Article_Comments_Comment" cols="50" rows="10"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" id="Article_Comments_Status" name="Article_Comments_Status" value="" />
+            </td>
+        </tr>
+    </table>
+    @submit
+    @formEnd
+    
+}
+
