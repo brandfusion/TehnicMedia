@@ -1092,3 +1092,15 @@ $(document).ready(function(){
 		});
     
 });
+$(function() {
+    $("#AdaugaComentariu").on("click" , function(event){
+        var isHidden = $("#comentariuContainer").hasClass("hidden");
+        event.preventDefault();
+        if(isHidden) {
+            $("#comentariuContainer").removeClass("hidden");
+            $("#AdaugaComentariu").addClass("hidden");
+        }else{
+            $("#comentariuContainer").addClass("hidden");
+        }
+    });
+});
