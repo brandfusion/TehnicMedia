@@ -11,26 +11,29 @@
         var currentDate = currentDateRaw.ToString("dd/MM/yyyy");
         DateTime currentTimeRaw = DateTime.Now;
         var currentTime = currentTimeRaw.ToString("hh:mm");
+        var pageName = GetGlobalValue("Global:Page.Name");
+       
         @formStart
         @formHiddenFields
        <div class="row hidden" >
            <div class="col-xs-12">
-               <input type="text" id="Comments_UserId" name="Comments_UserId" value=""/>
+               <input type="text" id="Comments_UserId" name="Comments_UserId" value="@GetGlobalValue("Global:Extranet.UserID")"/>
                <input type="text" id="Comments_PageId" name="Comments_PageId" value="@currentPage"/>
                <input type="text" id="Comments_Status" name="Comments_Status" value="Pending" />
                <input type="text" id="Comments_Data" name="Comments_Data" value="@currentDate" />
                <input type="text" id="Comments_Ora" name="Comments_Ora" value="@currentTime" />
+               <input type="text" id="Comments_Titlu_Articol" name="Comments_Titlu_Articol" value="@pageName" />
             </div>
        </div>
        <div class="row">
            <div class="col-xs-12">
               <div class="input_comment">
-                   <input type="email"  id="Comments_Username" name="Comments_Username" required="true" placeholder="Email" value=""/>
+                   <input type="email"  id="Comments_Username" name="Comments_Username" required="true" placeholder="Email" value="@GetGlobalValue("Global:Extranet.Email")"/>
                </div>
            </div>
            <div class="col-xs-12">
                <div class="input_comment">
-                   <input type="text"  id="Comments_Nume" name="Comments_Nume" required="true" placeholder="Nume" value=""/>
+                   <input type="text"  id="Comments_Nume" name="Comments_Nume" required="true" placeholder="Nume" value="@GetGlobalValue("Global:Extranet.FirstName") @GetGlobalValue("Global:Extranet.LastName")"/>
                </div>
            </div>
        </div>
@@ -44,6 +47,6 @@
        <div class="col-xs-12">
            <input class="btn btn-primary" type="submit" value="Adauga Comentariu">
        </div>
-        @formEnd
+      @formEnd
     }
 </div>

@@ -6879,3 +6879,14 @@ span.seeMore , span.seeMoreFurnizori, span.seeMoreSubcategorie{
     text-align: left!important;
     padding-left:3px!important;
 }
+.modal-content-login {
+    height: 300px!important;
+    position: relative;
+    background-color: #fff;    
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    outline: 0;   
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}

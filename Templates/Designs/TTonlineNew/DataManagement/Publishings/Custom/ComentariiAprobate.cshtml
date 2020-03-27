@@ -18,6 +18,7 @@
         public string data { get; set; }
         public string ora { get; set; }
         public string nume { get; set; }
+        public string pageName { get; set; }
     }
    
     public class Root{
@@ -44,6 +45,7 @@
         var data = result.GetString("Comments_Data");
         var ora = result.GetString("Comments_Ora");
         var nume = result.GetString("Comments_Nume");
+        var pageName = result.GetString("Comments_Titlu_Articol");
         
         Comentarii Comentarii = new Comentarii();
         Comentarii.UserID = UserID;
@@ -55,6 +57,7 @@
         Comentarii.data = data;
         Comentarii.ora = ora;
         Comentarii.nume = nume;
+        Comentarii.pageName = pageName;
         counterComentarii++;
         feedRoot.Comentarii.Add(Comentarii);
 
