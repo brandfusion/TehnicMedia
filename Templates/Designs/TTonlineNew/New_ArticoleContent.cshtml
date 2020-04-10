@@ -8,46 +8,47 @@
 @Include("Includes/ArticleHelper.cshtml")
 @Include("Includes/New_PlaceholderHelpers.cshtml")
 @{
-	string IdCompanie = System.Web.HttpContext.Current.Request["Companie"] != null ? System.Web.HttpContext.Current.Request["Companie"].ToString(): "";
-	string IdAutor = System.Web.HttpContext.Current.Request["Autor"] != null ? System.Web.HttpContext.Current.Request["Autor"].ToString(): "";
+    string IdCompanie = System.Web.HttpContext.Current.Request["Companie"] != null ? System.Web.HttpContext.Current.Request["Companie"].ToString() : "";
+    string IdAutor = System.Web.HttpContext.Current.Request["Autor"] != null ? System.Web.HttpContext.Current.Request["Autor"].ToString() : "";
 
-	string name = "";
-	string link = "";
+    string name = "";
+    string link = "";
     //string linkPersonalizat = "";
     string idLinkPersonalizat = "";
     string linkPersonalizatRaw = "";
     string linkFinal = "";
 
 
-	if(!string.IsNullOrEmpty(IdAutor)){
-		var item = ItemManager.Storage.Open("Taxonomie_Autori").SelectById(IdAutor);
-   		name = "- " + (string) item["Name"];
-		link = (string) item["Companiae_Asociata"];
-	    linkFinal = "/companie?companyID=" + link;
-	}
+    if (!string.IsNullOrEmpty(IdAutor))
+    {
+        var item = ItemManager.Storage.Open("Taxonomie_Autori").SelectById(IdAutor);
+        name = "- " + (string) item["Name"];
+        link = (string) item["Companiae_Asociata"];
+        linkFinal = "/companie?companyID=" + link;
+    }
 
-	if(!string.IsNullOrEmpty(IdCompanie)){
-		var item2 = ItemManager.Storage.Open("Taxonomie_Companii").SelectById(IdCompanie);
-   		 name = "- " + (string) item2["Name"];
-	     linkPersonalizatRaw = (string) item2["Page_Link"];
-	     idLinkPersonalizat = linkPersonalizatRaw != "" ? linkPersonalizatRaw.Replace("Default.aspx?Id=", "") : linkPersonalizatRaw;
-	     link = IdCompanie;    
-	     linkFinal = linkPersonalizatRaw != "" ? "/Default.aspx?ID=" + idLinkPersonalizat  : "/companie?companyID=" + link;;
-	}
-    
+    if (!string.IsNullOrEmpty(IdCompanie))
+    {
+        var item2 = ItemManager.Storage.Open("Taxonomie_Companii").SelectById(IdCompanie);
+        name = "- " + (string) item2["Name"];
+        linkPersonalizatRaw = (string) item2["Page_Link"];
+        idLinkPersonalizat = linkPersonalizatRaw != "" ? linkPersonalizatRaw.Replace("Default.aspx?Id=", "") : linkPersonalizatRaw;
+        link = IdCompanie;
+        linkFinal = linkPersonalizatRaw != "" ? "/Default.aspx?ID=" + idLinkPersonalizat : "/companie?companyID=" + link;
+        ;
+    }
+
     var stiriPageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
     var sectionID = System.Web.HttpContext.Current.Request.Params["Sectiune"];
-    var urlCuCompanie = "/Default.aspx?ID="+stiriPageID+"&pagesize=12&type=Stiri&Companie="+IdCompanie;
-    var urlFaraCompanie = "/Default.aspx?ID="+stiriPageID+"&pagesize=12&type=Stiri";
+    var urlCuCompanie = "/Default.aspx?ID=" + stiriPageID + "&pagesize=12&type=Articole&Companie=" + IdCompanie;
+    var urlFaraCompanie = "/Default.aspx?ID=" + stiriPageID + "&pagesize=12&type=Articole";
     var finalUrl = IdCompanie == "" ? urlFaraCompanie : urlCuCompanie;
     var url = finalUrl;
     if (!string.IsNullOrEmpty(sectionID))
     {
-        url += "&Sections="+ sectionID;
+        url += "&Sections=" + sectionID;
     }
 }
-	
-
       <div class="row blog-content">
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
           <article class="post-wrapper clearfix">
@@ -57,8 +58,7 @@
                 <div class="col-xs-9">
                   <h1 class="block-title">
                     <span> @GetString("DwPageName")  @name </span>
-                    </h1><!-- .post-title -->
-                    
+                  </h1><!-- .post-title -->
                 </div>
                 @if(!string.IsNullOrEmpty(IdAutor) || !string.IsNullOrEmpty(IdCompanie)){
                   if(!string.IsNullOrEmpty(link)){
