@@ -1,0 +1,79 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+@functions{
+
+    public class Comentarii
+    {   
+        public string UserID { get; set; }
+        public string PageID { get; set; }
+        public string Status { get; set; }
+        public string email { get; set; }
+        public string comment { get; set; }
+        public string imagine { get; set; }
+        public string data { get; set; }
+        public string ora { get; set; }
+        public string nume { get; set; }
+        public string pageName { get; set; }
+    }
+   
+    public class Root{
+        public List<Comentarii> Comentarii {get; set;}
+    }
+}
+@{
+    var results = GetLoop("Rows");
+    var counterComentarii = 1;
+    List<Root> feedObject = new List<Root>();
+    List<Comentarii> ComentariiFeedObject = new List<Comentarii>();
+    Root feedRoot = new Root();
+    feedRoot.Comentarii = new List<Comentarii>();
+
+
+    foreach (var result in results)
+    {
+        var UserID = result.GetString("Comments_UserId");
+        var PageID = result.GetString("Comments_PageId");
+        var Status = result.GetString("Comments_Status");
+        var email = result.GetString("Comments_Username");
+        var comment = result.GetString("Comments_Comment");
+        var image = "/Files/Images/user-icon-image-placeholder-300-grey.jpg";
+        var data = result.GetString("Comments_Data");
+        var ora = result.GetString("Comments_Ora");
+        var nume = result.GetString("Comments_Nume");
+        var pageName = result.GetString("Comments_Titlu_Articol");
+        
+        Comentarii Comentarii = new Comentarii();
+        Comentarii.UserID = UserID;
+        Comentarii.PageID = PageID;
+        Comentarii.Status = Status;
+        Comentarii.email = email;
+        Comentarii.comment = comment;
+        Comentarii.imagine = image;
+        Comentarii.data = data;
+        Comentarii.ora = ora;
+        Comentarii.nume = nume;
+        Comentarii.pageName = pageName;
+        counterComentarii++;
+        feedRoot.Comentarii.Add(Comentarii);
+
+    }
+    feedObject.Add(feedRoot);
+    
+    string jsonFeed = "";
+    
+    if (results.Count == 0)
+    {
+    jsonFeed = "[]";
+    }
+    else
+    {
+    jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed

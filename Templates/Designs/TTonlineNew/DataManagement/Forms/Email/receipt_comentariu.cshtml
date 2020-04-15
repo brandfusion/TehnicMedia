@@ -1,0 +1,47 @@
+@{
+    string nume = "";
+    string pageId = "";
+    string pageTitle = "";
+    string comentariu = "";
+
+foreach (var item in GetLoop("Form.Fields"))
+{
+    if (item.GetString("Field.Name") == "Nume")
+    {
+        nume = item.GetString("Field.Value");
+    }
+    if (item.GetString("Field.Name") == "PageId")
+    {
+        pageId = item.GetString("Field.Value");
+    }
+    if (item.GetString("Field.Name") == "Titlu Articol")
+    {
+        pageTitle = item.GetString("Field.Value");
+    }
+    if (item.GetString("Field.Name") == "Comment")
+    {
+        comentariu = item.GetString("Field.Value");
+    }
+}
+    <table id="confirmation" class="alternate" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+            <h4>Comentariul dumneavoastra a fost trimis spre aprobare.</h4>
+            <p>Buna ziua @(nume),</p>
+            <p>Comentariu adaugat la articolul : <a href="https://ttonline.ro/Default.aspx?ID=@pageId">@pageTitle</a> a fost trimis spre aprobare</p>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <h5>Comentariu</h5>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @comentariu 
+            </td>
+        </tr>
+        </tbody>
+    </table>
+}

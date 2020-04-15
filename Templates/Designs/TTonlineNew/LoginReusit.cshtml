@@ -1,0 +1,17 @@
+@MasterPageFile("Master.cshtml")
+<div class="container">
+    <div class="dwcontent" id="dwcontent" title="main content" data-settings="unwrap:true"></div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h5>Bun venit @GetGlobalValue("Global:Extranet.LastName") @GetGlobalValue("Global:Extranet.FirstName")</h5>
+        </div>
+        <div class="col-xs-12">
+            <button onclick="goBack()" class="btn btn-primary pull-left">Inapoi la articol</button>
+        </div>
+    </div>
+</div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
