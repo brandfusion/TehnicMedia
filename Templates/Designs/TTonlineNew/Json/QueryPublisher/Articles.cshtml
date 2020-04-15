@@ -217,12 +217,14 @@
         articleObject.itemSiDespreCompanie=article.GetString("ItemSiDespreCompanie");
 	    articleObject.itemSort = counter; //article.GetInteger("ItemSort");
         var itemSumarRaw = article.GetString("ItemSumar");
-	    articleObject.itemSumar = Regex.Replace(itemSumarRaw, @"[^\u0020-\u007E\u00A0-\u00FF]", string.Empty);
+//articleObject.itemSumar = Regex.Replace(itemSumarRaw, @"[^\u0020-\u007E\u00A0-\u00FF]", string.Empty);
 	    articleObject.itemContinut = article.GetString("ItemContinut");
 	    articleObject.pdf = article.GetString("ItemPDF");
 	    string articleExcerpt = article.GetString("ItemSumar") != null ? article.GetString("ItemSumar") : "";
 	    articleExcerpt = articleExcerpt != "" ? Regex.Replace(articleExcerpt, @"<[^>]*>", String.Empty) : articleExcerpt;
-        //articleObject.itemSumar= System.Web.HttpUtility.JavaScriptStringEncode(articleExcerpt);
+//articleObject.itemSumar= System.Web.HttpUtility.JavaScriptStringEncode(articleExcerpt);
+		articleObject.itemSumar=articleExcerpt;
+
         articleObject.itemTaguri=(string[])article.GetValue("ItemTaguri");
         articleObject.itemTaguriName=(string[])article.GetValue("ItemTaguriName");
         articleObject.itemTip=article.GetString("ItemTip");
