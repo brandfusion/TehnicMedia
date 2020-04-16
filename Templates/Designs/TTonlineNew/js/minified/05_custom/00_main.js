@@ -292,7 +292,11 @@ function getDataForHandlebars(homePageSliderWrapper) {
         url: urlFeed
     })
     .then(function (response) {
-        compileDataToHandlebars(response.data[0], homePageSliderWrapper);   
+        compileDataToHandlebars(response.data[0], homePageSliderWrapper);
+        if(!document.getElementById('loader').classList.contains('hidden')) {
+            document.getElementById('loader').classList.add('hidden')
+        }
+    
         if(isIE11()) {
             homePageSliderWrapper.classList.remove('rendering');
             homePageSliderWrapper.classList.add('rendered');
