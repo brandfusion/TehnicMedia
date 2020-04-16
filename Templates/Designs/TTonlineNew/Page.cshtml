@@ -28,6 +28,7 @@
   var pageService = new Dynamicweb.Content.PageService();
   var articlesID = pageService.GetPageForItem("Dw_Page", articleID).ID;
   var currentPageId = GetInteger("DWPageID");
+  var currentPage = GetGlobalValue("Global:Page.ID").ToString();
 }
 
 
@@ -125,30 +126,44 @@
             @Include("/Files/Templates/Designs/TTonlineNew/ProdusePeArticol.cshtml")   
           
           </div><!-- .related-post -->         
-        
-<div class="col-xs-12">
-  <div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://ttonlinero.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                            
-</div>
+          <!-- Comentarii -->
+          <div class="comment_block">
+            <div class="col-xs-12">
+              <h4>Comentarii</h4>
+             <div class="comment_block handlebars-wrapper" data-template="CommentsTemplate" data-json-feed="/Default.aspx?ID=25352&PAGEID=@currentPage"> <!--currentPage-->
+              </div>
+            </div>
+            @if (Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn()){
+            <button class="btn btn-primary" id="AdaugaComentariu">Adauga Comentariu</button>
+            }
+            else
+            {
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+                Adauga Comentariu
+              </button>
+            }
+            <div id="comentariuContainer" class="hidden">
+              <div class="create_new_comment">
+                @RenderParagraphContent(3037)
+              </div>
+            </div>
+          </div>
+          <!-- Login Modal -->
+          <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content-login">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Autentificare</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  @RenderParagraphContent(3042)
+                </div>
+               </div>
+            </div>
+          </div>
 
 
 @if(@GetInteger("DwAreaID") == 3){
@@ -347,6 +362,29 @@ s.setAttribute('data-timestamp', +new Date());
     {{/each}}
 {{/ArticlesContainer}}  
 </script>
+<script id="CommentsTemplate" type="text/x-handlebars-template">
+{{#each Comentarii}}
+  <div class="new_comment">
+    <ul class="user_comment">
+        <div class="user_avatar">
+          <img src="/Admin/Public/GetImage.ashx?Image={{imagine}}&AlternativeImage=/Files/Images/Articole/download.png&Crop=0&Format=jpg&Width=350&Height=230">
+        </div>
+        <div class="comment_body">
+            <p>{{comment}}</p>
+        </div>
+        <div class="comment_toolbar">
+            <div class="comment_details">
+                <ul>
+                    <li><i class="fa fa-clock-o"></i> {{ora}}</li>
+                    <li><i class="fa fa-calendar"></i> {{data}}</li>
+                    <li><i class="fa fa-pencil"></i> <span class="user"> {{nume}}</span></li>
+                </ul>
+            </div>
+        </div>
+      </ul>
+    </div>
+    {{/each}}
+</script>
 
 @helper RenderCereOfertaButton()
 {
@@ -369,20 +407,20 @@ s.setAttribute('data-timestamp', +new Date());
 <div id="loader"><div class="loader-icon"></div></div>
 <!-- Google Analytics -->
 <script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-26068739-1', 'auto');
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-26068739-1', 'auto');
 // START DIMENSIUNI
 // DIMENSIUNI PENTRU Romanian Industry Zoom:
-var dw_editie = '@nrEditie';
-var dw_autor = '@articleAutori';
-var dw_companie = '@articleCompanyDe';
-var dw_data_aparitie = '@GetDate("Item.Data.Value").ToString("dd/MM/yyyy")'; // format dd.mm.yyyy
-ga('set', 'dimension1', dw_editie);
-ga('set', 'dimension2', dw_autor);
-ga('set', 'dimension3', dw_companie);
-ga('set', 'dimension9', dw_data_aparitie);
+    var dw_editie = '@nrEditie';
+    var dw_autor = '@articleAutori';
+    var dw_companie = '@articleCompanyDe';
+    var dw_data_aparitie = '@GetDate("Item.Data.Value").ToString("dd/MM/yyyy")'; // format dd.mm.yyyy
+    ga('set', 'dimension1', dw_editie);
+    ga('set', 'dimension2', dw_autor);
+    ga('set', 'dimension3', dw_companie);
+    ga('set', 'dimension9', dw_data_aparitie);
 // END DIMENSIUNI
-ga('send', 'pageview');
+    ga('send', 'pageview');
 </script>
 <script async src='https://www.google-analytics.com/analytics.js'></script>
 <!-- End Google Analytics -->
