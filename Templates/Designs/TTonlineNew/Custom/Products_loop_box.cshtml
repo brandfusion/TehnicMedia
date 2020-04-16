@@ -45,7 +45,7 @@ if(Dealer == "" && Producator == ""){
   
         <div class="row" >
           <div class="col-xs-12">
-             <div class="product-image test">
+             <div class="product-image">
                   <a href="@productLink" class="overlay-link">
                       <figure class=""> 
                           @if(!string.IsNullOrEmpty(imagineProdusRaw)) {  
@@ -53,6 +53,12 @@ if(Dealer == "" && Producator == ""){
                           } else {
                               <img src="@GetImage(noImage, 350, 230)" alt='@productName' class="img-responsive" />  
                           }
+                          <div class="stickers-container stickers-container--top-left hidden">
+                            <div class="sticker sticker--new">New!</div>
+                          </div>
+                          <div class="stickers-container stickers-container--top-right hidden">
+                             <div class="sticker sticker--new">Sale!</div>
+                          </div>
                       </figure>
                   </a>
              </div>
