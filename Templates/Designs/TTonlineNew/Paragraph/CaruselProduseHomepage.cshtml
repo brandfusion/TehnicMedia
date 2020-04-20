@@ -60,7 +60,18 @@ string Grup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System
 string Producator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
 string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
 bool first = true;
-    
+            
+            string moneda = i.GetString("Ecom:Product:Field.MonedaPret");
+            string ValoareDiscount = i.GetString("Ecom:Product:Field.ValoareDiscount");
+            string PretIntreg = i.GetString("Ecom:Product:Field.PretIntreg");
+            DateTime dataExpirarePromotie = i.GetDate("Ecom:Product:Field.DataExpirarePromotie");
+            DateTime CurrentDate = DateTime.Now;
+            int pretInteger;
+            int discount;
+            bool verificarePret = int.TryParse(PretIntreg, out pretInteger);
+            bool verificareDiscount = int.TryParse(ValoareDiscount, out discount);
+            int pretCuDiscount = pretInteger - ((pretInteger * discount)/100);
+
     
   		    <div class="item"> 
  
@@ -78,6 +89,19 @@ bool first = true;
                              
                               <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
                           }
+                          @if (ValoareDiscount != "")
+                          {
+                              if (dataExpirarePromotie > CurrentDate)
+                              {
+                                  <div class="stickers-container stickers-container--top-left ">
+                                      <div class="sticker sticker--new">
+                                         <div class="col-xs-12 text-center">
+                                             - @ValoareDiscount %
+                                          </div>
+                                      </div>
+                                  </div>
+                              }
+                          }
                       </figure>
                   </a>
              </div>
@@ -91,12 +115,18 @@ bool first = true;
                       </div>
                 }
             
-                @if(priceProductDB > 0 ){
-                    <div class="pret-produs pull-right">
-                        <a href="@productLink">
-                        <span class="detalii-produs" ><text>@priceProductDB LEI</text></span>
-                        </a>
-                    </div>
+                @if (pretInteger > 0)
+                {
+                    if (dataExpirarePromotie > CurrentDate)
+                    {
+                        <div class="pret-produs pull-right">
+                            <a href="@productLink">
+                                <span style="text-decoration: line-through; line-height: 1em;">@PretIntreg @moneda <br/></span>
+                                <span class="detalii-produs" style="line-height: 1.2 !important; font-size: 15px !important;">@pretCuDiscount @moneda
+                                </span>
+                            </a>
+                        </div>
+                    }
                 }
             </div>
         </div>
@@ -213,6 +243,21 @@ if(Dealer != "" || Producator != ""){
                           @{  
                              
                               <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
+                          }
+                          @if (ValoareDiscount != "")
+                          {
+                              if (dataExpirarePromotie > CurrentDate)
+                              {
+                                  <div class="stickers-container stickers-container--top-left ">
+                                      <div class="sticker sticker--new">
+                                          @Translate("Reducere")
+                                          <br/>
+                                          <div class="col-xs-12 text-center">
+                                              @ValoareDiscount %
+                                          </div>
+                                      </div>
+                                  </div>
+                              }
                           }
                       </figure>
                   </a>

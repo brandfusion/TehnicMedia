@@ -35,14 +35,26 @@ string Grup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System
 string Producator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
 string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
 bool first = true;
-
 string noImage = "/Files/Images/no-image.png";
+
+string moneda = i.GetString("Ecom:Product:Field.MonedaPret");
+string ValoareDiscount = i.GetString("Ecom:Product:Field.ValoareDiscount");
+string PretIntreg = i.GetString("Ecom:Product:Field.PretIntreg");
+DateTime dataExpirarePromotie = i.GetDate("Ecom:Product:Field.DataExpirarePromotie");
+DateTime CurrentDate = DateTime.Now;
+int pretInteger;
+int discount;
+bool verificarePret = int.TryParse(PretIntreg, out pretInteger);
+bool verificareDiscount = int.TryParse(ValoareDiscount, out discount);
+int pretCuDiscount = pretInteger - ((pretInteger * discount)/100);
+
+
 
 
 if(Dealer == "" && Producator == ""){
 <div class="col-xs-12 col-sm-6 col-md-4 " style="margin-bottom:15px; margin-top:15px; ">
   <div class="produs-col-background">
-  
+      
         <div class="row" >
           <div class="col-xs-12">
              <div class="product-image">
@@ -53,9 +65,19 @@ if(Dealer == "" && Producator == ""){
                           } else {
                               <img src="@GetImage(noImage, 350, 230)" alt='@productName' class="img-responsive" />  
                           }
-                          <div class="stickers-container stickers-container--top-left hidden">
-                            <div class="sticker sticker--new">New!</div>
-                          </div>
+                          @if (ValoareDiscount != "")
+                          {
+                              if (dataExpirarePromotie > CurrentDate)
+                               {
+                                   <div class="stickers-container stickers-container--top-left ">
+                                       <div class="sticker sticker--new">
+                                           <div class="col-xs-12 text-center">
+                                              - @ValoareDiscount %
+                                           </div>
+                                       </div>
+                                   </div>
+                               }
+                          }
                           <div class="stickers-container stickers-container--top-right hidden">
                              <div class="sticker sticker--new">Sale!</div>
                           </div>
@@ -71,15 +93,20 @@ if(Dealer == "" && Producator == ""){
                         <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
                       </div>
                 }
-            
-                @if(priceProductDB > 0 ){
-                    <div class="pret-produs pull-right">
-                        <a href="@productLink">
-                        <span class="detalii-produs" ><text>@priceProductDB LEI</text></span>
-                        </a>
-                    </div>
+                @if (pretInteger > 0)
+                {
+                    if (dataExpirarePromotie > CurrentDate)
+                    {
+                        <div class="pret-produs pull-right">
+                            <a href="@productLink">
+                                <span style="text-decoration: line-through; line-height: 1em;">@PretIntreg @moneda <br/></span>
+                                <span class="detalii-produs" style="line-height: 1.2 !important; font-size: 15px !important;">@pretCuDiscount @moneda
+                                </span>
+                            </a>
+                        </div>
+                    }
                 }
-            </div>
+                </div>
         </div>
 
      <div class="row">

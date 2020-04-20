@@ -10,18 +10,10 @@
 @using System.Linq
 @using System.Text.RegularExpressions;
 @Include("../../Includes/GetImage_new.cshtml")
-@{   
-
-
-
-    
-
+@{  
     string articleImageRaw = @GetString("Ecom:Product.ImageLarge.Clean");
     string image1 = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 760, 600) + "&bgcolor=white" : "/Files/Images/NoImage/no-image.png";
     string productMainImageOptimized = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 45, 45) + "&bgcolor=white" : "/Files/Images/NoImage/no-image.png";
-
-
-
    string name  = !string.IsNullOrEmpty(GetString("Ecom:Product.Name")) ? GetString("Ecom:Product.Name"):"";
    string shortDescription  = !string.IsNullOrEmpty(GetString("Ecom:Product.ShortDescription")) ? GetString("Ecom:Product.ShortDescription"):"";
    string manufacturer  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Name"))? GetString("Ecom:Manufacturer.Name"):"";
@@ -39,9 +31,18 @@
 	string grupName = @GetString("Ecom:Group.Name");
     var companii = TaxonomieCompaniiFacade.GetByProduct(GetString("Ecom:Product.ID"), GetString("Ecom:Product.LanguageID"));
     string GrupProdus = !string.IsNullOrEmpty(GetString("Ecom:Group.Category.Name"))? GetString("Ecom:Group.Category.Name"):"";
-  
     bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
     string logo = GetString("Item.Area.Logo");
+    string moneda = GetString("Ecom:Product:Field.MonedaPret");
+    string ValoareDiscount = GetString("Ecom:Product:Field.ValoareDiscount");
+    string PretIntreg = GetString("Ecom:Product:Field.PretIntreg");
+    DateTime dataExpirarePromotie = GetDate("Ecom:Product:Field.DataExpirarePromotie");
+    DateTime CurrentDate = DateTime.Now;
+    int pretInteger;
+    int discount;
+    bool verificarePret = int.TryParse(PretIntreg, out pretInteger);
+    bool verificareDiscount = int.TryParse(ValoareDiscount, out discount);
+    int pretCuDiscount = pretInteger - ((pretInteger * discount)/100);
 }
 
 @SnippetStart("OGMeta")
@@ -110,24 +111,48 @@
                     
 
                     <div class="row opinia-clientilor">
-                      <div class="col-xs-12">
-                        <form method="post" action="/Admin/Public/404.aspx" id="review-form-custom" onsubmit="return comment_validate()">
-                            <input type="hidden" name="Comment.Rating" id="Comment.Rating" value="">
-                            <div class="form-group">
+                        <div class="col-xs-12 col-md-6">
+                            <form method="post" action="/Admin/Public/404.aspx" id="review-form-custom" onsubmit="return comment_validate()">
+                                <input type="hidden" name="Comment.Rating" id="Comment.Rating" value="">
+                                <div class="form-group">
         
 
-                                <p>Opinia clientilor: &nbsp </p>
-                                <ul class="list-inline d-sm-inline pl-3">
-                                    <li class="list-inline-item js-star-rating" data-rating="1"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                    <li class="list-inline-item js-star-rating" data-rating="2"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                    <li class="list-inline-item js-star-rating" data-rating="3"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                    <li class="list-inline-item js-star-rating" data-rating="4"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                    <li class="list-inline-item js-star-rating" data-rating="5"><i class="fa fa-star" aria-hidden="true"></i></li>
-                                </ul>
-                              </div>
+                                    <p>Opinia clientilor: &nbsp </p>
+                                    <ul class="list-inline d-sm-inline pl-3">
+                                        <li class="list-inline-item js-star-rating" data-rating="1"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                        <li class="list-inline-item js-star-rating" data-rating="2"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                        <li class="list-inline-item js-star-rating" data-rating="3"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                        <li class="list-inline-item js-star-rating" data-rating="4"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                        <li class="list-inline-item js-star-rating" data-rating="5"><i class="fa fa-star" aria-hidden="true"></i></li>
+                                    </ul>
+                                </div>
 
-                        </form>
+                            </form>
                         </div>
+                        
+                        
+                        
+                        <div class=" col-xs-12 col-xs-6">
+                            @if (discount > 0)
+                            {
+                                <div class="col-xs-2">@Translate("Pret"):</div>
+                                <div class="col-xs-10">
+                                    <span style="text-decoration: line-through;">@pretInteger @moneda </span><br/> <span>@pretCuDiscount @moneda</span><br/>
+                                </div>
+                                <div class="col-xs-12">
+                                    <span>@Translate("Reducere") : @discount %</span>
+                                </div>
+                            }
+                            @if (pretInteger > 0 && discount == 0)
+                            {
+                                <div class="col-xs-2">@Translate("Pret"):</div>
+                                <div class="col-xs-10">
+                                    <span>@pretInteger @moneda </span>
+                                </div>
+                            }
+                        </div>
+                       
+                       
                     </div>
 
 

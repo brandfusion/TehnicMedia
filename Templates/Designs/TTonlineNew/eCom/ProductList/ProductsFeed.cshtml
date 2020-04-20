@@ -31,6 +31,11 @@
         public List<Dealer> Dealers { get; set; }
         public string dealerResult { get; set; }
         public string idFormDetalii { get; set; }
+        public string moneda { get; set; }
+        public int discountPromotie { get; set; }
+        public int pretRedus { get; set; }
+        public string showPromotie { get; set;}
+        public int pretIntreg { get; set; }
     }
     public class Root
     {
@@ -58,8 +63,25 @@
         productObject.priceProductDB = Math.Round(product.GetDouble("Ecom:Product.DBPrice"),2);
         productObject.manufacturer = product.GetString("Ecom:Manufacturer.Name");
         productObject.manufacturerLink = product.GetString("Ecom:Manufacturer.Web");
-        productObject.Stickers = new List<Sticker>();
         
+        string moneda = product.GetString("Ecom:Product:Field.MonedaPret");
+        string ValoareDiscount = product.GetString("Ecom:Product:Field.ValoareDiscount");
+        string PretIntreg = product.GetString("Ecom:Product:Field.PretIntreg");
+        DateTime dataExpirarePromotie = product.GetDate("Ecom:Product:Field.DataExpirarePromotie");
+        DateTime CurrentDate = DateTime.Now;
+        int pretInteger;
+        int discount;
+        bool verificarePret = int.TryParse(PretIntreg, out pretInteger);
+        bool verificareDiscount = int.TryParse(ValoareDiscount, out discount);
+        int pretCuDiscount = pretInteger - ((pretInteger * discount)/100);
+        var showPromotie = dataExpirarePromotie > CurrentDate ? "true" : "false";
+        productObject.showPromotie = showPromotie;
+        productObject.moneda = moneda;
+        productObject.discountPromotie = discount;
+        productObject.pretIntreg = pretInteger;
+        productObject.pretRedus = pretCuDiscount;
+        
+        productObject.Stickers = new List<Sticker>();
         string[] dealeriProdus = (product.GetString("Ecom:Product:Field.Dealeri") ?? "").Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         
         productObject.Dealers = new List<Dealer>();
