@@ -47,7 +47,7 @@ int discount;
 bool verificarePret = int.TryParse(PretIntreg, out pretInteger);
 bool verificareDiscount = int.TryParse(ValoareDiscount, out discount);
 int pretCuDiscount = pretInteger - ((pretInteger * discount)/100);
-
+string produsPromovat = i.GetString("Ecom:Product:Field.ProdusPromovat");
 
 
 
@@ -78,9 +78,12 @@ if(Dealer == "" && Producator == ""){
                                    </div>
                                }
                           }
-                          <div class="stickers-container stickers-container--top-right hidden">
-                             <div class="sticker sticker--new">Sale!</div>
+                      @if (produsPromovat == "True")
+                      {
+                          <div class="stickers-container stickers-container--top-right">
+                              <div class="sticker sticker--new">@Translate("Promovat")</div>
                           </div>
+                      }
                       </figure>
                   </a>
              </div>
@@ -99,8 +102,10 @@ if(Dealer == "" && Producator == ""){
                     {
                         <div class="pret-produs pull-right">
                             <a href="@productLink">
-                                <span style="text-decoration: line-through; line-height: 1em;">@PretIntreg @moneda <br/></span>
-                                <span class="detalii-produs" style="line-height: 1.2 !important; font-size: 15px !important;">@pretCuDiscount @moneda
+                                <span class="pretTaiat">
+                                <span class="pretIntreg">@PretIntreg @moneda <br/></span>
+                                </span>
+                                <span class="detalii-produs pretRedus">@pretCuDiscount @moneda
                                 </span>
                             </a>
                         </div>
