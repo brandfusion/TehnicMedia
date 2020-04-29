@@ -150,7 +150,7 @@
                                     <span>@pretInteger @moneda </span>
                                 </div>
                             }
-                            @if (discount > 0 && dataExpirarePromotie > CurrentDate)
+                            @if (discount > 0 && (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate))
                             {
                                 <div class="col-xs-12">
                                     <div class="sticker-promotie">@Translate("Promotie", "Promoție")</div>

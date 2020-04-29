@@ -6891,3 +6891,10 @@ span.seeMore , span.seeMoreFurnizori, span.seeMoreSubcategorie{
     outline: 0;   
     box-shadow: 0 3px 9px rgba(0,0,0,.5);
 }
+
+.final-oferta{
+    font-size: 11px;
+    color: #fff;
+    /* line-height: 3.2; */
+    font-weight: 600;
+}

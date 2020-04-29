@@ -67,7 +67,7 @@ if(Dealer == "" && Producator == ""){
                           }
                           @if (ValoareDiscount != "")
                           {
-                              if (dataExpirarePromotie > CurrentDate)
+                              if (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate)
                                {
                                    <div class="stickers-container stickers-container--top-left ">
                                        <div class="sticker sticker--new">
@@ -92,13 +92,24 @@ if(Dealer == "" && Producator == ""){
         <div class="row row-promotii-produs">
             <div class="col-xs-12">
                 @if(AfisarePromotie == "True"){
-                      <div class="promotie">
-                        <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
-                      </div>
+                    if (dataExpirarePromotie > CurrentDate || dataExpirarePromotie == CurrentDate)
+                    {
+                        <div class="promotie">
+                            <span class="final-oferta">
+                                <text>
+                                    <strong>@Translate("Final Oferta", "Final Ofertă:")</strong>
+                                </text>
+                                <br/>
+                                <text>
+                                    @dataExpirarePromotie.ToString("dd MMM yyyy")
+                                </text>
+                            </span>
+                        </div>
+                    }
                 }
                 @if (pretInteger > 0)
                 {
-                    if (dataExpirarePromotie > CurrentDate)
+                    if (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate)
                     {
                         <div class="pret-produs pull-right">
                             <a href="@productLink">
