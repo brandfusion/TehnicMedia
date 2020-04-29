@@ -5239,6 +5239,7 @@ body.dark-skin,
   display: inline-block;
   vertical-align: middle;
   margin: 0;
+    color:black!important;
 }
 .formtable input[type="submit"] { 
   color: #fff;

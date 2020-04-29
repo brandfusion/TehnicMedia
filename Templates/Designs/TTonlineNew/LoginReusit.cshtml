@@ -6,12 +6,21 @@
             <h5>Bun venit @GetGlobalValue("Global:Extranet.LastName") @GetGlobalValue("Global:Extranet.FirstName")</h5>
         </div>
         <div class="col-xs-12">
-            <button onclick="goBack()" class="btn btn-primary pull-left">Inapoi la articol</button>
+            <button onclick="GoBackWithRefresh();return false;" class="btn btn-primary pull-left">Inapoi la articol</button>
         </div>
     </div>
 </div>
 <script>
-    function goBack() {
-        window.history.back();
+    function GoBackWithRefresh(event) {
+        if ('referrer' in document) {
+            window.location = document.referrer;
+/* OR */
+//location.replace(document.referrer);
+        } else {
+            window.history.back();
+        }
     }
+    /*function goBack() {
+        window.history.back();
+    }*/
 </script>

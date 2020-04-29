@@ -1,10 +1,19 @@
 @MasterPageFile("Master.cshtml")
 <div class="col-xs-12">
     <h2>Comentariul dumneavoastra a fost trimis spre aprobare</h2>
-    <button onclick="goBack()" class="btn btn-primary pull-left">Inapoi la articol</button>
+    <button onclick="GoBackWithRefresh();return false;" class="btn btn-primary pull-left">Inapoi la articol</button>
 </div>
 <script>
-   function goBack() {
+    function GoBackWithRefresh(event) {
+        if ('referrer' in document) {
+            window.location = document.referrer;
+/* OR */
+//location.replace(document.referrer);
+        } else {
             window.history.back();
         }
+    }
+    /*function goBack() {
+        window.history.back();
+    }*/
 </script>

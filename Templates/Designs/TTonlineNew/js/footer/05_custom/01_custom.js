@@ -801,7 +801,7 @@ $(document).ready( function(){
   });
 
   // Formular de contact - Hidden field cu linkul catre articol
-
+  
   $("#buton-modal-cere-detalii").on('click', function() {
     $("#Link").val(window.location.href);
   });

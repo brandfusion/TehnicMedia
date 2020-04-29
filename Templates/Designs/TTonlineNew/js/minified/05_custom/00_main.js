@@ -225,6 +225,22 @@ function loadArticle() {
         response.map(function(o, i) {
             url += response.length - 1 === i ? o.Id : o.Id + ",";
         });
+        $("#buton-modal-cere-detalii").on('click', function() {
+            $("#Link").val(window.location.href);
+        });
+        // loader CereDetaliiOferta
+        $('#Ceredetaliioferta').click(function() {
+            var validationCounter = 0;
+
+            $('#Ceredetaliioferta').parents("form").find("input[required], textarea[required]").map(function(index,el){
+                if($(el).val() == ""){validationCounter++;}
+            })
+
+            if(validationCounter == 0) {
+                $('#loading').show();
+            }
+        });
+
         getDataForArticlePage(authorsWrapper, url);
         
         return response;
@@ -235,6 +251,7 @@ function loadArticle() {
             authorIds +=  response.length - 1 === i ? o.Id : o.Id + ","
         });
         loadArticleSections(authorIds);
+        
     })    
     .catch(function (error) {
         // handle error
@@ -292,7 +309,7 @@ function getDataForHandlebars(homePageSliderWrapper) {
         url: urlFeed
     })
     .then(function (response) {
-        compileDataToHandlebars(response.data[0], homePageSliderWrapper);
+        compileDataToHandlebars(response.data[0], homePageSliderWrapper);   
         if(!document.getElementById('loader').classList.contains('hidden')) {
             document.getElementById('loader').classList.add('hidden')
         }
