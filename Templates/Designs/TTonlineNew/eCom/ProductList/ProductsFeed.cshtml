@@ -34,8 +34,10 @@
         public string moneda { get; set; }
         public int discountPromotie { get; set; }
         public int pretRedus { get; set; }
-        public string showPromotie { get; set;}
+        public bool showPromotie { get; set;}
+        public bool produsPromovat { get; set; }
         public int pretIntreg { get; set; }
+        public string dataExpirarePromotie { get; set; }
     }
     public class Root
     {
@@ -74,12 +76,14 @@
         bool verificarePret = int.TryParse(PretIntreg, out pretInteger);
         bool verificareDiscount = int.TryParse(ValoareDiscount, out discount);
         int pretCuDiscount = pretInteger - ((pretInteger * discount)/100);
-        var showPromotie = dataExpirarePromotie > CurrentDate ? "true" : "false";
+        bool showPromotie = dataExpirarePromotie > CurrentDate || dataExpirarePromotie == CurrentDate;
         productObject.showPromotie = showPromotie;
+        productObject.produsPromovat = product.GetString("Ecom:Product:Field.ProdusPromovat") == "True";
         productObject.moneda = moneda;
         productObject.discountPromotie = discount;
         productObject.pretIntreg = pretInteger;
         productObject.pretRedus = pretCuDiscount;
+        productObject.dataExpirarePromotie = dataExpirarePromotie.ToString("dd MMM yyyy");
         
         productObject.Stickers = new List<Sticker>();
         string[] dealeriProdus = (product.GetString("Ecom:Product:Field.Dealeri") ?? "").Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);

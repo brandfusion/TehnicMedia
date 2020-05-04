@@ -47,35 +47,60 @@
                                       @{
                                           <img src="/Admin/Public/GetImage.ashx?Image={{image}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230&bgcolor=white" alt='{{name}}' class="img-responsive"/>             
                                       }
-                                      <div class="stickers-container stickers-container--top-left hidden">
-                                      <div class="sticker sticker--new">New!</div>
-                                    </div>
-                                                        
-                                    <div class="stickers-container stickers-container--top-right hidden">
-                                       <div class="sticker sticker--new">Sale!</div>
-                                    </div>
+                                     {{#ifCond discountPromotie '!==' ""}}
+                                        {{#if showPromotie}}
+                                             <div class="stickers-container stickers-container--top-left ">
+                                                <div class="sticker sticker--new">
+                                                    <div class="col-xs-12 text-center">
+                                                       - {{discountPromotie}} %
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {{/if}}
+                                    {{/ifCond}}
+                                    {{#if produsPromovat}}
+                                      <div class="stickers-container stickers-container--top-right">
+                                          <div class="sticker sticker--new">@Translate("Promovat")</div>
+                                      </div>
+                                    {{/if}}
+
                                   </figure>
                               </a>
                          </div>
                        </div>
                     </div>
-                    <div class="row row-promotii-produs">
+                     <div class="row row-promotii-produs">
                         <div class="col-xs-12">
                             {{#if afisarePromotie}}
-                                  <div class="promotie">
-                                    <span class="detalii-produs" ><text><strong>@Translate("Promotie", "Promotie")</strong></text></span>
-                                  </div>
+                               {{#if showPromotie}}
+                                   <div class="promotie">
+                                       <span class="final-oferta">
+                                           <text>
+                                               <strong>@Translate("Final Oferta", "Final Ofertă:")</strong>
+                                           </text>
+                                           <br/>
+                                           <text>
+                                               {{dataExpirarePromotie}}
+                                           </text>
+                                       </span>
+                                   </div>
+                               {{/if}}
                             {{/if}}
-                        
-                            {{#ifCond priceProductDB ">" 0}}
-                                <div class="pret-produs pull-right">
-                                    <a href="{{link}}">
-                                    <span class="detalii-produs" ><text>{{priceProductDB}} LEI</text></span>
-                                    </a>
-                                </div>
-                            {{/ifCond}}
-                        </div>
-                    </div>
+                            {{#ifCond pretIntreg '>' 0}}
+                                {{#if showPromotie}}
+                                   <div class="pret-produs pull-right">
+                                       <a href="{{link}}">
+                                           <span class="pretTaiat">
+                                           <span class="pretIntreg">{{pretIntreg}} {{moneda}} <br/></span>
+                                           </span>
+                                           <span class="detalii-produs pretRedus">{{pretRedus}} {{moneda}} </span>
+                                       </a>
+                                   </div>
+                                {{/if}}
+                            {{/ifCond}}   
+                            </div>
+                     </div>
+
                     
                  <div class="row">
                     <div class="col-xs-12">
