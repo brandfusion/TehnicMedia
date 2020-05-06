@@ -28,7 +28,7 @@
    string manufacturerPhone  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Phone"))? GetString("Ecom:Manufacturer.Phone"):"";
 	string produsPromovatRaw = GetString("Ecom:Product:Field.ProdusPromovat");
 	string produsPromovat = produsPromovatRaw =="False" ? "NU" : "DA";
-	string grupName = @GetString("Ecom:Group.Name");
+	string grupName = GetString("Ecom:Group.Name");
     var companii = TaxonomieCompaniiFacade.GetByProduct(GetString("Ecom:Product.ID"), GetString("Ecom:Product.LanguageID"));
     string GrupProdus = !string.IsNullOrEmpty(GetString("Ecom:Group.Category.Name"))? GetString("Ecom:Group.Category.Name"):"";
     bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
@@ -133,12 +133,16 @@
                         
                         
                         <div class=" col-xs-12 col-xs-6">
+                            <div class="row">
                             @if (discount > 0)
                             {
-                                <div class="col-xs-2">@Translate("Pret"):</div>
-                                <div class="col-xs-10">
-                                    <span style="text-decoration: line-through;">@pretInteger @moneda </span><br/> <span>@pretCuDiscount @moneda</span><br/>
-                                </div>
+                                if (pretInteger > 0)
+                                {
+                                    <div class="col-xs-2">@Translate("Pret"):</div>
+                                    <div class="col-xs-10">
+                                        <span style="text-decoration: line-through;">@pretInteger @moneda </span><br/> <span>@pretCuDiscount @moneda</span><br/>
+                                    </div>
+                                }
                                 <div class="col-xs-12">
                                     <span>@Translate("Reducere") : @discount %</span>
                                 </div>
@@ -150,10 +154,22 @@
                                     <span>@pretInteger @moneda </span>
                                 </div>
                             }
-                            @if (discount > 0 && (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate))
+                            </div>
+                            @if (discount > 0 && (dataExpirarePromotie > CurrentDate || dataExpirarePromotie == CurrentDate))
                             {
-                                <div class="col-xs-12">
+                                @*<div class="col-xs-12">
                                     <div class="sticker-promotie">@Translate("Promotie", "Promoție")</div>
+                                </div>*@
+                                <div class="promotie">
+                                    <span class="final-oferta">
+                                        <text>
+                                            <strong>@Translate("Final Oferta", "Final Ofertă:")</strong>
+                                        </text>
+                                        <br/>
+                                        <text>
+                                            @dataExpirarePromotie.ToString("dd MMM yyyy")
+                                        </text>
+                                    </span>
                                 </div>
                             }
                         </div>
@@ -256,7 +272,7 @@
                                 <h3>Descriere</h3>
                               <p>@longDescription</p>
 
-                              <h3>Specificatii</h3>
+                              @*<h3>Specificatii</h3>*@
 
                               
 
@@ -299,11 +315,7 @@
                                  
                                   <div class="row">
                                     <div class="col-xs-12 vandut-de">
-                                    @*  @if(GetString("Ecom:Product:Field.Dealeri") !=""){
-                                                    <p>Produs vandut de: &nbsp</p>
-                                                    <p><span>@GetString("Ecom:Product:Field.Dealeri")</span></p>
-                                                }*@
-                                    @if(companii != null && companii.Count() > 0){   
+                                   @if(companii != null && companii.Count() > 0){   
                                                  <p>Produs vandut de: &nbsp</p>
                                                     foreach (var companie in companii) {  
                                                         if(!String.IsNullOrEmpty(companie.Id)){
@@ -395,31 +407,36 @@
                 
 
            </div>
-           </div>
+         </div>
 
-    @{int count = 0;}
+    @{
+        int count = 0;
+    }
+   
+    
     <div class="row alte-produse-row">
-        @if(GetLoop("eCom:Related.MoreFromSameManufacturer").Any()){
+        @if (GetLoop("eCom:Related.MoreFromSameManufacturer").Any())
+        {
             <div class="col-xs-12">
                 <h4>Produse de acelasi brand/producator</h4>
             </div>
-            foreach(LoopItem i in GetLoop("eCom:Related.MoreFromSameManufacturer")){
-                if(count < 4){  
-                    
+            foreach (LoopItem i in GetLoop("eCom:Related.MoreFromSameManufacturer"))
+            {
+                if (count < 4)
+                {
+
                     string img = i.GetString("Ecom:Product.ImageLarge.Default.Clean");
 
-                    string mainImage = !string.IsNullOrEmpty(img) ? GetImage(img, 255, 168) + "&bgcolor=white"  : "/Files/Images/NoImage/255x168.png";  
+                    string mainImage = !string.IsNullOrEmpty(img) ? GetImage(img, 255, 168) + "&bgcolor=white" : "/Files/Images/NoImage/255x168.png";
                     string link = i.GetString("Ecom:Product.Link.Clean");
                     string noImage = "/Files/Images/no-image.png";
 
                     <div class="col-xs-3">
-                        <img src="@mainImage" alt='' class="img-responsive"/> 
+                        <img src="@mainImage" alt='' class="img-responsive"/>
                         <div class="alte-produse-link text-center">
-                            <a href="@link" >Vezi detalii</a>
+                            <a href="@link">Vezi detalii</a>
                         </div>
                     </div>
-
-
                 }
                 count++;
             }
