@@ -6898,3 +6898,43 @@ span.seeMore , span.seeMoreFurnizori, span.seeMoreSubcategorie{
     /* line-height: 3.2; */
     font-weight: 600;
 }
+
+.subheader img {
+    width:140px;
+    height:140px;
+    
+}
+.subscribewidget textarea {
+    background: #f0f0f0;
+}
+.subscribewidget input {
+    text-align: left!important;
+}
+.subscribewidget input[type="submit"] {
+    text-align: center!important;
+}
+.termeniSiConditiiUrl {
+    color:#ffa700;
+}
+.termeniSiConditiiUrl:hover {
+    color:#025aa5;
+}
+#VreausamaabonezlanewslettereleIBuySmart{
+    background-color: #ffa700;
+    color: #fff;
+    text-align: center!important;
+    border:none;
+    padding: 10px 10px;
+}
+#VreausamaabonezlanewslettereleIBuySmart:hover{
+    background-color: #025aa5;
+    color: #fff;
+    text-align: center!important;
+}
+.requiredText{
+    color:white;
+}
+.rizImg {
+    width:100%!important;
+    height: 100%!important;
+}

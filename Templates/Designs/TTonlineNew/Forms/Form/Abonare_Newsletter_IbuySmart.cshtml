@@ -1,0 +1,34 @@
+@{
+    var formStart = GetString("Form.FormStart");
+    var formEnd = GetString("Form.FormEnd");
+    var submitButton = GetString("Form.Field.VreausamaabonezlanewslettereleIBuySmart.Control");
+    var idTermeniSiContitii = GetPageIdByNavigationTag("termsAndConditions");
+    var termeniSiContitiiPageUrl = "/Default.aspx?ID=" + idTermeniSiContitii;
+    var suntDeAcord = Translate("SuntDeAcord", "Sunt de acord cu ");
+    var ttonlineName = "ttonline.ro *";
+    var termeniisiConditiile = @Translate("termenii si conditiile");
+    var spamScripts = GetString("Form.SpamScript");
+    var formSystemFields = GetString("Form.SystemFields");
+    string formAction= GetString("Form.Action");
+    string formCssClass = GetString("Form.CssClass");
+    string formId = GetString("Form.HtmlId");
+    string formOnSubmit = GetString("Form.OnSubmit");
+
+}
+<legend class="filterTitle">@Translate("Abonare la IbuySmart", "Newsletter iBuySmart")</legend>
+<form method="post" action="@formAction" enctype="multipart/form-data" class="@formCssClass" id="@formId" onsubmit="@formOnSubmit">
+@formSystemFields
+@formStart
+    <input type="text" id="Nume" name="Nume" class="form-control required" placeholder='@Translate("NumewithRequired","Nume *")' required />
+    <input type="email" id="Email" name="Email" class="form-control" required placeholder='@Translate("EmailRequired","Email *")'/>
+    <input type="text" id="Numelecompanieidvs" name="Numelecompanieidvs" class="form-control" placeholder='@Translate("Companie","Companie")'/>
+    <input type="tel" class="form-control" id="Numardetelefon" name="Numardetelefon" placeholder='@Translate("NumarTelefon","Numar de telefon")'/>
+    <textarea rows="4" id="Mesaj" name="Mesaj" class="form-control" placeholder="@Translate("mesaj","Mesaj")"></textarea>
+    <p style="color:white">@suntDeAcord <a class="termeniSiConditiiUrl" href="@termeniSiContitiiPageUrl">@termeniisiConditiile</a> @ttonlineName
+    <input type="checkbox" id="SuntdeacordcuTermeniisiconditiilesiteuluiwwwtttonlinero" name="SuntdeacordcuTermeniisiconditiilesiteuluiwwwtttonlinero" required class="subscribe-checkbox"/> </p>
+<div class="row text-center seeMoreFurnizori">
+    @submitButton
+</div>
+    
+@formEnd
+<p class="requiredText">@Translate("CampurileObligatorii", "Campurile marcate cu * sunt obligatorii")</p>

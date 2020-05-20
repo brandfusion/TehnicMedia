@@ -27,7 +27,8 @@
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
 //var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
 var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive: true, virtualPathPrefix : "-main-scripts-footer", exclusions : new[] { "exceptions" });
-
+    var ibuySmartPageId = GetPageIdByNavigationTag("catalog");
+    var ibuySmartUrl = "/Default.aspx?ID=" + ibuySmartPageId;
 
 }
 <!DOCTYPE HTML>
@@ -68,7 +69,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
               
                 <div class="subheader row" style="@culoareFundal">
                     <div class="col-xs-4">
-                      <img src="@logoSubheader" />
+                        <a href="@ibuySmartUrl"><img src="@logoSubheader" /></a>
                     </div>
                     <div class="col-xs-5">
                       <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>

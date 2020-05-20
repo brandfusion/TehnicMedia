@@ -54,33 +54,33 @@ sortOption = sortBy + ","+sortOrder;
 @if(ParametruProducator=="" && ParametruDealer == "" ){
 
 <div class="row" style="margin-top: -69px;">
-<div class="col-xs-12 col-sm-12 col-md-3 pull-left" style="background-color:rgba(0, 0, 0, 0.5);">@Include("/Files/Templates/Designs/TTonline/Custom/Product Filters.cshtml")</div>
+  <div class="col-xs-12 col-sm-12 col-md-3 pull-left" style="background-color: rgba(0, 0, 0, 0.5);">
+    @Include("/Files/Templates/Designs/TTonline/Custom/Product Filters.cshtml")
+    @RenderParagraphContent(3045)
+  </div>
 <div class="col-xs-12 col-sm-12 col-md-9"  data-group='@GetValue("Ecom:Group.ID")'> 
   <div class="row">
    @Include("/Files/Templates/Designs/TTonlineNew/eCom/ProductList/BreadcrumbsShop.cshtml")
   </div>
-  
   @RenderSnippet("ShopFront")
 </div>
 </div>
 
 
-}else { if((ParametruProducator != "" || ParametruDealer != "" ) ||(ParametruProducator != "" && ParametruDealer != "" ) ) {
+}else { 
+  if((ParametruProducator != "" || ParametruDealer != "" ) ||(ParametruProducator != "" && ParametruDealer != "" ) ) {
 	
-<div class="row">
-<div class="col-xs-12 col-sm-12 col-md-12"> 
- @Include("/Files/Templates/Designs/TTonline/Custom/FiltreProdDealer.cshtml")
-</div>
-</div>
-
-
-<div class="row">
-<div class="col-xs-12 col-sm-12 col-md-12"  data-group='@GetValue("Ecom:Group.ID")'> 
- @RenderSnippet("ShopFront")
-   
-  
-</div>
-</div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12"> 
+         @Include("/Files/Templates/Designs/TTonline/Custom/FiltreProdDealer.cshtml")
+          
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12"  data-group='@GetValue("Ecom:Group.ID")'> 
+         @RenderSnippet("ShopFront")
+        </div>
+    </div>
 }
 
 }
