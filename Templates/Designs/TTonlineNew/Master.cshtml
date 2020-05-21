@@ -29,6 +29,7 @@
 var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive: true, virtualPathPrefix : "-main-scripts-footer", exclusions : new[] { "exceptions" });
     var ibuySmartPageId = GetPageIdByNavigationTag("catalog");
     var ibuySmartUrl = "/Default.aspx?ID=" + ibuySmartPageId;
+    var isMobile = Pageview.Device.ToString() == "Mobile" ? true : false;
 
 }
 <!DOCTYPE HTML>
@@ -67,15 +68,38 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
                 string textSubheader = GetString("Item.Area.Text");
                 string dimensiuneFont = !string.IsNullOrEmpty(GetString("Item.Area.DimensiuneFont")) ? "font-size:" + GetString("Item.Area.DimensiuneFont") + ";" : "";
               
-                <div class="subheader row" style="@culoareFundal">
-                    <div class="col-xs-4">
-                        <a href="@ibuySmartUrl"><img src="@logoSubheader" /></a>
-                    </div>
-                    <div class="col-xs-5">
-                      <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
-                    </div>
-                    <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
-                </div>
+                
+                    if (isMobile)
+                    {
+                        <div class="subheader row" style="@culoareFundal">
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <a href="@ibuySmartUrl"><img src="@logoSubheader"/></a>
+                                </div>
+                                <div class="col-xs-5">
+                                    <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">@RenderSnippet("SearchProduse")</div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="subheader row" style="@culoareFundal">
+                            <div class="col-xs-4">
+                                <a href="@ibuySmartUrl"><img src="@logoSubheader"/></a>
+                            </div>
+                            <div class="col-xs-5">
+                                <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
+                            </div>
+                            <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
+                        </div>
+                        
+                    }
+                    
+                
           }
   
           @if(@GetInteger("DwAreaID") == 3){

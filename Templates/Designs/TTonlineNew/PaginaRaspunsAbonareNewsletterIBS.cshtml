@@ -1,4 +1,4 @@
-﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
 @using Dynamicweb.Rendering;
 @using Dynamicweb;
 @using Dynamicweb.Frontend;
@@ -24,18 +24,25 @@ string ParametruProdus = System.Web.HttpContext.Current.Request["productid"] != 
 <div class="row main-body">
   <!-- <div class="container"> -->
   
- @Include("/Files/Templates/Designs/TTonlineNew/eCom/ProductList/BreadcrumbsDealerFurnizor.cshtml")
+ @Include("/Files/Templates/Designs/TTonline/eCom/ProductList/BreadcrumbsDealerFurnizor.cshtml")
  
   <div class="@fullWidth @fullWidth1 "> 
 
     <section class="admag-block">
       <div class="row">
         <!--Main Content Begin-->
-        <div class="dwcontent" id="maincontent" title="Main Content" data-settings="unwrap=true"></div>
-        <div class="hidden">
-          <div class="dwcontent hidden" id="FormNewsletterIBS" title="Form" data-settings="unwrap=true"></div>
+        <div class="col-xs-12 col-sm-12 col-md-3 pull-left" style="background-color: rgba(0, 0, 0, 0.5);">
+          @Include("/Files/Templates/Designs/TTonline/Custom/Product Filters.cshtml")
+          <div class="col-xs-12">
+            @RenderParagraphContent(3045)
+          </div>
         </div>
+        <div class="dwcontent" id="maincontent" title="Main Content" data-settings="unwrap=true"></div>
         <!--Main Content End-->
+         
+      
+        
+     
       </div>
       <div class="row" style="margin-bottom:20px; margin-top:20px;">
         <div class="col-xs-12 col-sm-12 col-md-6 text-center"><a href='@Pageview.Area.Item["Link_Revista"]' alt='@Pageview.Area.Item["Link_Revista.Name"]'  target="blank"><img src='@Pageview.Area.Item["Banner_Revista"]'alt='@Pageview.Area.Item["Banner_Revista.Name"]' /></a></div>
