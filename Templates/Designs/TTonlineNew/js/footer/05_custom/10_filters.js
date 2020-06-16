@@ -133,7 +133,8 @@
       
       var value = $(this).val();
       var argument = $(this).attr("name");
-      var url = window.location.href;   
+      var url = window.location.href;
+        url = url.split('?')[0];
       
       
       if($(this).attr('checked') == 'checked'){

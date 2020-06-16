@@ -25,7 +25,7 @@
   List<LoopItem> websiteLanguages = GetLoop("WebsiteLanguages");
   string designFolder = GetString("Template:DesignBaseUrl");
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
-      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+    var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive: true, virtualPathPrefix : "-main-scripts-footer", exclusions : new[] { "exceptions" });
 
 }
 <!DOCTYPE HTML>
@@ -90,17 +90,17 @@
 
                 <div class="subheader row" style="@culoareFundal">
                     @if (!string.IsNullOrEmpty(textSubheader)) {
-                      <div class="col-xs-4">
-                        <img src="@logoSubheader" />
-                      </div>
-                      <div class="col-xs-5">
-                        <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
-                      </div>
-                      <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
+                        <div class="col-xs-4">
+                            <img  src="@logoSubheader" />
+                        </div>
+                        <div class="col-xs-5">
+                            <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
+                        </div>
+                        <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
                     } else {
-                      <div class="col-xs-12 noPadding">
-                        <img src="@logoSubheader" style="margin: 10px 0 -30px 0;" />
-                      </div>
+                        <div class="col-xs-12 noPadding">
+                        <img class="rizImg" src="@logoSubheader" style="margin: 10px 0 -30px 0;" />
+                       </div>
                     }
                 </div>
 

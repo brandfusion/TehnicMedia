@@ -689,8 +689,7 @@ td strong {
 
 
 .subscribewidget input {
- 
-  text-align: center;
+ text-align: left;
 }
 
 .subscribewidget input[type="submit"] {
@@ -705,7 +704,9 @@ td strong {
   border-bottom: 1px solid #999999 !important;
   border-color: #999999 !important;
 }
-
+.subscribewidget textarea {
+  background: #f0f0f0;
+}
 /*Recomandarii TT*/
 
 

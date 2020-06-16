@@ -16,7 +16,8 @@ string ParametruDealer = System.Web.HttpContext.Current.Request["Dealer"] != nul
 
 int nrProduse = GetInteger("Ecom:ProductList.PageProdCnt");
 sortOption = sortBy + ","+sortOrder;
-
+ var raspunsFormular =  System.Web.HttpContext.Current.Request["s"] != null ? System.Web.HttpContext.Current.Request["s"].ToString(): "";
+  var hideFormResponse = raspunsFormular == "" ? "" : "hidden";
 }
 
 <script>
@@ -54,33 +55,45 @@ sortOption = sortBy + ","+sortOrder;
 @if(ParametruProducator=="" && ParametruDealer == "" ){
 
 <div class="row" style="margin-top: -69px;">
-<div class="col-xs-12 col-sm-12 col-md-3 pull-left" style="background-color:rgba(0, 0, 0, 0.5);">@Include("/Files/Templates/Designs/TTonline/Custom/Product Filters.cshtml")</div>
+  <div class="col-xs-12 col-sm-12 col-md-3 pull-left" style="background-color: rgba(0, 0, 0, 0.5);">
+    @Include("/Files/Templates/Designs/TTonline/Custom/Product Filters.cshtml")
+    <div class="col-xs-12 newsletter-form-area @hideFormResponse">
+      @RenderParagraphContent(3046)
+    </div>
+   </div>
 <div class="col-xs-12 col-sm-12 col-md-9"  data-group='@GetValue("Ecom:Group.ID")'> 
   <div class="row">
-   @Include("/Files/Templates/Designs/TTonlineNew/eCom/ProductList/BreadcrumbsShop.cshtml")
+    @Include("/Files/Templates/Designs/TTonlineNew/eCom/ProductList/BreadcrumbsShop.cshtml")
   </div>
-  
-  @RenderSnippet("ShopFront")
+  @if (raspunsFormular == "")
+  {
+    @RenderSnippet("ShopFront")
+  }
+  else
+  {
+    <div id="raspunsFormularNewsletter">
+      <h3>@Translate("Felicitări! Te-ai abonat cu succes la newsletter-ele iBuySmart!")</h3>
+      <p>@RenderParagraphContent(3046)</p>
+    </div>
+  }
 </div>
 </div>
 
 
-}else { if((ParametruProducator != "" || ParametruDealer != "" ) ||(ParametruProducator != "" && ParametruDealer != "" ) ) {
+}else { 
+  if((ParametruProducator != "" || ParametruDealer != "" ) ||(ParametruProducator != "" && ParametruDealer != "" ) ) {
 	
-<div class="row">
-<div class="col-xs-12 col-sm-12 col-md-12"> 
- @Include("/Files/Templates/Designs/TTonline/Custom/FiltreProdDealer.cshtml")
-</div>
-</div>
-
-
-<div class="row">
-<div class="col-xs-12 col-sm-12 col-md-12"  data-group='@GetValue("Ecom:Group.ID")'> 
- @RenderSnippet("ShopFront")
-   
-  
-</div>
-</div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12"> 
+         @Include("/Files/Templates/Designs/TTonline/Custom/FiltreProdDealer.cshtml")
+          
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12"  data-group='@GetValue("Ecom:Group.ID")'> 
+         @RenderSnippet("ShopFront")
+        </div>
+    </div>
 }
 
 }

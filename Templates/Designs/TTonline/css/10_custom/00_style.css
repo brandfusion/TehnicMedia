@@ -6896,3 +6896,7 @@ span.seeMore , span.seeMoreFurnizori, span.seeMoreSubcategorie{
     overflow: hidden;
   }
 }
+.rizImg {
+    width:100%!important;
+    height: 100%!important;
+}
