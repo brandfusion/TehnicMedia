@@ -27,6 +27,7 @@
         public string[] itemAutori {get; set;}
         public string[] itemAutoriName {get; set;}
         public string itemData {get; set;}
+        public string itemDateTime {get; set;}
         public string itemDeCompanie {get; set;}
         public string itemDespreCompanie {get; set;}
         public string itemEditie {get; set;}
@@ -60,7 +61,8 @@
 		public string autoriCount { get; set; }
 		public bool adserverBanner { get; set; }
         public bool cereOferta {get; set; }
-        
+        public string sumarMobileApp { get; set; }
+        public string categoriiMobileApp { get; set; }
 	    public List<Author> articleAutori {get; set;}
         public List<Section> articleSections {get; set;}
         public List<Tag> articleTags {get; set;}
@@ -160,7 +162,8 @@
     
 
 }
-@{
+@{ 
+
 	var results = GetLoop("QueryResultItem");
     int paginaAutori = GetPageIdByNavigationTag("PaginaAutori");
     int paginaTag = GetPageIdByNavigationTag("PaginaTag");
@@ -196,7 +199,13 @@
     feedRoot.queryResultTotalCount=GetString("QueryResult.TotalCount");
     feedRoot.templateBaseUrl=GetString("Template:BaseUrl");
     feedRoot.templateDesignBaseUrl=GetString("Template:DesignBaseUrl");
+	string pageIdsQueryString = Dynamicweb.Context.Current.Request["PageID"];
+    if (!string.IsNullOrEmpty(pageIdsQueryString))
+    {
+        var pageIds = pageIdsQueryString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
+        results = results.OrderBy(a => pageIds.IndexOf(a.GetInteger("PagePageID").ToString())).ToList();
+    }
     foreach (LoopItem article in results){
 
         ArticlesContainer articleContainerObject = new ArticlesContainer();
@@ -206,6 +215,7 @@
         articleObject.itemAutori=(string[])article.GetValue("ItemAutori");
         articleObject.itemAutoriName=(string[])article.GetValue("ItemAutoriName");
         articleObject.itemData= article.GetDate("ItemData").ToString("dd.MM.yyyy");
+        articleObject.itemDateTime = article.GetDate("ItemData").ToString("dd/MM/yyyy hh:mm");
         articleObject.itemDeCompanie=article.GetString("ItemDeCompanie");
         articleObject.itemDespreCompanie=article.GetString("ItemDespreCompanie");
         articleObject.itemEditie=article.GetString("ItemEditie");
@@ -273,12 +283,16 @@
 			}
         }
 
-
+		articleObject.sumarMobileApp = article.GetString("SumarAplicatieMobila");
+        articleObject.categoriiMobileApp = article.GetString("CategorieAplicatieMobila");
+        
 	    counter++;
         articleContainerObject.Article.Add(articleObject);
         feedRoot.ArticlesContainer.Add(articleContainerObject);
 
     }
+
+	
 
 //Parameters
 //FacetGroups
