@@ -228,19 +228,6 @@ function loadArticle() {
         $("#buton-modal-cere-detalii").on('click', function() {
             $("#Link").val(window.location.href);
         });
-        // loader CereDetaliiOferta
-        $('#Ceredetaliioferta').click(function() {
-            var validationCounter = 0;
-
-            $('#Ceredetaliioferta').parents("form").find("input[required], textarea[required]").map(function(index,el){
-                if($(el).val() == ""){validationCounter++;}
-            })
-
-            if(validationCounter == 0) {
-                $('#loading').show();
-            }
-        });
-
         getDataForArticlePage(authorsWrapper, url);
         
         return response;
