@@ -1,3 +1,7 @@
-﻿@if(@GetPageIdByNavigationTag("Revista") != @GetInteger("DwPageID")) {
-    @RenderParagraphContent(164)
-}
+﻿ @if (GetInteger("DwAreaID") == 1)
+ {
+    if (@GetPageIdByNavigationTag("Revista") != @GetInteger("DwPageID"))
+ {
+     @RenderParagraphContent(164)
+ }
+ }

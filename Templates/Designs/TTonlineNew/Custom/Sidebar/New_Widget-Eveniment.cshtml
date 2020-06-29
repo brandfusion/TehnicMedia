@@ -32,9 +32,9 @@
                 
         <p style="max-height:100px; overflow:hidden;">{{{Descriere}}}  </p> 
         @if(GetInteger("DwAreaID") == 1){
-              <a href="{{URLEveniment}}" style="z-index: 200;">Mai mult</a>
+              <a href="{{link}}" style="z-index: 200;" target="_blank">Mai mult</a>
           }else{
-              <a href="{{URLEveniment}}" style="z-index: 200;">Read More</a>
+              <a href="{{link}}" style="z-index: 200;" target="_blank">Read More</a>
           }
 	</div>
 {{/each}}	
