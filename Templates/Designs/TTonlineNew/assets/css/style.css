@@ -3671,7 +3671,6 @@ a img.aligncenter {
 }
 .subscribewidget input{
   background: #f0f0f0;
-    
 }
 .subscribewidget input[type="submit"] {
   background-color: #ffa700;
@@ -3684,10 +3683,6 @@ a img.aligncenter {
   color: #fff;
   background-color: #646363;
 }
-.subscribewidget p{
-  margin: 10px 0;
-}
-
 /* === Search Widget Style === */
 .searchwidget-form{
   border:2px solid #dadada;

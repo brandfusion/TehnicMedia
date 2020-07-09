@@ -503,3 +503,13 @@
     color: red; 
     font-weight: 600;
 }
+.display-flex {
+    display: flex;
+}
+.subscribewidget input.subscribe-checkbox {
+    width: auto;
+    margin-right: 5px;
+}
+.subscribewidget p {
+    margin: 0;
+}

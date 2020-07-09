@@ -9,14 +9,18 @@
     </div>
 	@i.GetValue("FooterEnd")
 }
-
+@{
+	var termeniSiContitiiPageUrl = "/Default.aspx?ID=" + GetPageIdByNavigationTag("termsAndConditions");
+}
 @GetValue("UserManagement:User.FormStart")		
 	<input name="UserManagement_Form_Email" type="text" class="form-control"  id="UserManagement_Form_Email" placeholder='@Translate("AdresaEmail","Adresa de email")'>
 		
 	<input type="text" id="Nume" name="Nume" class="form-control" placeholder='@Translate("Nume","Nume")' required />
-		
-	<p>@Translate("Sunt de acord cu","Sunt de acord cu termenii si conditiile ttonline.ro")</p>
-	<input class="subscribe-checkbox" type="checkbox" id="Suntdeacordcutermeniisiconditiilettonlinero" name="Suntdeacordcutermeniisiconditiilettonlinero" required checked="checked"/>
+	<div class="display-flex">
+		<input class="subscribe-checkbox" type="checkbox" id="Suntdeacordcutermeniisiconditiilettonlinero" name="Suntdeacordcutermeniisiconditiilettonlinero" required checked="checked"/>
+		<p>	@Translate("SuntDeAcord", "Sunt de acord cu ") <a class="termeniSiConditiiUrl" href="@termeniSiContitiiPageUrl">@Translate("termenii si conditiile")</a> @Translate("ttonline.ro") </p>
+	</div>	
+	
 
 
 	<input type="submit" id="submitter" value='@Translate("Subscribe", "Abonează-te la newsletter")' class="btn btn-primary">	

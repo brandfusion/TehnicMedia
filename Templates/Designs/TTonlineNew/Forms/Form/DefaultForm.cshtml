@@ -14,6 +14,7 @@
     int formMaxSubmits = GetInteger("Form.MaxSubmits");
     int formSubmitCount = GetInteger("Form.SubmitCount");
 	string formAction= GetString("Form.Action");
+    var fieldsLoop = GetLoop("Fields");
 
 
 }
@@ -74,8 +75,7 @@
                 {
                     @GetStartTable();
                 }
-
-                @foreach (LoopItem field in GetLoop("Fields"))
+                @foreach (LoopItem field in fieldsLoop)
                 {
               
                     int fieldId = field.GetInteger("Field.ID");
@@ -88,50 +88,55 @@
                     bool fieldRequired = field.GetBoolean("Field.Required");
 
                     string requiredImage = string.Empty;
-                    if (fieldRequired && !String.IsNullOrEmpty(formLabelRequired))
-                    {
-                        requiredImage = String.Format("<img src=\"/Files/images/{0}\">", formLabelRequired);
-                    }
-
-                    if (formLabelOverField)
-                    {
-                        if (!fieldIsButton && !fieldIsOther)
+                    
+                        if (fieldRequired && !String.IsNullOrEmpty(formLabelRequired))
                         {
-                            <tr class="labelRow">
-                                <td class="labelCell">
-                                    <label for="@fieldHtmlId">@fieldName @requiredImage</label>
-                                </td>
+                            requiredImage = String.Format("<img src=\"/Files/images/{0}\">", formLabelRequired);
+                        }
+
+                        if (formLabelOverField)
+                        {
+                            if (!fieldIsButton && !fieldIsOther)
+                            {
+                                <tr class="labelRow">
+                                    <td class="labelCell">
+                                        <label for="@fieldHtmlId">@fieldName @requiredImage</label>
+                                    </td>
+                                </tr>
+                            }
+                            <tr class="fieldRow">
+                                <td>@fieldControl</td>
+                            </tr>
+                            <tr class="descriptionRow">
+                                <td class="descriptionCell"><small>@fieldDescription</small></td>
                             </tr>
                         }
-                        <tr class="fieldRow">
-                            <td>@fieldControl</td>
-                        </tr>
-                        <tr class="descriptionRow">
-                            <td class="descriptionCell"><small>@fieldDescription</small></td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr class="fieldRow">
-                            <td class="labelCell">
-                                @if (!fieldIsButton && !fieldIsOther)
-                                {
-                                    <label for="@fieldHtmlId">@fieldName @requiredImage</label>
-                                }
-                                <span>@fieldDescription</span>
-                            </td>
-                            <td>@fieldControl</td>
-                        </tr>
+                        else
+                        {
+                            <tr class="fieldRow">
+                                <td class="labelCell">
+                                    @if (!fieldIsButton && !fieldIsOther)
+                                    {
+                                        <label for="@fieldHtmlId">@fieldName @requiredImage</label>
+                                    }
+                                    <span>@fieldDescription</span>
+                                </td>
+                                <td>@fieldControl</td>
+                            </tr>
                         @* <tr class="descriptionRow">
                             <td class="descriptionCell"></td>
                             <td class="descriptionCell"><small>@fieldDescription</small></td>
                         </tr> *@
-                    }
-                    if (formColumnShiftFormFieldID == fieldId)
-                    {
-                        @GetShiftColumn();
-                    }
+                        }
+                        if (formColumnShiftFormFieldID == fieldId)
+                        {
+                            @GetShiftColumn();
+                        }
+                    
+                   
+
                 }
+                
                 <p>Campurile marcate cu (*) sunt obligatorii.</p>
                 @if (formColumnShiftFormFieldID > 0)
                 {
@@ -158,3 +163,4 @@
         return "</table></td></tr>";
     }
 }
+
