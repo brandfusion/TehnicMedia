@@ -138,11 +138,12 @@
       
       
       if($(this).attr('checked') == 'checked'){
-      	 
-        var result = addOrUpdateUrlParam(url , argument , '');
+
+          var result = "/Default.aspx?ID=" + document.getElementById('filtersForm').getAttribute('data-page-id');
       }else{
       
-      var result = addOrUpdateUrlParam(url , argument , value);
+      var result = addOrUpdateUrlParam(url , argument , value);       
+
       }
       
       window.location.href = result;
