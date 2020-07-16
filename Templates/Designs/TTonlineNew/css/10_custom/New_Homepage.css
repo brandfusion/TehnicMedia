@@ -503,6 +503,7 @@
     color: red; 
     font-weight: 600;
 }
+
 .display-flex {
     display: flex;
 }
@@ -512,4 +513,8 @@
 }
 .subscribewidget p {
     margin: 0;
+}
+.subscribewidget p.error-message {
+    color: red;
+    margin-top: 10px;
 }

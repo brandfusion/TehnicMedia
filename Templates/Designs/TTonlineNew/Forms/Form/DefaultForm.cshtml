@@ -57,6 +57,10 @@
             .formtable textarea {
                 min-width: 250px;
             }
+             p.error-message {
+                color: red;
+                margin-top: 10px;
+            }
 
     @if (formLabelBold)
     {
@@ -86,6 +90,7 @@
                     bool fieldIsButton = field.GetBoolean("Field.IsButton");
                     bool fieldIsOther = field.GetBoolean("Field.IsOther");
                     bool fieldRequired = field.GetBoolean("Field.Required");
+                    string fieldType = field.GetString("Field.Type"); 
 
                     string requiredImage = string.Empty;
                     
@@ -132,10 +137,8 @@
                         {
                             @GetShiftColumn();
                         }
-                    
-                   
-
                 }
+               
                 
                 <p>Campurile marcate cu (*) sunt obligatorii.</p>
                 @if (formColumnShiftFormFieldID > 0)
@@ -143,7 +146,9 @@
                     @GetEndTable();
                 }
             </table>
-		</form>
+            <p class="error-message hidden">@Translate("agreeTerms")</p>
+        </form>
+        
     }
 }
 

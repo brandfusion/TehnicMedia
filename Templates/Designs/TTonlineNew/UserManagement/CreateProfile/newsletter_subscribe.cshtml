@@ -17,13 +17,12 @@
 		
 	<input type="text" id="Nume" name="Nume" class="form-control" placeholder='@Translate("Nume","Nume")' required />
 	<div class="display-flex">
-		<input class="subscribe-checkbox" type="checkbox" id="Suntdeacordcutermeniisiconditiilettonlinero" name="Suntdeacordcutermeniisiconditiilettonlinero" required checked="checked"/>
+		<input class="subscribe-checkbox" type="checkbox" id="Suntdeacordcutermeniisiconditiilettonlinero" name="Suntdeacordcutermeniisiconditiilettonlinero"  checked="checked"/>
 		<p>	@Translate("SuntDeAcord", "Sunt de acord cu ") <a class="termeniSiConditiiUrl" href="@termeniSiContitiiPageUrl">@Translate("termenii si conditiile")</a> @Translate("ttonline.ro") </p>
-	</div>	
-	
+	</div>
+	<input type="submit" id="submitter" value='@Translate("Subscribe", "Abonează-te la newsletter")' class="btn btn-primary">
+<p class="error-message hidden">@Translate("agreeTerms")</p>
 
-
-	<input type="submit" id="submitter" value='@Translate("Subscribe", "Abonează-te la newsletter")' class="btn btn-primary">	
 
 	<div style="display:none;">
       <input name='@GetValue("UserManagement:User.EmailAllowed.InputName")' type="checkbox" id='@GetValue("UserManagement:User.EmailAllowed.InputName")' value="True" checked="checked" />

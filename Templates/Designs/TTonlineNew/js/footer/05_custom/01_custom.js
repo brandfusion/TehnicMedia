@@ -66,8 +66,7 @@ $(document).ready( function(){
     $('#Ceredetaliioferta').parents("form").find("input[required], textarea[required]").map(function(index,el){
       if($(el).val() == ""){validationCounter++;}
     })
-
-    if(validationCounter == 0) {
+    if(validationCounter == 0 && $('#Ceredetaliioferta').parents("form").find('.subscribe-checkbox').prop('checked')) {
       $('#loading').show(); 
     }
   });

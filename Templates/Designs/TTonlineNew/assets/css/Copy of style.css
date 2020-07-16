@@ -2435,10 +2435,6 @@ a.category:hover{
   text-decoration: none;
 }
 
-// .simple-share a b { 
-//   font-weight: 400 !important;
-// }
-
 .simple-share a:hover {
   color: #999999;
   border-bottom: 1px solid #999999;
@@ -3436,9 +3432,6 @@ a img.aligncenter {
   margin-left: 2%;
 }*/
 
-// .editorialwidget .btn{
-//   background: #ffa700;
-// }
 
 .sticky-sidebar .adwidget {
   margin-bottom: 20px;
@@ -4017,17 +4010,6 @@ a img.aligncenter {
   left: auto;
 }
 
-// .owl-carousel .owl-item {
-//   max-height: 200px;
-// }
-// .owl-carousel .owl-item img {
-//   margin-bottom: 10px;
-//   width: auto !important;
-// }
-// .owl-carousel .owl-item p {
-//   line-height: 1.3;
-// }
-
 /*.owl-item[style] {
   width: 160px !important;
 }*/
@@ -4299,9 +4281,7 @@ a img.aligncenter {
     width: 35%;
     min-height: 100px;
   }
-  // .omega {
-  //   margin-bottom: 20px;
-  // }
+ 
 }
 @media (min-width: 768px) {
   .form-inline .input-group>.form-control {
@@ -5331,14 +5311,7 @@ body.dark-skin,
 .standard-item {
   margin: 0 0 50px 0;
 }
-// .standard-item figure img {
-//   width: 100%;
-//   height: auto;
-// }
 
-// .product-item .product-image{
-//  	min-height: 200px; 
-// } 
 
 .product-item .product-title {
     min-height: 50px;
@@ -5401,12 +5374,6 @@ body.dark-skin,
   max-width: 100% !important;
 }
 
-// @media (max-width: 768px) {
-//   .mag-content {
-//     padding-left: 20px;
-//     padding-right: 20px;
-//   }
-// }
 
 .mega-menu li.homepage {
   min-width: 3em;
@@ -5889,9 +5856,7 @@ and (orientation : landscape){ul.tabs{
   width: 525px;
 }}
 /* END media pagina produs =====================================================================*/
-// img.img-responsive{
-//   left: 135px;
-// }
+
 /* END Mihai style =====================================================================*/
 
 @media screen and (max-width: 1366px) and (min-width: 1024px) {
