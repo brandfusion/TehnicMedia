@@ -238,14 +238,17 @@ $(function(){
           	event.preventDefault();
         	var inputsAreValid = checkInputsValidity();
           	var radiosAreValid = checkCheckboxesValidity();
-			
-          	console.log(inputsAreValid , radiosAreValid);
-          
-          	if(inputsAreValid != true || radiosAreValid != true) {
-            	alert("Unul sau mai multe câmpuri nu sunt completate");
-            } else {
-            	$("#dw-form-3").submit();
-            }
+           var form = $("#dw-form-3");
+
+
+          if(inputsAreValid == false || radiosAreValid == false) {
+              alert("Unul sau mai multe câmpuri nu sunt completate");
+          } else if( !form.find('.subscribe-checkbox').prop('checked')) {
+              form.find('.error-message').removeClass('hidden');
+          } else {
+              form.find('.error-message').addClass('hidden');
+              form.submit();
+          }
         });
 
   } 
@@ -272,17 +275,16 @@ $(function(){
     	$("#Trimitecererea2").on("click" , function(event) {
         	var inputsAreValid = checkInputsValidityForOnlineMagazine();
           	var radiosAreValid = checkCheckboxesValidityForOnlineMagazine();
-	
-          	console.log(inputsAreValid);
-          	console.log(radiosAreValid);
-          
-          	event.preventDefault();
-          
-          	if(inputsAreValid == false || radiosAreValid == false) {
+          	var form = $("#dw-form-4");
+          event.preventDefault();
+          	if(inputsAreValid == false || radiosAreValid == false) {                
             	alert("Unul sau mai multe câmpuri nu sunt completate");
+            } else if( !form.find('.subscribe-checkbox').prop('checked')) {
+                form.find('.error-message').removeClass('hidden');
             } else {
-            	$("#dw-form-4").submit();
-            }
+                form.find('.error-message').addClass('hidden');
+                form.submit();
+            } 
         });
 
   }

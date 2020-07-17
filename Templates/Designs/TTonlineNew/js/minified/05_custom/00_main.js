@@ -31,19 +31,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
     if(document.querySelector('.subscribewidget form') !== null) {
         agreeTerms(document.querySelector('.subscribewidget form'))
-    }
-    if(document.querySelector('.abonare-online') !== null) {
-        agreeTermsForms(document.querySelector('.abonare-online'))
-    }
-    if(document.querySelector('.abonare-print') !== null) {
-        agreeTermsForms(document.querySelector('.abonare-print'))
-    }
-  /*  if(document.querySelector('.cere-oferta-form') !== null) {
+    }   
+    if(document.querySelector('.cere-oferta-form') !== null) {
         agreeTerms(document.querySelector('.cere-oferta-form'))
-    }*/
+    }
 });
 document.addEventListener('contentLoaded', function(e) {
-    if(e.detail.template === "ArticleBodyTemplate" /*|| e.detail.template === "CaruselProduseTemplate"*/) {
+    if(e.detail.template === "ArticleBodyTemplate" || e.detail.template === "CaruselProduseTemplate") {
         if(document.querySelector('.cere-oferta-form') !== null) {
             agreeTerms(document.querySelector('.cere-oferta-form'))
         }
@@ -536,17 +530,4 @@ function agreeTerms(form) {
            form.querySelector('.error-message').classList.add('hidden');
        }
     });
-}
-function agreeTermsForms(form) {
-    /*form.addEventListener('submit', function(e) {
-        e.preventDefault()
-    });*/
-   /* form.querySelector('input[type="submit"]').addEventListener('click', function(e) {
-        if(!form.querySelector('.subscribe-checkbox').checked) {
-            e.preventDefault();
-            form.querySelector('.error-message').classList.remove('hidden');
-        } else {
-            form.querySelector('.error-message').classList.add('hidden');
-        }
-    });*/
 }
