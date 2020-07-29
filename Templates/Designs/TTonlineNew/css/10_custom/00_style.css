@@ -679,8 +679,8 @@ body.background-image4{ background-image: url('../img/bg4.jpg'); }
 #map-canvas {
   width:100%;
   height: 300px;
-  margin: 0px 0px 30px;
-  padding: 0px
+  margin: 0 0 30px;
+  padding: 0px;
 }
 
 
@@ -3697,9 +3697,6 @@ a img.aligncenter {
   color: #fff;
   background-color: #646363;
 }
-.subscribewidget p{
-  margin: 10px 0;
-}
 
 /* === Search Widget Style === */
 .searchwidget-form{
@@ -6489,7 +6486,7 @@ li.active a{
     font-size: 17px;
     line-height: 21px;
     text-align: center; 
-  	margin: 15px 1;	
+  	margin: 15px;	
 }
 
 

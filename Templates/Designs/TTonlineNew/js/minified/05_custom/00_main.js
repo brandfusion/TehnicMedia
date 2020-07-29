@@ -29,8 +29,20 @@ document.addEventListener('DOMContentLoaded', function(event) {
         loadArticle();        
         getScrollContent();
     }
+    if(document.querySelector('.subscribewidget form') !== null) {
+        agreeTerms(document.querySelector('.subscribewidget form'))
+    }   
+    if(document.querySelector('.cere-oferta-form') !== null) {
+        agreeTerms(document.querySelector('.cere-oferta-form'))
+    }
 });
-
+document.addEventListener('contentLoaded', function(e) {
+    if(e.detail.template === "ArticleBodyTemplate" || e.detail.template === "CaruselProduseTemplate") {
+        if(document.querySelector('.cere-oferta-form') !== null) {
+            agreeTerms(document.querySelector('.cere-oferta-form'))
+        }
+    }
+})
 function getScrollContent() {
     if(!isIE11()) {
         loadOnScroll();
@@ -287,6 +299,8 @@ function compileDataToHandlebars(data, homePageSliderWrapper) {
     var theScriptHTML = homepageSliderTemplate !== null ? homepageSliderTemplate.innerHTML : "";
     var theTemplate = Handlebars.compile(theScriptHTML);
     homePageSliderWrapper.innerHTML = theTemplate(data);
+
+    document.dispatchEvent(new CustomEvent("contentLoaded", {bubbles: true, cancelable: false, detail:{template: homePageSliderWrapper.getAttribute('data-template') }}));
 }
 //generic function to create call and get data to compile handlebars
 function getDataForHandlebars(homePageSliderWrapper) {
@@ -506,3 +520,14 @@ function isIE11() {
     return (!(window.ActiveXObject) && "ActiveXObject" in window);
 }
 /*END ADDITIONAL FUNCTIONS*/
+
+function agreeTerms(form) {
+    form.addEventListener('submit', function(e) {
+       if(!form.querySelector('.subscribe-checkbox').checked) {
+         e.preventDefault();
+         form.querySelector('.error-message').classList.remove('hidden');
+       } else {
+           form.querySelector('.error-message').classList.add('hidden');
+       }
+    });
+}

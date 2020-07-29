@@ -2456,9 +2456,6 @@ a.category:hover{
   text-decoration: none;
 }
 
-// .simple-share a b { 
-//   font-weight: 400 !important;
-// }
 
 .simple-share a:hover {
   color: #999999;
@@ -3465,9 +3462,7 @@ a img.aligncenter {
   margin-left: 2%;
 }*/
 
-// .editorialwidget .btn{
-//   background: #ffa700;
-// }
+
 
 .sticky-sidebar .adwidget {
   margin-bottom: 20px;
@@ -3671,7 +3666,6 @@ a img.aligncenter {
 }
 .subscribewidget input{
   background: #f0f0f0;
-    
 }
 .subscribewidget input[type="submit"] {
   background-color: #ffa700;
@@ -3684,10 +3678,6 @@ a img.aligncenter {
   color: #fff;
   background-color: #646363;
 }
-.subscribewidget p{
-  margin: 10px 0;
-}
-
 /* === Search Widget Style === */
 .searchwidget-form{
   border:2px solid #dadada;
@@ -4049,16 +4039,6 @@ a img.aligncenter {
   left: auto;
 }
 
-// .owl-carousel .owl-item {
-//   max-height: 200px;
-// }
-// .owl-carousel .owl-item img {
-//   margin-bottom: 10px;
-//   width: auto !important;
-// }
-// .owl-carousel .owl-item p {
-//   line-height: 1.3;
-// }
 
 /*.owl-item[style] {
   width: 160px !important;
@@ -5363,14 +5343,7 @@ body.dark-skin,
 .standard-item {
   margin: 0 0 50px 0;
 }
-// .standard-item figure img {
-//   width: 100%;
-//   height: auto;
-// }
 
-// .product-item .product-image{
-//    min-height: 200px; 
-// } 
 
 .product-item .product-title {
     min-height: 110px;
@@ -5433,12 +5406,6 @@ body.dark-skin,
   max-width: 100% !important;
 }
 
-// @media (max-width: 768px) {
-//   .mag-content {
-//     padding-left: 20px;
-//     padding-right: 20px;
-//   }
-// }
 
 .mega-menu li.homepage {
   min-width: 3em;
@@ -5902,10 +5869,7 @@ and (max-device-width : 732px)
 and (orientation : landscape){ul.tabs{
   width: 525px;
 }}
-/* END media pagina produs =====================================================================*/
-// img.img-responsive{
-//   left: 135px;
-// }
+
 /* END Mihai style =====================================================================*/
 
 @media screen and (max-width: 1366px) and (min-width: 1024px) {

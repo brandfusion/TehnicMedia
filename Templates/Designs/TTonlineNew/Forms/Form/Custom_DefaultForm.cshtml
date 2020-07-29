@@ -1,0 +1,165 @@
+@{
+
+    string formCssClass = GetString("Form.CssClass");
+    string formSystemFields = GetString("Form.SystemFields");
+    bool formLabelBold = GetBoolean("Form.LabelBold");
+    bool formLabelOverField = GetBoolean("Form.LabelOverField");
+    string formId = GetString("Form.HtmlId");
+    string formOnSubmit = GetString("Form.OnSubmit");
+    string formSpamScript = GetString("Form.SpamScript");
+//string formAction = GetString("Form.Action");
+    int formColumnShiftFormFieldID = GetInteger("Form.ColumnShiftFormFieldID");
+    string formLabelRequired = GetString("Form.LabelRequired");
+
+    int formMaxSubmits = GetInteger("Form.MaxSubmits");
+    int formSubmitCount = GetInteger("Form.SubmitCount");
+	string formAction= GetString("Form.Action");
+    var fieldsLoop = GetLoop("Fields");
+    var termeniSiContitiiPageUrl = "/Default.aspx?ID=" + GetPageIdByNavigationTag("termsAndConditions");
+
+
+}
+
+@{
+
+    if (formMaxSubmits > 0 && formSubmitCount >= formMaxSubmits)
+    {
+        @GetString("Form.MaxSubmitsReachedText")
+    }
+    else
+    {
+        <style type="text/css">
+        .display-fields {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+         .formtable input[type=text],
+         .formtable input[type=password],
+         .formtable textarea {
+            min-width: 250px;
+         }
+         .formtable a {
+         color: #ffa700;
+         }
+        .formtable .label {
+            font-size: 12px;
+        }
+        .display-flex {
+            display: flex;
+        }
+        .formtable p, 
+        .formtable .subscribe-checkbox {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .mr-10 {
+            margin-right: 10px !important;
+        }
+        .formtable p:first-child {
+            margin-bottom: 20px;
+        }
+        .formtable input[type=submit] {
+            margin-top: 10px;
+        }
+        .formtable p.error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        </style>
+
+        <form method="post" action="@formAction" enctype="multipart/form-data" class="@formCssClass" id="@formId" onsubmit="@formOnSubmit">
+            @formSystemFields
+            <div class="formtable">
+                <p>Campurile marcate cu (*) sunt obligatorii.</p>
+
+                @foreach (LoopItem field in fieldsLoop)
+                {
+
+                    int fieldId = field.GetInteger("Field.ID");
+                    string fieldHtmlId = field.GetString("Field.HtmlId");
+                    string fieldName = field.GetString("Field.Name");
+                    string fieldControl = field.GetString("Field.Control");
+                    string fieldDescription = field.GetString("Field.Description");
+                    bool fieldIsButton = field.GetBoolean("Field.IsButton");
+                    bool fieldIsOther = field.GetBoolean("Field.IsOther");
+                    bool fieldRequired = field.GetBoolean("Field.Required");
+                    string fieldType = field.GetString("Field.Type"); 
+                    string requiredImage = string.Empty;
+
+                    if (fieldRequired && !String.IsNullOrEmpty(formLabelRequired))
+                    {
+                        requiredImage = String.Format("<img src=\"/Files/images/{0}\">", formLabelRequired);
+                    }
+
+                    if (fieldType != "CheckBox")
+                    {
+                        if (formLabelOverField)
+                        {
+                            <div class="display-fields label mr-10">
+                                @if (!fieldIsButton && !fieldIsOther)
+                                {
+                                    <div>
+                                        <label for="@fieldHtmlId">@fieldName @requiredImage</label>
+                                    </div>
+                                }
+                                <div class="fieldRow">
+                                    @fieldControl
+                                </div>
+                            </div>
+                            if (fieldDescription != "")
+                            {
+                                <div class="descriptionRow">
+                                    <small>@fieldDescription</small>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="display-fields">
+                                <div class="label mr-10">
+                                    @if (!fieldIsButton && !fieldIsOther)
+                                    {
+                                        <label for="@fieldHtmlId">@fieldName @requiredImage</label>
+                                    }
+                                    @if (fieldDescription != "")
+                                    {
+                                        <span>@fieldDescription</span>
+                                    }
+                                </div>
+                                <div>
+                                    @fieldControl
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="display-flex">
+                            @fieldControl
+                            <p>@fieldName</p>
+                        </div>
+                    }
+                }
+                <p class="error-message hidden">@Translate("agreeTerms")</p>
+            </div>
+        </form>
+    }
+}
+@functions {
+    private string GetStartTable()
+    {
+        return "<tr><td class=\"columnCell\"><table class=\"firstColumn\">";
+    }
+
+    private string GetShiftColumn()
+    {
+        return "</table></td><td class=\"columnCell\"><table class=\"secondColumn\">";
+    }
+
+    private string GetEndTable()
+    {
+        return "</table></td></tr>";
+    }
+}
+
