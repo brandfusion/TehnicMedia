@@ -147,26 +147,55 @@ int EchipaID = companie["Echipa_Companie_Premium"] != null ? (int)companie["Echi
       <div class="col-xs-12 col-titlu-companie"><h3><i class="fa fa-users fa-2x" aria-hidden="true"></i><span>Echipa @Name</span></h3></div>
       @if(ListaMembriEchipa != null) {
         <div class="col-xs-12 pbt-20">
-          <div class="owl-carousel owl-theme">
-          @foreach( var ElementID in ListaMembriEchipa.Relations){
-            var Element = new Dynamicweb.Content.Items.Item(ElementID);
-            string Poza = Element["Poza"]!=null ? Element["Poza"].ToString(): "";
-            string Functia = Element["Functia"]!=null ? Element["Functia"].ToString(): "";  
-            string Nume = Element["Nume"]!=null ? Element["Nume"].ToString(): "";
-            <div class="" >
-              <article class="news-block small-block" style="margin-top:15px;">
-                <div class="overlay-link">
-                  <figure class="" >
-                    <img src='@Poza' alt='@Nume' style="height: 287px;"/>                                             
-                  </figure>
+          @if (ListaMembriEchipa.Relations.Count() > 3)
+          {
+            <div class="owl-carousel owl-theme">
+              @foreach (var ElementID in ListaMembriEchipa.Relations)
+              {
+                var Element = new Dynamicweb.Content.Items.Item(ElementID);
+                string Poza = Element["Poza"] != null ? Element["Poza"].ToString() : "";
+                string Functia = Element["Functia"] != null ? Element["Functia"].ToString() : "";
+                string Nume = Element["Nume"] != null ? Element["Nume"].ToString() : "";
+                <div class="">
+                  <article class="news-block small-block" style="margin-top: 15px;">
+                    <div class="overlay-link">
+                      <figure class="">
+                        <img src='@Poza' alt='@Nume' style="height: 287px;"/>
+                      </figure>
+                    </div>
+                    <header class="news-details">
+                      <h3 class="news-title"><a>@Nume - @Functia</a></h3>
+                    </header>
+                  </article>
                 </div>
-                <header class="news-details">
-                  <h3 class="news-title"><a>@Nume - @Functia</a></h3>
-                </header>
-              </article>
+              }
             </div>
-          } 
-          </div>
+          }
+          else
+          {
+            var colSize = ListaMembriEchipa.Relations.Count() == 1 ? "col-md-12" : ListaMembriEchipa.Relations.Count() == 2 ? "col-md-6" : ListaMembriEchipa.Relations.Count() == 3 ? "col-md-4" : ""; 
+            <div class="container">
+              @foreach (var ElementID in ListaMembriEchipa.Relations)
+              {
+                var Element = new Dynamicweb.Content.Items.Item(ElementID);
+                string Poza = Element["Poza"] != null ? Element["Poza"].ToString() : "";
+                string Functia = Element["Functia"] != null ? Element["Functia"].ToString() : "";
+                string Nume = Element["Nume"] != null ? Element["Nume"].ToString() : "";
+                <div class="col-xs-12 @colSize">
+                  <article class="news-block small-block" style="margin-top: 15px;">
+                    <div class="overlay-link">
+                      <figure class="">
+                        <img src='@Poza' alt='@Nume' style="height: 287px;"/>
+                      </figure>
+                    </div>
+                    <header class="news-details">
+                      <h3 class="news-title"><a>@Nume - @Functia</a></h3>
+                    </header>
+                  </article>
+                </div>
+              }
+            </div>
+          }
         </div>
       } 
       </div>
