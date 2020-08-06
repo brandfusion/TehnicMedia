@@ -77,6 +77,8 @@ string Grup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System
 string Producator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
 string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
 bool first = true;
+string productLinkForm = GetGlobalValue("Global:Request.Host") + "/" + i.GetString("Ecom:Product.Link.Clean");
+
     
     
   		    <div class="item"> 
@@ -181,7 +183,7 @@ bool first = true;
                   
               <div class="col-xs-6">
 
-                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista" data-product-link="@productLinkForm">
                     <span class="detalii-produs">
                       <text>@Translate("Cere Oferta", "Cere Oferta")</text>
                     </span>
@@ -323,7 +325,7 @@ if(Dealer != "" || Producator != ""){
                   
               <div class="col-xs-6">
 
-                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista" data-product-link="@productLinkForm">
                     <span class="detalii-produs">
                       <text>@Translate("Cere Oferta", "Cere Oferta")</text>
                     </span>

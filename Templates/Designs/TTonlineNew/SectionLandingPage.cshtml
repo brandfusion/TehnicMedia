@@ -425,6 +425,8 @@ int stockTotal = i.GetInteger("Ecom:Product.VariantCount") > 0 ? 0 : i.GetIntege
 
 string productName = i.GetString("Ecom:Product.Name");
 string productLink = i.GetString("Ecom:Product.LinkGroup.Clean");
+    string productLinkForm = GetGlobalValue("Global:Request.Host") + "/" + i.GetString("Ecom:Product.Link.Clean");
+
 
 string AfisarePromotie = i.GetString("Ecom:Product:Field.TagPromotie.Value");
 string manufacturerName = i.GetString("Ecom:Manufacturer.Name");
@@ -544,7 +546,7 @@ bool first = true;
                   
               <div class="col-xs-6">
 
-                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista" data-product-link="@productLinkForm">
                     <span class="detalii-produs">
                       <text>@Translate("Cere Oferta", "Cere Oferta")</text>
                     </span>
@@ -677,7 +679,7 @@ if(Dealer != "" || Producator != ""){
                   
               <div class="col-xs-6">
 
-                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista" data-product-link="@productLinkForm">
                     <span class="detalii-produs">
                       <text>@Translate("Cere Oferta", "Cere Oferta")</text>
                     </span>

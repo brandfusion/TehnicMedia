@@ -389,7 +389,6 @@ $(function(){
   
   	$('#modalformularoferta1').on('shown.bs.modal', function (e) {
     var title2 = $('.product-name-js').html();
-      console.log("test");
     $("#Articol").val(title2);
   });	
 
@@ -405,7 +404,6 @@ $(function(){
 
 $(document).ready(function() {
   	if($('.nume-companie-js').length){
-      console.log('test');
   	var title4 = $('.nume-companie-js').html();
   	$("#Articol").val(title4);
       

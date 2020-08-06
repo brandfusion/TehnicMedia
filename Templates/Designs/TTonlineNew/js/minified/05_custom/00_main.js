@@ -35,12 +35,19 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if(document.querySelector('.cere-oferta-form') !== null) {
         agreeTerms(document.querySelector('.cere-oferta-form'))
     }
+    
+    if(document.querySelector('.buton-oferta-lista') !== null) {
+        actionsTriggerProductsModal();
+    }
 });
 document.addEventListener('contentLoaded', function(e) {
     if(e.detail.template === "ArticleBodyTemplate" || e.detail.template === "CaruselProduseTemplate") {
         if(document.querySelector('.cere-oferta-form') !== null) {
             agreeTerms(document.querySelector('.cere-oferta-form'))
         }
+    }
+    if(e.detail.template === "CaruselProduseTemplate" || e.detail.template === "LoopProduseTemplate") {
+        actionsTriggerProductsModal();
     }
 })
 function getScrollContent() {
@@ -529,5 +536,18 @@ function agreeTerms(form) {
        } else {
            form.querySelector('.error-message').classList.add('hidden');
        }
+    });
+}
+
+function actionsTriggerProductsModal() {
+    console.log('function')
+    document.querySelectorAll('.buton-oferta-lista').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            console.log('click on button')
+            var productLink = e.currentTarget.getAttribute('data-product-link');
+            if(productLink !== null) {                
+                document.querySelector('[name="LinkProdus"]').value = productLink;
+            }
+        });
     });
 }

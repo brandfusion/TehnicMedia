@@ -446,6 +446,7 @@ $(function () {
 	*/
 
 	$(".buton-oferta-lista").click(function () {
+		
 
 		var parent = $(this).parents(".produs-col-background");
 

@@ -48,6 +48,8 @@ bool verificarePret = int.TryParse(PretIntreg, out pretInteger);
 bool verificareDiscount = int.TryParse(ValoareDiscount, out discount);
 int pretCuDiscount = pretInteger - ((pretInteger * discount)/100);
 string produsPromovat = i.GetString("Ecom:Product:Field.ProdusPromovat");
+string productLinkForm = GetGlobalValue("Global:Request.Host") + "/" + i.GetString("Ecom:Product.Link.Clean");
+
 
 
 
@@ -182,7 +184,7 @@ if(Dealer == "" && Producator == ""){
                   
               <div class="col-xs-6">
 
-                  <a href data-toggle="modal" data-target="#modalformularoferta3" class="buton-oferta-lista">
+                  <a href data-toggle="modal" data-target="#modalformularoferta3" class="buton-oferta-lista" data-product-link="@productLinkForm">
                     <span class="detalii-produs">
                       <text>@Translate("Cere Oferta", "Cere Oferta")</text>
                     </span>
@@ -344,7 +346,7 @@ if(Dealer != "" || Producator != ""){
                   
               <div class="col-xs-6">
 
-                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista">
+                  <a href data-toggle="modal" data-target="#modalformularoferta1" class="buton-oferta-lista" data-product-link="@productLinkForm">
                     <span class="detalii-produs">
                       <text>@Translate("Cere Oferta", "Cere Oferta")</text>
                     </span>
