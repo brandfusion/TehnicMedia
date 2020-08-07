@@ -540,10 +540,8 @@ function agreeTerms(form) {
 }
 
 function actionsTriggerProductsModal() {
-    console.log('function')
     document.querySelectorAll('.buton-oferta-lista').forEach(function(el) {
         el.addEventListener('click', function(e) {
-            console.log('click on button')
             var productLink = e.currentTarget.getAttribute('data-product-link');
             if(productLink !== null) {                
                 document.querySelector('[name="LinkProdus"]').value = productLink;
