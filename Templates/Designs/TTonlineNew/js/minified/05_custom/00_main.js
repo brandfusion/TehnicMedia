@@ -46,7 +46,7 @@ document.addEventListener('contentLoaded', function(e) {
             agreeTerms(document.querySelector('.cere-oferta-form'))
         }
     }
-    if(e.detail.template === "CaruselProduseTemplate" || e.detail.template === "LoopProduseTemplate") {
+    if(e.detail.template === "CaruselProduseTemplate" || e.detail.template === "LoopProduseTemplate" || e.detail.template === "ArticleBodyTemplate") {
         actionsTriggerProductsModal();
     }
 })
@@ -273,12 +273,10 @@ function loadArticleSections(authorId) {
         url: urlFeed
     })
     .then(function (response) {
-        console.log(response, 'this is an array1')
         var isResponse = response.data.length > 0; 
         compileDataToHandlebars(response.data[0], authorsContainter);
 
         var authorsArray = isResponse > 0 ? response.data[0].ArticlesContainer : undefined;
-        console.log(authorsArray, 'this is an array')
         return authorsArray;
     })
     .then(function (response) {      
