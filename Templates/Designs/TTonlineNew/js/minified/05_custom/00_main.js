@@ -180,20 +180,23 @@ function loadOnChangePage() {
 }
 
 function getDataToChangePage(urlFeed, container) {
-    axios({
-        method:'get',
-        url: urlFeed
-    })
-    .then(function (response) {
-        compileDataToHandlebars(response.data[0], container);
-    })
-    .then(function() {
-        loadOnChangePage()
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error, "error chang page");
-    })
+    console.log(container, 'container')
+    if(container !== null) {
+        axios({
+            method:'get',
+            url: urlFeed
+        })
+        .then(function (response) {
+            compileDataToHandlebars(response.data[0], container);
+        })
+        .then(function() {
+            loadOnChangePage()
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error chang page");
+        })
+    }   
 }
 function loadEdition(button) {    
     var year = button.getAttribute('data-year');
