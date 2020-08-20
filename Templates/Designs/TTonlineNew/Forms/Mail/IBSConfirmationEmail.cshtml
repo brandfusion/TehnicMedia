@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -159,6 +159,8 @@
 	DateTime submitDate = GetDate("Submit.Date");
 	string subject = GetString("Submit.MailSubject");
 	string text = GetString("Submit.MailText");
+	string receiptSubject = GetString("Submit.ReceiptSubject");
+	string receiptText = GetString("Submit.ReceiptText");
 	string receiptUrl = GetString("Submit.ReceiptUrl");
 	string requestUrl = "https://" + GetGlobalValue("Global:Request.Host");
 	string templateBaseUrl = GetString("Template:BaseUrl");
@@ -239,7 +241,7 @@
 															<tr>
 																<td width="30" height="30" align="right">
 																	<a target="_blank" href="@requestUrl">
-																		<img src="@requestUrl/Files/Images/logo_TT.png" alt="" border="0" style="display:block; border:none; outline:none; text-decoration:none;" /><!--@requestUrl/Admin/Module/BasicForms/Logo.png-->
+																		<img src="@requestUrl/Files/Files/ibs_l-01_720.png" alt="" border="0" style="display:block; border:none; outline:none; text-decoration:none;height: 100px;" /><!--@requestUrl/Admin/Module/BasicForms/Logo.png-->
 																	</a>
 																</td>
 															</tr>
@@ -281,7 +283,14 @@
 														<tbody>
 															<tr>
 																<td style="font-family: Calibri Light, Helvetica, arial, sans-serif; font-size: 45px;font-weight:100; color: #0A8CCE; text-align:center; line-height: 30px;" st-title="fulltext-heading">
-																	@subject
+																	@if (!String.IsNullOrEmpty(subject))
+                                                                    {
+	                                                                    @subject	
+                                                                    }
+																	@if (!String.IsNullOrEmpty(receiptSubject))
+                                                                    {
+                                                                        @receiptSubject	
+                                                                    }
 																</td>
 															</tr>
 														</tbody>
@@ -336,6 +345,14 @@
 																	</td>
 																</tr>
 															}
+															@if (!String.IsNullOrEmpty(receiptText))
+                                                            {
+                                                            	<tr>
+                                                            		<td style="font-family: Helvetica, arial, sans-serif; font-size: 16px; color: #333333; text-align:left; line-height: 1.2em;" st-content="fulltext-content">
+                                                            			@receiptText
+                                                            		</td>
+                                                            	</tr>
+                                                            }
 															<!-- End of content -->
 														</tbody>
 													</table>

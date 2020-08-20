@@ -8,7 +8,7 @@
 @{
   string designName1 = "TTonline";
   string device = Pageview.Device.ToString();
-  string firstPageId = GetString("DwAreaFirstPageID");
+    string firstPageId = GetString("DwAreaFirstPageID");
   string homeOrSubpage = GetString("DwAreaFirstPageID") == GetString("Global:Page.ID") ? "home" : "subpage";
   string print = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["print"]) ? "printOrPdf" : "";
   //string resultsPage = GetString("Item.Area.SearchResults");

@@ -477,6 +477,9 @@
     #LoopStiri {
         padding: 15px;
     }
+    .subheader img {
+        height: auto;
+    }
 }
 .sticker-promotie {
     background-color: red;
