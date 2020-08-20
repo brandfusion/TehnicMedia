@@ -453,8 +453,8 @@
     padding: 0 10px;
 }
 #LoopAutor {
-    display: grid;
-    grid-template-columns: 80% 20%;
+    display: block;
+    /*grid-template-columns: 80% 20%;*/
     border-bottom: 2px solid #d6d6d6;
 }
 #LoopAutor h1 {
