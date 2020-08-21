@@ -97,7 +97,8 @@
             int BandaSubBranduri = companie["Banda_Sub_Branduri"] != null ? (int)companie["Banda_Sub_Branduri"] : 0 ;
 			string ProduseReprezentativeID = companie["RepresentativeProducts"] != null ? companie["RepresentativeProducts"].ToString(): "";
 			 var ProduseReprezentative = ProductFacade.GetItemTypeProducts(companie["RepresentativeProducts"]);
-           string linkToateArticole ="";//TTOnlineUrlFacade.GenerateLinkForCompanii2(IDRaw, NameRaw); 
+            string linkToateArticole ="";//TTOnlineUrlFacade.GenerateLinkForCompanii2(IDRaw, NameRaw); 
+			string articleLink = GetGlobalValue("Global:Request.Host") + "/Default.aspx?ID=" + Pageview.Page.ID.ToString() + "&companyid=" + idCompanie;
 
         if(TipClient == "1"){
 
@@ -139,7 +140,7 @@ if(Contactform == true){
 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pbt-20">
   
     <h5>Contacteaza @Name</h5>
-      <div data-nume="@Name" class="form-wrapper">
+      <div data-nume="@Name" class="form-wrapper" data-company-link="@articleLink">
     @RenderParagraphContent(120)
       </div>
     </div> 

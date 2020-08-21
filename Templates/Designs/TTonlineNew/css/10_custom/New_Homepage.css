@@ -215,6 +215,12 @@
     right: -0.5rem;
     padding: 0.5rem 1rem;
 }
+.product-item-company-page .stickers-container.stickers-container--top-left {
+    left: -1.5rem;
+}
+.product-item-company-page .stickers-container.stickers-container--top-right {
+    right: -1.5rem;
+}
 /* END PRODUCT STICKERS*/
 #loader {
     position: fixed;

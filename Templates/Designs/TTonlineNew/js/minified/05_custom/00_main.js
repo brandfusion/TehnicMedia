@@ -39,6 +39,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if(document.querySelector('.buton-oferta-lista') !== null) {
         actionsTriggerProductsModal();
     }
+    if(document.querySelector('[data-company-link]') !== null && document.querySelector('[name="LinkProdus"]') !== null) {
+        document.querySelector('[name="LinkProdus"]').value = document.querySelector('[data-company-link]').getAttribute('data-company-link');
+    }
 });
 document.addEventListener('contentLoaded', function(e) {
     if(e.detail.template === "ArticleBodyTemplate" || e.detail.template === "CaruselProduseTemplate") {
