@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if(document.querySelector('.buton-oferta-lista') !== null) {
         actionsTriggerProductsModal();
     }
+
     if(document.querySelector('[data-company-link]') !== null && document.querySelector('[name="LinkProdus"]') !== null) {
         document.querySelector('[name="LinkProdus"]').value = document.querySelector('[data-company-link]').getAttribute('data-company-link');
     }
@@ -183,7 +184,6 @@ function loadOnChangePage() {
 }
 
 function getDataToChangePage(urlFeed, container) {
-    console.log(container, 'container')
     if(container !== null) {
         axios({
             method:'get',
@@ -286,7 +286,6 @@ function loadArticleSections(authorId) {
         return authorsArray;
     })
     .then(function (response) {      
-        console.log(response, 'this is a response')
         var sectionContainer = document.querySelector('.section-template');
         var url = sectionContainer.getAttribute("data-json-feed");
         if(response !== undefined) {

@@ -91,6 +91,8 @@
       var ProduseReprezentative = ProductFacade.GetItemTypeProducts(companie["RepresentativeProducts"]);
  string linkToateArticole =TTOnlineUrlFacade.GenerateLinkForCompanii2(IDCompanie, NameCompanie); 
 string CATEGORIE_PARTENER = companie["Sectiune"] !=null ? companie["Sectiune"].ToString(): "";
+        string articleLink = GetGlobalValue("Global:Request.Host") + "/Default.aspx?ID=" + Pageview.Page.ID.ToString() + "&companyid=" + idCompanie;
+
            
            @* var RepresentativeProducts = GetLoop("Item.RepresentativeProducts.Value");
             var SecondaryProducts = GetLoop("Item.SecondaryProducts.Value");
@@ -129,7 +131,7 @@ if(Contactform == true){
 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pbt-20">
   
     <h5>Contacteaza @Name</h5>
-      <div data-nume="@Name" class="form-wrapper">
+      <div data-nume="@Name" class="form-wrapper" data-company-link="@articleLink">
     @RenderParagraphContent(120)
       </div>
     </div> 
