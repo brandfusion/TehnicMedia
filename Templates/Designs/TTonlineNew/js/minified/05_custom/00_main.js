@@ -35,12 +35,23 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if(document.querySelector('.cere-oferta-form') !== null) {
         agreeTerms(document.querySelector('.cere-oferta-form'))
     }
+    
+    if(document.querySelector('.buton-oferta-lista') !== null) {
+        actionsTriggerProductsModal();
+    }
+
+    if(document.querySelector('[data-company-link]') !== null && document.querySelector('[name="LinkProdus"]') !== null) {
+        document.querySelector('[name="LinkProdus"]').value = document.querySelector('[data-company-link]').getAttribute('data-company-link');
+    }
 });
 document.addEventListener('contentLoaded', function(e) {
     if(e.detail.template === "ArticleBodyTemplate" || e.detail.template === "CaruselProduseTemplate") {
         if(document.querySelector('.cere-oferta-form') !== null) {
             agreeTerms(document.querySelector('.cere-oferta-form'))
         }
+    }
+    if(e.detail.template === "CaruselProduseTemplate" || e.detail.template === "LoopProduseTemplate" || e.detail.template === "ArticleBodyTemplate") {
+        actionsTriggerProductsModal();
     }
 })
 function getScrollContent() {
@@ -173,20 +184,22 @@ function loadOnChangePage() {
 }
 
 function getDataToChangePage(urlFeed, container) {
-    axios({
-        method:'get',
-        url: urlFeed
-    })
-    .then(function (response) {
-        compileDataToHandlebars(response.data[0], container);
-    })
-    .then(function() {
-        loadOnChangePage()
-    })
-    .catch(function (error) {
-        // handle error
-        console.log(error, "error chang page");
-    })
+    if(container !== null) {
+        axios({
+            method:'get',
+            url: urlFeed
+        })
+        .then(function (response) {
+            compileDataToHandlebars(response.data[0], container);
+        })
+        .then(function() {
+            loadOnChangePage()
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error, "error chang page");
+        })
+    }   
 }
 function loadEdition(button) {    
     var year = button.getAttribute('data-year');
@@ -266,16 +279,13 @@ function loadArticleSections(authorId) {
         url: urlFeed
     })
     .then(function (response) {
-        console.log(response, 'this is an array1')
         var isResponse = response.data.length > 0; 
         compileDataToHandlebars(response.data[0], authorsContainter);
 
         var authorsArray = isResponse > 0 ? response.data[0].ArticlesContainer : undefined;
-        console.log(authorsArray, 'this is an array')
         return authorsArray;
     })
     .then(function (response) {      
-        console.log(response, 'this is a response')
         var sectionContainer = document.querySelector('.section-template');
         var url = sectionContainer.getAttribute("data-json-feed");
         if(response !== undefined) {
@@ -529,5 +539,16 @@ function agreeTerms(form) {
        } else {
            form.querySelector('.error-message').classList.add('hidden');
        }
+    });
+}
+
+function actionsTriggerProductsModal() {
+    document.querySelectorAll('.buton-oferta-lista').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            var productLink = e.currentTarget.getAttribute('data-product-link');
+            if(productLink !== null) {                
+                document.querySelector('[name="LinkProdus"]').value = productLink;
+            }
+        });
     });
 }

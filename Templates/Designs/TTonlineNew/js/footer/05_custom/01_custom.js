@@ -213,6 +213,12 @@ function checkCheckboxesValidityForOnlineMagazine() {
   }
 }
 
+function  triggerSearchProducts(){
+  var url = "/Default.aspx?ID=4228";
+  var value = $(".product-search input").val();
+  var newUrl = replaceUrlParam(url, "q", value);
+  window.location.href = newUrl;
+}
 
 
 $(function(){
@@ -788,12 +794,13 @@ $(document).ready( function(){
   });
 
   $(".product-search button").on('click', function() {
-    var url = "/Default.aspx?ID=4228";
-    var value = $(".product-search input").val();
-    var newUrl = replaceUrlParam(url, "q", value);
-    window.location.href = newUrl;
+    triggerSearchProducts();
   });
-  
+  $(".product-search input").on('keyup', function(e) {
+    if(e.keyCode === 13) {
+      triggerSearchProducts();
+    }    
+  });
   $(".company-search button").on('click', function() {
     var url = "/Default.aspx?ID=4218";
     var value = $(".company-search input").val();

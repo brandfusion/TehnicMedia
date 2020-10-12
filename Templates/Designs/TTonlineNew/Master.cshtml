@@ -8,7 +8,7 @@
 @{
   string designName1 = "TTonline";
   string device = Pageview.Device.ToString();
-  string firstPageId = GetString("DwAreaFirstPageID");
+    string firstPageId = GetString("DwAreaFirstPageID");
   string homeOrSubpage = GetString("DwAreaFirstPageID") == GetString("Global:Page.ID") ? "home" : "subpage";
   string print = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["print"]) ? "printOrPdf" : "";
   //string resultsPage = GetString("Item.Area.SearchResults");
@@ -299,7 +299,7 @@ var google_remarketing_only = true;
 <script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/00_handlebars.js"></script> 
 <script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/05_axios.js"></script> 
 <script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/10_es6promise.js"></script> 
-<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/05_custom/00_main.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/05_custom/00_main.min.js"></script> 
 <script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/05_custom/05_handlebarsHelper.min.js"></script> 
 
 <noscript>

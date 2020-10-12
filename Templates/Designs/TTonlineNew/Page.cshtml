@@ -251,7 +251,7 @@
           <!-- End Banner Articol -->
           <div class="row text-center mb-20">
            {{#if cereOferta}}
-            @RenderCereOfertaButton()
+            @RenderCereOfertaButton("{{pagePageID}}")
            {{/if}} 
           </div>
         </div><!-- .post-content -->
@@ -318,7 +318,7 @@
                    </div>
                    <div class="author-info">
                      <h3><a href="/Default.aspx?ID=@autorPage&autor={{autorId}}">{{name}}</a></h3>
-                       <p class="author-bio">{{description}}</p>
+                       <p class="author-bio">{{{description}}}</p>
                    </div>
                  </div>
           {{/ifCond}}     
@@ -386,11 +386,13 @@
     {{/each}}
 </script>
 
-@helper RenderCereOfertaButton()
+@helper RenderCereOfertaButton(string pageId)
 {
+  string articleLink =  GetGlobalValue("Global:Request.Host") + "/Default.aspx?ID=" + pageId;
+
   var termeniSiContitiiPageUrl = "/Default.aspx?ID=" + GetPageIdByNavigationTag("termsAndConditions");
   <!-- Large modal -->
-  <button class="btn btn-primary test" data-toggle="modal" data-target="#modalformularoferta" id="buton-modal-cere-detalii">@Translate("askForDetails","Cere detalii sau oferta")</button>
+  <button class="btn btn-primary buton-oferta-lista" data-toggle="modal" data-target="#modalformularoferta" id="buton-modal-cere-detalii" data-product-link="@articleLink">@Translate("askForDetails","Cere detalii sau oferta")</button>
   
   <div class="modal fade bd-example-modal-sm" id="modalformularoferta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="background-color:rgba(255,255,255, 0.7);">
     <div class="modal-dialog modal-sm">

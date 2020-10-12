@@ -101,27 +101,94 @@ if(ProduseReprezentative.Any()){
   }
   
  
-@foreach (var produsReprezentativ in ProduseReprezentative) {
+@foreach (var produsReprezentativ in ProduseReprezentative.OrderByDescending(s => s.GetProductFieldValue("ProdusPromovat").ToString())) {
   
   
   string mainImage = !string.IsNullOrEmpty(@produsReprezentativ.ImageLarge) ? GetImage(@produsReprezentativ.ImageLarge, 255, 168) + "&bgcolor=white"  : "/Files/Images/NoImage/255x168.png";  
+  DateTime CurrentDate = DateTime.Now;
+    string productLink = produsReprezentativ.Link1;
+    string AfisarePromotie = produsReprezentativ.GetProductFieldValue("TagPromotie").ToString();
+    string moneda = produsReprezentativ.GetProductFieldValue("MonedaPret").ToString();
+    string ValoareDiscount = produsReprezentativ.GetProductFieldValue("ValoareDiscount").ToString();
+    string PretIntreg = produsReprezentativ.GetProductFieldValue("PretIntreg").ToString();
+    
+    int pretInteger;
+    int discount;
+    bool verificarePret = int.TryParse(PretIntreg, out pretInteger);
+    bool verificareDiscount = int.TryParse(ValoareDiscount, out discount);
+    int pretCuDiscount = pretInteger - ((pretInteger * discount)/100);
+    string produsPromovat = produsReprezentativ.GetProductFieldValue("ProdusPromovat").ToString();
+    DateTime dataExpirarePromotie =  DateTime.Parse(produsReprezentativ.GetProductFieldValue("DataExpirarePromotie").ToString());
   
  var grupuri = produsReprezentativ.Groups;
   if(count < 8){
-<div class="product-item standard-item col-sm-6 col-xs-12 col-md-3">
+<div class="product-item standard-item product-item-company-page col-sm-6 col-xs-12 col-md-3">
   <div class="product-border">
     <div class="product-image">
       <a href="/Default.aspx?ID=4228&ProductID=@(produsReprezentativ.Id)" class="overlay-link">
-        <figure class=" text-center test">
+        <figure class=" text-center">
           @if(!String.IsNullOrEmpty(@produsReprezentativ.ImageLarge)) {
           <img src="/Files@(mainImage)" alt="@produsReprezentativ.Name" class="">
           } else {
               <img src="http://placehold.it/350x150" alt="@produsReprezentativ.Name" class="img-responsive">
           }
+           @if (ValoareDiscount != "")
+                {
+                    if (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate)
+                     {
+                         <div class="stickers-container stickers-container--top-left">
+                             <div class="sticker sticker--new">
+                                 <div class="col-xs-12 text-center">
+                                    - @ValoareDiscount %
+                                 </div>
+                             </div>
+                         </div>
+                     }
+                }
+            @if (produsPromovat == "True")
+            {
+                <div class="stickers-container stickers-container--top-right">
+                    <div class="sticker sticker--new">@Translate("Promovat")</div>
+                </div>
+            }
         </figure>
       </a>
     </div>
-
+    <div class="row row-promotii-produs">
+        <div class="col-xs-12" style="padding: 0 5px;display: flex; justify-content: space-between;">
+            @if(AfisarePromotie == "True"){
+                if (dataExpirarePromotie > CurrentDate || dataExpirarePromotie == CurrentDate)
+                {
+                    <div class="promotie">
+                        <span class="final-oferta">
+                            <text>
+                                <strong>@Translate("Final Oferta", "Final Ofertă:")</strong>
+                            </text>
+                            <br/>
+                            <text>
+                                @dataExpirarePromotie.ToString("dd MMM yyyy")
+                            </text>
+                        </span>
+                    </div>
+                }
+            }
+            @if (pretInteger > 0)
+            {
+                if (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate)
+                {
+                    <div class="pret-produs">
+                        <a href="@productLink">
+                            <span class="pretTaiat">
+                            <span class="pretIntreg">@PretIntreg @moneda <br/></span>
+                            </span>
+                            <span class="detalii-produs pretRedus">@pretCuDiscount @moneda
+                            </span>
+                        </a>
+                    </div>
+                }
+            }
+            </div>
+    </div>
     <div class="product-title">
       <h2>
         @produsReprezentativ.Name 

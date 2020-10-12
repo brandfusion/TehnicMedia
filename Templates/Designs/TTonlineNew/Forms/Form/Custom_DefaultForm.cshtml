@@ -92,7 +92,7 @@
                         requiredImage = String.Format("<img src=\"/Files/images/{0}\">", formLabelRequired);
                     }
 
-                    if (fieldType != "CheckBox")
+                    if (fieldType != "CheckBox" && fieldType != "Hidden")
                     {
                         if (formLabelOverField)
                         {
@@ -132,12 +132,15 @@
                                 </div>
                             </div>
                         }
+                    } else if (fieldType == "Hidden")
+                    {
+                        <div> @fieldControl </div>  
                     }
                     else
                     {
                         <div class="display-flex">
                             @fieldControl
-                            <p>@fieldName</p>
+                            <p style="color:black">@fieldName</p>
                         </div>
                     }
                 }
