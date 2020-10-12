@@ -10,7 +10,20 @@
 <div class="headerBox filtersHead col-xs-12 row">
     <h3 class="block-title top-title"><span><!--@Translate("filterYourResults", "Filter your results")--> Filtreaza</span></h3>
 </div>
-
+<div class="row">
+    <div class="col-xs-12">
+        <p></p>
+        @RenderNavigation(new
+        {
+            template = "LeftNavigationEcom.xslt",
+            id = "leftnavigation",
+            startlevel = 2,
+            listStyle = "left-navigation",
+            cssclass = "dwnavigation",
+            endlevel = 2
+        })
+    </div>
+</div>
 <!-- REMOVE FILTERS -->
 
 

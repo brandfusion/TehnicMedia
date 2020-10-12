@@ -15,13 +15,14 @@ string NumeProducator1 = producator1.Name;
 	
 }
 <div class="headerBox filtersHead col-xs-12 row">
-  <h3 class="block-title top-title"><span>iBuySmart / @GroupName / @NumeProducator1 @(!string.IsNullOrEmpty(NumeProducator1)  ? " / " : "" ) @(!string.IsNullOrEmpty(Furnizor)  ? "Furnizor: " : "" ) @(Furnizor != "" ? numeFurnizor: "") </span></h3>
-  @SnippetStart("NumeFurnizor")
-  <span>@(Furnizor != "" ? numeFurnizor: "")</span>
-  @SnippetEnd("NumeFurnizor")
-  @SnippetStart("NumeProducator")
-  @NumeProducator1 <span>/</span>
-  @SnippetEnd("NumeProducator")
+    <p>test</p>
+    <h3 class="block-title top-title"><span>iBuySmart / @GroupName / @NumeProducator1 @(!string.IsNullOrEmpty(NumeProducator1) ? " / " : "") @(!string.IsNullOrEmpty(Furnizor) ? "Furnizor: " : "") @(Furnizor != "" ? numeFurnizor : "") </span></h3>
+    @SnippetStart("NumeFurnizor")
+    <span>@(Furnizor != "" ? numeFurnizor : "")</span>
+    @SnippetEnd("NumeFurnizor")
+    @SnippetStart("NumeProducator")
+    @NumeProducator1 <span>/</span>
+    @SnippetEnd("NumeProducator")
 </div>
 
 <!-- REMOVE FILTERS -->
