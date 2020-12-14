@@ -247,47 +247,49 @@ if(CatalogID != 0){
             @foreach( var ElementID in ListaCatalog.Relations){
               var Element = new Dynamicweb.Content.Items.Item(ElementID);
           string Thumbnail = Element["Thumbnail"]!=null ? Element["Thumbnail"].ToString(): "";
+                var DMPage = GetPageIdByNavigationTag("DMVirtualPresentation").ToString();
+                var currentPage = GetInteger("DWPageID").ToString();
 
             <div class="col-md-4 col-xs-12 col-sm-12 pbt-20" >
               <article class="news-block small-block testProfesional" style="">
 
                 @if(userIsLoggedIn == true){
-                  
-                  
-                                 if(!string.IsNullOrEmpty(@Thumbnail)){
-                                                      <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
-                                                                                              }
-                                                                                                  else
-                                                                                              {
-
-                                                     <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
-                                                                                              }
-                  
-                  
-                
-  
-                                      <header class="news-details">
-
-                                        <h3 class="news-title"><a href='@Element["Fisier"]' target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
-
-
-                                      </header>
+                    if(!string.IsNullOrEmpty(@Thumbnail)){
+                        <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
+                    }
+                    else
+                    {
+                        <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
+                    }
+                    <header class="news-details">
+                        <h3 class="news-title"><a href='@Element["Fisier"]' target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3>
+                     </header>
 				}else{
+				   
+				    if (DMPage == currentPage )
+				    {
+				        if(!string.IsNullOrEmpty(@Thumbnail)){
+				        <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
+				    }
+				    else
+				    {
+				        <a class="  overlay-link" href='@Element["Fisier"]' target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
+				    }
+				    }
+				    else
+				    {
+				        if (!string.IsNullOrEmpty(@Thumbnail))
+				        {
+				            <a class=" overlay-link catalog-link-js" data-loggedin="@userIsLoggedIn" target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
+				        }
+				        else
+				        {
+				            <a class=" overlay-link catalog-link-js" data-loggedin="@userIsLoggedIn" target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
+				        }
+				    }
 
 
-	 								if(!string.IsNullOrEmpty(@Thumbnail)){
-                                                      <a class=" overlay-link catalog-link-js" data-loggedin="@userIsLoggedIn" target="_blank"><figure class="image-overlay  text-center"><img src='@Element["Thumbnail"]' alt='@Element["Titlu"]'/></figure></a>
-                                                                                              }
-                                                                                                  else
-                                                                                              {
-
-                                                     <a class=" overlay-link catalog-link-js" data-loggedin="@userIsLoggedIn" target="_blank"><figure class="image-overlay  text-center"><img src="/Files/Images%2fLiberXXVVVII26.jpg" alt='@Element["Titlu"]'/></figure></a>
-                                                                                              }
-                  
-                  
-                
-
-                                        <header class="news-details">
+				    <header class="news-details">
 
                                           <h3 class="news-title"><a  target="Blank" alt='@Element["Titlu"]'> @Name - @Element["Titlu"]</a></h3> 
 

@@ -49,11 +49,16 @@ int FotoVideoId = companie["GalerieFotoVideo"] != null ? (int)companie["GalerieF
 
 <!-- Trainings Start -->
 int TrainingListId = companie["Traninguri"] != null ? (int)companie["Traninguri"] : 0;
+
+
 if(TrainingListId != 0){
-  var TrainingLista = Dynamicweb.Content.Items.ItemList.GetItemListById(TrainingListId);
+var TrainingLista = Dynamicweb.Content.Items.ItemList.GetItemListById(TrainingListId);
+var DMPage = GetPageIdByNavigationTag("DMVirtualPresentation").ToString();
+var currentPage = GetInteger("DWPageID").ToString();
+var titleText = DMPage == currentPage ? "Demonstrații":"Training";
   if(TrainingLista.Relations.Any()){
     <div class="row row-companie mb-40  background-white row-training">
-     <div class="col-xs-12 col-titlu-companie"><h3><span>@Name Training</span></h3></div>
+     <div class="col-xs-12 col-titlu-companie"><h3><span>@Name @titleText</span></h3></div>
       @if(TrainingLista != null) { 
         foreach( var TrainingID in TrainingLista.Relations){
           var Training = new Dynamicweb.Content.Items.Item(TrainingID);
@@ -223,7 +228,10 @@ if(JobsId != 0){
                 <p>Descriere : @descriere</p>
               </div>
               <div class="col-xs-6">
-                <p>Data: @data </p>
+                @if (data != "")
+                {
+                  <p>Data: @data </p>
+                }
                 <p>Locatie : @locatie</p>
               </div>
               <div class="col-xs-12">

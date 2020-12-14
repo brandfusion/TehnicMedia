@@ -92,11 +92,12 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
     
     @{
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
-      var styleBundle = Dna.Optimizer.Renderer.RenderStyles(string.Format("{0}css", designFolder), minify, true, "-main-styles", new[] { "exceptions" });
-      var scriptBundleHeader = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/header", designFolder), minify, true, "-main-scripts-header", new[] { "exceptions" });
-      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+      var styleBundle = Dna.Optimizer.Renderer.RenderStyles(string.Format("{0}css", designFolder), minify:minify, recursive : true, virtualPathPrefix : "-main-styles", exclusions: new[] { "exceptions" });
+      var scriptBundleHeader = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/header", designFolder), minify: minify, recursive : true, virtualPathPrefix : "-main-scripts-header",exclusions:  new[] { "exceptions" });
+     // var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive : true, virtualPathPrefix : "-main-scripts-footer",exclusions:  new[] { "exceptions" });
     }
-    <link rel="stylesheet" href="@styleBundle">
+    @*<link rel="stylesheet" href="@styleBundle">*@
+    <link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/css/10_custom/custom.min.css">
     <script src="@scriptBundleHeader"></script>
     @GetString("Javascripts")
     @RenderSnippet("externalScripts")
@@ -239,7 +240,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
 @{
   string designName1 = "TTonline";
   string device = Pageview.Device.ToString();
-  string firstPageId = GetString("DwAreaFirstPageID");
+    string firstPageId = GetString("DwAreaFirstPageID");
   string homeOrSubpage = GetString("DwAreaFirstPageID") == GetString("Global:Page.ID") ? "home" : "subpage";
   string print = !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["print"]) ? "printOrPdf" : "";
   //string resultsPage = GetString("Item.Area.SearchResults");
@@ -256,7 +257,11 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
   List<LoopItem> websiteLanguages = GetLoop("WebsiteLanguages");
   string designFolder = GetString("Template:DesignBaseUrl");
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
-      var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+//var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify, true, "-main-scripts-footer", new[] { "exceptions" });
+var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive: true, virtualPathPrefix : "-main-scripts-footer", exclusions : new[] { "exceptions" });
+    var ibuySmartPageId = GetPageIdByNavigationTag("catalog");
+    var ibuySmartUrl = "/Default.aspx?ID=" + ibuySmartPageId;
+    var isMobile = Pageview.Device.ToString() == "Mobile" ? true : false;
 
 }
 <!DOCTYPE HTML>
@@ -472,15 +477,38 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
                 string textSubheader = GetString("Item.Area.Text");
                 string dimensiuneFont = !string.IsNullOrEmpty(GetString("Item.Area.DimensiuneFont")) ? "font-size:" + GetString("Item.Area.DimensiuneFont") + ";" : "";
               
-                <div class="subheader row" style="@culoareFundal">
-                    <div class="col-xs-4">
-                      <img src="@logoSubheader">
-                    </div>
-                    <div class="col-xs-5">
-                      <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
-                    </div>
-                    <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
-                </div>
+                
+                    if (isMobile)
+                    {
+                        <div class="subheader row" style="@culoareFundal">
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <a href="@ibuySmartUrl"><img src="@logoSubheader"></a>
+                                </div>
+                                <div class="col-xs-5">
+                                    <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">@RenderSnippet("SearchProduse")</div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="subheader row" style="@culoareFundal">
+                            <div class="col-xs-4">
+                                <a href="@ibuySmartUrl"><img src="@logoSubheader"></a>
+                            </div>
+                            <div class="col-xs-5">
+                                <h4 style="@culoareFont @dimensiuneFont">@textSubheader</h4>
+                            </div>
+                            <div class="col-xs-12 col-md-3">@RenderSnippet("SearchProduse")</div>
+                        </div>
+                        
+                    }
+                    
+                
           }
   
           @if(@GetInteger("DwAreaID") == 3){
@@ -748,9 +776,6 @@ string AdresaLogoFooter= "https://" + GetGlobalValue("Global:Request.Host")+ "/F
     <!-- / Mobile Menu -->
     <div id="go-top-button" class="fa fa-angle-up" title="Scroll To Top"></div>
     <div class="mobile-overlay" id="mobile-overlay"></div>
-    @*polyfill for Axios for IE11*@
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script> 
  <script type="text/javascript" src="@scriptBundleFooter"></script>
 
 
@@ -819,6 +844,12 @@ var google_remarketing_only = true;
 
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script> 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/00_handlebars.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/05_axios.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/00_libraries/10_es6promise.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/05_custom/00_main.min.js"></script> 
+<script type="text/javascript" src="/Files/Templates/Designs/TTOnlineNew/js/minified/05_custom/05_handlebarsHelper.min.js"></script> 
 
 <noscript>
     <div style="display:inline;">
