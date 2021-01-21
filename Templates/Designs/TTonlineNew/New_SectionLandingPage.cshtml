@@ -205,13 +205,13 @@ string filterValue8= "Item.Tip='Articole'";
                  <header class="news-details">
                  <h3 class="news-title"> <a href='/Default.aspx?ID={{pagePageID}}' alt='{{itemTitlu}}'>{{itemTitlu}}</a></h3>
                  <div class="main-summary">{{{itemSumar}}}</div>
-                 <p class="simple-share">@Translate("articolde","de")
+                 <p class="simple-share mb-0">@Translate("articolde","de")
                  {{#articleAutori}}
                       <span><a href="{{Link}}">{{Name}}</a></span>
                  {{/articleAutori}}       
-                 - <span class="article-date"><i class="fa fa-clock-o"></i>{{itemData}}</span></p>
-                 {{#if showItemVisits}}    
-                     <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                 <span class="article-date"><i class="fa fa-clock-o"></i>{{itemData}}</span></p>
+                 {{#if showVisitsForLoggedUsers}}    
+                     <span style="color:gray"><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
                  {{/if}} 
                </header>              
              </article><!-- News block -->
@@ -233,9 +233,9 @@ string filterValue8= "Item.Tip='Articole'";
                       <p class="simple-share">
                       {{#articleAutori}}
                             <span><a href="{{Link}}">{{Name}}</a></span>
-                       {{/articleAutori}}                 -
+                       {{/articleAutori}}                 
                       <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
-                      {{#if showItemVisits}}    
+                      {{#if showVisitsForLoggedUsers}}    
                            <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
                         {{/if}} 
                     </p>
@@ -263,9 +263,8 @@ string filterValue8= "Item.Tip='Articole'";
                  {{#articleAutori}}
                      <span class="m-0"><a href="{{Link}}">{{Name}}</a></span>
                  {{/articleAutori}}                          
-                 <span class="m-0">-</span>                     
                  <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
-                 {{#if showItemVisits}}    
+                 {{#if showVisitsForLoggedUsers}}    
                      <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
                   {{/if}}                     
                </p>
@@ -328,7 +327,7 @@ string filterValue8= "Item.Tip='Articole'";
                         <a href="{{Link}}">{{Name}}</a>
                     {{/each}}
                     <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
-                    {{#if showItemVisits}} 
+                    {{#if showVisitsForLoggedUsers}} 
                       <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
                     {{/if}}
                 </p>

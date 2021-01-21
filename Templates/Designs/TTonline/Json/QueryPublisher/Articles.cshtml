@@ -46,6 +46,7 @@
         public string itemTitlu {get; set;}
         public int itemVisits {get; set;}
 	    public bool showItemVisits { get; set; }
+		public bool showVisitsForLoggedUsers { get; set; }
         public bool pageActive {get; set;}
         public DateTime pageActiveTo {get; set;}
         public string pageAreaID {get; set;}
@@ -229,6 +230,7 @@
         articleObject.itemTitlu=article.GetString("ItemTitlu");
         articleObject.itemVisits=article.GetInteger("ItemVisits");
 	    articleObject.showItemVisits = article.GetBoolean("ItemVizite");
+	    articleObject.showVisitsForLoggedUsers = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
         articleObject.pageActive=article.GetBoolean("PageActive");
         articleObject.pageActiveTo=article.GetDate("PageActiveTo");
         articleObject.pageAreaID=article.GetString("PageAreaID");
