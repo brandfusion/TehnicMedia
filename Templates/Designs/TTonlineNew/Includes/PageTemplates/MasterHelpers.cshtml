@@ -69,7 +69,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
     @* <link rel="shortcut icon" href="@(designFolder)images/favicon.ico" type="image/x-icon" /> *@
 
     <!-- Icon Font -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">*@
     
     @{
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
@@ -77,8 +77,8 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
       var scriptBundleHeader = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/header", designFolder), minify: minify, recursive : true, virtualPathPrefix : "-main-scripts-header",exclusions:  new[] { "exceptions" });
      // var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive : true, virtualPathPrefix : "-main-scripts-footer",exclusions:  new[] { "exceptions" });
     }
-   @* <link rel="stylesheet" href="@styleBundle" />*@
-    <link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/css/10_custom/custom.min.css"/>
+    @*<link rel="stylesheet" href="@styleBundle" />*@
+    <link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/css/custom.css"/>
     <script src="@scriptBundleHeader"></script>
     @GetString("Javascripts")
     @RenderSnippet("externalScripts")
@@ -138,28 +138,29 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
       </script>
 
       <!-- Global site tag (gtag.js) - Google Ads: 970361168 --> 
-      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-970361168"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-970361168'); </script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-970361168"></script>
+      <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-970361168'); </script>
 
       <!-- Hotjar Tracking Code for https://ttonline.ro -->
-    <script>
-      (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:1231893,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
-    <!-- Global site tag (gtag.js) - Google Ads: 1010029401 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-1010029401"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      @*<script>
+        (function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:1231893,hjsv:6};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+      </script>
+      <!-- Global site tag (gtag.js) - Google Ads: 1010029401 -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-1010029401"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-      gtag('config', 'AW-1010029401');
-    </script>
+        gtag('config', 'AW-1010029401');
+      </script>*@
 
   </head>
 }
