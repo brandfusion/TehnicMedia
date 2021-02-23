@@ -465,7 +465,7 @@ $(function(){
 
 
   // Generare Evenimente Calendar Dinamic
-$(document).ready( function(){
+/*$(document).ready( function(){
   $.ajax({
     url: '/Default.aspx?ID=4262',
     type: 'GET',
@@ -554,7 +554,7 @@ $(document).ready( function(){
     console.log("error");
   });
 
-});
+});*/
   //Formular Adaugare Eveniment in Calendar
 
     
@@ -828,84 +828,87 @@ $(document).ready( function(){
   var urlstiri = $('.js-stiri-companie').attr('data-id-companie');
   var butonstiri = "/stiri?Companie=" + urlstiri;
    var butonarticole =   "/articole?Companie=" + urlarticole;
-    
-   $.ajax({
+
+    if($('.js-articole-companie').length > 0) {
+
+      $.ajax({
         url: '/articole-companii?Companie=' + urlarticole,
         type: 'GET',
-        
-      })  
-      .done(function(response) {
-            var $response=$(response);
-          
-            _.map($response,function(value,key){
-                  
-           
-                  
-                    if(_.includes($(value).html(), "block-title-js")){
-                     $('.js-titlu-articole').html(value);
-                      
-                   }
-                  
-                  if(_.includes($(value).html(), "news-block")){
-                     $('.js-content-articole').html(value);
-                    }
-                  
-                if(_.includes($(value).html(), "btn")){
-                    
-                      
-                      $(value).children().attr("href",butonarticole);
-                    
-                       $('.js-buton-articole').html(value);
-                      }
-              
-                });
-          imageResize();
-        
+
       })
-      .fail(function() {
-        
-      });
-    
-  
-  
-  $.ajax({
+          .done(function(response) {
+            var $response=$(response);
+
+            _.map($response,function(value,key){
+
+
+
+              if(_.includes($(value).html(), "block-title-js")){
+                $('.js-titlu-articole').html(value);
+
+              }
+
+              if(_.includes($(value).html(), "news-block")){
+                $('.js-content-articole').html(value);
+              }
+
+              if(_.includes($(value).html(), "btn")){
+
+
+                $(value).children().attr("href",butonarticole);
+
+                $('.js-buton-articole').html(value);
+              }
+
+            });
+            imageResize();
+
+          })
+          .fail(function() {
+
+          });
+
+
+
+      $.ajax({
         url: '/stiri-companii?Companie=' + urlstiri,
         type: 'GET',
-        
-      })  
-      .done(function(response) {
-            var $response=$(response);
-          
-            _.map($response,function(value,key){
-                  
-           
-                  
-                    if(_.includes($(value).html(), "block-title")){
-                     $('.js-titlu-stiri').html(value);
-                     
-                   }
-                  
-                  if(_.includes($(value).html(), "news-block")){
-                     $('.js-content-stiri').html(value);
-                    }
-              
-                
-                  if(_.includes($(value).html(), "btn")){
-                    
-                      
-                    $(value).children().attr("href",butonstiri);
-                    
-                       $('.js-buton-stiri').html(value);
-                      }
-                  
-                });
-          imageResize();
-        
+
       })
-      .fail(function() {
-        
-      });
-  
+          .done(function(response) {
+            var $response=$(response);
+
+            _.map($response,function(value,key){
+
+
+
+              if(_.includes($(value).html(), "block-title")){
+                $('.js-titlu-stiri').html(value);
+
+              }
+
+              if(_.includes($(value).html(), "news-block")){
+                $('.js-content-stiri').html(value);
+              }
+
+
+              if(_.includes($(value).html(), "btn")){
+
+
+                $(value).children().attr("href",butonstiri);
+
+                $('.js-buton-stiri').html(value);
+              }
+
+            });
+            imageResize();
+
+          })
+          .fail(function() {
+
+          });
+
+    }
   
   
   

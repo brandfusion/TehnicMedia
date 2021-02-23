@@ -1,4 +1,4 @@
-﻿$(document).ready(function(){
+﻿/*$(document).ready(function(){
       // START filter events
   
   
@@ -115,7 +115,7 @@
   
 
       });
-});
+});*/
 
   
   

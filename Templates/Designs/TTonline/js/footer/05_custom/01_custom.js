@@ -820,82 +820,85 @@ $(document).ready( function(){
   var butonstiri = "/stiri?Companie=" + urlstiri;
    var butonarticole =   "/articole?Companie=" + urlarticole;
     
-   $.ajax({
-        url: '/articole-companii?Companie=' + urlarticole,
-        type: 'GET',
-        
-      })  
-      .done(function(response) {
-            var $response=$(response);
-          
-            _.map($response,function(value,key){
-                  
-           
-                  
-                    if(_.includes($(value).html(), "block-title-js")){
-                     $('.js-titlu-articole').html(value);
-                      
-                   }
-                  
-                  if(_.includes($(value).html(), "news-block")){
-                     $('.js-content-articole').html(value);
-                    }
-                  
-                if(_.includes($(value).html(), "btn")){
-                    
-                      
-                      $(value).children().attr("href",butonarticole);
-                    
-                       $('.js-buton-articole').html(value);
-                      }
-              
-                });
+  if($('.js-articole-companie').length > 0) {
+    console.log("companie")
+    $.ajax({
+      url: '/articole-companii?Companie=' + urlarticole,
+      type: 'GET',
+
+    })
+        .done(function(response) {
+          var $response=$(response);
+
+          _.map($response,function(value,key){
+
+
+
+            if(_.includes($(value).html(), "block-title-js")){
+              $('.js-titlu-articole').html(value);
+
+            }
+
+            if(_.includes($(value).html(), "news-block")){
+              $('.js-content-articole').html(value);
+            }
+
+            if(_.includes($(value).html(), "btn")){
+
+
+              $(value).children().attr("href",butonarticole);
+
+              $('.js-buton-articole').html(value);
+            }
+
+          });
           imageResize();
-        
-      })
-      .fail(function() {
-        
-      });
-    
-  
-  
-  $.ajax({
-        url: '/stiri-companii?Companie=' + urlstiri,
-        type: 'GET',
-        
-      })  
-      .done(function(response) {
-            var $response=$(response);
-          
-            _.map($response,function(value,key){
-                  
-           
-                  
-                    if(_.includes($(value).html(), "block-title")){
-                     $('.js-titlu-stiri').html(value);
-                     
-                   }
-                  
-                  if(_.includes($(value).html(), "news-block")){
-                     $('.js-content-stiri').html(value);
-                    }
-              
-                
-                  if(_.includes($(value).html(), "btn")){
-                    
-                      
-                    $(value).children().attr("href",butonstiri);
-                    
-                       $('.js-buton-stiri').html(value);
-                      }
-                  
-                });
+
+        })
+        .fail(function() {
+
+        });
+
+
+
+    $.ajax({
+      url: '/stiri-companii?Companie=' + urlstiri,
+      type: 'GET',
+
+    })
+        .done(function(response) {
+          var $response=$(response);
+
+          _.map($response,function(value,key){
+
+
+
+            if(_.includes($(value).html(), "block-title")){
+              $('.js-titlu-stiri').html(value);
+
+            }
+
+            if(_.includes($(value).html(), "news-block")){
+              $('.js-content-stiri').html(value);
+            }
+
+
+            if(_.includes($(value).html(), "btn")){
+
+
+              $(value).children().attr("href",butonstiri);
+
+              $('.js-buton-stiri').html(value);
+            }
+
+          });
           imageResize();
-        
-      })
-      .fail(function() {
-        
-      });
+
+        })
+        .fail(function() {
+
+        });
+  }
   
   
   
