@@ -3,7 +3,7 @@
     var feedPageID = GetPageIdByNavigationTag("ArticlesFeed");
 }
 <div class="widget editorialwidget">
-    <div class="content sidebar-handlebars-wrapper" role="listbox" data-template="WidgetEditorialTemplate"  data-json-feed="/Default.aspx?ID=@feedPageID&type=Editorial&PageSize=1">
+    <div class="content sidebar-handlebars-wrapper" role="listbox" data-template="WidgetEditorialTemplate"  data-json-feed="/Default.aspx?ID=@feedPageID&type=Editorial&PageSize=1&redirect=false">
         @RenderPlaceholderNoImage()
     </div>
 </div>

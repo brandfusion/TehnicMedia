@@ -49,7 +49,7 @@
 @helper RenderFeaturedArticle(string pageId, string articlesIDs, string paragraphName)
 {
 	var templateName = paragraphName.Replace(" ", string.Empty) + "FeaturedTemplate";
-	<div class="handlebars-wrapper" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&PageID=@articlesIDs">
+	<div class="handlebars-wrapper" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&redirect=false&PageID=@articlesIDs">
 		<div class="pre-render-element pre-render-element--lg"></div>
 	</div>
 
@@ -97,7 +97,7 @@
     var templateName = paragraphName.Replace(" ", string.Empty) + "ListTemplate";
 	int listSize = GetInteger("Item.ListSize") > 0 ? GetInteger("Item.ListSize") : 2;
 	
-	<div class="list-container handlebars-wrapper @listTemplate" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&Sections=@sectionID&pagesize=@listSize&Excluded=@exludedItems">
+	<div class="list-container handlebars-wrapper @listTemplate" data-template="@templateName" data-json-feed="/Default.aspx?ID=@pageId&redirect=false&Sections=@sectionID&pagesize=@listSize&Excluded=@exludedItems">
 		<div style="padding-right: 5px">
 			@RenderPlaceholderImageTop("pre-render-element--md")
 		</div>

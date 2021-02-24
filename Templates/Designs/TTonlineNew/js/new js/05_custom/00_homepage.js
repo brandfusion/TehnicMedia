@@ -1,4 +1,4 @@
-
+/*
 document.addEventListener('DOMContentLoaded', function(event) {
     console.log('here goes nothing')
     //load content on homepage
@@ -37,9 +37,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
 });
 
-/*START HOMEPAGE HANDLEBARS AJAX CALLS*/
 
-//On page load on homepage, first items loaded will be the slider and the first categories
 function loadFirstViewHomepage() {
     var homePageSliderWrapper = document.getElementById('HomePageSlider');
     var urlFeed = homePageSliderWrapper.getAttribute("data-json-feed");
@@ -276,9 +274,6 @@ function loadArticleSections(authorId) {
         console.log(error, "error load article sections");
     })
 }
-/*END HOMEPAGE HANDLEBARS AJAX CALLS*/
-
-/*START ADDITIONAL FUNCTIONS*/
 function lazyLoadElements(element) {
     var top  = window.pageYOffset || document.documentElement.scrollTop;
     var currentElementTop = element.parentNode.offsetTop  - 500;
@@ -514,4 +509,4 @@ function initializeEventsCarousel() {
 function isIE11() {
     return (!(window.ActiveXObject) && "ActiveXObject" in window);
 }
-/*END ADDITIONAL FUNCTIONS*/
+*/

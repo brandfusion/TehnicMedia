@@ -111,7 +111,7 @@ string filterValue8= "Item.Tip='Articole'";
       @if(mainArticle.Any()){
                                 
           <h3 class="block-title"><span>Articole</span></h3>
-          <div class="first-container" data-template="MainArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@mainArticleID">
+          <div class="first-container" data-template="MainArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@mainArticleID&redirect=false">
               @*Handlebars goes here*@
               @RenderPlaceholderImageTop("pre-render-element--xl")
           </div>
@@ -121,13 +121,13 @@ string filterValue8= "Item.Tip='Articole'";
 
     <div class="row hideSecondPage"><!-- row-ul pentru Articole secundar 1 si secundar 2-->
         @if(secondaryArticle1.Any()){
-            <div class="handlebars-wrapper display-title-up col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@secondaryArticleID">
+            <div class="handlebars-wrapper display-title-up col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@secondaryArticleID&redirect=false">
                 @*Handlebars goes here*@
                @RenderPlaceholderImageTop("pre-render-element--md")
             </div>
         }
         @if(secondaryArticle2.Any()){     
-            <div class="handlebars-wrapper display-title-up col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@thirdArticleID">
+            <div class="handlebars-wrapper display-title-up col-md-6" data-template="SecondaryArticleTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&PageID=@thirdArticleID&redirect=false">
                 @*Handlebars goes here*@ 
                @RenderPlaceholderImageTop("pre-render-element--md")
             </div>
@@ -138,7 +138,7 @@ string filterValue8= "Item.Tip='Articole'";
     @*ARTICOLE SI STIRI*@	
  
     <div class="col-xs-12">
-        <div class="row handlebars-wrapper display-title-up" id="LoopArticoleStiri" data-template="LoopArticoleStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&pagesize=8&Sections=@sectionID&Excluded=@excludedArticles&type=Articole">
+        <div class="row handlebars-wrapper display-title-up" id="LoopArticoleStiri" data-template="LoopArticoleStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&pagesize=8&Sections=@sectionID&Excluded=@excludedArticles&type=Articole&redirect=false">
             @*Handlebars goes here*@ 
             <div class="col-md-6 col-xs-12" style="padding-left: 0px">
                 @RenderPlaceholderImageTop("pre-render-element--md")
@@ -151,7 +151,7 @@ string filterValue8= "Item.Tip='Articole'";
     
     <div class="row">
         <div class="col-xs-12">            
-            <div class="row handlebars-wrapper display-title-up" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&Sections=@sectionID&pagesize=5&type=Stiri">
+            <div class="row handlebars-wrapper display-title-up" id="LoopStiri" data-template="LoopStiriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageId&Sections=@sectionID&pagesize=5&type=Stiri&redirect=false">
                 @*Handlebars goes here*@ 
                 @RenderPlaceholderImageOnLeft()
                 @RenderPlaceholderImageOnLeft()
@@ -179,7 +179,7 @@ string filterValue8= "Item.Tip='Articole'";
 
 <h3 class="block-title"><span>Produse din categoria: @pageName</span></h3>
     <div class="carousel-produse">
-        <div class="owl-carousel owl-theme handlebars-wrapper display-title-up" data-template="LoopProduseTemplate" data-json-feed="/Default.aspx?ID=@productsPageId&Promoted=@productsIDs">
+        <div class="owl-carousel owl-theme handlebars-wrapper display-title-up" data-template="LoopProduseTemplate" data-json-feed="/Default.aspx?ID=@productsPageId&Promoted=@productsIDs&redirect=false">
                 @*Handlebars goes here*@ 
                 @RenderPlaceholderCaruselText()
                 @RenderPlaceholderCaruselText()

@@ -15,7 +15,7 @@
   string linkCompanii = Pageview.Area.Item["Link_Companii"].ToString();
   var articlePageID = GetPageIdByNavigationTag("ArticlesFeed").ToString();
   var url = "/Default.aspx?ID="+articlePageID+"&pagesize=10";
-  url += "&Tags="+ queryAutor;
+  url += "&Tags="+ queryAutor + "&redirect=false";
   string numeAutor = "";
   if (queryAutor != "null")
   {

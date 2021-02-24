@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function(event) {
+/*document.addEventListener('DOMContentLoaded', function(event) {
     window.scrollTo(0, 0); 
     //load content on homepage
     if (document.getElementById('HomePageSlider') !== null) {
@@ -61,7 +61,6 @@ function getScrollContent() {
         loadOnScrollForIE();
     }
 }
-/*START HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 //On page load on homepage, first items loaded will be the slider and the first categories
 function loadFirstViewHomepage() {
@@ -300,9 +299,6 @@ function loadArticleSections(authorId) {
         console.log(error, "error load article sections");
     })
 }
-/*END HOMEPAGE HANDLEBARS AJAX CALLS*/
-
-/*START ADDITIONAL FUNCTIONS*/
 
 function compileDataToHandlebars(data, homePageSliderWrapper) {
     var homepageSliderTemplate = document.getElementById(homePageSliderWrapper.getAttribute('data-template'));
@@ -398,8 +394,8 @@ function initializeHomepageCarousel(){
             600: {
                 items: 2
             },
-            1000: {
-                items: 4
+            1200: {
+                items: 3
             }
         }
     })
@@ -529,7 +525,6 @@ function initializeEventsCarousel() {
 function isIE11() {
     return (!(window.ActiveXObject) && "ActiveXObject" in window);
 }
-/*END ADDITIONAL FUNCTIONS*/
 
 function agreeTerms(form) {
     form.addEventListener('submit', function(e) {
@@ -552,3 +547,5 @@ function actionsTriggerProductsModal() {
         });
     });
 }
+
+ */

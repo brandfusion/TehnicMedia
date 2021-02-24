@@ -5,7 +5,7 @@
     var parteneriPageID = GetPageIdByNavigationTag("ParteneriFeed");
 }
 <h3 class="block-title text-left"><span>@Translate("Parteneri","Parteneri") T&T</span></h3>
-<div class="owl-carousel owl-parteneri-1 owl-theme parteneri-list sidebar-handlebars-wrapper" data-template="ParteneriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageID&ParentPage=@parteneriPageID">
+<div class="owl-carousel owl-parteneri-1 owl-theme parteneri-list sidebar-handlebars-wrapper" data-template="ParteneriTemplate" data-json-feed="/Default.aspx?ID=@articlesPageID&ParentPage=@parteneriPageID&redirect=false">
     @RenderPlaceholderCaruselImage()
 </div>
 

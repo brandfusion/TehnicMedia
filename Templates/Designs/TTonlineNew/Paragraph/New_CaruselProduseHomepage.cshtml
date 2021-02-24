@@ -25,7 +25,7 @@
 <div class="col-md-12">
 	<h3 class="block-title"><span>@GetString("Item.Titlu")</span></h3>
     <div class="carousel-produse">
-        <div class="owl-carousel owl-theme handlebars-wrapper" data-template="CaruselProduseTemplate" data-slides-number="4" data-json-feed="/Default.aspx?ID=@pageId&Promoted=@productsIDs">
+        <div class="owl-carousel owl-theme handlebars-wrapper" data-template="CaruselProduseTemplate" data-slides-number="4" data-json-feed="/Default.aspx?ID=@pageId&redirect=false&Promoted=@productsIDs">
             <div class="col-md-12">
                         @RenderPlaceholderCaruselText()
             </div>

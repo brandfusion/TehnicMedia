@@ -20,8 +20,8 @@
     var url = "/Default.aspx?ID="+articlePageID+"&pagesize=10";
     var autorPageID = GetPageIdByNavigationTag("AutoriFeed").ToString();
     var urlAutor = "/Default.aspx?ID="+autorPageID;
-    url += "&Autori="+ queryAutor;
-    urlAutor += "&autor="+ queryAutor;
+    url += "&Autori="+ queryAutor + "&redirect=false";
+    urlAutor += "&autor="+ queryAutor + "&redirect=false";
     
 }
 

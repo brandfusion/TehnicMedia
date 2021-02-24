@@ -1358,7 +1358,7 @@ string filterValue8= "Item.Tip='Articole'";
 
 <h3 class="block-title"><span>Produse din categoria: @pageName</span></h3>
     <div class="carousel-produse">
-        <div class="owl-carousel owl-theme handlebars-wrapper display-title-up" data-template="LoopProduseTemplate" data-json-feed="/Default.aspx?ID=@productsPageId&Promoted=@productsIDs">
+        <div class="owl-carousel owl-theme handlebars-wrapper display-title-up" data-template="LoopProduseTemplate" data-json-feed="/Default.aspx?ID=@productsPageId&redirect=false&Promoted=@productsIDs">
                 @*Handlebars goes here*@ 
                 @RenderPlaceholderCaruselText()
                 @RenderPlaceholderCaruselText()
