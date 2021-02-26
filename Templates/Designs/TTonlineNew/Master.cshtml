@@ -15,6 +15,7 @@
   //string contactPage = GetString("Item.Area.ContactUs");
   string countryCode = "RO";//Dna.IP.Frontend.GetCountryCode();
   string longLang = Pageview.GlobalTags.GetTagByName("Global:Area.LongLang").Value.ToString();
+    string languageClass = longLang == "ro-RO" ? "lang-ro" : "lang-en";
   //string email = GetString("Item.Area.Email");
   //string phone = GetString("Item.Area.Phone");
   
@@ -34,7 +35,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
 }
 <!DOCTYPE HTML>
 <!--[if lt IE 8 ]><html class="ie7" lang="@(longLang)"><![endif]--><!--[if IE 8 ]><html class="ie8" lang="@(longLang)"><![endif]--><!--[if IE 9 ]><html class="ie9" lang="@(longLang)"><![endif]--><!--[if (gt IE 9)|!(IE)]><!-->
-<html lang="@(longLang)"><!--<![endif]-->
+<html lang="@(longLang)" class="@languageClass "> <!--<![endif]-->
 
 @HtmlHead(designName1)
  
@@ -59,6 +60,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
               <style>
                 .ad728-wrapper {
                     margin: 40px auto 0px;
+                    
                 }
               </style>
               
@@ -166,7 +168,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
                 <div class="row">
                     <div class="col-md-12">
                      
-                        <div class="ad728-wrapper">
+                        <div class="ad728-wrapper" style="min-height:145px;">
                           @Include("Custom/Banners/Leaderboard-top.cshtml")
                         </div>
                      
@@ -195,7 +197,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
               <div class="mag-content clearfix sidebar-stop" style="max-width:1170px; padding-left: 0px; padding-right: 0px;">
                   <div class="row">
                       <div class="col-md-12">
-                          <div class="ad728-wrapper">
+                          <div class="ad728-wrapper" style="min-height:145px;">
                             @Include("Custom/Banners/Leaderboard-bottom.cshtml")
                           </div>
                       </div>
@@ -231,9 +233,9 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
 
 
 
-@*Include("Custom/MasterFooter.cshtml")*@
+
 @RenderSnippet("Modals")
-<!--<script type="text/javascript" src="assets/js/footer_scripts.js"></script>-->
+
       
 @Pageview.Area.Item["Analytics_Code"]
 <!-- Add to Calendar -->
@@ -264,7 +266,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
 
 @RenderSnippet("bottomJS")
 
-<!-- Start Scroll tracking -->
+@*<!-- Start Scroll tracking -->
 <script src="@areaLayoutPath/assets/js/gascrolldepth.min.js"></script>
 <script>
     gascrolldepth.init({
@@ -277,7 +279,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
             }
         }
     });
-</script>
+</script>*@
 <!-- End Scroll tracking -->
 <script type="text/javascript">
 
