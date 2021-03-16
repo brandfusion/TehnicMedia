@@ -922,7 +922,6 @@ div.bhoechie-tab-container {
 	background-color: #fff;
 	padding: 0!important;
 	border-radius: 4px;
-	-moz-border-radius: 4px;
 	margin-top: 20px;
 	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
@@ -1171,16 +1170,7 @@ li.active a {
 	background-color: #212121
 }
 
-.shop-background {
-	
-	background: url(/Files/Images/IBScrop.jpg);
-	background-color: #3f444c;
-}
 
-.companii-background {
-	background: url(/Files/Images/BDcrop.jpg);
-	background-color: #3a5375;
-}
 .breadcrumb li {
 	color: #fff
 }
@@ -1517,7 +1507,6 @@ span.seeMoreSubcategorie {
 	padding: 5px 10px;
 	color: #fff;
 	border-radius: 3px;
-	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px
 }
 
@@ -4446,7 +4435,6 @@ img {
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-radius: 4px;
-	-o-transition: all .2s ease-in-out;
 	transition: all .2s ease-in-out
 }
 
@@ -5552,7 +5540,6 @@ output {
 	border-radius: 4px;
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
 }
 
@@ -6493,7 +6480,6 @@ input[type=submit].btn-block {
 
 .fade {
 	opacity: 0;
-	-o-transition: opacity .15s linear;
 	transition: opacity .15s linear
 }
 
@@ -6521,12 +6507,9 @@ tbody.collapse.in {
 	position: relative;
 	height: 0;
 	overflow: hidden;
-	-o-transition-timing-function: ease;
 	transition-timing-function: ease;
-	-o-transition-duration: .35s;
 	transition-duration: .35s;
 	-webkit-transition-property: height, visibility;
-	-o-transition-property: height, visibility;
 	transition-property: height, visibility
 }
 
@@ -7993,7 +7976,6 @@ a.badge:hover {
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-radius: 4px;
-	-o-transition: border .2s ease-in-out;
 	transition: border .2s ease-in-out
 }
 
@@ -8156,7 +8138,6 @@ a.thumbnail:hover {
 	background-color: #337ab7;
 	-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
 	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
-	-o-transition: width .6s ease;
 	transition: width .6s ease
 }
 
@@ -8172,7 +8153,6 @@ a.thumbnail:hover {
 .progress-bar.active,
 .progress.active .progress-bar {
 	-webkit-animation: progress-bar-stripes 2s linear infinite;
-	-o-animation: progress-bar-stripes 2s linear infinite;
 	animation: progress-bar-stripes 2s linear infinite
 }
 
@@ -9033,15 +9013,12 @@ button.close {
 }
 
 .modal.fade .modal-dialog {
-	-o-transition: -o-transform .3s ease-out;
 	transition: transform .3s ease-out;
 	-webkit-transform: translate(0, -25%);
-	-o-transform: translate(0, -25%);
 	transform: translate(0, -25%)
 }
 
 .modal.in .modal-dialog {
-	-o-transform: translate(0, 0);
 	transform: translate(0, 0)
 }
 
@@ -9429,7 +9406,6 @@ button.close {
 .carousel-inner>.item {
 	position: relative;
 	display: none;
-	-o-transition: .6s ease-in-out left;
 	transition: .6s ease-in-out left
 }
 
@@ -9441,7 +9417,6 @@ button.close {
 @media all and (transform-3d),
 (-webkit-transform-3d) {
 	.carousel-inner>.item {
-		-o-transition: -o-transform .6s ease-in-out;
 		transition: transform .6s ease-in-out;
 		-webkit-backface-visibility: hidden;
 		backface-visibility: hidden;
@@ -10328,7 +10303,6 @@ button.close {
 	color: #444;
 	text-shadow: none;
 	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
 	border-radius: 4px
 }
 
@@ -10527,7 +10501,6 @@ button.close {
 	background: transparent;
 	background: rgba(0, 0, 0, .8);
 	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
 	border-radius: 15px;
 	text-shadow: 0 1px 2px #222;
 	color: #fff;
@@ -10607,7 +10580,6 @@ only screen and (min-device-pixel-ratio:1.5) {
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(black));
 	border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	box-shadow: 0 0 3px #555;
 	-webkit-box-shadow: 0 0 3px #555;
 	-moz-box-shadow: 0 0 3px #555
@@ -10720,7 +10692,6 @@ only screen and (min-device-pixel-ratio:1.5) {
 .slick-slider .slick-list {
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
-	-o-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0)
 }
 
@@ -14892,15 +14863,6 @@ only screen and (min-device-pixel-ratio:1.5) {
 	}
 }
 
-@-o-keyframes slideDown {
-	0% {
-		-o-transform: translateY(-100%);
-	}
-	100% {
-		-o-transform: translateY(0);
-	}
-}
-
 @keyframes slideDown {
 	0% {
 		transform: translateY(-100%)
@@ -14913,7 +14875,6 @@ only screen and (min-device-pixel-ratio:1.5) {
 .animated.slideDown {
 	-webkit-animation-name: slideDown;
 	-moz-animation-name: slideDown;
-	-o-animation-name: slideDown;
 	animation-name: slideDown
 }
 
@@ -14935,15 +14896,6 @@ only screen and (min-device-pixel-ratio:1.5) {
 	}
 }
 
-@-o-keyframes slideUp {
-	0% {
-		-o-transform: translateY(0);
-	}
-	100% {
-		-o-transform: translateY(-100%);
-	}
-}
-
 @keyframes slideUp {
 	0% {
 		transform: translateY(0)
@@ -14956,7 +14908,6 @@ only screen and (min-device-pixel-ratio:1.5) {
 .animated.slideUp {
 	-webkit-animation-name: slideUp;
 	-moz-animation-name: slideUp;
-	-o-animation-name: slideUp;
 	animation-name: slideUp
 }
 
@@ -15444,7 +15395,6 @@ screen and (max-height:300px) {
 	opacity: 0;
 	-webkit-backface-visibility: hidden;
 	-moz-transition: all .3s ease-out;
-	-o-transition: all .3s ease-out;
 	transition: all .3s ease-out
 }
 
@@ -15500,14 +15450,12 @@ screen and (max-height:300px) {
 	display: none;
 	position: absolute;
 	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
 	-ms-border-radius: 4px;
 	border-radius: 4px;
 	opacity: 0;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 	-moz-transition: background-color .2s linear, opacity .2s linear;
-	-o-transition: background-color .2s linear, opacity .2s linear;
 	transition: background-color .2s linear, opacity .2s linear;
 	bottom: 3px;
 	height: 8px
@@ -15517,11 +15465,9 @@ screen and (max-height:300px) {
 	position: absolute;
 	background-color: #aaa;
 	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
 	-ms-border-radius: 4px;
 	border-radius: 4px;
 	-moz-transition: background-color .2s linear;
-	-o-transition: background-color .2s linear;
 	transition: background-color .2s linear;
 	bottom: 0;
 	height: 8px
@@ -15531,14 +15477,12 @@ screen and (max-height:300px) {
 	display: none;
 	position: absolute;
 	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
 	-ms-border-radius: 4px;
 	border-radius: 4px;
 	opacity: 0;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 	-moz-transition: background-color .2s linear, opacity .2s linear;
-	-o-transition: background-color .2s linear, opacity .2s linear;
 	transition: background-color .2s linear, opacity .2s linear;
 	right: 3px;
 	width: 8px
@@ -15548,11 +15492,9 @@ screen and (max-height:300px) {
 	position: absolute;
 	background-color: #aaa;
 	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
 	-ms-border-radius: 4px;
 	border-radius: 4px;
 	-moz-transition: background-color .2s linear;
-	-o-transition: background-color .2s linear;
 	transition: background-color .2s linear;
 	right: 0;
 	width: 8px
@@ -15643,25 +15585,21 @@ screen and (max-height:300px) {
 .mm-panel {
 	-moz-transition: -moz-transform .4s ease;
 	-ms-transition: -ms-transform .4s ease;
-	-o-transition: -o-transform .4s ease;
 	transition: transform .4s ease;
 	-webkit-transform: translate3d(100%, 0, 0);
 	-moz-transform: translate3d(100%, 0, 0);
-	-o-transform: translate3d(100%, 0, 0);
 	transform: translate3d(100%, 0, 0)
 }
 
 .mm-panel.mm-opened {
 	-webkit-transform: translate3d(0%, 0, 0);
 	-moz-transform: translate3d(0%, 0, 0);
-	-o-transform: translate3d(0%, 0, 0);
 	transform: translate3d(0%, 0, 0)
 }
 
 .mm-panel.mm-subopened {
 	-webkit-transform: translate3d(-30%, 0, 0);
 	-moz-transform: translate3d(-30%, 0, 0);
-	-o-transform: translate3d(-30%, 0, 0);
 	transform: translate3d(-30%, 0, 0)
 }
 
@@ -15693,7 +15631,6 @@ screen and (max-height:300px) {
 .mm-vertical .mm-panel {
 	-webkit-transform: none!important;
 	-moz-transform: none!important;
-	-o-transform: none!important;
 	transform: none!important
 }
 
@@ -15729,7 +15666,6 @@ li.mm-vertical.mm-opened>.mm-panel {
 .mm-listview>li.mm-vertical.mm-opened>.mm-next:after {
 	-webkit-transform: rotate(45deg);
 	-moz-transform: rotate(45deg);
-	-o-transform: rotate(45deg);
 	transform: rotate(45deg)
 }
 
@@ -15890,7 +15826,6 @@ li.mm-vertical.mm-opened>.mm-panel {
 	bottom: 0;
 	-webkit-transform: rotate(-45deg);
 	-moz-transform: rotate(-45deg);
-	-o-transform: rotate(-45deg);
 	transform: rotate(-45deg)
 }
 
@@ -16042,7 +15977,6 @@ html.mm-blocking #mm-blocker {
 html.mm-opening .mm-slideout {
 	-webkit-transform: translate(80%, 0);
 	-moz-transform: translate(80%, 0);
-	-o-transform: translate(80%, 0);
 	transform: translate(80%, 0)
 }
 
@@ -16050,7 +15984,6 @@ html.mm-opening .mm-slideout {
 	html.mm-opening .mm-slideout {
 		-webkit-transform: translate(140px, 0);
 		-moz-transform: translate(140px, 0);
-		-o-transform: translate(140px, 0);
 		transform: translate(140px, 0)
 	}
 }
@@ -16059,7 +15992,6 @@ html.mm-opening .mm-slideout {
 	html.mm-opening .mm-slideout {
 		-webkit-transform: translate(440px, 0);
 		-moz-transform: translate(440px, 0);
-		-o-transform: translate(440px, 0);
 		transform: translate(440px, 0)
 	}
 }
@@ -16230,7 +16162,6 @@ html.mm-opened.mm-dragging #mm-blocker {
 	-webkit-transition-duration: 0;
 	-moz-transition-duration: 0;
 	-ms-transition-duration: 0;
-	-o-transition-duration: 0;
 	transition-duration: 0
 }
 
@@ -16249,7 +16180,6 @@ html.mm-opened.mm-dragging #mm-blocker {
 	left: 0;
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
-	-o-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0)
 }
 
@@ -16267,7 +16197,6 @@ html.mm-opened.mm-dragging #mm-blocker {
 	z-index: 3;
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
-	-o-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0)
 }
 
@@ -16304,7 +16233,6 @@ html.mm-opened.mm-dragging #mm-blocker {
 .mm-divider.mm-opened a.mm-next:after {
 	-webkit-transform: rotate(45deg);
 	-moz-transform: rotate(45deg);
-	-o-transform: rotate(45deg);
 	transform: rotate(45deg)
 }
 
@@ -16322,7 +16250,6 @@ html.mm-opened.mm-dragging #mm-blocker {
 	z-index: 2;
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
-	-o-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0)
 }
 
@@ -16349,7 +16276,6 @@ html.mm-opened.mm-dragging #mm-blocker {
 	z-index: 3;
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
-	-o-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0)
 }
 
@@ -16443,11 +16369,9 @@ html.mm-opened.mm-dragging #mm-blocker {
 	z-index: 3;
 	-moz-transition: right .4s ease;
 	-ms-transition: right .4s ease;
-	-o-transition: right .4s ease;
 	transition: right .4s ease;
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
-	-o-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0)
 }
 
@@ -16542,7 +16466,6 @@ label.mm-check:before {
 	opacity: .1;
 	-webkit-transform: rotate(-45deg);
 	-moz-transform: rotate(-45deg);
-	-o-transform: rotate(-45deg);
 	transform: rotate(-45deg)
 }
 
@@ -16632,104 +16555,88 @@ html.mm-effect-slide .mm-menu.mm-offcanvas {
 html.mm-effect-slide.mm-opened .mm-menu.mm-offcanvas {
 	-webkit-transform: translate3d(-30%, 0, 0);
 	-moz-transform: translate3d(-30%, 0, 0);
-	-o-transform: translate3d(-30%, 0, 0);
 	transform: translate3d(-30%, 0, 0)
 }
 
 html.mm-effect-slide.mm-opening .mm-menu.mm-offcanvas {
 	-webkit-transform: translate3d(0%, 0, 0);
 	-moz-transform: translate3d(0%, 0, 0);
-	-o-transform: translate3d(0%, 0, 0);
 	transform: translate3d(0%, 0, 0)
 }
 
 html.mm-effect-slide.mm-right.mm-opened .mm-menu.mm-offcanvas {
 	-webkit-transform: translate3d(30%, 0, 0);
 	-moz-transform: translate3d(30%, 0, 0);
-	-o-transform: translate3d(30%, 0, 0);
 	transform: translate3d(30%, 0, 0)
 }
 
 html.mm-effect-slide.mm-right.mm-opening .mm-menu.mm-offcanvas {
 	-webkit-transform: translate3d(0%, 0, 0);
 	-moz-transform: translate3d(0%, 0, 0);
-	-o-transform: translate3d(0%, 0, 0);
 	transform: translate3d(0%, 0, 0)
 }
 
 html.mm-effect-zoom-menu .mm-menu.mm-offcanvas {
 	-moz-transition: -moz-transform .4s ease;
 	-ms-transition: -ms-transform .4s ease;
-	-o-transition: -o-transform .4s ease;
 	transition: transform .4s ease
 }
 
 html.mm-effect-zoom-menu.mm-opened .mm-menu.mm-offcanvas {
 	-webkit-transform: scale(.7, .7) translate3d(-30%, 0, 0);
 	-moz-transform: scale(.7, .7) translate3d(-30%, 0, 0);
-	-o-transform: scale(.7, .7) translate3d(-30%, 0, 0);
 	transform: scale(.7, .7) translate3d(-30%, 0, 0);
 	-webkit-transform-origin: left center;
 	-moz-transform-origin: left center;
 	-ms-transform-origin: left center;
-	-o-transform-origin: left center;
 	transform-origin: left center
 }
 
 html.mm-effect-zoom-menu.mm-opening .mm-menu.mm-offcanvas {
 	-webkit-transform: scale(1, 1) translate3d(0%, 0, 0);
 	-moz-transform: scale(1, 1) translate3d(0%, 0, 0);
-	-o-transform: scale(1, 1) translate3d(0%, 0, 0);
 	transform: scale(1, 1) translate3d(0%, 0, 0)
 }
 
 html.mm-effect-zoom-menu.mm-right.mm-opened .mm-menu.mm-offcanvas {
 	-webkit-transform: scale(.7, .7) translate3d(30%, 0, 0);
 	-moz-transform: scale(.7, .7) translate3d(30%, 0, 0);
-	-o-transform: scale(.7, .7) translate3d(30%, 0, 0);
 	transform: scale(.7, .7) translate3d(30%, 0, 0);
 	-webkit-transform-origin: right center;
 	-moz-transform-origin: right center;
 	-ms-transform-origin: right center;
-	-o-transform-origin: right center;
 	transform-origin: right center
 }
 
 html.mm-effect-zoom-menu.mm-right.mm-opening .mm-menu.mm-offcanvas {
 	-webkit-transform: scale(1, 1) translate3d(0%, 0, 0);
 	-moz-transform: scale(1, 1) translate3d(0%, 0, 0);
-	-o-transform: scale(1, 1) translate3d(0%, 0, 0);
 	transform: scale(1, 1) translate3d(0%, 0, 0)
 }
 
 html.mm-effect-zoom-panels .mm-menu .mm-panel {
 	-webkit-transform: scale(1.5, 1.5) translate3d(100%, 0, 0);
 	-moz-transform: scale(1.5, 1.5) translate3d(100%, 0, 0);
-	-o-transform: scale(1.5, 1.5) translate3d(100%, 0, 0);
 	transform: scale(1.5, 1.5) translate3d(100%, 0, 0);
 	-webkit-transform-origin: left center;
 	-moz-transform-origin: left center;
 	-ms-transform-origin: left center;
-	-o-transform-origin: left center;
 	transform-origin: left center;
 	-webkit-transition-property: -webkit-transform, left;
 	-moz-transition-property: -moz-transform, left;
 	-ms-transition-property: -ms-transform, left;
-	-o-transition-property: -o-transform, left;
 	transition-property: transform, left
 }
 
 html.mm-effect-zoom-panels .mm-menu .mm-panel.mm-opened {
 	-webkit-transform: scale(1, 1) translate3d(0%, 0, 0);
 	-moz-transform: scale(1, 1) translate3d(0%, 0, 0);
-	-o-transform: scale(1, 1) translate3d(0%, 0, 0);
 	transform: scale(1, 1) translate3d(0%, 0, 0)
 }
 
 html.mm-effect-zoom-panels .mm-menu .mm-panel.mm-opened.mm-subopened {
 	-webkit-transform: scale(.7, .7) translate3d(-30%, 0, 0);
 	-moz-transform: scale(.7, .7) translate3d(-30%, 0, 0);
-	-o-transform: scale(.7, .7) translate3d(-30%, 0, 0);
 	transform: scale(.7, .7) translate3d(-30%, 0, 0)
 }
 
@@ -16742,7 +16649,6 @@ html.mm-effect-zoom-panels .mm-menu .mm-panel.mm-opened.mm-subopened {
 html.mm-opening.mm-fullscreen .mm-slideout {
 	-webkit-transform: translate(100%, 0);
 	-moz-transform: translate(100%, 0);
-	-o-transform: translate(100%, 0);
 	transform: translate(100%, 0)
 }
 
@@ -16750,7 +16656,6 @@ html.mm-opening.mm-fullscreen .mm-slideout {
 	html.mm-opening.mm-fullscreen .mm-slideout {
 		-webkit-transform: translate(140px, 0);
 		-moz-transform: translate(140px, 0);
-		-o-transform: translate(140px, 0);
 		transform: translate(140px, 0)
 	}
 }
@@ -16759,7 +16664,6 @@ html.mm-opening.mm-fullscreen .mm-slideout {
 	html.mm-opening.mm-fullscreen .mm-slideout {
 		-webkit-transform: translate(10000px, 0);
 		-moz-transform: translate(10000px, 0);
-		-o-transform: translate(10000px, 0);
 		transform: translate(10000px, 0)
 	}
 }
@@ -16767,7 +16671,6 @@ html.mm-opening.mm-fullscreen .mm-slideout {
 html.mm-right.mm-opening.mm-fullscreen .mm-slideout {
 	-webkit-transform: translate(-100%, 0);
 	-moz-transform: translate(-100%, 0);
-	-o-transform: translate(-100%, 0);
 	transform: translate(-100%, 0)
 }
 
@@ -16775,7 +16678,6 @@ html.mm-right.mm-opening.mm-fullscreen .mm-slideout {
 	html.mm-right.mm-opening.mm-fullscreen .mm-slideout {
 		-webkit-transform: translate(-140px, 0);
 		-moz-transform: translate(-140px, 0);
-		-o-transform: translate(-140px, 0);
 		transform: translate(-140px, 0)
 	}
 }
@@ -16784,7 +16686,6 @@ html.mm-right.mm-opening.mm-fullscreen .mm-slideout {
 	html.mm-right.mm-opening.mm-fullscreen .mm-slideout {
 		-webkit-transform: translate(-10000px, 0);
 		-moz-transform: translate(-10000px, 0);
-		-o-transform: translate(-10000px, 0);
 		transform: translate(-10000px, 0)
 	}
 }
@@ -16854,7 +16755,6 @@ html.mm-opened.mm-fullscreen .mm-page {
 html.mm-right.mm-opening .mm-slideout {
 	-webkit-transform: translate(-80%, 0);
 	-moz-transform: translate(-80%, 0);
-	-o-transform: translate(-80%, 0);
 	transform: translate(-80%, 0)
 }
 
@@ -16862,7 +16762,6 @@ html.mm-right.mm-opening .mm-slideout {
 	html.mm-right.mm-opening .mm-slideout {
 		-webkit-transform: translate(-140px, 0);
 		-moz-transform: translate(-140px, 0);
-		-o-transform: translate(-140px, 0);
 		transform: translate(-140px, 0)
 	}
 }
@@ -16871,7 +16770,6 @@ html.mm-right.mm-opening .mm-slideout {
 	html.mm-right.mm-opening .mm-slideout {
 		-webkit-transform: translate(-440px, 0);
 		-moz-transform: translate(-440px, 0);
-		-o-transform: translate(-440px, 0);
 		transform: translate(-440px, 0)
 	}
 }
@@ -16879,7 +16777,6 @@ html.mm-right.mm-opening .mm-slideout {
 html.mm-front .mm-slideout {
 	-webkit-transform: none!important;
 	-moz-transform: none!important;
-	-o-transform: none!important;
 	transform: none!important;
 	z-index: 0!important
 }
@@ -16894,7 +16791,6 @@ html.mm-front .mm-slideout {
 	transition: transform .4s ease;
 	-webkit-transform: translate3d(-100%, 0, 0);
 	-moz-transform: translate3d(-100%, 0, 0);
-	-o-transform: translate3d(-100%, 0, 0);
 	transform: translate3d(-100%, 0, 0)
 }
 
@@ -16902,21 +16798,18 @@ html.mm-front .mm-slideout {
 .mm-menu.mm-next.mm-right {
 	-webkit-transform: translate3d(100%, 0, 0);
 	-moz-transform: translate3d(100%, 0, 0);
-	-o-transform: translate3d(100%, 0, 0);
 	transform: translate3d(100%, 0, 0)
 }
 
 .mm-menu.mm-top {
 	-webkit-transform: translate3d(0, -100%, 0);
 	-moz-transform: translate3d(0, -100%, 0);
-	-o-transform: translate3d(0, -100%, 0);
 	transform: translate3d(0, -100%, 0)
 }
 
 .mm-menu.mm-bottom {
 	-webkit-transform: translate3d(0, 100%, 0);
 	-moz-transform: translate3d(0, 100%, 0);
-	-o-transform: translate3d(0, 100%, 0);
 	transform: translate3d(0, 100%, 0)
 }
 
@@ -16924,7 +16817,6 @@ html.mm-opening .mm-menu.mm-front,
 html.mm-opening .mm-menu.mm-next {
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
-	-o-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0)
 }
 
@@ -17940,9 +17832,7 @@ body.background-image4 {
 	padding: 3px 10px;
 	margin-left: -6px;
 	-webkit-border-radius: 9px;
-	-moz-border-radius: 9px;
 	-ms-border-radius: 9px;
-	-o-border-radius: 9px;
 	border-radius: 9px
 }
 
@@ -18038,7 +17928,6 @@ body.background-image4 {
 }
 
 .sticky-sidebar {
-	-o-transition: none;
 	transition: none
 }
 
@@ -18155,7 +18044,6 @@ body.background-image4 {
 	color: #fff;
 	background: #ffa700;
 	border-radius: 5px;
-	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	padding: 3px 4px;
 	margin-left: -1px
@@ -18202,7 +18090,6 @@ body.background-image4 {
 	line-height: 20px;
 	font-weight: bold;
 	padding: 16px 15px;
-	-o-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out
 }
 
@@ -18654,7 +18541,6 @@ body.background-image4 {
 
 .tabs-below>.nav-tabs>li>a {
 	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
 	border-radius: 0;
 	border: none
 }
@@ -18681,7 +18567,6 @@ body.background-image4 {
 .tabs-left>.nav-tabs>li>a {
 	margin-right: 0;
 	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
 	border-radius: 0
 }
 
@@ -18807,14 +18692,11 @@ body.background-image4 {
 	width: 20px;
 	height: 50px;
 	border-radius: 0;
-	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
 	-webkit-transform: rotate(0deg);
 	-moz-transform: rotate(0deg);
-	-o-transform: rotate(0deg);
 	transform: rotate(0deg);
 	-moz-transition: .15s ease-in-out;
-	-o-transition: .15s ease-in-out;
 	transition: .15s ease-in-out;
 	cursor: pointer
 }
@@ -18841,10 +18723,8 @@ a.navbar-toggle:active {
 	border-radius: 3px;
 	-webkit-transform: rotate(0deg);
 	-moz-transform: rotate(0deg);
-	-o-transform: rotate(0deg);
 	transform: rotate(0deg);
 	-moz-transition: .15s ease-in-out;
-	-o-transition: .15s ease-in-out;
 	transition: .15s ease-in-out
 }
 
@@ -18896,7 +18776,6 @@ a.navbar-toggle:active {
 .ad-opened .fixed-button i:nth-child(2) {
 	-webkit-transform: rotate(45deg);
 	-moz-transform: rotate(45deg);
-	-o-transform: rotate(45deg);
 	transform: rotate(45deg)
 }
 
@@ -18904,7 +18783,6 @@ a.navbar-toggle:active {
 .ad-opened .fixed-button i:nth-child(3) {
 	-webkit-transform: rotate(-45deg);
 	-moz-transform: rotate(-45deg);
-	-o-transform: rotate(-45deg);
 	transform: rotate(-45deg)
 }
 
@@ -19015,7 +18893,6 @@ a.navbar-toggle:active {
 	padding: 0 10px;
 	border: 2px solid transparent;
 	border-radius: 3px;
-	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px
 }
 
@@ -19141,7 +19018,6 @@ a.navbar-toggle:active {
 	color: #fff;
 	text-transform: uppercase;
 	border-radius: 3px;
-	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px
 }
 
@@ -19179,7 +19055,6 @@ a.category:hover {
 	max-height: 2000px;
 	-moz-transition: all 1s ease;
 	-ms-transition: all 1s ease;
-	-o-transition: all 1s ease;
 	transition: all 1s ease
 }
 
@@ -19210,7 +19085,6 @@ a.category:hover {
 	opacity: 0;
 	-moz-transition: all .15s ease-in-out;
 	-ms-transition: all .15s ease-in-out;
-	-o-transition: all .15s ease-in-out;
 	transition: all .15s ease-in-out;
 	color: #fff;
 	font-size: 20px;
@@ -19343,7 +19217,6 @@ a.category:hover {
 	text-decoration: none;
 	display: block;
 	position: absolute;
-	-o-transition: opacity .2s ease-in-out;
 	transition: opacity .2s ease-in-out;
 	width: 40px;
 	height: 40px;
@@ -19352,7 +19225,6 @@ a.category:hover {
 	z-index: 10;
 	border: 2px solid #fff;
 	border-radius: 50%;
-	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	cursor: pointer;
 	font-size: 14px;
@@ -19636,7 +19508,6 @@ a.category:hover {
 	-moz-transition: none;
 	overflow: hidden;
 	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
 	border-radius: 50%
 }
 
@@ -19751,7 +19622,6 @@ a.category:hover {
 	color: #fff;
 	border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px
 }
 
 .post-content a:hover {
@@ -20029,7 +19899,6 @@ a img.aligncenter {
 	font-size: 12px;
 	line-height: 12px;
 	border-radius: 3px;
-	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px
 }
 
@@ -20120,7 +19989,6 @@ a img.aligncenter {
 	background: #7a7a7a;
 	color: #fff;
 	border-radius: 3px;
-	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border: none
 }
@@ -20467,7 +20335,6 @@ a img.aligncenter {
 	background-color: #fff!important;
 	border: 2px solid #dadada!important;
 	border-radius: 0!important;
-	-moz-border-radius: 0!important;
 	-webkit-border-radius: 0!important
 }
 
@@ -20529,7 +20396,6 @@ a img.aligncenter {
 	color: #7a7a7a;
 	border: 2px solid #dadada;
 	border-radius: 0;
-	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
 	background: #fff
 }
@@ -20921,7 +20787,6 @@ a img.aligncenter {
 	top: 50%;
 	margin-top: -10px;
 	color: #222;
-	-o-transition: all .2s ease-in-out;
 	transition: all .2s ease-in-out
 }
 
@@ -21066,7 +20931,6 @@ a img.aligncenter {
 	padding: 7px 9px;
 	border: 2px solid #dadada;
 	border-radius: 3px;
-	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px
 }
 
@@ -21112,7 +20976,6 @@ a img.aligncenter {
 	color: #b2b2b2;
 	border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px
 }
 
 .social-list li a:hover,
@@ -21254,9 +21117,7 @@ a img.aligncenter {
 	background: #2c2c2c;
 	border-color: #2c2c2c;
 	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
-	-o-border-radius: 3px;
 	border-radius: 3px
 }
 
@@ -21265,9 +21126,7 @@ a img.aligncenter {
 	color: #fff;
 	background: #4b4b4b;
 	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
-	-o-border-radius: 3px;
 	border-radius: 3px
 }
 
@@ -21340,7 +21199,6 @@ a img.aligncenter {
 	opacity: .7;
 	-moz-transition: all .25s ease-in-out;
 	-ms-transition: all .25s ease-in-out;
-	-o-transition: all .25s ease-in-out;
 	transition: all .25s ease-in-out;
 	-webkit-backface-visibility: hidden
 }
@@ -23459,7 +23317,15 @@ div.sticky.bottom {
 	color: #000;
 	border: none
 }
+.shop-background {
+	background: url(/Files/Images/IBScrop.jpg);
+	background-color: #3f444c;
+}
 
+.companii-background {
+	background: url(/Files/Images/BDcrop.jpg);
+	background-color: #3a5375;
+}
 @media screen and (max-width:640px) and (min-width:360px) {
 	.header-right {
 		margin-top: 6px;
