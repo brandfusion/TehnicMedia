@@ -1,6 +1,12 @@
 ﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
 @using Dynamicweb.Rendering;
 @using System.Text.RegularExpressions
+@using Dynamicweb.Notifications
+@using Dynamicweb.Extensibility;
+
+
+
+
 
 @helper OgMeta(string designName)
 {
@@ -16,6 +22,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
         @SnippetEnd("OGMeta")
   }
 }
+
 @helper HtmlHead(string designName)
 {
   string designFolder = GetString("Template:DesignBaseUrl");
@@ -27,9 +34,12 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
   string userAccountsNumber = (System.Web.HttpContext.Current.Session["AccountsNumber"] ?? "").ToString();
   robots = (GetBoolean("Item.Area.DemoBanner") || GetBoolean("Item.Area.NoIndex")) ? CommaSplittedString(robots, "noindex") : "";
   robots = (GetBoolean("Item.Area.DemoBanner") || GetBoolean("Item.Area.NoFollow")) ? CommaSplittedString(robots, "nofollow") : "";
+  //System.Web.HttpContext.Current.Items["metatitle"] = "Here is some data";
+  string pageTitle = System.Web.HttpContext.Current.Items["metatitle"] != null ? System.Web.HttpContext.Current.Items["metatitle"].ToString() : GetString("Title");
 
   <head data-settings="disableparsing:true;">
-    <title>@GetString("Title")</title>
+    <title>@pageTitle</title>
+    <meta name="description" content="" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -69,7 +79,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
     @* <link rel="shortcut icon" href="@(designFolder)images/favicon.ico" type="image/x-icon" /> *@
 
     <!-- Icon Font -->
-    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">*@
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
     @{
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
@@ -78,8 +88,8 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
      // var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive : true, virtualPathPrefix : "-main-scripts-footer",exclusions:  new[] { "exceptions" });
     }
     @*<link rel="stylesheet" href="@styleBundle" />*@
-    <link rel="stylesheet" type="text/css" media="all" class="css-stylesheet" href="/Files/Templates/Designs/TTonlineNew/css/custom.min.css?v=2" async />
-    <script src="@scriptBundleHeader" async ></script>
+    <link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/css/custom.css"/>
+    <script src="@scriptBundleHeader"></script>
     @GetString("Javascripts")
     @RenderSnippet("externalScripts")
     @SnippetStart("externalScripts") @SnippetEnd("externalScripts")
