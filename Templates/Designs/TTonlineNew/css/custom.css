@@ -304,7 +304,7 @@
 }
 
 .owl-carousel {
-	position: relative
+	position: relative;
 	display: none;
 	width: 100%;
 	z-index: 1
@@ -1340,13 +1340,6 @@ li.active a {
 	color: #000
 }
 
-.titlu-produs-lista {
-	min-height: 42px;
-	font-size: 17px;
-	line-height: 21px;
-	text-align: center;
-	margin: 15px
-}
 
 .row-promotii-produs {
 	min-height: 38px
@@ -2427,10 +2420,7 @@ div#motto {
 	min-height: 0
 }
 
-.big-block .image-overlay {
-	height: 480px
-}
-
+.big-block .image-overlay,
 .featured-big .image-overlay {
 	height: 480px
 }
@@ -2688,12 +2678,6 @@ td strong {
 	padding: 0 25px;
 	margin-bottom: 15px
 }
-
-
-.col-sortare {
-	margin-bottom: 15px
-}
-
 
 #btn-resetare-filtre:hover {
 	text-decoration: underline
@@ -19428,7 +19412,14 @@ a.category:hover {
 	margin-top: 0;
 	margin-bottom: 10px
 }
-
+.titlu-produs-lista {
+	min-height: 42px;
+	font-size: 17px;
+	line-height: 21px;
+	text-align: center;
+	margin: 15px;
+	max-height: 42px;
+}
 .news-title-mouseenter {
 	height: auto!important
 }
@@ -23353,28 +23344,6 @@ a#editorialLink {
 	}
 }
 
-@media(max-width:400px) {
-	.fixed-left-sidebar .sticky-sidebar,
-	.fixed-right-sidebar .sticky-sidebar {
-		width: 300px
-	}
-	.sticky-content {
-		padding: 15px
-	}
-	.mid-logo-wrapper .logo {
-		font-size: 30px;
-		line-height: 32px
-	}
-	.mid-logo-wrapper .logo-description {
-		font-size: 12px;
-		line-height: 15px
-	}
-	.header-style2 .main-wrapper,
-	.header-style3 .main-wrapper {
-		padding-top: 190px
-	}
-}
-
 
 
 @media(max-width:1199px) {
@@ -25027,11 +24996,31 @@ a#editorialLink {
 	}	
 	
 }
-@media screen and (max-width:375px) {
+@media(max-width:400px) {
+	.fixed-left-sidebar .sticky-sidebar,
+	.fixed-right-sidebar .sticky-sidebar {
+		width: 300px
+	}
+	.sticky-content {
+		padding: 15px
+	}
+	.mid-logo-wrapper .logo {
+		font-size: 30px;
+		line-height: 32px
+	}
+	.mid-logo-wrapper .logo-description {
+		font-size: 12px;
+		line-height: 15px
+	}
+	.header-style2 .main-wrapper,
+	.header-style3 .main-wrapper {
+		padding-top: 190px
+	}
 	h2 {
 		font-size: 25px
 	}
 }
+
 @media print {
 	*,
 	:after,
