@@ -79,7 +79,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
     @* <link rel="shortcut icon" href="@(designFolder)images/favicon.ico" type="image/x-icon" /> *@
 
     <!-- Icon Font -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">*@
     
     @{
       var minify = GetBoolean("Item.Area.Minify_CSS_And_JavaScript");
@@ -88,7 +88,8 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
      // var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive : true, virtualPathPrefix : "-main-scripts-footer",exclusions:  new[] { "exceptions" });
     }
     @*<link rel="stylesheet" href="@styleBundle" />*@
-    <link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/css/custom.css"/>
+    @*<link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/css/custom.css"/>*@
+    <link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/dist/custom.css" async/>
     <script src="@scriptBundleHeader"></script>
     @GetString("Javascripts")
     @RenderSnippet("externalScripts")
