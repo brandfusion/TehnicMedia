@@ -2722,7 +2722,9 @@ td strong {
 .product-search button {
 	border: none;
 	background-color: #fff;
-	color: #bbb
+	color: #bbb;
+	height: 30px;
+	width: 33px;
 }
 
 .result-query {

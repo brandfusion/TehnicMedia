@@ -1,6 +1,5 @@
-/*
 document.addEventListener('DOMContentLoaded', function(event) {
-
+    
     window.scrollTo(0, 0);
     //load content on homepage
     if (document.getElementById('HomePageSlider') !== null) {
@@ -55,12 +54,12 @@ document.addEventListener('contentLoaded', function(e) {
     if(e.detail.template === "CaruselProduseTemplate" || e.detail.template === "LoopProduseTemplate" || e.detail.template === "ArticleBodyTemplate") {
         actionsTriggerProductsModal();
     }
-
+    
     if(e.detail.template === "HomepageSliderTemplate") {
         console.log(e.detail.template)
         initializeHomepageSlider();
     }
-
+    
 })
 function getScrollContent() {
     if(!isIE11()) {
@@ -69,7 +68,7 @@ function getScrollContent() {
         loadOnScrollForIE();
     }
 }
-/!*START HOMEPAGE HANDLEBARS AJAX CALLS*!/
+/*START HOMEPAGE HANDLEBARS AJAX CALLS*/
 
 //On page load on homepage, first items loaded will be the slider and the first categories
 function loadFirstViewHomepage() {
@@ -87,7 +86,7 @@ function loadFirstViewHomepage() {
             //compile data
             compileDataToHandlebars(response.data[0], homePageSliderWrapper);
             //initialize homepage slider after handlebars template was compiled
-            //   initializeHomepageSlider();
+         //   initializeHomepageSlider();
         })
         .then(function() {
             //load Recomandari T&T
@@ -308,9 +307,9 @@ function loadArticleSections(authorId) {
             console.log(error, "error load article sections");
         })
 }
-/!*END HOMEPAGE HANDLEBARS AJAX CALLS*!/
+/*END HOMEPAGE HANDLEBARS AJAX CALLS*/
 
-/!*START ADDITIONAL FUNCTIONS*!/
+/*START ADDITIONAL FUNCTIONS*/
 
 function compileDataToHandlebars(data, homePageSliderWrapper) {
     var homepageSliderTemplate = document.getElementById(homePageSliderWrapper.getAttribute('data-template'));
@@ -376,20 +375,20 @@ function getDataForArticlePage(wrapper, url) {
         })
 }
 function initializeHomepageSlider() {
-    /!*    $('.flexslider').flexslider({
-            selector: ".featured-slider > .slider-item",
-            maxItems: 1,
-            minItems: 1,
-            startAt: 0,
-            animation:"slide",
-            slideshow: true,
-            controlNav: false,
-            nextText:'<i class="fa fa-angle-right"></i>',
-            prevText:'<i class="fa fa-angle-left"></i>',
-            start: function(slider){
-                $('.flexslider').resize();
-            }
-        });*!/
+/*    $('.flexslider').flexslider({
+        selector: ".featured-slider > .slider-item",
+        maxItems: 1,
+        minItems: 1,
+        startAt: 0,
+        animation:"slide",
+        slideshow: true,
+        controlNav: false,
+        nextText:'<i class="fa fa-angle-right"></i>',
+        prevText:'<i class="fa fa-angle-left"></i>',
+        start: function(slider){
+            $('.flexslider').resize();
+        }
+    });*/
     console.log('working')
     $('.featured-slider').slick({
         slidesToShow: 1,
@@ -547,7 +546,7 @@ function initializeEventsCarousel() {
 function isIE11() {
     return (!(window.ActiveXObject) && "ActiveXObject" in window);
 }
-/!*END ADDITIONAL FUNCTIONS*!/
+/*END ADDITIONAL FUNCTIONS*/
 
 function agreeTerms(form) {
     form.addEventListener('submit', function(e) {
@@ -569,4 +568,4 @@ function actionsTriggerProductsModal() {
             }
         });
     });
-}*/
+}

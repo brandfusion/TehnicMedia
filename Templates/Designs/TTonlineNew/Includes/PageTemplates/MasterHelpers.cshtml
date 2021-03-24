@@ -90,7 +90,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
     @*<link rel="stylesheet" href="@styleBundle" />*@
     @*<link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/css/custom.css"/>*@
     <link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/dist/custom.css" async/>
-    <script src="@scriptBundleHeader"></script>
+   @* <script src="@scriptBundleHeader"></script>*@
     @GetString("Javascripts")
     @RenderSnippet("externalScripts")
     @SnippetStart("externalScripts") @SnippetEnd("externalScripts")
