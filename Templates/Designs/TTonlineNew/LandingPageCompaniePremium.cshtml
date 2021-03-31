@@ -37,8 +37,8 @@
     if(companie != null){
             //begin content
 
-            var MissingFoto = "http://placehold.it/100x100";
-            var MissingBanner = "http://placehold.it/1170x250";
+            var MissingFoto = "/Files/Images/NoImage/100x100.png";
+            var MissingBanner = "/Files/Images/NoImage/1170x250.png";
       
             var Name = companie["Name"];  
 			string NameCompanie = Name.ToString();
@@ -112,13 +112,13 @@ string CATEGORIE_PARTENER = companie["Sectiune"] !=null ? companie["Sectiune"].T
 
       
 
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Starter.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompanieStarter.cshtml");
 
 
 
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Profesional.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompanieProfesional.cshtml");
 
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Premium Default.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompaniePremiumDefault.cshtml");
 
 
 if(Contactform == true){

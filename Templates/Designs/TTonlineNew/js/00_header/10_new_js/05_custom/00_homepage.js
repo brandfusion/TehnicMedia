@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
 
     if(document.querySelector('[data-company-link]') !== null && document.querySelector('[name="LinkProdus"]') !== null) {
-        console.log('here it foes')
         document.querySelector('[name="LinkProdus"]').value = document.querySelector('[data-company-link]').getAttribute('data-company-link');
     }
 });
