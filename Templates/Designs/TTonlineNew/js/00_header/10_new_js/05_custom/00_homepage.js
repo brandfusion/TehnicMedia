@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
 
     if(document.querySelector('[data-company-link]') !== null && document.querySelector('[name="LinkProdus"]') !== null) {
+        console.log('here it foes')
         document.querySelector('[name="LinkProdus"]').value = document.querySelector('[data-company-link]').getAttribute('data-company-link');
     }
 });
@@ -56,7 +57,6 @@ document.addEventListener('contentLoaded', function(e) {
     }
     
     if(e.detail.template === "HomepageSliderTemplate") {
-        console.log(e.detail.template)
         initializeHomepageSlider();
     }
     

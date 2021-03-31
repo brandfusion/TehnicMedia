@@ -370,7 +370,7 @@
 	background: #fff;
 	display: block;
 	font-size: 12px;
-	padding: 20px 0
+	padding: 20px;
 }
 
 .formtable {
@@ -21060,7 +21060,7 @@ body.dark-skin,
 
 #LoopAutor {
 	display: grid;
-	grid-template-columns: 80% 20%;
+	/*grid-template-columns: 80% 20%;*/
 	border-bottom: 2px solid #d6d6d6
 }
 

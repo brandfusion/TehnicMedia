@@ -18,6 +18,7 @@
         public string imagine { get; set; }
         public string paginaDeCompanieAsociata { get; set; }
         public string persoana_companie { get; set; }
+        public string hiddenClass { get; set; }
     }
    
     public class Root{
@@ -56,6 +57,7 @@
         Autori.paginaDeCompanieAsociata = paginaDeCompanieAsociata;
         Autori.name = name;
         Autori.persoana_companie = persoana_companie;
+        Autori.hiddenClass = imagine == "" ? "u-hidden" : "";
         counterAutori++;
         feedRoot.Autori.Add(Autori);
 
