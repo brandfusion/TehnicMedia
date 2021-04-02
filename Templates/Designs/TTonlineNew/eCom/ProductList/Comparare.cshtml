@@ -58,7 +58,10 @@ string Producator = System.Web.HttpContext.Current.Request["Producator"] != null
 string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
 bool first = true;
 
-
+DateTime dataExpirarePromotie =  DateTime.Parse(i.GetProductFieldValue("DataExpirarePromotie").ToString());
+DateTime CurrentDate = DateTime.Now;
+string produsPromovat = i.GetProductFieldValue("ProdusPromovat").ToString();
+string ValoareDiscount = i.GetProductFieldValue("ValoareDiscount").ToString();
 
 if(Dealer == "" && Producator == ""){
 <div class="col-xs-12 col-sm-6 col-md-4 " style="margin-bottom:15px; margin-top:15px; ">
@@ -73,12 +76,25 @@ if(Dealer == "" && Producator == ""){
                              
                               <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
                           }
-                           <div class="stickers-container stickers-container--top-left hidden">
-                              <div class="sticker sticker--new">New!</div>
-                            </div>
-                            <div class="stickers-container stickers-container--top-right hidden">
-                               <div class="sticker sticker--new">Sale!</div>
-                            </div>
+                             @if (ValoareDiscount != "")
+                            {
+                                if (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate)
+                                 {
+                                     <div class="stickers-container stickers-container--top-left">
+                                         <div class="sticker sticker--new">
+                                             <div class="col-xs-12 text-center">
+                                                - @ValoareDiscount %
+                                             </div>
+                                         </div>
+                                     </div>
+                                 }
+                            }
+                            @if (produsPromovat == "True")
+                            {
+                                <div class="stickers-container stickers-container--top-right">
+                                    <div class="sticker sticker--new">@Translate("Promovat")</div>
+                                </div>
+                            }
                       </figure>
                   </a>
              </div>
@@ -217,12 +233,25 @@ if(Dealer != "" || Producator != ""){
                              
                               <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
                           }
-                           <div class="stickers-container stickers-container--top-left hidden">
-                              <div class="sticker sticker--new">New!</div>
-                            </div>
-                            <div class="stickers-container stickers-container--top-right hidden">
-                               <div class="sticker sticker--new">Sale!</div>
-                            </div>
+                             @if (ValoareDiscount != "")
+                            {
+                                if (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate)
+                                 {
+                                     <div class="stickers-container stickers-container--top-left">
+                                         <div class="sticker sticker--new">
+                                             <div class="col-xs-12 text-center">
+                                                - @ValoareDiscount %
+                                             </div>
+                                         </div>
+                                     </div>
+                                 }
+                            }
+                            @if (produsPromovat == "True")
+                            {
+                                <div class="stickers-container stickers-container--top-right">
+                                    <div class="sticker sticker--new">@Translate("Promovat")</div>
+                                </div>
+                            }
                       </figure>
                   </a>
              </div>

@@ -70,7 +70,6 @@ string productLanguage = i.GetString("Ecom:Product.LanguageID");
 string productVariantID = i.GetString("Ecom:Product.VariantID");
 string dealeriProdusRaw = i.GetString("Ecom:Product:Field.Dealeri");
 string[] dealeriProdus = (dealeriProdusRaw ?? "").Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
 string compareLink = productID + "$" + productLanguage + "$" + productVariantID;
 
 string Grup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System.Web.HttpContext.Current.Request["GroupID"].ToString(): "";
@@ -78,6 +77,11 @@ string Producator = System.Web.HttpContext.Current.Request["Producator"] != null
 string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
 bool first = true;
 string productLinkForm = GetGlobalValue("Global:Request.Host") + "/" + i.GetString("Ecom:Product.Link.Clean");
+DateTime dataExpirarePromotie =  DateTime.Parse(i.GetProductFieldValue("DataExpirarePromotie").ToString());
+DateTime CurrentDate = DateTime.Now;
+string produsPromovat = i.GetProductFieldValue("ProdusPromovat").ToString();
+string ValoareDiscount = i.GetProductFieldValue("ValoareDiscount").ToString();
+
 
     
     
@@ -97,12 +101,25 @@ string productLinkForm = GetGlobalValue("Global:Request.Host") + "/" + i.GetStri
                              
                               <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
                           }
-                         <div class="stickers-container stickers-container--top-left hidden">
-                            <div class="sticker sticker--new">New!</div>
-                          </div>
-                          <div class="stickers-container stickers-container--top-right hidden">
-                             <div class="sticker sticker--new">Sale!</div>
-                          </div>
+                           @if (ValoareDiscount != "")
+                             {
+                                 if (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate)
+                                  {
+                                      <div class="stickers-container stickers-container--top-left">
+                                          <div class="sticker sticker--new">
+                                              <div class="col-xs-12 text-center">
+                                                 - @ValoareDiscount %
+                                              </div>
+                                          </div>
+                                      </div>
+                                  }
+                             }
+                             @if (produsPromovat == "True")
+                             {
+                                 <div class="stickers-container stickers-container--top-right">
+                                     <div class="sticker sticker--new">@Translate("Promovat")</div>
+                                 </div>
+                             }
                       </figure>
                   </a>
              </div>
@@ -239,12 +256,25 @@ if(Dealer != "" || Producator != ""){
                              
                               <img src="@imagineProdus" alt='@productName' class="img-responsive"/>             
                           }
-                         <div class="stickers-container stickers-container--top-left hidden">
-                            <div class="sticker sticker--new">New!</div>
-                          </div>
-                          <div class="stickers-container stickers-container--top-right hidden">
-                             <div class="sticker sticker--new">Sale!</div>
-                          </div>
+                           @if (ValoareDiscount != "")
+                            {
+                              if (dataExpirarePromotie > CurrentDate  || dataExpirarePromotie == CurrentDate)
+                               {
+                                   <div class="stickers-container stickers-container--top-left">
+                                       <div class="sticker sticker--new">
+                                           <div class="col-xs-12 text-center">
+                                              - @ValoareDiscount %
+                                           </div>
+                                       </div>
+                                   </div>
+                               }
+                          }
+                          @if (produsPromovat == "True")
+                          {
+                              <div class="stickers-container stickers-container--top-right">
+                                  <div class="sticker sticker--new">@Translate("Promovat")</div>
+                              </div>
+                          }
                       </figure>
                   </a>
              </div>
