@@ -22813,6 +22813,22 @@ body.dark-skin,
 	}
 }
 @media screen and (max-width:480px) {
+	.row.main-body {
+		padding: 0 20px;
+	}
+	.alte-produse-row .col-xs-6 {
+		margin-bottom: 10px;
+	}
+	#dw-form-3 .formtable input[type="text"],
+	#dw-form-4 .formtable input[type="text"],
+	#dw-form-3 .formtable textarea,
+	#dw-form-4 .formtable textarea{
+        min-width: 100px;
+        width: 170px;
+	}
+	#dw-form-3 label, #dw-form-4 label {
+		width: 180px;
+	}
 	ul.tabs {
 		width: 100%
 	}
