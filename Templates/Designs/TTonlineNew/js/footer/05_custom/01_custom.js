@@ -223,6 +223,10 @@ function  triggerSearchProducts(){
 
 $(function(){
   
+  if($('.menu-tooltip').length > 0) {
+      $('.menu-tooltip').tipTip()
+  }
+  
   // if we are on subscribe to magazine page , create validation functionality
   if($("#dw-form-3").length > 0) {
     
