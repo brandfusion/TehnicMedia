@@ -17103,7 +17103,7 @@ body.background-image4 {
 
 .sb-search-input {
 	position: absolute;
-	top: 9px;
+	top: 6px;
 	right: 4px;
 	border: none;
 	outline: none;
@@ -17111,12 +17111,14 @@ body.background-image4 {
 	width: 100%;
 	max-width: 230px;
 	font-size: 14px;
-	height: 45px;
+	height: 50px;
 	margin: 0;
 	z-index: 10;
 	padding: 20px 55px 20px 16px
 }
-
+.sb-search.sb-search-open .sb-search-input {
+	background: #f4f4f4;
+}
 .sb-icon-search,
 .sb-search-submit {
 	width: 50px;
@@ -17149,7 +17151,7 @@ body.background-image4 {
 .sb-icon-search {
 	position: absolute;
 	z-index: 110;
-	width: 0%;
+	width: 0;
 	min-width: 30px;
 	height: 50px;
 	float: right;
@@ -17160,7 +17162,11 @@ body.background-image4 {
 	transition: width .3s;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
-	background: #fff
+	background: #fbae28;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .sb-icon-search:hover {
