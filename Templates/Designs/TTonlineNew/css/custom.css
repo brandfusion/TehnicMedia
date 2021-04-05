@@ -1263,7 +1263,14 @@ li.active a {
 }
 
 .alte-produse-row h4 {
-	font-weight: normal
+	font-weight: normal;
+	border-bottom: 2px solid #fff;
+}
+.alte-produse-row h4 span {
+	border-bottom: 2px solid #ffa700;
+	padding-bottom: 1px;
+	color: #ffa700;
+	font-weight: 700;
 }
 
 .alte-produse-row {
