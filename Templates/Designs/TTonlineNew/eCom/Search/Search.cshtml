@@ -2,7 +2,7 @@
 
   @if(GetString("DwAreaID") == "1"){
    
-        <div id="sb-search" class="sb-search">     
+        <div id="sb-search" class="sb-search sb-search-open">     
    			 <div class="form-group" style="position: relative;">
      			 <form action="/cautare.aspx" method="GET" > 
       				 <input class="sb-search-input" placeholder="Termen de cautare..." type="text" value="" name="q" id="q">
@@ -13,7 +13,7 @@
         </div>
         }else {
         
-  <div id="sb-search" class="sb-search">     
+  <div id="sb-search" class="sb-search sb-search-open">     
     <div class="form-group" style="position: relative;">
       <form action="/en/search.aspx" method="GET" > 
       	 <input class="sb-search-input" placeholder="Input keyword ...." type="text" value="" name="q" id="q">
