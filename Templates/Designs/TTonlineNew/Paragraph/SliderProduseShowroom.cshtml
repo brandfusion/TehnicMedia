@@ -77,10 +77,10 @@ string Producator = System.Web.HttpContext.Current.Request["Producator"] != null
 string Dealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
 bool first = true;
 string productLinkForm = GetGlobalValue("Global:Request.Host") + "/" + i.GetString("Ecom:Product.Link.Clean");
-DateTime dataExpirarePromotie =  DateTime.Parse(i.GetProductFieldValue("DataExpirarePromotie").ToString());
+DateTime dataExpirarePromotie =  DateTime.Parse(i.GetDate("DataExpirarePromotie").ToString());
 DateTime CurrentDate = DateTime.Now;
-string produsPromovat = i.GetProductFieldValue("ProdusPromovat").ToString();
-string ValoareDiscount = i.GetProductFieldValue("ValoareDiscount").ToString();
+string produsPromovat = i.GetString("Ecom:Product:Field.ProdusPromovat");
+string ValoareDiscount = i.GetString("Ecom:Product:Field.ValoareDiscount");
 
 
     

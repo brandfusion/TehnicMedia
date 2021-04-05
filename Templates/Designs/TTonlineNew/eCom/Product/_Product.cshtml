@@ -13,7 +13,7 @@
 @{  
     string articleImageRaw = @GetString("Ecom:Product.ImageLarge.Clean");
     string image1 = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 760, 600) + "&bgcolor=white" : "/Files/Images/NoImage/no-image.png";
-    string productMainImageOptimized = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 45, 45) + "&bgcolor=white" : "/Files/Images/NoImage/no-image.png";
+    string productMainImageOptimized = !string.IsNullOrEmpty(articleImageRaw) ? GetImage(articleImageRaw, 150, 150) + "&bgcolor=white" : "/Files/Images/NoImage/no-image.png";
    string name  = !string.IsNullOrEmpty(GetString("Ecom:Product.Name")) ? GetString("Ecom:Product.Name"):"";
    string shortDescription  = !string.IsNullOrEmpty(GetString("Ecom:Product.ShortDescription")) ? GetString("Ecom:Product.ShortDescription"):"";
    string manufacturer  = !string.IsNullOrEmpty(GetString("Ecom:Manufacturer.Name"))? GetString("Ecom:Manufacturer.Name"):"";
@@ -482,6 +482,5 @@ ga('send', 'pageview');
 <!-- End Google Analytics -->
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5941501b1be8de2c"></script> 
 
-<script src="Files/Templates/Designs/TTonline/assets/js/compare.js"></script>
                        
              
