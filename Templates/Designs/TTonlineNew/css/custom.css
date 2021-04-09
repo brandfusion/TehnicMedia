@@ -21,7 +21,10 @@
 .footer-menu {
 	margin: 0;
 	padding: 0;
-	list-style: none
+	list-style: none;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 10px;
 }
 .footer-menu li {
 	margin: 0 0 7px;
@@ -17554,7 +17557,9 @@ a.navbar-toggle:active {
 	max-width: 1170px;
 	margin: 100px 0 0
 }
-
+.sidebar-stop .ad728-wrapper {
+	margin: 30px 0 0;
+}
 .ad728-wrapper a {
 	display: block
 }
@@ -21167,6 +21172,13 @@ body.dark-skin,
 		min-height: 80px !important;
 		margin: 40px 0 0;
 	}
+	.sidebar-stop .ad728-wrapper {
+		margin: 15px 0 0;
+	}
+	.footer {
+		margin: 10px 0 0;
+	}
+	
 }
 @media(max-width: 448px) {
 	.lang-ro .flexslider {
@@ -21960,16 +21972,20 @@ body.dark-skin,
 		left: 15px
 	}
 	.tag-list {
-		height: 30px
+		height: 30px;
+		overflow-x: scroll;
+		width: 100%;
+		display: flex;
 	}
 	.tag-list li {
-		font-size: 14px;
+		font-size: 12px;
 		line-height: 29px
 	}
 	.tag-list li a {
-		font-size: 13px;
+		font-size: 12px;
 		line-height: 26px;
-		padding: 0 8px
+		padding: 0 4px;
+		width: max-content;
 	}
 	.widget {
 		margin-bottom: 20px
@@ -22793,6 +22809,10 @@ body.dark-skin,
 	.navbar-nav .open .dropdown-menu>li>a:focus,
 	.navbar-nav .open .dropdown-menu>li>a:hover {
 		background-image: none
+	}
+	.onecol-image-nosummary-small h3 {
+		font-size: 16px;
+		line-height: 20px;
 	}
 }
 
