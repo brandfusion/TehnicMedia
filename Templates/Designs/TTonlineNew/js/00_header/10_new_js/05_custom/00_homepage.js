@@ -44,6 +44,14 @@ document.addEventListener('DOMContentLoaded', function(event) {
     if(document.querySelector('[data-company-link]') !== null && document.querySelector('[name="LinkProdus"]') !== null) {
         document.querySelector('[name="LinkProdus"]').value = document.querySelector('[data-company-link]').getAttribute('data-company-link');
     }
+    
+    if(document.querySelector("#NewsletterSignUp") !== null) {
+        var openNewsletter = sessionStorage.getItem('newsLetterModalClosed') !== null;
+        if(!openNewsletter){
+            document.querySelector("#NewsletterSignUp").style.display = "block";
+        }
+        newsletterActions();
+    }
 });
 document.addEventListener('contentLoaded', function(e) {
     if(e.detail.template === "ArticleBodyTemplate" || e.detail.template === "CaruselProduseTemplate") {
@@ -388,12 +396,19 @@ function initializeHomepageSlider() {
             $('.flexslider').resize();
         }
     });*/
-    console.log('working')
     $('.featured-slider').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 4000,
+        responsive: [
+            {
+                breakpoint: 991,
+                settings: {
+                    dots: true
+                }
+            }
+        ]
     });
 }
 
@@ -409,13 +424,19 @@ function initializeHomepageCarousel(){
         navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
         responsive: {
             0: {
-                items: 1
+                items: 1,
+                dots: true
             },
             600: {
-                items: 2
+                items: 2,
+                dots: true
+            },
+            1000: {
+                dots: true
             },
             1200: {
-                items: 3
+                items: 3,
+                dots: false
             }
         }
     })
@@ -424,19 +445,22 @@ function initializeHomepageCarousel(){
         margin: 10,
         dots: false,
         nav: true,
-        //    autoplay: true,
+        autoplay: true,
         autoplayHoverPause: true,
         slideBy: 2,
         navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
         responsive: {
             0: {
-                items: 1
+                items: 1,
+                dots: true
             },
             600: {
-                items: 2
+                items: 2,
+                dots: true
             },
             1000: {
-                items: 4
+                items: 4,
+                dots: true
             }
         }
     })
@@ -457,7 +481,7 @@ function initializeHomepageCarousel(){
                 items: 2
             },
             1000: {
-                items: 6
+                items: 6,
             }
         }
     });
@@ -566,5 +590,16 @@ function actionsTriggerProductsModal() {
                 document.querySelector('[name="LinkProdus"]').value = productLink;
             }
         });
+    });
+}
+
+function newsletterActions() {
+    document.querySelector("#NewsletterSignUp .exit-modal").addEventListener('click', function(e) {
+        document.querySelector("#NewsletterSignUp").style.display = "none" 
+        sessionStorage.setItem('newsLetterModalClosed', 'true');
+    });
+    
+    document.querySelector('#NewsletterSignUp form').addEventListener('submit', function(e) {
+        document.cookie = "newsletter=true";
     });
 }

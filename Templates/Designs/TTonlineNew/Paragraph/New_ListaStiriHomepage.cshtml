@@ -14,24 +14,25 @@
 @{
     int toateStirile = GetPageIdByNavigationTag("ToateStirile");
     var pageId = GetPageIdByNavigationTag("ArticlesFeed");
-    var articlesIDs = "";
-    foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
-    {
-        articlesIDs += item.GetString("ItemPublisher:Item.Field.PageId") + ",";
-    }
 }
 
-<div class="col-md-3 col-xs-12 recomandari">
+<div class="col-md-12 col-xs-12 recomandari">
     <div class="news-feed">  
         <h3 class="block-title"><span>@Translate("ultimelestiri", "ULTIMELE STIRI")</span></h3>
       
         @*if(GetBoolean("ItemPublisher:Items.Any")){*@
-        <ul class="widget-content" id="UltimeleStiri" data-template="UltimeleStiriTemplate" data-json-feed="/Default.aspx?ID=@pageId&type=Stiri&redirect=false">
-            @RenderPlaceholderNoImage()
-            @RenderPlaceholderNoImage()
-            @RenderPlaceholderNoImage()
-            @RenderPlaceholderNoImage()
-        </ul>
+        <div class="widget-content" id="UltimeleStiri" data-template="LoopStiriTemplate" data-json-feed="/Default.aspx?ID=@pageId&type=Stiri&redirect=false&PageSize=5">
+            @RenderPlaceholderImageOnLeft()
+            @RenderPlaceholderImageOnLeft()
+            @RenderPlaceholderImageOnLeft()
+            @RenderPlaceholderImageOnLeft()
+            @RenderPlaceholderImageOnLeft()
+        </div>
+        <div class="col-md-12 col-xs-12 load-more">
+             <a href="/Default.aspx?ID=@toateStirile">
+                 <button type="button" class="btn btn-lg btn-block">@Translate("Toate stirile", "Toate stirile")</button>
+             </a>          
+        </div>
     </div>  
 </div>
 
@@ -47,5 +48,41 @@
    {{/each}}
   {{/ArticlesContainer}}
    <a href="/Default.aspx?ID=@toateStirile" class="read-more">@Translate("Toate stirile", "Toate stirile")</a>
+</script>
+
+<script id="LoopStiriTemplate" type="text/x-handlebars-template">
+{{#ArticlesContainer}}
+    {{#each Article}}
+        <article class="simple-post simple-big clearfix col-md-12 separator-articole">
+            <div class="simple-thumb">
+                <a href="{{Link}}">
+                    <figure class="">
+                        <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=255&Height=168" alt="{{itemTitlu}}"/> 
+                    </figure>
+                </a>
+            </div>
+            <header>
+                <p class="simple-share">
+                        @Translate("articolde", "de")
+                        {{#each articleAutori}}
+                            <a href="{{Link}}">{{Name}}</a>
+                        {{/each}}
+                        <span class="m-0">-</span>
+                    <span><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                    {{#if showItemVisits}} 
+                        <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                     {{/if}}
+
+                </p>
+                <h3>
+                    <a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a>
+                </h3>
+                <div class="excerpt" >{{{itemSumar}}}</div>
+            </header>
+        </article>
+    {{/each}}
+{{/ArticlesContainer}}
+
+
 </script>
     
