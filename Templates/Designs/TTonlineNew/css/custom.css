@@ -1516,7 +1516,12 @@ span.seeMoreSubcategorie {
 	padding-left: 40px;
 	padding-right: 40px
 }
-
+.col-descriere-produs-compare table {
+	width: auto !important;
+}
+.col-descriere-produs-compare td {
+	padding: 2px 5px;
+}
 .industry-background {
 	background: none;
 	box-shadow: none
