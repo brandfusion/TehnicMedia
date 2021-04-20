@@ -10406,6 +10406,7 @@ only screen and (min-device-pixel-ratio:1.5) {
 	color: transparent;
 	border: none;
 	outline: none;
+	z-index: 9;
 	background: transparent
 }
 
@@ -10432,17 +10433,17 @@ only screen and (min-device-pixel-ratio:1.5) {
 
 .slick-prev:before,
 .slick-next:before {
-	font-family: 'slick';
+	font-family: 'FontAwesome';
 	font-size: 20px;
 	line-height: 1;
 	opacity: .75;
-	color: #fff;
+	color: #c1c1c1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale
 }
 
 .slick-prev {
-	left: -25px
+	left: 0;
 }
 
 [dir='rtl'] .slick-prev {
@@ -10451,15 +10452,15 @@ only screen and (min-device-pixel-ratio:1.5) {
 }
 
 .slick-prev:before {
-	content: '←'
+	content: "\f053"
 }
 
 [dir='rtl'] .slick-prev:before {
-	content: '→'
+	content: "\f053"
 }
 
 .slick-next {
-	right: -25px
+	right: 0;
 }
 
 [dir='rtl'] .slick-next {
@@ -10468,11 +10469,11 @@ only screen and (min-device-pixel-ratio:1.5) {
 }
 
 .slick-next:before {
-	content: '→'
+	content: "\f054"
 }
 
 [dir='rtl'] .slick-next:before {
-	content: '←'
+	content: "\f054"
 }
 
 .slick-dotted.slick-slider {
