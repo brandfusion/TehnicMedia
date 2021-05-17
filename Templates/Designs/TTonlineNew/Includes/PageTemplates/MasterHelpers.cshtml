@@ -91,6 +91,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
     @*<link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/css/custom.css"/>*@
     <link rel="stylesheet" href="/Files/Templates/Designs/TTonlineNew/dist/custom.css?v=8" async/>
    @* <script src="@scriptBundleHeader"></script>*@
+    <script src="/Files/Templates/Designs/TTonlineNew/assets/js/00_jquery_1.11.2_.min.js"></script>
     @GetString("Javascripts")
     @RenderSnippet("externalScripts")
     @SnippetStart("externalScripts") @SnippetEnd("externalScripts")
@@ -123,7 +124,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
         str_seeAll: '@Translate("seeAllThe", "See all the")',
         str_results: '@Translate("results", "results")'
       };
-      $(function () {
+      document.addEventListener('DOMContentLoaded', function(event) {
         @UserDoesNotExist()
         @RenderSnippet("jsOnLoadVariables")
         @SnippetStart("jsOnLoadVariables") @SnippetEnd("jsOnLoadVariables")

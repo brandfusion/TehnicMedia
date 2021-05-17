@@ -358,7 +358,7 @@ function getDataForHandlebars(homePageSliderWrapper) {
                 $(".owl-companii-2").trigger('destroy.owl.carousel');
                 initializeHomepageCarousel();
             }
-            if(document.querySelector('.bhoechie-tab-container') !== null) {
+            if(document.querySelector('.bhoechie-tab-container .list-group-item') !== null) {
                 loadEdition(document.querySelector('.bhoechie-tab-menu .list-group-item'));
                 getEditionsByYear();
             }

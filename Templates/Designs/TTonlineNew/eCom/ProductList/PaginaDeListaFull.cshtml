@@ -1,8 +1,9 @@
 ﻿<div class="col-xs-12" data-group='@GetValue("Ecom:Group.ID")'> 
 
 
-      <div class="category-header">        
-         @if(GetValue("Ecom:Group.Name") != null) {
+  <div class="category-header">   
+   
+    @if(GetValue("Ecom:Group.Name") != null) {
             <h1 class="block-title top-title"><span><text>@GetValue("Ecom:Group.Name") @GetString("System.Web.HttpContext.Current.Request['Producator'].Name")  </text></span></h1>
             <p>@GetValue("Ecom:Group.Description")</p>
          } else {
@@ -11,10 +12,11 @@
          }           
       </div>
 
-      <div class="product-search">
-        <input type="text" name="search-products" placeholder="Cautare produse"></input>
-        <button><i class="fa fa-search" aria-hidden="true"></i></button>
-      </div>
+  <div class="product-search">
+    <p>test</p>
+    <input type="text" name="search-products" placeholder="Cautare produse"></input>
+    <button><i class="fa fa-search" aria-hidden="true"></i></button>
+  </div>
     
       <div class="sort-content">          
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sortBy">
@@ -69,7 +71,19 @@
 <script>
     // ViewContent
     // Track key page views (ex: product page, landing page or article)
-    fbq('track', 'ViewContent');
+      function waitForFbq(callback){
+            if(typeof fbq !== 'undefined'){
+                callback()
+            } else {
+                setTimeout(function () {
+                    waitForFbq(callback)
+                }, 100)
+            }
+        }
+        waitForFbq(function () {
+                 fbq('track', 'ViewContent');
+            })
+   
 </script> 
 
 <script type="text/javascript">
