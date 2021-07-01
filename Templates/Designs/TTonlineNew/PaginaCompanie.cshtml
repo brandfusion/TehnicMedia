@@ -24,6 +24,7 @@
 
 
 @{
+	var mapsKey = GetString("Item.Area.GoogleKey.Value");
     var idCompanie = HttpContext.Current.Request["CompanyID"];
     Dynamicweb.Content.Items.Item companie = null;
 
@@ -99,25 +100,27 @@
 			 var ProduseReprezentative = ProductFacade.GetItemTypeProducts(companie["RepresentativeProducts"]);
             string linkToateArticole ="";//TTOnlineUrlFacade.GenerateLinkForCompanii2(IDRaw, NameRaw); 
 			string articleLink = GetGlobalValue("Global:Request.Host") + "/Default.aspx?ID=" + Pageview.Page.ID.ToString() + "&companyid=" + idCompanie;
+			string googleKey = GetString("Item.Area.GoogleKey.Value");
 
-        if(TipClient == "1"){
 
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Starter.cshtml");
+if(TipClient == "1"){
+
+@Include("/Files/Templates/Designs/TTonlineNew/CompanieStarter.cshtml");
 } else{ 
 if(TipClient == "2"){
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Starter.cshtml");
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Standard.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompanieStarter.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompanieStandard.cshtml");
 }else {
 if(TipClient == "3"){
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Starter.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompanieStarter.cshtml");
 
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Profesional.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompanieProfesional.cshtml");
 
 }else{
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Starter.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompanieStarter.cshtml");
 
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Profesional.cshtml");
-@Include("/Files/Templates/Designs/TTonlineNew/Companie Premium Default.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompanieProfesional.cshtml");
+@Include("/Files/Templates/Designs/TTonlineNew/CompaniePremiumDefault.cshtml");
 
 }
 }
@@ -147,7 +150,7 @@ if(Contactform == true){
 </div>
 }else{
 <div class="row row-companie mb-40  background-white">
-<div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-globe fa-2x" aria-hidden="true"></i><span>Localizare</span></h3></div>
+	<div class="col-xs-12 col-titlu-companie"><h3> <i class="fa fa-globe fa-2x" aria-hidden="true"></i><span>Localizare</span></h3></div>   
 	<!-- Harta Start-->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pbt-20">
         <div class="maps">                      
@@ -188,10 +191,11 @@ ga('send', 'pageview');
 
     }
 }
+<!-- Google map api -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=@(mapsKey)"></script> 
 }
 
 <!-- Go to www.addthis.com/dashboard to customize your tools --> 
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5941501b1be8de2c"></script> 
 
-<!-- Google map api -->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=@GetString("Item.Area.GoogleKey")"></script> 
+
