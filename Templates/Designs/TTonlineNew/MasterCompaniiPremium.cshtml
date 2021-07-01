@@ -134,6 +134,8 @@
     string imagineBanner = !string.IsNullOrEmpty(imagineBannerRaw) ? GetImage(imagineBannerRaw, 975, 100) + "&bgcolor=white"  : ""; 
 
     string firstPageId = GetString("DwAreaFirstPageID");
+			string googleKey = GetString("Item.Area.GoogleKey.Value");
+
     }
     
 
@@ -223,7 +225,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!-- Google map api -->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=@GetString("Item.Area.GoogleKey")"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=@googleKey"></script>
 
 <!-- Plugins js -->
 <script src="@areaLayoutPath/assets/js/plugins.js"></script>

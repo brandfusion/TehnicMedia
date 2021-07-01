@@ -10,7 +10,7 @@
 					console.log(data);
 					_.map(data, function(o){
 						output += '<div id="'+ o.id +'" class="compare-item media"  nume="'+ o.name +'" imagine="'+ o.image +'">';
-						output += '<div class="media-left"><div class="media-object"><img src="/Admin/Public/GetImage.ashx?Image='+ o.image +'&Format=jpg&Width=45&Height=45&Compression=90&Crop=0" class="media-object" /></div></div>';
+						output += '<div class="media-left"><div class="media-object"><img src="/Admin/Public/GetImage.ashx?Image='+ o.image +'&Format=jpg&Width=150&Height=150&Compression=90&Crop=0" class="media-object" /></div></div>';
 						output += '<div class="media-body">';
 						output += '<p>'+o.name+'</p>';
 						output += '<p>'+o.number+'</p>';

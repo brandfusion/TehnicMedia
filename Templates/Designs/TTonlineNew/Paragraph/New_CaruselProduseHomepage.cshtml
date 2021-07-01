@@ -189,12 +189,22 @@
                                       @{
                                           <img src="/Admin/Public/GetImage.ashx?Image={{image}}&Crop=5&Format=jpg&Width=350&Height=230&bgcolor=white" alt='{{name}}' class="img-responsive"/>             
                                       }
-                                     <div class="stickers-container stickers-container--top-left hidden">
-                                        <div class="sticker sticker--new">New!</div>
-                                      </div>
-                                      <div class="stickers-container stickers-container--top-right hidden">
-                                         <div class="sticker sticker--new">Sale!</div>
-                                      </div>
+                                      {{#ifCond valoareDiscount '!==' ""}}                               
+                                         {{#if showPromotie}}
+                                              <div class="stickers-container stickers-container--top-left">
+                                                  <div class="sticker sticker--new">
+                                                      <div class="col-xs-12 text-center">
+                                                         - {{valoareDiscount}} %
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                         {{/if}}
+                                     {{/ifCond}}
+                                     {{#if produsPromovat}}
+                                         <div class="stickers-container stickers-container--top-right">
+                                             <div class="sticker sticker--new">@Translate("Promovat")</div>
+                                         </div>
+                                     {{/if}}   
                                   </figure>
                               </a>
                          </div>

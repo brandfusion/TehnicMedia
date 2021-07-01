@@ -38,6 +38,7 @@
         public bool produsPromovat { get; set; }
         public int pretIntreg { get; set; }
         public string dataExpirarePromotie { get; set; }
+        public string valoareDiscount { get; set; }
     }
     public class Root
     {
@@ -84,6 +85,7 @@
         productObject.pretIntreg = pretInteger;
         productObject.pretRedus = pretCuDiscount;
         productObject.dataExpirarePromotie = dataExpirarePromotie.ToString("dd MMM yyyy");
+        productObject.valoareDiscount = ValoareDiscount;
         
         productObject.Stickers = new List<Sticker>();
         string[] dealeriProdus = (product.GetString("Ecom:Product:Field.Dealeri") ?? "").Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);

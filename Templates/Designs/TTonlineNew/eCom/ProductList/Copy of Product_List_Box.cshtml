@@ -102,7 +102,18 @@ sortOption = sortBy + ","+sortOrder;
 <script>
     // ViewContent
     // Track key page views (ex: product page, landing page or article)
-    fbq('track', 'ViewContent');
+     function waitForFbq(callback){
+                if(typeof fbq !== 'undefined'){
+                    callback()
+                } else {
+                    setTimeout(function () {
+                        waitForFbq(callback)
+                    }, 100)
+                }
+            }
+            waitForFbq(function () {
+                     fbq('track', 'ViewContent');
+                })
 </script> 
 
 <script type="text/javascript">

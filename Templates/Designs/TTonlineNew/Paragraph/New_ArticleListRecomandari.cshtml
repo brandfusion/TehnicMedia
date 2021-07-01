@@ -17,7 +17,7 @@
 	}
 }
 
-<div class="col-md-9 col-xs-12 recomandari">
+<div class="col-md-12 col-xs-12 recomandari">
 	<h3 class="block-title">
 		<span>@Translate("recomandari","Recomandari") T&T</span>
 	</h3>
@@ -29,7 +29,39 @@
         </div>
     </div>
 </div>
+<script id="" type="text/x-handlebars-template">
+	{{#ArticlesContainer}}
+		{{#each Article}}
+			<article class="news-block">
+               <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                    <figure class=" ">	
+            			<img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive" />
+            		</figure>
+               <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+               </a>
 
+               {{#articleSections}}
+                     <a href="#" class="category bgcolor3">{{Name}}</a>
+               {{/articleSections}}
+            	<header class="news-details">
+            		<h3 class="news-title"> <a href='/Default.aspx?ID={{pagePageID}}' alt='{{itemTitlu}}'>{{itemTitlu}}</a></h3>
+            		<p>{{{itemSumar}}}</p>
+            	    <p class="simple-share">
+                         @Translate("articolde","de")  
+            	         {{#articleAutori}}
+                              <a href="{{Link}}"><b>{{Name}}</b></a>
+                         {{/articleAutori}}
+            	         - <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
+                         {{#if showItemVisits}}
+                              <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                          {{/if}}
+            		</p>
+            	</header>  
+            </article><!-- News block -->
+		{{/each}}
+	{{/ArticlesContainer}}
+	
+	</script>
 <script id="RecomandariTTTemplate"  type="text/x-handlebars-template">
        
     {{#ArticlesContainer}}
@@ -58,33 +90,39 @@
                     </p> 
                 </header>  
             </article>
-        {{/ifCond}}
-        {{#ifCond itemSort '!==' 1}} 
-            <article class="simple-post clearfix">
-                <div class="simple-thumb">
-                    <a href="/Default.aspx?ID={{pagePageID}}">
-                        <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&format=jpg&Width=160&Height=120&bgcolor=white" class="img-responsive">
-                    </a>
-                </div>
-                <header>
-                    <h3><a href="/Default.aspx?ID={{pagePageID}}">{{pageMenuText}}</a></h3>
-                </header>
-                <p class="simple-share">
-                    <a href="/Default.aspx?ID={{itemSectiuneParinteId}}">{{itemSectiuneParinte}}</a>  
-                    
-                    @Translate("articolde","de")  
-                    {{#articleAutori}}                         
-                       <a href="{{Link}}"><b>{{Name}}</b></a>
-                    {{/articleAutori}}
-                    <span class="m-0">-</span>                     
-                    <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
-                        
-                   {{#if showItemVisits}}    
-                       <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
-                   {{/if}}   
-                </p>
-            </article>
-        {{/ifCond}}
+        {{/ifCond}}        
+        {{/each}}            
+    {{/ArticlesContainer}}
+    <div class="twocol-image-nosummary">
+    {{#ArticlesContainer}}
+        {{#each Article}}
+            {{#ifCond itemSort '!==' 1}} 
+                 <article class="news-block small-block">                	      		
+                	<a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+                       <figure>
+                	      <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=0&Format=jpg&Width=730&Height=355" alt="{{itemTitlu}}" class="img-responsive"/>
+                       </figure>
+                    </a>                    
+                  <a href='/Default.aspx?ID={{itemSectiuneParinteId}}' class="bg{{itemSectiuneParinteId}} category">{{itemSectiuneParinte}}</a>
+                  <header class="news-details">
+                	<h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3>
+                	<p class="simple-share">
+                		@Translate("articolde", "de")
+                		{{#articleAutori}}
+                		<a href="{{Link}}">{{Name}}</a>
+                		{{/articleAutori}}
+                		<br/>
+                		<span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}} </span>
+                		@*TODO conditie de afisafe din feed *@
+                		{{#if showItemVisits}}
+                            <span>  -  <i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                        {{/if}}
+                	</p>
+                	
+                   </header>			
+              </article>
+            {{/ifCond}}
         {{/each}}
     {{/ArticlesContainer}}
+    </div>    
 </script>
