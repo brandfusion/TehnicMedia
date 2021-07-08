@@ -35,7 +35,13 @@
 @HtmlHead(designName1)
  
 <body class="@bodyStyle tileStyle">
-
+  <!-- Google Tag Manager (noscript) -->
+  
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5WS5JXM"
+  
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  
+  <!-- End Google Tag Manager (noscript) -->
  
     <div id="main" class="header-style1">
 
@@ -252,6 +258,7 @@
     });
 </script>
 <!-- End Scroll tracking -->
+@*
 <script type="text/javascript">
 
 /* <![CDATA[ */
@@ -265,15 +272,16 @@ var google_remarketing_only = true;
 /* ]]> */
 
 </script>
+*@
 
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script> 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
 
-<noscript>
+@*<noscript>
     <div style="display:inline;">
         <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1010029401/?guid=ON&amp;script=0"/>
     </div>
-</noscript>
+</noscript>*@
 <div id="loading"></div>
 </body>
 </html>

@@ -99,7 +99,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
     <![endif]-->
-    <script>
+    @*<script>
       @RenderSnippet("jsVariables")
       @SnippetStart("jsVariables") @SnippetEnd("jsVariables")
 
@@ -151,7 +151,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
 
       <!-- Global site tag (gtag.js) - Google Ads: 970361168 --> 
       <script async src="https://www.googletagmanager.com/gtag/js?id=AW-970361168"></script>
-      <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-970361168'); </script>
+      <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-970361168'); </script>*@
 
       <!-- Hotjar Tracking Code for https://ttonline.ro -->
       @*<script>
@@ -173,7 +173,19 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
 
         gtag('config', 'AW-1010029401');
       </script>*@
-
+     <!-- Google Tag Manager -->
+     
+     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+     
+     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+     
+     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+     
+     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+     
+     })(window,document,'script','dataLayer','GTM-5WS5JXM');</script>
+     
+     <!-- End Google Tag Manager -->
   </head>
 }
 @helper UserDoesNotExist()

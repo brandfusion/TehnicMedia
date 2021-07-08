@@ -78,7 +78,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
       var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}js/footer", designFolder), minify: minify, recursive : true, virtualPathPrefix : "-main-scripts-footer",exclusions:  new[] { "exceptions" });
     }
     <link rel="stylesheet" href="@styleBundle" />
-    <script src="@scriptBundleHeader"></script>
+    <script src="@scriptBundleHeader" rel="preload"></script>
     @GetString("Javascripts")
     @RenderSnippet("externalScripts")
     @SnippetStart("externalScripts") @SnippetEnd("externalScripts")
@@ -86,7 +86,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
     <![endif]-->
-    <script>
+    @*<script>
       @RenderSnippet("jsVariables")
       @SnippetStart("jsVariables") @SnippetEnd("jsVariables")
 
@@ -158,8 +158,20 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 
 gtag('config', 'AW-1010029401');
-</script>
-
+</script>*@
+               <!-- Google Tag Manager -->
+               
+               <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+               
+               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+               
+               j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+               
+               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+               
+               })(window,document,'script','dataLayer','GTM-5WS5JXM');</script>
+               
+               <!-- End Google Tag Manager -->
   </head>
 }
 @helper UserDoesNotExist()
