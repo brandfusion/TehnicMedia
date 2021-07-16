@@ -12,7 +12,9 @@
 {
 if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductID"]))
 {
-      @SnippetStart("OGMeta")<meta property="og:title" content='@GetString("Title")' />
+      @SnippetStart("OGMeta")
+  <meta test/></meta>
+        <meta property="og:title" content='@GetString("Title")' />
         @* <meta property="og:image" content='@Pageview.GlobalTags.GetTagByName("Global:Request.Scheme").Value.ToString()://@Pageview.GlobalTags.GetTagByName("Global:Request.Host").Value.ToString()/Files/Templates/Designs/@designName/images/logo.png' /> *@
         <meta property="og:site_name" content='@Pageview.Area.Name' />
         <meta property="og:url" content='@Pageview.GlobalTags.GetTagByName("Global:Request.Scheme").Value.ToString()://@Pageview.GlobalTags.GetTagByName("Global:Request.Host").Value.ToString()@Pageview.GlobalTags.GetTagByName("Global:Pageview.Url").Value.ToString()' />
@@ -39,7 +41,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
 
   <head data-settings="disableparsing:true;">
     <title>@pageTitle</title>
-    <meta name="description" content="" />
+    @*<meta name="description" content="" />*@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />

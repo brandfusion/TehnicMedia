@@ -35,7 +35,7 @@
     string productLanguage = GetString("Ecom:Product.LanguageID");
     string productName = GetString("Ecom:Product.Name");
     string productNumber = GetString("Ecom:Product.Number");
-    string productIntro = GetString("Ecom:Product.ShortDescription");
+    string productIntro = GetString("Ecom:Product.ShortDescription") != "" ? GetString("Ecom:Product.ShortDescription") : productName;
     string productDescription = GetString("Ecom:Product.LongDescription");
     string pointPrice = GetString("Ecom:Product.PointPrice");
     string productDetails = GetString("Ecom:Product:Field.Details.Value.Clean");
