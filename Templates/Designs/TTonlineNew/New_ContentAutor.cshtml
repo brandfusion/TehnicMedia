@@ -148,7 +148,9 @@ ga('send', 'pageview');
          <span>Articole {{name}}</span>
          </h1><!-- .post-title -->
          {{#ifCond persoana_companie "===" "Companie"}}
-            <a class="btn btn-primary view-company" href="/companie?companyID={{paginaDeCompanieAsociata}}">@Translate("Vezi Compania", "Vezi Compania")</a>
+           {{#ifCond paginaDeCompanieAsociata "!==" ""}}
+            <a class="btn btn-primary view-company" href="{{paginaDeCompanieAsociata}}">@Translate("Vezi Compania", "Vezi Compania")</a>
+            {{/ifCond}}
          {{/ifCond}}
          {{#ifCond persoana_companie "===" "Persoana"}}
              <div class="author-box clearfix {{hiddenClass}}">
