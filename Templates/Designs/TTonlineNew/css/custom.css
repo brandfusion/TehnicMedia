@@ -11470,7 +11470,131 @@ only screen and (min-device-pixel-ratio:1.5) {
 	-webkit-animation-duration: 2s;
 	animation-duration: 2s
 }
-
+/*custom dropddown*/
+.filter-btn {
+	background: #ff6633;
+	border: none;
+	padding: 7px;
+	color: #fff;
+}
+.product-filters {
+	width: 240px;
+	margin-right: .6em;
+}
+.dropdown-trigger {
+	visibility: hidden;
+	position: absolute;
+}
+.dropdown {
+	position: relative;
+	display: inline-block;
+	text-align: left;
+}
+.dropdown__btn {
+	cursor: pointer;
+	border: 1px solid #d3d3d3;
+	padding: .6em;
+	margin-bottom: 0;
+	background-color: #fff;
+	height: 38px;
+	line-height: 22px;
+	font-weight: normal;
+	text-align: left;
+	width: 100%;
+}
+.dropdown__content {
+	text-align: left;
+	overflow: auto;
+	max-height: 0;
+	max-height: 450px;
+	position: absolute;
+	width: 100%;
+	z-index: 100;
+	background-color: #fff;
+	border: 1px solid #d3d3d3;
+	box-shadow: 0 3px 6px rgb(0 0 0 / 18%);
+	display: none;
+	padding: 10px;
+}
+.dropdown-trigger-off {
+	display: none;
+	background-color: rgba(0,0,0,.3);
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 90;
+	left: 0;
+	top: 0;
+}
+.dropdown-trigger:checked+.dropdown .dropdown__content {
+	display: block;
+}
+input[type="checkbox"].form__control {
+	display: inline;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+	position: absolute;
+	top: 14px;
+	left: 8px;
+}
+input[type="checkbox"].form__control+label.checkbox-facet {
+	display: flex;
+}
+input[type="checkbox"].form__control+label {
+	position: relative;
+	line-height: 17px;
+}
+.checkbox-facet {
+	margin-bottom: .6em;
+}
+input[type="checkbox"].form__control+label::before {
+	content: "";
+	width: 17px;
+	height: 17px;
+	border: 1.6px #b1b1b1 solid;
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: top;
+	border-radius: .4rem;
+	transition: all .3s ease;
+}
+input[type="checkbox"].form__control:checked+label::after {
+	content: "";
+	height: 5px;
+	width: 10px;
+	border-left: 2px #545454 solid;
+	border-bottom: 2px #545454 solid;
+	transform: rotate(
+			-45deg
+	);
+	left: 4px;
+	top: 5px;
+	display: inline-block;
+	position: absolute;
+}
+.checkbox-facet__label{
+	width: 200px;
+	font-size: 14px;
+}
+.checkbox-facet:hover {
+	cursor: pointer;
+}
+.dropdown__btn::after {
+	font-family: "Font Awesome 5 Pro","Font Awesome 5 Free";
+	font-weight: 300;
+	content: '\f078';
+	margin-left: .6em;
+	position: absolute;
+	right: .6em;
+}
+.dropdown-trigger:checked+.dropdown .dropdown__btn::after {
+	font-family: "Font Awesome 5 Pro","Font Awesome 5 Free";
+	font-weight: 300;
+	content: '\f077';
+	float: right;
+}
+/*custom dropddown*/
 @-webkit-keyframes bounce {
 	0%,
 	100%,

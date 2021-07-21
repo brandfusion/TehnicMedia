@@ -27,7 +27,7 @@ string NumarulTotalPagini = GetInteger("Ecom:ProductList.TotalPages") != null ? 
 @if((!string.IsNullOrEmpty(ParametruProducator1) && string.IsNullOrEmpty(ParametruDealer1)) || (string.IsNullOrEmpty(ParametruProducator1) && !string.IsNullOrEmpty(ParametruDealer1)) || (!string.IsNullOrEmpty(ParametruProducator1) && !string.IsNullOrEmpty(ParametruDealer1)) ){
 
 }else{
-<div class="category-header">        
+      <div class="category-header">        
          @if(GetValue("Ecom:Group.Name") != null) {
             <h1 class="block-title top-title"><span><text>@GetValue("Ecom:Group.Name") @(SubgrupName1 != ""? "-": "")  @SubgrupName1 </text></span></h1>
             <p>@GetValue("Ecom:Group.Description")</p>
@@ -37,15 +37,30 @@ string NumarulTotalPagini = GetInteger("Ecom:ProductList.TotalPages") != null ? 
          }           
       </div>
 
-      <div style='float: left; display: flex; flex-direction: column; align-items: flex-start; padding-bottom: 0.5em' id='ascending-descending'>
-            <label for='sort-by-asc-desc'>Sorteaza alfabetic</label>
-          <select class='form-control' id='sort-by-asc-desc'>
-              <option selected disabled value='ASC'>Selecteaza o optiune...</option>
-              <option name='SortOrder' value='ASC'>1 - Ordoneaza dupa nume A-Z</option>
-              <option name='SortOrder' value='DESC'>2 - Ordoneaza dupa nume Z-A</option>
-          </select>
-      </div>
-              }
+  <div style='float: left; display: flex; flex-direction: column; align-items: flex-start; padding-bottom: 0.5em' id='ascending-descending'>
+    <label for='sort-by-asc-desc'>Sorteaza alfabetic</label>
+    <select class='form-control' id='sort-by-asc-desc'>
+      <option selected disabled value='ASC'>Selecteaza o optiune...</option>
+      <option name='SortOrder' value='ASC'>1 - Ordoneaza dupa nume A-Z</option>
+      <option name='SortOrder' value='DESC'>2 - Ordoneaza dupa nume Z-A</option>
+    </select>
+  </div>
+  
+    <div class="hidden filters-container" style="display:flex; width: 100%;">
+         @*@foreach (LoopItem facetGroup in GetLoop("FacetGroups"))
+         {
+             foreach (LoopItem facet in facetGroup.GetLoop("Facets"))
+             {
+               if (facet.GetString("Facet.Name") != "Subcategorie")
+               {
+                 <div>@RenderFacetCategory(facet)</div>
+               }
+             }
+         }*@
+         <button type="button" class="filter-btn">@Translate("Filtreaza")</button>
+    </div>
+  
+}
      
 
       <div class="sort-content">          
@@ -106,4 +121,43 @@ string NumarulTotalPagini = GetInteger("Ecom:ProductList.TotalPages") != null ? 
       </div>
                 
 
-
+@helper RenderFacetCategory(LoopItem loopItem)
+{
+  string parameter = loopItem.GetString("Facet.QueryParameter");
+  string name = loopItem.GetString("Facet.Name");
+  if(name == "Producator")
+  {
+    name = "Producator/Brand";
+  }
+  else if (name == "Furnizor")
+  {
+    name = "Reprezentant/Dealer";
+  }
+  else if(name == "Sectiune")
+  {
+    name = "Domeniu";
+  }
+  List<LoopItem> facetOptionsList = loopItem.GetLoop("FacetOptions");
+  var facetOptions = loopItem.GetLoop("FacetOptions").Where(f => f.GetInteger("FacetOption.Count") != 0).OrderByDescending(o => o.GetInteger("FacetOption.Count")).ThenBy(or => or.GetString("FacetOption.Label"));
+  
+  <div class="product-filters">
+    <input type="checkbox" id="CategorySelector_@name" class="dropdown-trigger"/>
+    <div class="dropdown product-filters dw-mod">
+      <label class="dropdown__header dropdown__btn dw-mod" for="CategorySelector_@name">@name</label>
+      <div class="dropdown__content u-padding dw-mod">
+         @foreach (LoopItem option in facetOptions)
+         {
+           bool facetOptionChecked = option.GetBoolean("FacetOption.Selected");
+           string isChekckedClass = facetOptionChecked ? "checked" : "";
+           string value = option.GetString("FacetOption.Value");
+           string nameOption = option.GetString("FacetOption.Name");
+           <input type="checkbox" class=" checkbox-facet__checkbox form__control dw-mod" id="@nameOption" name="@parameter" value="@value" @isChekckedClass>
+           <label class=" checkbox-facet dw-mod" data-filter-value="{{label}}" for="@nameOption">
+             <span class="checkbox-facet__label dw-mod">@option.GetString("FacetOption.Label")</span>
+           </label>
+         }
+      </div>
+      <label class="dropdown-trigger-off" for="CategorySelector_@name"></label>
+    </div>
+  </div>
+}

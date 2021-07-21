@@ -129,7 +129,7 @@
     }
 
 
-    $('input[name="Producator"] , input[name="GroupID"] , input[name="Dealer"] , input[name="Subcategorie"]' ).on('change', function() {
+    $('.checkBoxContainer input[name="Producator"], .checkBoxContainer input[name="GroupID"], .checkBoxContainer input[name="Dealer"], .checkBoxContainer input[name="Subcategorie"]' ).on('change', function() {
       
       var value = $(this).val();
       var argument = $(this).attr("name");
@@ -150,6 +150,14 @@
 
     });
 
+    document.querySelector('.filter-btn').addEventListener('click', function(e) {
+        var url = window.location.pathname + "?";
+        document.querySelectorAll('.filters-container input.checkbox-facet__checkbox:checked').forEach(function(el) {
+            url += el.getAttribute("name") + "=" + el.value + "&";
+        })
+        window.location.href = url;
+    })
+    
 /*
   
   */
