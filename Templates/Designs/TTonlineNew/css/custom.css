@@ -11581,7 +11581,7 @@ input[type="checkbox"].form__control:checked+label::after {
 	cursor: pointer;
 }
 .dropdown__btn::after {
-	font-family: "Font Awesome 5 Pro","Font Awesome 5 Free";
+	font-family: "fontAwesome";
 	font-weight: 300;
 	content: '\f078';
 	margin-left: .6em;
@@ -11589,7 +11589,7 @@ input[type="checkbox"].form__control:checked+label::after {
 	right: .6em;
 }
 .dropdown-trigger:checked+.dropdown .dropdown__btn::after {
-	font-family: "Font Awesome 5 Pro","Font Awesome 5 Free";
+	font-family: "fontAwesome";
 	font-weight: 300;
 	content: '\f077';
 	float: right;
