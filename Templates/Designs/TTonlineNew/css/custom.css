@@ -21319,7 +21319,7 @@ body.dark-skin,
 		margin-bottom: 0;
 	}
 	.lang-ro .homepage-shop {
-		height: 550px;
+		height: 580px;
 	}
 	.lang-ro .flexslider {
 		height: 1392px;
@@ -23054,7 +23054,7 @@ body.dark-skin,
 	}
 
 	.lang-ro .homepage-sectiune {
-		height: 720px;
+		height: auto;
 	}
 	.lang-ro .homepage-sectiune.col-md-4 {
 		height: 330px;
@@ -23075,11 +23075,43 @@ body.dark-skin,
 		min-height: 35px;
 	}
 	.lang-ro .companii-background {
-		height: 440px;
+		height: 100%;
 		margin-bottom: 20px;
 	}
-	.mag-content {
+	.lang-ro .admag-block .companii-background {
+		height: 460px;
+		margin-bottom: 20px;
+	}
+	.companii-background .owl-dots {
+		margin-top: 0;
+	}
+	.lang-ro .row.main-body {
+		margin-top: 0;
+	}
+	.filtrare.companii-background .sortare-companii, .filtrare.companii-background .col-sortare, .sortare-companii .company-search {
+		padding: 0 !important;
+	}
+	.sortare-companii .company-search {
 		margin-bottom: 10px !important;
+	}
+	.sortare-companii .company-search input {
+		width: 85%;		
+	}
+	.filtrare.companii-background .sortare-litere, .filtrare.companii-background .sibling  {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+		margin: 1em 0 !important;
+	}
+	.mag-content .col-companie .news-block.small-block {
+		position: relative;
+		padding-bottom: 80px;
+		margin-bottom: 65px;
+	}
+	.mag-content {
+		margin-bottom: 10px;
+	}
+	.admag-block .recomandari, .lang-ro .homepage-sectiune {
+		padding: 0 !important;
 	}
 	.ad728-wrapper {
 		min-height: 30px !important;
@@ -23096,6 +23128,10 @@ body.dark-skin,
 	}
 	.twocol-image-nosummary .news-block {
 		margin-bottom: 30px;
+	}
+	.blog-content img {
+		width: 100% !important;
+		height: auto !important;
 	}
 }
 @media(max-width:450px) {
