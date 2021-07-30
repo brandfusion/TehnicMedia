@@ -150,7 +150,7 @@
 
     });
 
-    document.querySelector('.filter-btn').addEventListener('click', function(e) {
+    document.querySelector(".filter-btn") !== null && document.querySelector('.filter-btn').addEventListener('click', function(e) {
         var url = window.location.pathname + "?";
         document.querySelectorAll('.filters-container input.checkbox-facet__checkbox:checked').forEach(function(el) {
             url += el.getAttribute("name") + "=" + el.value + "&";
