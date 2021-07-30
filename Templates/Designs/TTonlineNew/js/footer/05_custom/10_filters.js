@@ -152,10 +152,20 @@
 
     document.querySelector('.filter-btn').addEventListener('click', function(e) {
         var url = window.location.pathname + "?";
+        var paramsObj = {};
         document.querySelectorAll('.filters-container input.checkbox-facet__checkbox:checked').forEach(function(el) {
-            url += el.getAttribute("name") + "=" + el.value + "&";
+            if(paramsObj[el.getAttribute("name")] !== undefined) {
+                paramsObj[el.getAttribute("name")].push(el.value)
+            } else {
+                paramsObj[el.getAttribute("name")] = [];
+                paramsObj[el.getAttribute("name")].push(el.value)
+            }
+            
         })
-        window.location.href = url;
+        for(var key in paramsObj) {
+            url += key + "=" + paramsObj[key].join() + "&";
+        }
+        window.location.href = url.substring(0, url.length - 1);
     })
     
 /*
