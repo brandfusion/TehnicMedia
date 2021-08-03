@@ -4,11 +4,10 @@
     <a href="@articleLink" class="overlay-link">
     <figure class="">
       @if(!String.IsNullOrEmpty(articleImageRaw)){
-      <img src="@articleImage" />
+      <img src="@articleImage" alt="@articleTitle"/>
       }else{
-      <img src="/Files/Images/NoImage/350x230.png" /> 
+      <img src="/Files/Images/NoImage/350x230.png" alt="@articleTitle"/> 
       }
-    <!--  <img src="/Admin/Public/GetImage.ashx?Image=@articleImage&altFmImage_path=/Files/Images/NoImage/255x168.png&Format=jpg&Width=250&Height=150&Crop=5" alt="@articleTitle" class="img-responsive" /> -->
     </figure>
     </a>
 
@@ -18,11 +17,11 @@
       <h3 class="news-title"><a href="@articleLink">@articleTitle</a></h3> 
       <p class="simple-share">
       
-        @Translate("articolde","de")
+        @*@Translate("articolde","de")*@
 
         @foreach (var articleAutor in articleAutori)
         {
-            <a href="@articleAutor.Link">@* <span style="color: #bbbbbb; font-size: 13px; font-weight: 400;">@Translate("articolde","de")</span> *@ @articleAutor.Name</a>
+            <a href="@articleAutor.Link">@articleAutor.Name</a>
         }
 <br/>
         <span><i class="fa fa-clock-o"></i> @articleDate.ToString("D")</span>
