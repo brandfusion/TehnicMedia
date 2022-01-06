@@ -29,3 +29,4 @@ System/Indexes/Taguri/Taguri/A/segments_26
 Templates/Designs/TTonlineNew/_parsed/HomepageCustom.parsed.cshtml
 Templates/node_modules
 *.cshtml
+node_modules
