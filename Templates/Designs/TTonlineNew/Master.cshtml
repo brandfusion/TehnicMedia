@@ -169,19 +169,38 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
           
         
           } else {
-            <!-- Begin Main Banner -->
-            <div class="mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
-                <div class="row">
-                    <div class="col-md-12">
+              if (Pageview.Device.ToString() == "Mobile")
+              {
+                  <!-- Begin Sticky Mobile Banner -->
+                  <div class="mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
+                      <div class="row">
+                          <div class="col-md-12">
                      
-                        <div class="ad728-wrapper" style="min-height:145px;">
-                          @Include("Custom/Banners/Leaderboard-top.cshtml")
-                        </div>
+                              <div class="ad728-wrapper-mobile" style="min-height:145px;">
+                                  @Include("Custom/Banners/MobileLeaderboardSticky.cshtml")
+                              </div>
                      
-                    </div>
-                </div>
-            </div>
-            <!-- End Main Banner -->
+                          </div>
+                      </div>
+                  </div>
+                  <!-- End Sticky Mobile Banner -->
+              }
+              else
+              {
+                  <!-- Begin Main Banner -->
+                  <div class="mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
+                      <div class="row">
+                          <div class="col-md-12">
+                     
+                              <div class="ad728-wrapper" style="min-height:145px;">
+                                  @Include("Custom/Banners/Leaderboard-top.cshtml")
+                              </div>
+                     
+                          </div>
+                      </div>
+                  </div>
+                  <!-- End Main Banner -->
+              }
           }
 
           @{

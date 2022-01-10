@@ -1,4 +1,3 @@
-console.log("loaded")
 function makeBannerStickyOnScroll(element) {
   if(element !== null) {
 	let elementTop = element.getBoundingClientRect().top;
@@ -23,6 +22,4 @@ function makeBannerStickyOnScroll(element) {
   }
 }
 
-if(window.innerWidth < 500) {
-  makeBannerStickyOnScroll(document.querySelector('.ad728-wrapper'));
-}
+makeBannerStickyOnScroll(document.querySelector('.ad728-wrapper-mobile'));
