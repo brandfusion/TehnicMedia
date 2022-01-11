@@ -417,7 +417,14 @@
         int count = 0;
     }
    
+    @if (Pageview.Device.ToString() == "Mobile")
+    {
+        <div class="row mobile-banner-main">
+            @Include("../../Custom/Banners/MobileLeaderboardMain.cshtml")
+        </div>
     
+    }
+
     <div class="row alte-produse-row">
         @if (GetLoop("eCom:Related.MoreFromSameManufacturer").Any())
         {
