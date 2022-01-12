@@ -1,57 +1,41 @@
 ﻿ <div class="col-md-3 col-sm-6 col-xs-12 col-companie">
-				  	<article class="news-block small-block">		
-
-					  
-						    <figure class="image-overlay-addon companii-logo-figure" >
-                                    @if(!String.IsNullOrEmpty(logoRaw)){  
-                              <img src="@logo"/>
-                              }else{
-                             @* <img src="/Files/Images/NoImage/255x168.png"/>*@
-                              }  
-						      	    
-                                                  
-						    </figure> 
-					   @if(tipClient =="4"){
-					  <a class="category" style="background-color: #cc0033; top: -23px; left:15px;">Premium</a>
-                              }else{
-                              if(tipClient =="3"){
-                                                      
-                            <a class="category" style="background-color: #996633; top: -23px; left:15px;">Profesional</a>
-
-                              } else {
-                              if(tipClient =="2"){
-                              <a class="category" style="background-color: #009933; top: -23px; left:15px;">Standard</a>
-                              }
-                              else
-                              {
-                               <a class="category" style="background-color: #D0D0D0; top: -23px; left:15px; color:black;">Starter</a>
-                              }
-                              }
-                              
-                              }
-
-					   	<header class="news-details">
-                            @if (tipClient == "4" && linkPremium != "" ) { 
-                         
-					       	  	<h3 class="news-title">                            
-                                <a href="@linkPremium" target="_blank" >@name</a></h3>
-                               
-                     
-            } else{
-                      
-                      
-                      <h3 class="news-title">  
-                        <a href="/Default.aspx?ID=4271&companyID=@(Link)">@name</a></h3>
-                       <!-- <a href="/companie/@(Link)">@name</a></h3>	-->
-   
-   }
-            				@if (tipClient == "4" || tipClient == "3" || tipClient =="2"){
-					        <p class="companie-numar-produse">@nrProduse @produs</p> 
-                      } else{
-                      <p class="companie-numar-produse" style="min-height: 20px!important;">   </p>
-                      }
-                      
-                 
-					    </header>				   
-				  	</article>
-				 </div>
+	<article class="news-block small-block">		
+		<figure class="image-overlay-addon companii-logo-figure" >
+      @if(!String.IsNullOrEmpty(logoRaw)){  
+        <img src="@logo"/>
+      }else{
+        @* <img src="/Files/Images/NoImage/255x168.png"/>*@
+      }  
+		</figure> 
+		@if(tipClient =="4"){
+		  <a class="category" style="background-color: #cc0033; top: -23px; left:15px;">Premium</a>
+    }else{
+      if(tipClient =="3"){
+        <a class="category" style="background-color: #996633; top: -23px; left:15px;">Profesional</a>
+      } else {
+        if(tipClient =="2"){
+          <a class="category" style="background-color: #009933; top: -23px; left:15px;">Standard</a>
+        }
+        else
+        {
+          <a class="category" style="background-color: #D0D0D0; top: -23px; left:15px; color:black;">Starter</a>
+        }
+      }
+    }
+		<header class="news-details">
+      @if (tipClient == "4" && linkPremium != "" ) {                 
+			<h3 class="news-title">                            
+        <a href="@linkPremium" target="_blank" >@name</a></h3>
+      } else{
+      <h3 class="news-title">  
+        <a href="/Default.aspx?ID=4271&companyID=@(Link)">@name</a></h3>
+        <!-- <a href="/companie/@(Link)">@name</a></h3>	-->
+      }
+      @if (tipClient == "4" || tipClient == "3" || tipClient =="2"){
+				<p class="companie-numar-produse">@nrProduse @produs</p> 
+      } else{
+        <p class="companie-numar-produse" style="min-height: 20px!important;">   </p>
+      } 
+		</header>				   
+	</article>
+</div>

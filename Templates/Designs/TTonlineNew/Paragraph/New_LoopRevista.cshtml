@@ -39,7 +39,9 @@
 <script id="SectiuniRevistaTemplate" type="text/x-handlebars-template">
     {{#each SectionsContainer as |section index|}}        
         {{#ifCond index '==' '5'}}
-        <div class="hidden col-xs-12 col-sm-6 col-md-4 col-lg-4 sectiune-revista" data-banner></div>
+        <div class="hidden col-xs-12 col-sm-6 col-md-4 col-lg-4 sectiune-revista" data-banner>
+        @Include("../Custom/Banners/MobileLeaderboardMain.cshtml")
+        </div>
         {{/ifCond}}
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 sectiune-revista" data-index="{{index}}">        
              <a href="/Default.aspx?ID={{section.itemId}}"><img src='/Admin/Public/GetImage.ashx?Image={{section.itemImagine}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=300&Height=250' alt="{{section.itemTitle}}" /></a>               

@@ -247,25 +247,30 @@ string filterValue8= "Item.Tip='Articole'";
 </script>
 @*ARTICOLE SI STIRI*@
 <script id="LoopArticoleStiriTemplate" type="text/x-handlebars-template">
-{{#ArticlesContainer}}
-    {{#each Article}}  
+{{#ArticlesContainer as |container idx|}}
+    {{#each Article as |article index|}}  
+         {{#ifCond idx '==' '2'}}
+                 <div class="hidden col-xs-12 col-sm-12 col-md-12" data-banner>
+                 @Include("Custom/Banners/MobileLeaderboardMain.cshtml")
+                 </div>
+         {{/ifCond}}
          <div class="col-xs-12 col-sm-12 col-md-6">
            <article class="news-block small-block">
-             <a href="/Default.aspx?ID={{pagePageID}}" class="overlay-link">
+             <a href="/Default.aspx?ID={{article.pagePageID}}" class="overlay-link">
              <figure class="loop-stiri-figure">
-                <img src="/Admin/Public/GetImage.ashx?Image={{itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230&bgcolor=white" />                   
+                <img src="/Admin/Public/GetImage.ashx?Image={{article.itemImaginePrincipala}}&AlternativeImage=/Files/Images/Articole/download (1).png&Crop=5&Format=jpg&Width=350&Height=230&bgcolor=white" />                   
              </figure>
              </a>             
              <header class="news-details">
-               <h3 class="news-title"><a href="/Default.aspx?ID={{pagePageID}}">{{itemTitlu}}</a></h3> 
+               <h3 class="news-title"><a href="/Default.aspx?ID={{article.pagePageID}}">{{article.itemTitlu}}</a></h3> 
                <p class="simple-share">                  
                  @Translate("articolde","de")
-                 {{#articleAutori}}
+                 {{#article.articleAutori}}
                      <span class="m-0"><a href="{{Link}}">{{Name}}</a></span>
-                 {{/articleAutori}}                          
-                 <span class="article-date"><i class="fa fa-clock-o"></i> {{itemData}}</span>
-                 {{#if showVisitsForLoggedUsers}}    
-                     <span><i class="fa fa-eye"></i> {{itemVisits}} vizualizari</span>
+                 {{/article.articleAutori}}                          
+                 <span class="article-date"><i class="fa fa-clock-o"></i> {{article.itemData}}</span>
+                 {{#if article.showVisitsForLoggedUsers}}    
+                     <span><i class="fa fa-eye"></i> {{article.itemVisits}} vizualizari</span>
                   {{/if}}                     
                </p>
              </header>
