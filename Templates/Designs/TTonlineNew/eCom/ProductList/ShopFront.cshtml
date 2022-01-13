@@ -74,9 +74,13 @@ string NumarulTotalPagini = GetInteger("Ecom:ProductList.TotalPages") != null ? 
           </div>   
         </div>
       </div>
-    
-      <div class="row product-list clearfix"    data-maxcompare='@Translate("maxCompare", "Maximum to compare: 3")'>          
-        @{
+ 
+<div class="row product-list clearfix"    data-maxcompare='@Translate("maxCompare", "Maximum to compare: 3")'>    
+       <div class="hidden-md hidden-lg hidden-xl col-md-12" data-banner>
+              @Include("../../Custom/Banners/MobileLeaderboardArticleListSection1.cshtml")
+        </div>    
+
+  @{
             
           string listaProduse = "" ;
           foreach (LoopItem i in GetLoop("Products"))

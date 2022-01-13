@@ -250,8 +250,13 @@ string filterValue8= "Item.Tip='Articole'";
 {{#ArticlesContainer as |container idx|}}
     {{#each Article as |article index|}}  
          {{#ifCond idx '==' '2'}}
-                 <div class="hidden col-xs-12 col-sm-12 col-md-12" data-banner>
-                 @Include("Custom/Banners/MobileLeaderboardMain.cshtml")
+                 <div class="hidden-md hidden-lg hidden-xl col-xs-12 col-sm-12 col-md-6" data-banner>
+                     @Include("Custom/Banners/MobileLeaderboardArticleListSection1.cshtml")
+                 </div>
+         {{/ifCond}}
+         {{#ifCond idx '==' '5'}}
+                 <div class="hidden-md hidden-lg hidden-xl col-xs-12 col-sm-12 col-md-6" data-banner>
+                     @Include("Custom/Banners/MobileLeaderboardArticleListSection2.cshtml")
                  </div>
          {{/ifCond}}
          <div class="col-xs-12 col-sm-12 col-md-6">

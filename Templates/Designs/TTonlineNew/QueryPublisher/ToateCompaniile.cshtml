@@ -1,179 +1,196 @@
-﻿<!--Premium Companies Start-->
-	@if(String.IsNullOrEmpty(queryTip) || queryTip == "4"){
- 		<h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Premium @queryTip</span></h1>
+﻿@{
+	var companii = GetLoop("QueryResultItem");
+	var companiiPremium = companii.Where(x=>x.GetString("TipClient") == "4" && !x.GetBoolean("Promovata"));
+	var companiiProfessional = companii.Where(x=>x.GetString("TipClient") == "3" && !x.GetBoolean("Promovata"));
+	var companiiStandard = companii.Where(x=>x.GetString("TipClient") == "2" && !x.GetBoolean("Promovata"));
+	var companiiStarter = companii.Where(x=>x.GetString("TipClient") == "1" && !x.GetBoolean("Promovata"));
+
+	var companiiPremiumPromovate = companii.Where(x=>x.GetString("TipClient") == "4" && x.GetBoolean("Promovata"));
+	var companiiProfessionalPromovate = companii.Where(x=>x.GetString("TipClient") == "3" && x.GetBoolean("Promovata"));
+	var companiiStandardPromovate = companii.Where(x=>x.GetString("TipClient") == "2" && x.GetBoolean("Promovata"));
+	var companiiStarterPromovate = companii.Where(x=>x.GetString("TipClient") == "1" && x.GetBoolean("Promovata"));
+
+
+}
+
+
+@if(String.IsNullOrEmpty(queryTip) || queryTip == "4" && (companiiPremium.Any() || companiiPremiumPromovate.Any())){
+	<h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Premium</span></h1>
+	//Premium Companies Start
+	<div class="result-query">
+		@if(companiiPremiumPromovate.Any())
+		{
+		//Premium Promovate Start
+		<div class="row">
+		@foreach(var premiumPromo in companiiPremiumPromovate)
+		{
+			@RenderCompanie(premiumPromo,true,"4")
+		}	
+		</div>
+		//Premium Promovate END
 		}
+		@if(companiiPremium.Any())
+		{
+		//Premium Nepromovate Start
+		<div class="row">
+			@foreach(var premium in companiiPremium)
+			{
+				@RenderCompanie(premium,false,"4")
+			}
 
-   		<div class="result-query">
-				<!--Promovate Start-->
-          
-     			<div class="row">
- 				 	@Include("QueryLoopCompanii.cshtml") 
-       
-            	 	if(tipClient =="4" && CompaniePromovata ){
-      
-         				@Include("CompanieLoopBox.cshtml")
-         			}
+		</div>
+		//Premium Nepromovate END
+		}
+		
+	</div>
+	//Premium Companies END
+}
 
-						} 
-
-   							<!--Premium Promovate END-->
-				</div>
-							<!-- Premium Nepromovate Start-->
-
-
-				<div class="row">
-        			@Include("QueryLoopCompanii.cshtml") 
-          		
-
-       
-          			if(tipClient =="4" && CompaniePromovata == false ){
-        
-             				@Include("CompanieLoopBox.cshtml")
-						}
-							}
-
-   																	<!--Premium Neromovate END-->
-				
-			    
-	 			</div>
+@if((String.IsNullOrEmpty(queryTip) || queryTip == "3") && (companiiProfessional.Any() || companiiProfessionalPromovate.Any()) ){
+ //Professional Start-->		
+  	<h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Profesional</span></h1>	
+    <div class="result-query">
+		@if(companiiProfessionalPromovate.Any())
+		{
+        <div class="row">
+			@foreach(var professionalPromo in companiiProfessionalPromovate)
+			{
+				@RenderCompanie(professionalPromo,true,"3")
+			}
+		</div>
+		}
+		@if(companiiProfessional.Any())
+		{
+        <div class="row">
+			@foreach(var professional in companiiProfessional)
+			{
+				@RenderCompanie(professional,false,"3")
+			}
+		</div>
+		}
     </div>
-   <!--Premium  END-->
- <!--Proffesional Start-->
-				
-				@if(String.IsNullOrEmpty(queryTip) || queryTip == "3"){
-  					<h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Profesional</span></h1>
-					}
-				
-            <div class="result-query">
-
-                    <div class="row">
-
-                        @Include("QueryLoopCompanii.cshtml") 
-
-
-                        if(tipClient =="3" && CompaniePromovata ){
-                      
-                      			
-                      
-                                @Include("CompanieLoopBox.cshtml")
-                           }
-
-
-                        }  
-
-
-                    </div>
-
-                    <div class="row">
-
-                         @Include("QueryLoopCompanii.cshtml") 
-
-
-
-                        if(tipClient =="3" && CompaniePromovata == false ){
-                      
-                      	
-                      		
-                      
-                          @Include("CompanieLoopBox.cshtml")
-                        }
-
-
-                    }
-
-
-
-                     </div>
-      </div>
-
-
-
-<!--Proffesional End-->
-<!--Standard Start-->
-@if(String.IsNullOrEmpty(queryTip) || queryTip == "2"){
-  <h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Standard</span></h1>
-}
-   	<div class="result-query">
-   
-     	<div class="row">
-          
-	    @Include("QueryLoopCompanii.cshtml") 
-          		
-
-       
-          if(tipClient =="2" && CompaniePromovata ){
-        @Include("CompanieLoopBox.cshtml")
+//Professional End
 }
 
-
-}
-
-   
-				
-			    
-	 	</div>
-
-<div class="row">
-          
-	      @Include("QueryLoopCompanii.cshtml") 
-          		
-
-       
-          if(tipClient =="2" && CompaniePromovata == false ){
-      @Include("CompanieLoopBox.cshtml")
-}
-
-
-}
-
-				
-			    
-	 	</div>
-
-
+@if((String.IsNullOrEmpty(queryTip) || queryTip == "2") && (companiiStandard.Any() || companiiStandardPromovate.Any()) ){
+ //Standard Start-->		
+  	<h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Standard</span></h1>	
+    <div class="result-query">
+		@if(companiiStandardPromovate.Any())
+		{
+        <div class="row">
+			@foreach(var standardPromo in companiiStandardPromovate)
+			{
+				@RenderCompanie(standardPromo,true,"2")
+			}
+		</div>
+		}
+		@if(companiiStandard.Any())
+		{
+        <div class="row">
+			@foreach(var standard in companiiStandard)
+			{
+				@RenderCompanie(standard,false,"2")
+			}
+		</div>
+		}
     </div>
-
-
-
-<!--Standard End-->
-<!--Starter Start-->
-@if(String.IsNullOrEmpty(queryTip) || queryTip == "1"){
-  <h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Starter</span></h1>
-}
-   	<div class="result-query">
-   
-     	<div class="row">
-          
-	       @Include("QueryLoopCompanii.cshtml") 
-          		
-
-       
-          if(tipClient =="1" && CompaniePromovata ){
-        @Include("CompanieLoopBox.cshtml")
+//Standard End
 }
 
-
-}
-
-   
-				
-			    
-	 	</div>
-
-<div class="row">
-          
-	     @Include("QueryLoopCompanii.cshtml")       
-          if(tipClient =="1" && CompaniePromovata == false ){
-     		   @Include("CompanieLoopBox.cshtml")
-  }
-
-
-} 
-      </div>
-
-
+@if((String.IsNullOrEmpty(queryTip) || queryTip == "1") && (companiiStarter.Any() || companiiStarterPromovate.Any()) ){
+ //Starter Start-->		
+  	<h1 class="block-title top-title titlu-js" style=" margin-bottom: 50px;"><span>Starter</span></h1>	
+    <div class="result-query">
+		@if(companiiStarterPromovate.Any())
+		{
+        <div class="row">
+			@foreach(var starterPromo in companiiStarterPromovate)
+			{
+				@RenderCompanie(starterPromo,true,"1")
+			}
+		</div>
+		}
+		@if(companiiStarter.Any())
+		{
+        <div class="row">
+			@foreach(var starter in companiiStarter)
+			{
+				@RenderCompanie(starter,false,"1")
+			}
+		</div>
+		}
     </div>
+//Starter End
+}
 
 
+@helper RenderCompanie(LoopItem companie, bool promovata, string tipClient)
+{
+	string logoRaw = companie.GetString("Logo"); 
+    string logo = !string.IsNullOrEmpty(logoRaw) ? GetImage(logoRaw, 255, 168) +  "&bgcolor=white" : "/Files/Images/NoImage/255x168.png"; 
+          		
+    string name = companie.GetString("Name");
+    string summary = companie.GetString("Summary");
+	string idcompanie = companie.GetInteger("Id").ToString();
+	string Link = idcompanie;
+	//string Link= TTOnlineUrlFacade.GenerateLinkForCompanii2(idcompanie, name);
+	//string Link = companie.GetString("Link");    
+    string categorie = companie.GetString("Sectiune");
+    //string tipClient = companie.GetString("TipClient");
+    string locatie = companie.GetString("RelevantaGeografica");
 
-<!--Starter End-->
+	int nrProduseSort = companie.GetInteger("ProductCountSortable");
+
+	int nrProduse = companie.GetString("RepresentativeProducts").Count() == 0 ? companie.GetString("RepresentativeProducts").Count() : companie.GetInteger("ProductCountSortable");
+    string produs = nrProduse == 1 ? "produs" : "produse";
+    string linkPremium = companie.GetString("Page_Link");
+    bool afiseazaCompanie = companie.GetBoolean("Afiseaza_Companie");
+    //bool CompaniePromovata = companie.GetBoolean("Promovata");
+	string companyLink = linkPremium != "" && tipClient == "4" ? linkPremium : "/Default.aspx?ID=4271&companyID=" + Link;
+
+	string categoryStyle = "";
+	string categoryName = "";
+	switch (tipClient)
+	{
+		case "4":
+			categoryStyle = "background-color: #cc0033; top: -23px; left:15px;";
+			categoryName = "Premium";
+			break;
+		case "3":
+			categoryStyle = "background-color: #996633; top: -23px; left:15px;";
+			categoryName = "Profesional";
+			break;
+		case "2":
+			categoryStyle = "background-color: #009933; top: -23px; left:15px;";
+			categoryName = "Standard";
+			break;
+		default:
+			categoryStyle = "background-color: #D0D0D0; top: -23px; left:15px; color:black;";
+			categoryName = "Starter";
+			break;
+	}
+
+
+	<div class="col-md-3 col-sm-6 col-xs-12 col-companie">
+		<article class="news-block small-block">		
+			@if(!String.IsNullOrEmpty(logoRaw)){
+			<figure class="image-overlay-addon companii-logo-figure">
+				<a href="@companyLink" target="_blank"><img src="@logo"/></a>
+			</figure>
+			}
+			<a class="category" style="@categoryStyle">@categoryName</a>
+			<header class="news-details">               
+				<h3 class="news-title">                            
+					<a href="@companyLink" target="_blank">@name</a>
+				</h3>
+				
+				@if (tipClient != "1"){
+					<p class="companie-numar-produse">@nrProduse @produs</p> 
+				} else{
+					<p class="companie-numar-produse" style="min-height: 20px!important;"> </p>
+				} 
+			</header>		   
+		</article>
+	</div>
+}

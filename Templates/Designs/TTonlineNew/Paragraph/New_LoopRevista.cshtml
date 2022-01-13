@@ -16,6 +16,8 @@
     var urlFeed = "/Default.aspx?ID="+pageId;
 }
 
+<div class="hidden-md hidden-lg hidden-xl" data-banner>
+</div>
 <div class="col-md-12 col-xs-12 recomandari">
     <h1 class="block-title">
         <span>@GetString("Item.ParagraphName")</span>
@@ -39,7 +41,7 @@
 <script id="SectiuniRevistaTemplate" type="text/x-handlebars-template">
     {{#each SectionsContainer as |section index|}}        
         {{#ifCond index '==' '5'}}
-        <div class="hidden col-xs-12 col-sm-6 col-md-4 col-lg-4 sectiune-revista" data-banner>
+        <div class="hidden-md hidden-lg hidden-xl col-xs-12 col-sm-6 col-md-4 col-lg-4 sectiune-revista" data-banner>
         @Include("../Custom/Banners/MobileLeaderboardMain.cshtml")
         </div>
         {{/ifCond}}

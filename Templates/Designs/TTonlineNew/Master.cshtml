@@ -77,22 +77,21 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
                 string dimensiuneFont = !string.IsNullOrEmpty(GetString("Item.Area.DimensiuneFont")) ? "font-size:" + GetString("Item.Area.DimensiuneFont") + ";" : "";
               
                 
+                <!-- Begin iBuySmart Main Mobile Banner -->
+                <div class="hidden-md hidden-lg hidden-xl mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="ad728-wrapper-mobile-main" style="min-height:145px;">
+                                @Include("Custom/Banners/MobileLeaderboardMain.cshtml")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End iBuySmart Main Mobile Banner -->
+                
+                
                     if (isMobile)
                     {
-                  <!-- Begin iBuySmart Sticky Mobile Banner -->
-                  <div class="mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
-                      <div class="row">
-                          <div class="col-md-12">
-                     
-                              <div class="ad728-wrapper-mobile" style="min-height:145px;">
-                                  @Include("Custom/Banners/MobileLeaderboardSticky.cshtml")
-                              </div>
-                     
-                          </div>
-                      </div>
-                  </div>
-                  <!-- End iBuySmart Sticky Mobile Banner -->
-
                         <div class="subheader row" style="@culoareFundal">
                             <div class="row">
                                 <div class="col-xs-7">
@@ -178,31 +177,37 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
                   </div>
               </div>
           }
+          
+                        <!-- Begin Sticky Mobile Banner -->
+          
+                            <div class="row sticky-mobile-container hidden hidden-md hidden-lg hidden-xl">
+                                <div class="col-md-12">
+                                    <div class="ad728-wrapper-mobile" style="min-height:145px;">
+                                        @Include("Custom/Banners/MobileLeaderboardSticky.cshtml")
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- End Sticky Mobile Banner -->
     
           @if(GetString("DwPageID") == "4228" || GetString("DwPageID") == "4218" || GetString("DwPageID") == "8376"){
           
         
           } else {
-              if (Pageview.Device.ToString() == "Mobile")
-              {
-                  <!-- Begin Sticky Mobile Banner -->
-                  <div class="mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
+                  <!-- Begin Main Mobile Banner -->
+                  <div class="hidden-md hidden-lg hidden-xl mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
                       <div class="row">
                           <div class="col-md-12">
-                     
-                              <div class="ad728-wrapper-mobile" style="min-height:145px;">
-                                  @Include("Custom/Banners/MobileLeaderboardSticky.cshtml")
+                              <div class="ad728-wrapper-mobile-main" style="min-height:145px;">
+                                  @Include("Custom/Banners/MobileLeaderboardMain.cshtml")
                               </div>
-                     
                           </div>
                       </div>
                   </div>
-                  <!-- End Sticky Mobile Banner -->
-              }
-              else
-              {
+              <!-- End Main Mobile Banner -->
+              
+              
                   <!-- Begin Main Banner -->
-                  <div class="mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
+                  <div class="hidden-xs hidden-sm mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
                       <div class="row">
                           <div class="col-md-12">
                      
@@ -214,7 +219,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
                       </div>
                   </div>
                   <!-- End Main Banner -->
-              }
+              
           }
 
           @{

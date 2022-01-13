@@ -7,12 +7,14 @@ function makeBannerStickyOnScroll(element) {
 	closeIcon.classList.add('fa' , 'fa-close' , 'close-icon');
 
 	window.addEventListener('scroll' , function(e) {
-	  if(window.scrollY > elementTop) {
+	  if(window.scrollY > 200) {
+	    element.parentNode.parentNode.classList.remove('hidden');
 		element.style.position = 'fixed';
 		element.style.zIndex = '999';
 		element.style.bottom = '2%';
 		!element.classList.contains("closed") && element.querySelector('.close-icon') === null && element.appendChild(closeIcon);
 	  } else {
+		element.parentNode.parentNode.classList.add('hidden');
 		element.style.position = '';
 		element.style.zIndex = '';
 		element.style.bottom = '';
