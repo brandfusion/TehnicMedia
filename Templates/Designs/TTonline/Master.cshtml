@@ -55,6 +55,18 @@
               @Include("Custom/Banners/Skyscraper-left.cshtml")
               @Include("Custom/Banners/Skyscraper-right.cshtml")
           } 
+          
+                        <!-- Begin Main Mobile Banner -->
+                        <div class="hidden-md hidden-lg hidden-xl mag-content clearfix " style="margin-top: 30px;" data-test>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="ad728-wrapper-mobile-main" style="min-height:145px;">
+                                        @Include("../TTOnlineNew/Custom/Banners/MobileLeaderboardMain.cshtml")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Main Mobile Banner -->
        
           @if(@GetInteger("DwPageID") == 4228)
             {
@@ -112,8 +124,19 @@
 
           }
     
+          
+          <!-- Begin Sticky Mobile Banner -->
+                    
+                                      <div class="row sticky-mobile-container hidden hidden-md hidden-lg hidden-xl">
+                                          <div class="col-md-12">
+                                              <div class="ad728-wrapper-mobile" style="min-height:145px;">
+                                                  @Include("../TTOnlineNew/Custom/Banners/MobileLeaderboardSticky.cshtml")
+                                              </div>
+                                          </div>
+                                      </div>
+                                  <!-- End Sticky Mobile Banner -->
     
-    	    @if(@GetInteger("DwPageID") == 4218 || @GetInteger("DwPageID") == 4271 || @GetInteger("DwPageID") == 8376 ){
+          @if(@GetInteger("DwPageID") == 4218 || @GetInteger("DwPageID") == 4271 || @GetInteger("DwPageID") == 8376 ){
               <style>
                 .ad728-wrapper {
                   margin: 40px auto 0px;
@@ -140,6 +163,9 @@
           
         
           } else {
+
+              
+              
             <!-- Begin Main Banner -->
             <div class="mag-content clearfix " style="margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
                 <div class="row">

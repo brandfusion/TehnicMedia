@@ -17,6 +17,7 @@
 }
 
 <div class="hidden-md hidden-lg hidden-xl" data-banner>
+@Include("../Custom/Banners/MobileLeaderboardArticleListGeneric.cshtml")
 </div>
 <div class="col-md-12 col-xs-12 recomandari">
     <h1 class="block-title">
@@ -42,7 +43,7 @@
     {{#each SectionsContainer as |section index|}}        
         {{#ifCond index '==' '5'}}
         <div class="hidden-md hidden-lg hidden-xl col-xs-12 col-sm-6 col-md-4 col-lg-4 sectiune-revista" data-banner>
-        @Include("../Custom/Banners/MobileLeaderboardMain.cshtml")
+        @Include("../Custom/Banners/MobileLeaderboardArticleListSection1.cshtml")
         </div>
         {{/ifCond}}
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 sectiune-revista" data-index="{{index}}">        
