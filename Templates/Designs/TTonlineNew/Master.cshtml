@@ -81,7 +81,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
                 <div class="hidden-md hidden-lg hidden-xl mag-content clearfix " style="margin-top: 30px;">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="ad728-wrapper-mobile-main" style="min-height:145px;">
+                            <div class="ad728-wrapper-mobile-main" style="min-height: 115px;display: flex;margin-top: 2em;justify-content: center;">
                                 @Include("Custom/Banners/MobileLeaderboardMain.cshtml")
                             </div>
                         </div>
@@ -173,7 +173,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
                   <div class="hidden-md hidden-lg hidden-xl mag-content clearfix " style="margin-top: 30px;">
                       <div class="row">
                           <div class="col-md-12">
-                              <div class="ad728-wrapper-mobile-main" style="min-height:145px;">
+                              <div class="ad728-wrapper-mobile-main" style="min-height: 115px;display: flex;margin-top: 2em;justify-content: center;">
                                   @Include("Custom/Banners/MobileLeaderboardMain.cshtml")
                               </div>
                           </div>
@@ -194,17 +194,21 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
 
           }
           
-                        <!-- Begin Sticky Mobile Banner -->
-          
-                            <div class="row sticky-mobile-container hidden hidden-md hidden-lg hidden-xl">
-                                <div class="col-md-12">
-                                    <div class="ad728-wrapper-mobile" style="min-height:145px;">
-                                        @Include("Custom/Banners/MobileLeaderboardSticky.cshtml")
-                                    </div>
-                                </div>
+
+			@if(@GetInteger("DwPageID") != 4271)
+			{
+ 				<!-- Begin Sticky Mobile Banner -->
+  
+                    <div class="row sticky-mobile-container hidden hidden-md hidden-lg hidden-xl">
+                        <div class="col-md-12">
+                            <div class="ad728-wrapper-mobile" style="min-height:145px;">
+                                @Include("Custom/Banners/MobileLeaderboardSticky.cshtml")
                             </div>
-                        <!-- End Sticky Mobile Banner -->
-    
+                        </div>
+                    </div>
+                <!-- End Sticky Mobile Banner -->
+			}
+                       
           @if(GetString("DwPageID") == "4228" || GetString("DwPageID") == "4218" || GetString("DwPageID") == "8376"){
           
         
@@ -213,7 +217,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
                   <div class="hidden-md hidden-lg hidden-xl mag-content clearfix " style="margin-top: 30px;">
                       <div class="row">
                           <div class="col-md-12">
-                              <div class="ad728-wrapper-mobile-main" style="min-height:145px;">
+                              <div class="ad728-wrapper-mobile-main" style="min-height: 115px;display: flex;margin-top: 2em;justify-content: center;">
                                   @Include("Custom/Banners/MobileLeaderboardMain.cshtml")
                               </div>
                           </div>
