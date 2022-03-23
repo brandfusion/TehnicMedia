@@ -1,6 +1,8 @@
 ﻿@{
 	bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
     string logo = GetString("Item.Area.Logo");
+    
+    var signUpNewsletter = GetPageIdByNavigationTag("SignUpNewsletter");
 } 
 <header class="header-wrapper clearfix">
 
@@ -31,6 +33,8 @@
                                 <a class="twitter" href='@Pageview.Area.Item["LinkedInLink"]' target="_blank">  <i class="fa fa-linkedin fa-2x  padding" aria-hidden="true"></i>  </a>
                                 <a class="facebook" href='@Pageview.Area.Item["FacebookLink"]' target="_blank"> <i class="fa fa-facebook fa-2x padding" aria-hidden="true"></i> </a>
                                 <a class="twitter" href='@Pageview.Area.Item["YoutubeLink"]' target="_blank">  <i class="fa fa-youtube fa-2x  padding" aria-hidden="true"></i>  </a>
+                            
+                                <a href="/Default.aspx?ID=@signUpNewsletter" class="signUpNewsletter-link">@Translate("SignUpNewsletter")</a>
                             </div>
 
                          </div>

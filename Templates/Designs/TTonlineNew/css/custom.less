@@ -9098,15 +9098,16 @@ button.close {
 	overflow: scroll
 }
 
+/* 
 .modal#NewsletterSignUp {
 	z-index: 1050;
-	/*display: block;*/
+	display: block;
 	opacity: 1;
 	top: 5%;
 	right: 2%;
 	left: auto;
 	bottom: auto;
-}
+} */
 #NewsletterSignUp .adwidget {
 	margin-bottom: 0px;
 }
@@ -21167,9 +21168,9 @@ body.dark-skin,
 	color: #fff
 }
 
-.float-right {
+/* .float-right {
 	float: left!important
-}
+} */
 
 .excerpt {
 	min-height: 80px;
@@ -21288,6 +21289,100 @@ body.dark-skin,
 .subscribewidget p.error-message {
 	color: red;
 	margin-top: 10px
+}
+
+.mb-15 {
+	margin-bottom: 15px;
+}
+/* abonare newsletter */
+.first-step, .second-step {
+  display: none;
+}
+.first-step.open, .second-step.open {
+  display: block;
+}
+#sib-container, .sib-form-block {
+	padding: 0;
+}
+
+.checkbox__label span, .sib-form .form__entry {
+	font-weight: normal;
+	font-size:  14px;
+}
+
+.list__choice {
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+	margin: .5rem 0 1rem 2.2rem;
+}
+#NewsletterSignUp {
+	top: 15%;
+}
+#NewsletterSignUp .exit-modal {
+	float:right;
+}
+#NewsletterSignUp .modal-content {
+	max-height:60vh;
+	overflow: auto;
+	float: none;
+}
+
+.signUpNewsletter-link {
+	color: #fff;
+	margin: 0 0 0 1em;
+	
+	&:hover {
+		color: #fbaf29;
+		text-decoration: underline;
+	}
+}
+.sib-form {
+	padding: 0;
+	
+	.input:not(textarea), .input__button {
+		height: calc(3.5rem - 2px);
+	}
+	.input:last-child, .input__affix:last-child, .input:last-child, .input__affix:last-child {
+		padding: 0 1rem;
+	}
+	.checkbox__label input[type=checkbox], .entry__choice .checkbox {
+		margin-top:  0;
+		margin-bottom: 0;
+	}
+
+	.form__entry.terms {
+		margin-left: 2.2rem;
+
+		p {
+			font-weight: normal;
+
+			a:hover {
+				text-decoration: none;
+			}
+		}
+		.entry__label {
+			display: inline-block;
+		}
+	}
+}
+
+
+@media(min-width: 768px ) {
+	.list__choice {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media(min-width: 800px ) {
+	.list__choice {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	#NewsletterSignUp .list__choice {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	#NewsletterSignUp .modal-sm {
+		width: 600px;
+	} 
 }
 
 @media(max-width: 1024px) {

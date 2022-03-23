@@ -7465,15 +7465,16 @@ button.close {
   height: 50px;
   overflow: scroll;
 }
+/* 
 .modal#NewsletterSignUp {
-  z-index: 1050;
-  /*display: block;*/
-  opacity: 1;
-  top: 5%;
-  right: 2%;
-  left: auto;
-  bottom: auto;
-}
+	z-index: 1050;
+	display: block;
+	opacity: 1;
+	top: 5%;
+	right: 2%;
+	left: auto;
+	bottom: auto;
+} */
 #NewsletterSignUp .adwidget {
   margin-bottom: 0px;
 }
@@ -18338,9 +18339,9 @@ body.dark-skin,
 .white-font {
   color: #fff;
 }
-.float-right {
-  float: left !important;
-}
+/* .float-right {
+	float: left!important
+} */
 .excerpt {
   min-height: 80px;
   max-height: 80px;
@@ -18436,6 +18437,97 @@ body.dark-skin,
 .subscribewidget p.error-message {
   color: red;
   margin-top: 10px;
+}
+.mb-15 {
+  margin-bottom: 15px;
+}
+/* abonare newsletter */
+.first-step,
+.second-step {
+  display: none;
+}
+.first-step.open,
+.second-step.open {
+  display: block;
+}
+#sib-container,
+.sib-form-block {
+  padding: 0;
+}
+.checkbox__label span,
+.sib-form .form__entry {
+  font-weight: normal;
+  font-size: 14px;
+}
+.list__choice {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  margin: 0.5rem 0 1rem 2.2rem;
+}
+#NewsletterSignUp {
+  top: 15%;
+}
+#NewsletterSignUp .exit-modal {
+  float: right;
+}
+#NewsletterSignUp .modal-content {
+  max-height: 60vh;
+  overflow: auto;
+  float: none;
+}
+.signUpNewsletter-link {
+  color: #fff;
+  margin: 0 0 0 1em;
+}
+.signUpNewsletter-link:hover {
+  color: #fbaf29;
+  text-decoration: underline;
+}
+.sib-form {
+  padding: 0;
+}
+.sib-form .input:not(textarea),
+.sib-form .input__button {
+  height: calc(3.5rem - 2px);
+}
+.sib-form .input:last-child,
+.sib-form .input__affix:last-child,
+.sib-form .input:last-child,
+.sib-form .input__affix:last-child {
+  padding: 0 1rem;
+}
+.sib-form .checkbox__label input[type=checkbox],
+.sib-form .entry__choice .checkbox {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.sib-form .form__entry.terms {
+  margin-left: 2.2rem;
+}
+.sib-form .form__entry.terms p {
+  font-weight: normal;
+}
+.sib-form .form__entry.terms p a:hover {
+  text-decoration: none;
+}
+.sib-form .form__entry.terms .entry__label {
+  display: inline-block;
+}
+@media (min-width: 768px) {
+  .list__choice {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 800px) {
+  .list__choice {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  #NewsletterSignUp .list__choice {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  #NewsletterSignUp .modal-sm {
+    width: 600px;
+  }
 }
 @media (max-width: 1024px) {
   .lang-ro .homepage-sectiune {

@@ -212,16 +212,17 @@
       imageSrc = imageSrc + "&amp;height=" + optimizedheight;
     }
     
-    
+    string title = GetString("Item.Title");
+
     if(string.IsNullOrEmpty(GetString("Item.Link")))
     {
       <div class="img-responsive dw-std-image">
-        <img class="content-image img-responsive" width="@optimizedwidth" height="@optimizedheight" style="@GetImageBorderCss()" src="@imageSrc" alt=""/>
+        <img class="content-image img-responsive" width="@optimizedwidth" height="@optimizedheight" style="@GetImageBorderCss()" src="@imageSrc" alt="@title"/>
       </div>
     } else {
       <a href='@GetString("Item.Link")'>
         <div class="img-responsive dw-std-image">
-          <a href='@GetString("Item.Link")' target="_parent" ><img class="content-image img-responsive" width="@optimizedwidth" height="@optimizedheight" style="@GetImageBorderCss()" src="@imageSrc" alt=""/></a>
+          <a href='@GetString("Item.Link")' target="_parent" ><img class="content-image img-responsive" width="@optimizedwidth" height="@optimizedheight" style="@GetImageBorderCss()" src="@imageSrc" alt="@title"/></a>
         </div>
       </a>
     }

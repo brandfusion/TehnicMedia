@@ -9,16 +9,18 @@
 @{
 
   string  verificareProdusParametru = System.Web.HttpContext.Current.Request.Params["productid"];
-	 var fullWidth = !string.IsNullOrEmpty(verificareProdusParametru) ? verificareProdusParametru : "col-xs-12 col-md-12";
+  var fullWidth = !string.IsNullOrEmpty(verificareProdusParametru) ? verificareProdusParametru : "col-xs-12 col-md-12";
   string  verificareProdusParametru1 = System.Web.HttpContext.Current.Request.Params["productid"];
- 	 var hideSidebar = !string.IsNullOrEmpty(verificareProdusParametru1) ? verificareProdusParametru1 : "Hide";
-	 var fullWidth1 = string.IsNullOrEmpty(verificareProdusParametru) ? verificareProdusParametru : "col-xs-12 col-md-12";
-	string ParametruGrup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System.Web.HttpContext.Current.Request["GroupID"].ToString(): "";
-string ParametruProducator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
-string ParametruDealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
-string ParametruProdus = System.Web.HttpContext.Current.Request["productid"] != null ? System.Web.HttpContext.Current.Request["productid"].ToString(): ""; 
+  var hideSidebar = !string.IsNullOrEmpty(verificareProdusParametru1) ? verificareProdusParametru1 : "Hide";
+  var fullWidth1 = string.IsNullOrEmpty(verificareProdusParametru) ? verificareProdusParametru : "col-xs-12 col-md-12";
+  string ParametruGrup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System.Web.HttpContext.Current.Request["GroupID"].ToString(): "";
+  string ParametruProducator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
+  string ParametruDealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
+  string ParametruProdus = System.Web.HttpContext.Current.Request["productid"] != null ? System.Web.HttpContext.Current.Request["productid"].ToString(): ""; 
 
-  }
+  
+  string dataView = System.Web.HttpContext.Current.Request.Cookies["newsletter"] != null ? System.Web.HttpContext.Current.Request.Cookies["newsletter"].Value : "";
+}
 
  
 <div class="row main-body">
@@ -46,5 +48,16 @@ string ParametruProdus = System.Web.HttpContext.Current.Request["productid"] != 
  
 
 </div>
-
+@*newsletter modal*@
+@if(dataView == "") {
+	<div class="modal bd-example-modal-sm" id="NewsletterSignUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <button type="button" class="btn btn-primary exit-modal" data-dismiss="modal">X</button>
+            @RenderParagraphContent(164)
+          </div>
+      </div>                      
+  </div>
+} 
+@*newsletter modal*@
 <!-- </div> -->
