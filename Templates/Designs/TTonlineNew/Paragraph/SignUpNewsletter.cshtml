@@ -78,7 +78,7 @@
               </div>
             </div>
              
-			<button class="btn btn-primary next-btn">Submit</button>
+			<label class="btn btn-primary next-btn">Submit</label>
 		</div>
 		<div class="second-step">
 			<div class="mb-20">
@@ -256,7 +256,7 @@
   
   $( document ).ready(function() {
     
-    $('.next-btn').on('click', function() {   
+    $('.next-btn').on('click', function() { 
         var emailForm = $('.first-step #EMAIL').val();
         var firstName = $('.first-step #FIRSTNAME').val();
         var emailError = $( ".first-step .emailError" );
@@ -268,11 +268,14 @@
                 $('.second-step').addClass('open');
             } else {
                 $(firstNameError).css("display", "block");
+                $(firstNameError).text("Acest câmp este obligatoriu.");
             }
         } else {
             $(emailError).css("display", "block");
+            $(emailError).text("Acest câmp este obligatoriu.");
             if(firstName == '') {
-               $(firstNameError).css("display", "block");
+               $(firstNameError).css("display", "block");               
+               $(firstNameError).text("Acest câmp este obligatoriu.");
             }
         }        
     });
