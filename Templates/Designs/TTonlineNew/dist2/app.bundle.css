@@ -18442,6 +18442,9 @@ body.dark-skin,
   margin-bottom: 15px;
 }
 /* abonare newsletter */
+.popUpHide {
+  display: none !important;
+}
 .first-step,
 .second-step {
   display: none;

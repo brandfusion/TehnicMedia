@@ -3,9 +3,6 @@
 @GetValue("Description(Homepage)")
 
 @Include("Includes/New_PlaceholderHelpers.cshtml")
-@{
-	string dataView = System.Web.HttpContext.Current.Request.Cookies["newsletter"] != null ? System.Web.HttpContext.Current.Request.Cookies["newsletter"].Value : "";
-}
 
 <div class="row">
   <div class="col-sm-12">
@@ -73,22 +70,7 @@
   </div>
 </div>      
 <!-- </div> -->
-@*newsletter modal*@
-@if(dataView == "") {
-	<div class="modal bd-example-modal-sm" id="NewsletterSignUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-          <div class="modal-content" >
-            <button type="button" class="btn btn-primary exit-modal" data-dismiss="modal">X</button>
-            @* RenderParagraphContent(164) *@
-			@RenderParagraphContent(3233)
-          </div>
-          <div class="modal-footer">                            
-          </div>
-      </div>                      
-  </div>
 
-}
-@*newsletter modal*@
 @RenderSnippet("ProductCarouselModal")
 <div id="loader"><div class="loader-icon"></div></div>
 <!-- Google Analytics -->

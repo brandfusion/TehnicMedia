@@ -253,7 +253,16 @@
 
   var AUTOHIDE = Boolean(0);
   
-  
+  document.addEventListener("scroll", function (e) {
+      var newsletterSignUp = $('#NewsletterSignUp');
+      console.log(window.pageYOffset);
+      
+      if (window.pageYOffset > 600) {
+          newsletterSignUp.removeClass("popUpHide");
+      } else {
+          newsletterSignUp.addClass("popUpHide");
+      }
+  });
   $( document ).ready(function() {
     
     $('.next-btn').on('click', function() { 
@@ -261,7 +270,7 @@
         var firstName = $('.first-step #FIRSTNAME').val();
         var emailError = $( ".first-step .emailError" );
         var firstNameError = $( ".first-step .firstError" );
-        
+         
         if(emailForm != '' ) {
             if(firstName != '') {
                 $('.first-step').removeClass('open');

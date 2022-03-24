@@ -31,6 +31,10 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
     var ibuySmartPageId = GetPageIdByNavigationTag("catalog");
     var ibuySmartUrl = "/Default.aspx?ID=" + ibuySmartPageId;
     var isMobile = Pageview.Device.ToString() == "Mobile" ? true : false;
+    
+    string dataViewNewsletter = System.Web.HttpContext.Current.Request.Cookies["newsletter"] != null ? System.Web.HttpContext.Current.Request.Cookies["newsletter"].Value : "";
+    string globalPageId = GetGlobalValue("Global:Page.ID");
+    string signUpPage = GetPageIdByNavigationTag("SignUpNewsletter").ToString();
 
 }
 <!DOCTYPE HTML>
@@ -297,6 +301,20 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
 
 
 
+@if (globalPageId != signUpPage) {
+    @*newsletter modal*@
+    if(dataViewNewsletter == "") {
+        <div class="modal bd-example-modal-sm newsletterSignUp popUpHide" id="NewsletterSignUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" >
+                    <button type="button" class="btn btn-primary exit-modal" data-dismiss="modal">X</button>
+                    @RenderParagraphContent(3233)
+                </div>
+            </div>                      
+        </div>
+    }
+    @*newsletter modal*@
+}
 
 @RenderSnippet("Modals")
 

@@ -16,10 +16,7 @@
   string ParametruGrup = System.Web.HttpContext.Current.Request["GroupID"] != null ? System.Web.HttpContext.Current.Request["GroupID"].ToString(): "";
   string ParametruProducator = System.Web.HttpContext.Current.Request["Producator"] != null ? System.Web.HttpContext.Current.Request["Producator"].ToString(): "";
   string ParametruDealer = System.Web.HttpContext.Current.Request["Dealer"] != null ? System.Web.HttpContext.Current.Request["Dealer"].ToString(): "";
-  string ParametruProdus = System.Web.HttpContext.Current.Request["productid"] != null ? System.Web.HttpContext.Current.Request["productid"].ToString(): ""; 
-
-  
-  string dataView = System.Web.HttpContext.Current.Request.Cookies["newsletter"] != null ? System.Web.HttpContext.Current.Request.Cookies["newsletter"].Value : "";
+  string ParametruProdus = System.Web.HttpContext.Current.Request["productid"] != null ? System.Web.HttpContext.Current.Request["productid"].ToString(): "";
 }
 
  
@@ -29,7 +26,6 @@
  @Include("/Files/Templates/Designs/TTonlineNew/eCom/ProductList/BreadcrumbsDealerFurnizor.cshtml")
  
   <div class="@fullWidth @fullWidth1 "> 
-
     <section class="admag-block">
       <div class="row">
         <!--Main Content Begin-->
@@ -45,19 +41,6 @@
        </div>
     </section>
   </div>
- 
 
 </div>
-@*newsletter modal*@
-@if(dataView == "") {
-	<div class="modal bd-example-modal-sm" id="NewsletterSignUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <button type="button" class="btn btn-primary exit-modal" data-dismiss="modal">X</button>
-            @RenderParagraphContent(3233)
-          </div>
-      </div>                      
-  </div>
-} 
-@*newsletter modal*@
 <!-- </div> -->
