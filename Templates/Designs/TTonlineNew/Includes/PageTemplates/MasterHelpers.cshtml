@@ -13,7 +13,6 @@
 if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductID"]))
 {
       @SnippetStart("OGMeta")
-  <meta test/></meta>
         <meta property="og:title" content='@GetString("Title")' />
         @* <meta property="og:image" content='@Pageview.GlobalTags.GetTagByName("Global:Request.Scheme").Value.ToString()://@Pageview.GlobalTags.GetTagByName("Global:Request.Host").Value.ToString()/Files/Templates/Designs/@designName/images/logo.png' /> *@
         <meta property="og:site_name" content='@Pageview.Area.Name' />
@@ -21,7 +20,7 @@ if (string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Params["ProductI
         <meta property="og:description" content='@StripHtml(GetString("Meta.Description"))' />
         <meta property="og:type" content="article" />
         <meta property="og:locale" content='@Pageview.GlobalTags.GetTagByName("Global:Area.LongLang").Value.ToString().Replace("-", "_")' />
-        @SnippetEnd("OGMeta")
+      @SnippetEnd("OGMeta")
   }
 }
 
