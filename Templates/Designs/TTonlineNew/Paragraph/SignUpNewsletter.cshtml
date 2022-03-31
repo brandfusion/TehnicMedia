@@ -255,12 +255,18 @@
   
   document.addEventListener("scroll", function (e) {
       var newsletterSignUp = $('#NewsletterSignUp');
-      console.log(window.pageYOffset);
       
-      if (window.pageYOffset > 600) {
-          newsletterSignUp.removeClass("popUpHide");
-      } else {
-          newsletterSignUp.addClass("popUpHide");
+      var successMessage = $('#success-message.sib-form-message-panel--active').length;
+      var modalHidden = $('.hideModal').length;      
+      
+      if(modalHidden == 0) {
+          if(successMessage == 0) {
+             if (window.pageYOffset > 600) {
+               newsletterSignUp.removeClass("popUpHide");
+             } else {
+                   newsletterSignUp.addClass("popUpHide");
+             }  
+          }          
       }
   });
   $( document ).ready(function() {
@@ -288,7 +294,9 @@
             }
         }        
     });
-    
+    $('#NewsletterSignUp .exit-modal').on('click', function() {  
+        $('#NewsletterSignUp').addClass("hideModal");
+    });
   });
 </script>
 <script src="https://sibforms.com/forms/end-form/build/main.js"></script>
