@@ -1,8 +1,6 @@
 ﻿@{
 	bool userIsLoggedIn = Dynamicweb.Security.UserManagement.User.IsExtranetUserLoggedIn();
     string logo = GetString("Item.Area.Logo");
-    
-    var signUpNewsletter = GetPageIdByNavigationTag("SignUpNewsletter");
 } 
 <header class="header-wrapper clearfix">
 
@@ -30,11 +28,16 @@
 
                             </div> 
                             <div id="social-icon" class="social-icon">
-                                <a class="twitter" href='@Pageview.Area.Item["LinkedInLink"]' target="_blank">  <i class="fa fa-linkedin fa-2x  padding" aria-hidden="true"></i>  </a>
-                                <a class="facebook" href='@Pageview.Area.Item["FacebookLink"]' target="_blank"> <i class="fa fa-facebook fa-2x padding" aria-hidden="true"></i> </a>
-                                <a class="twitter" href='@Pageview.Area.Item["YoutubeLink"]' target="_blank">  <i class="fa fa-youtube fa-2x  padding" aria-hidden="true"></i>  </a>
-                            
-                                <a href="/Default.aspx?ID=@signUpNewsletter" class="signUpNewsletter-link">@Translate("SignUpNewsletter")</a>
+                                <a href="/Default.aspx?ID=@signUpNewsletter" class="signUpNewsletter-link">@Translate("SignUpNewsletter")</a> 
+                                
+                                <div class="hidden-sm hidden-xs">
+                                    <script src="https://platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+                                    <script type="IN/FollowCompany" data-id="10958182" data-counter="right"></script>
+                                </div>
+                                
+                                @*<a class="twitter" href='@Pageview.Area.Item["LinkedInLink"]' target="_blank"><i class="fa fa-linkedin fa-2x" aria-hidden="true"></i> </a>*@
+                                <a class="facebook" href='@Pageview.Area.Item["FacebookLink"]' target="_blank"><i class="fa fa-facebook fa-2x" aria-hidden="true"></i></a>
+                                <a class="twitter" href='@Pageview.Area.Item["YoutubeLink"]' target="_blank"><i class="fa fa-youtube fa-2x" aria-hidden="true"></i></a>
                             </div>
 
                          </div>

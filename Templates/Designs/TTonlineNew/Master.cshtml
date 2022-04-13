@@ -36,6 +36,8 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
     string globalPageId = GetGlobalValue("Global:Page.ID");
     string signUpPage = GetPageIdByNavigationTag("SignUpNewsletter").ToString();
 
+	var signUpNewsletter = GetPageIdByNavigationTag("SignUpNewsletter");
+
 }
 <!DOCTYPE HTML>
 <!--[if lt IE 8 ]><html class="ie7" lang="@(longLang)"><![endif]--><!--[if IE 8 ]><html class="ie8" lang="@(longLang)"><![endif]--><!--[if IE 9 ]><html class="ie9" lang="@(longLang)"><![endif]--><!--[if (gt IE 9)|!(IE)]><!-->
@@ -293,6 +295,13 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
           endlevel = 2
          })
       </div>
+	  <div class="" style="position: absolute; bottom: 0; left: 0; top: auto;">
+		<div class="mb-15">
+        	<script src="https://platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+        	<script type="IN/FollowCompany" data-id="10958182" data-counter="right"></script>
+		</div>
+		<a href="/Default.aspx?ID=@signUpNewsletter" class="signUpNewsletter-link">@Translate("SignUpNewsletter")</a>
+      </div>
     </nav>
     <!-- / Mobile Menu -->
     <div id="go-top-button" class="fa fa-angle-up" title="Scroll To Top"></div>
@@ -304,7 +313,7 @@ var scriptBundleFooter = Dna.Optimizer.Renderer.RenderScripts(string.Format("{0}
 @if (globalPageId != signUpPage) {
     @*newsletter modal*@
     if(dataViewNewsletter == "") {
-        <div class="modal bd-example-modal-sm newsletterSignUp popUpHide" id="NewsletterSignUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true">
+        <div class="modal bd-example-modal-sm newsletterSignUp popUpHide" id="NewsletterSignUp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true" data-sign-up-translate='@Translate("Te-ai abonat cu succes! Îți mulțumim!")'>
             <div class="modal-dialog modal-sm">
                 <div class="modal-content" >
                     <button type="button" class="btn btn-primary exit-modal" data-dismiss="modal">X</button>

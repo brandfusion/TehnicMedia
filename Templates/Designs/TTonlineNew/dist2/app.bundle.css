@@ -18483,11 +18483,23 @@ body.dark-skin,
 }
 .signUpNewsletter-link {
   color: #fff;
-  margin: 0 0 0 1em;
 }
 .signUpNewsletter-link:hover {
   color: #fbaf29;
   text-decoration: underline;
+}
+.header-first-row .social-icon {
+  display: flex;
+  align-items: center;
+  grid-gap: 1em;
+  top: 17px;
+}
+.footer-block .signUpNewsletter-link {
+  margin: 0;
+  text-decoration: underline !important;
+}
+.footer-block .signUpNewsletter-link:hover {
+  text-decoration: none !important;
 }
 .sib-form {
   padding: 0;

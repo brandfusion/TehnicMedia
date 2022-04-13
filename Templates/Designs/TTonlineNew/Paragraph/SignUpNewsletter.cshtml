@@ -264,9 +264,9 @@
              if (window.pageYOffset > 600) {
                newsletterSignUp.removeClass("popUpHide");
              } else {
-                   newsletterSignUp.addClass("popUpHide");
-             }  
-          }          
+               newsletterSignUp.addClass("popUpHide");
+             }   
+         }
       }
   });
   $( document ).ready(function() {
@@ -296,6 +296,10 @@
     });
     $('#NewsletterSignUp .exit-modal').on('click', function() {  
         $('#NewsletterSignUp').addClass("hideModal");
+    });
+    $("#NewsletterSignUp #sib-form").on("submit" , function(e) {
+        $("#NewsletterSignUp").hide();
+        alert($("#NewsletterSignUp").attr("data-sign-up-translate"));
     });
   });
 </script>

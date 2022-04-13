@@ -1,8 +1,8 @@
 ﻿<!-- Footer -->
 
 @{
-
-string AdresaLogoFooter= "https://" + GetGlobalValue("Global:Request.Host")+ "/Files/Images/tehnicmedia-logo.jpg";
+    string AdresaLogoFooter= "https://" + GetGlobalValue("Global:Request.Host")+ "/Files/Images/tehnicmedia-logo.jpg";
+    bool includeTopWarning = System.Web.HttpContext.Current.Request.Cookies["Dynamicweb.CookieOptInLevel"] == null;
 }
 
 
@@ -38,12 +38,19 @@ string AdresaLogoFooter= "https://" + GetGlobalValue("Global:Request.Host")+ "/F
                         <div class="col-md-3 col-md-offset-1">
                             <div class="footer-block clearfix">
                                 <h3>@Translate("contactUs", "CONTACT"):</h3>
-                                <ul>
-                                    <li><i class="fa fa-phone" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Phone"]</li>
-                                    <li><i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Email"]</li>
-                                    <li> <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Address"]</li>
-                                    
-                                </ul>
+                                <div class="mb-15">
+                                   <ul>
+                                       <li><i class="fa fa-phone" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Phone"]</li>
+                                       <li><i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Email"]</li>
+                                       <li><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;@Pageview.Area.Item["Address"]</li>
+                                   </ul> 
+                                </div>
+                                <div class="mb-15">
+                                    <script src="https://platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+                                    <script type="IN/FollowCompany" data-id="10958182" data-counter="right"></script>
+                                </div>
+                                <a href="/Default.aspx?ID=@signUpNewsletter" class="signUpNewsletter-link">@Translate("SignUpNewsletter")</a>
+                                
                             </div>
                         </div>
 

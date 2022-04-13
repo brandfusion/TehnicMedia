@@ -45,26 +45,30 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
- @* <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"> *@
+ 	@* <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"> *@
 
-  <!-- Theme CSS -->
-  <link rel="stylesheet" href="@areaLayoutPath/assets/css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" type="text/css" media="screen" />
-  <link href="//addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
+	@*
+		<!-- Theme CSS -->
+		<link rel="stylesheet" href="@areaLayoutPath/assets/css/style.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" type="text/css" media="screen" />
+		<link href="//addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
+   
+		<link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/fix.css">
+		<link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/robert.css">
+		<link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/mihai.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick-theme.css" />
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	*@
 
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+   	<link rel="stylesheet" href="@areaLayoutPath/dist2/app.bundle.css?v=1"/>
+	<link rel="stylesheet" href="@areaLayoutPath/assets/css/style.css">	
 
-  <link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/fix.css">
-  <link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/robert.css">
-  <link rel="stylesheet" type="text/css" href="@areaLayoutPath/assets/css/mihai.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick-theme.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> 
- <!-- Stil customizat pentru paginile de companie de tip Premium -->
+  	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+	<!-- Stil customizat pentru paginile de companie de tip Premium -->
     @if(!String.IsNullOrEmpty(GetString("Item.Custom_Style"))){
-    <link rel="stylesheet" type="text/css" href='@GetString("Item.Custom_Style")'>
-    
-
+    	<link rel="stylesheet" type="text/css" href='@GetString("Item.Custom_Style")'>
     }
     @{
     	bool Fix = GetBoolean("Item.Banner_Fix");
@@ -146,7 +150,8 @@
     string imagineBanner = !string.IsNullOrEmpty(imagineBannerRaw) ? GetImage(imagineBannerRaw, 975, 100) + "&bgcolor=white"  : ""; 
 
     string firstPageId = GetString("DwAreaFirstPageID");
-			string googleKey = GetString("Item.Area.GoogleKey.Value");
+	string googleKey = GetString("Item.Area.GoogleKey.Value");
+    var signUpNewsletter = GetPageIdByNavigationTag("SignUpNewsletter");
 
     }
     
